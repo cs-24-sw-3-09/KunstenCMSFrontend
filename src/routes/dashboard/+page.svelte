@@ -1,8 +1,17 @@
 <script>
     import Card from "./card.svelte";
-    let { data } = $props(); // imports data from server
-    import content from "$lib/images/test.jpg"; // temp image
+    import Modal from "./modal.svelte";
+    //TODO: use svelte $state
+    let { data } = $props(); // imports data from "server"
+    import content from "$lib/images/default.png"; // temp image
 </script>
+
+<svelte:head>
+    <script
+        src="https://kit.fontawesome.com/86cff0f4ad.js"
+        crossorigin="anonymous"
+    ></script>
+</svelte:head>
 
 <div class="grid-container">
     <div class="main-content">
@@ -11,12 +20,18 @@
         <div class="dashboard-page">
             <div class="dashboard-grid">
                 {#each data.card_data as card}
-                    <Card content={card.content || content}  location={card.location} title={card.title} title_location={card.title_location}/>
+                    <Card
+                        status={card.status}
+                        content={card.content || content}
+                        location={card.location}
+                        title={card.title}
+                        title_location={card.title_location}
+                    />
                 {/each}
             </div>
         </div>
         <div class="new-device-modal">
-            Hello
+            <Modal />
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@ export function load() {
 			location: card.location,
 			title: card.title,
 			title_location: card.title_location,
+			status: card.status,
 		}))
 	};
 }
