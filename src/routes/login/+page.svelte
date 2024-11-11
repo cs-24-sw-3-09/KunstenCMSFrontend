@@ -1,11 +1,40 @@
 <script>
-let password = $state("");
-let email = $state("");
+    let password = $state("");
+    let email = $state("");
+    let showError = false;
 
-function loginVerification(email, password) {
-    console.log(email, password);
-    method: POST
-}
+    // Function for sending email and password to server
+    async function sendData() {
+        try {
+            const response = fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: new URLSearchParams({password, email}),
+            });
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            // TODO: assign tokens to paraemter.
+
+            const data = await response.json();
+            console.log("servers respons:", data);
+        } catch(error) {
+            console.error("There was a problem with the fetch operation:", error);
+        }
+    }
+    //TODO: Make this function when token are made in backend..
+    function tokenCheck(loginToken, reloadToken){
+        if (loginToken);
+    }
+
+    function wrongPassword(){
+        showError = true;
+    }
+
 </script>
 
 <div class="login-page">
@@ -27,9 +56,13 @@ function loginVerification(email, password) {
                 placeholder="Password"
                 required
             />
-            <p id="login-error" hidden>Incorrect username or password.</p>
+
+            <div>
+                <p id="login-error" hidden={!showError}>Incorrect username or password.</p>
+            </div>
+
             <button
-                onclick={loginVerification(email, password)}
+                onclick={sendData}
                 type="submit"
                 id="login-submit"
                 class="login-submit">Log In</button
