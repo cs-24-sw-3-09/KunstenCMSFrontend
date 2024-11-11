@@ -1,5 +1,7 @@
-// Needs to be gotten from the database in the future
-export const temp_card_data = [
+import { writable } from "svelte/store";
+
+// Initialise store with empty array, used to store freshests device data
+export const deviceStore = writable([
     {
         content: "",
         location: "Loc1",
@@ -56,4 +58,4 @@ export const temp_card_data = [
         title_location: "Location4",
         status: "inactive",
     },
-]
+]);
