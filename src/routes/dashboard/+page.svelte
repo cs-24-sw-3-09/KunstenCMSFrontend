@@ -1,7 +1,7 @@
 <script>
     import Card from "./card.svelte";
     let { data } = $props(); // imports data from server
-    //console.log("data",data);
+    import content from "$lib/images/test.jpg"; // temp image
 </script>
 
 <div class="grid-container">
@@ -11,7 +11,7 @@
         <div class="dashboard-page">
             <div class="dashboard-grid">
                 {#each data.card_data as card}
-                    <Card file={card.file} location={card.location} title={card.title} title_location={card.title_location}/>
+                    <Card content={card.content || content}  location={card.location} title={card.title} title_location={card.title_location}/>
                 {/each}
             </div>
         </div>

@@ -1,16 +1,11 @@
 <script>
-    let { file, location, title, title_location } = $props();
-    import content from "$lib/images/test.jpg";
+    let { content, location, title, title_location } = $props();
 </script>
 
 <div class="dashboard-card">
     <div class="dashboard-card-top">
         <div class="dashboard-card-preview">
-            <img
-                src={content}
-                alt=""
-                id="dashboard-card-preview-image1"
-            />
+            <img src={content} alt="" id="dashboard-card-preview-image1" />
         </div>
     </div>
     <div class="dashboard-card-bottom">
