@@ -1,10 +1,11 @@
 <script>
     let password = $state("");
     let email = $state("");
-    let showError = false;
+    // svelte-ignore non_reactive_update
+        let showError = false;
 
     // Function for sending email and password to server
-    async function sendData() {
+    async function sendLoginData() {
         try {
             const response = fetch(url, {
                 method: "POST",
@@ -15,7 +16,7 @@
             });
 
             if (!response.ok) {
-                throw new Error("Network response was not ok");
+                throw new Error("Error in Network response");
             }
 
             // TODO: assign tokens to paraemter.
@@ -39,6 +40,7 @@
 
 <div class="login-page">
     <div class="login-container">
+        <!-- svelte-ignore a11y_missing_attribute -->
         <img class="login-icon" src="../src/Images/logo.ico" />
         <h1 class="login-title">Kunsten</h1>
         <form id="login-form">
