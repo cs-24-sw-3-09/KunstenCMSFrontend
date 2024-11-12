@@ -1,16 +1,15 @@
 <script>
-    import Card from "./card.svelte";
-    import Modal from "./modal.svelte";
-    
-    import { deviceStore } from "$lib/stores.js";
+    /* Importing the components needed for the dashboard page */
+    import Dashboard from "./dashboard.svelte";
+    import NewDeviceModal from "./new_device_modal.svelte";
 
-    let devices;
-    deviceStore.subscribe(value => {
-        devices = value;
-    });
-    console.log(devices);
+    // Controls the visibility of the device creation modal
+    let showModal = false;
 
-    import content from "$lib/images/default.png"; // temp image
+    function toggleModal() {
+        showModal = !showModal;
+        console.log(showModal);
+    }
 </script>
 
 <svelte:head>
@@ -22,29 +21,22 @@
 
 <div class="grid-container">
     <div class="main-content">
-        <h1>Dashboard</h1>
-        <p>This is the dashboard page.</p>
-        <div class="dashboard-page">
-            <div class="dashboard-grid">
-                {#each devices as device}
-                    <Card
-                        status={device.status}
-                        content={device.content || content}
-                        location={device.location}
-                        title={device.title}
-                        title_location={device.title_location}
-                    />
-                {/each}
-            </div>
-        </div>
-        <div class="new-device-modal">
-            <Modal />
-        </div>
+        <Dashboard />
+        <!-- TODO: Move this to a separate component -->
+        <a href="#" class="dashboard-new-button" onclick={toggleModal}>
+            <i class="fa-solid fa-circle-plus"></i>
+        </a>
     </div>
+    {#if showModal}
+        <!-- inClose is a callback function that is called when the modal is closed, see new_device_modal.svelte -->
+        <NewDeviceModal onClose={toggleModal} />
+    {/if}
 </div>
 
 <style>
+    /* All Styling needed for the dashboard page */
     @import "./page.css";
     @import "./dashboard.css";
     @import "./tooptip.css";
+    @import "./model.css";
 </style>
