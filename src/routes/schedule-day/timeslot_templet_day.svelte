@@ -6,7 +6,7 @@
 </script>
 
 
-        <div class="schedule-day-timeslot timeslot1">
+        <div class="schedule-day-timeslot timeslot3">
         <div class="schedule-day-timeslot-title">
           Default 2024
         </div>
