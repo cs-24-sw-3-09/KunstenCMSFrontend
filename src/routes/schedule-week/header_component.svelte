@@ -54,6 +54,21 @@ function getWeekDatesFormatted(inputDate) {
   return weekDates;
 }
 
+function getISOWeekNumber(inputDate){
+  const date = new Date(inputDate);
+  date.setDate(date.getDate() + 4 - (date.getDate() || 7));
+  
+  const startOfYear = new Date(date.getFullYear(), 0 , 1);
+
+  const weekNumber = Math.ceil(((date - startOfYear) / 86400000 + 1) / 7);
+  return weekNumber;
+}
+
+function getWeek(inputDate) {
+  const date = new Date(inputDate);
+  return"Week " + getISOWeekNumber(date);
+}
+
 const date = new Date();
 const week = getWeekDatesFormatted(date);
 
@@ -73,32 +88,32 @@ const week = getWeekDatesFormatted(date);
     </div>
     <div class="schedule-week-header-top-right">
       <button>Today</button>
-      <button><i class="fa-solid fa-chevron-left"></i></button>
-      <button><i class="fa-solid fa-chevron-right"></i></button>
+      <button><i class="arrow left"></i></button>
+      <button><i class="arrow right"></i></button>
     </div>
   </div>
   <div class="schedule-week-header-bottom">
-    <div class="schedule-week-header-devices">Week 44</div>
+    <div class="schedule-week-header-devices">{getWeek(date)}</div>
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      > Mon 23/10</a
+      > {week[0]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Tue 24/10</a
+      >{week[1]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Wed 25/10</a
+      >{week[2]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Thu 26/10</a
+      >{week[3]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Fr 27/10</a
+      >{week[4]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Sat 28/10</a
+      >{week[5]}</a
     >
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
-      >Sun 29/10</a
+      >{week[6]}</a
     >
   </div>
 </div>

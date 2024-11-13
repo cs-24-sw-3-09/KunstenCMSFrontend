@@ -1,9 +1,42 @@
 <script>
-//import DateCards from "./dates_component.svelte"
+
+
 import Header from "./header_component.svelte"
 import Screen from "./screen_component.svelte"
 
-
+    let data = [
+        {
+            name: "Recepition Left",
+            fields: [
+                [
+                    {
+                        title: "Default 2023",
+                        color: "schedule-color-blue",
+                        startTime: "6:00",
+                        endTime: "19:00",
+                    },
+                    {
+                        title: "Default 2024",
+                        color: "schedule-color-blue",
+                        startTime: "6:00",
+                        endTime: "19:00",
+                    }
+                ],
+                [
+                    {
+                        title: "Default test",
+                        color: "schedule-color-red",
+                        startTime: "6:00",
+                        endTime: "19:00",
+                    },],
+                [],
+                [],
+                [],
+                [],
+                [],
+            ],
+        }
+    ]
 
 </script>
 
@@ -11,8 +44,10 @@ import Screen from "./screen_component.svelte"
     <div class="grid-container">
       <div class="main-content">
         <div class="schedule-week">
-            <Header></Header>
-            <Screen></Screen>  
+            <Header/>
+            {#each data as device}
+                <Screen {device}/> 
+            {/each} 
 
              </div>
       </div>

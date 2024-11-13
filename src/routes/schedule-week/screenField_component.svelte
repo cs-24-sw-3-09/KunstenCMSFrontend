@@ -1,5 +1,7 @@
 <script>
 
+    let props = $props();
+
 import TimeSlotCard from "./timeslot_templet.svelte"
 
 </script>
@@ -9,6 +11,7 @@ import TimeSlotCard from "./timeslot_templet.svelte"
     <div class="schedule-week-schema-row-item-add">
       <i class="fa-solid fa-plus"></i>
     </div>
-    <TimeSlotCard title="Default 2023" color="schedule-color-blue"/>
-    <TimeSlotCard title="Default 2024" color="schedule-color-red"/>
+    {#each props.fields as timeslot}
+        <TimeSlotCard title={timeslot.title} color={timeslot.color}/>
+    {/each}
 </div>
