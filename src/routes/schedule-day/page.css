@@ -1,0 +1,225 @@
+.schedule-day-header {
+    border-bottom: 1px solid rgb(182, 182, 182);
+    max-width: 100%;
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    z-index: 1;
+  }
+  
+  .schedule-day-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 20px 30px;
+  }
+  
+  .schedule-day-header-top-left {
+    font-size: 20px;
+  }
+  
+  .schedule-day-header-top-right button {
+    border: none;
+    background-color: rgb(58, 58, 58);
+    color: white;
+    padding: 6px 18px;
+    cursor: pointer;
+  }
+  
+  .schedule-day-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schedule-day-body-header {
+    display: flex;
+    border-bottom: 1px solid rgb(182, 182, 182);
+  }
+  
+  .schedule-day-times {
+    display: flex;
+    flex: 24;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+  }
+  
+  .schedule-day-time {
+    flex: 1;
+    padding: 4px;
+    font-size: 14px;
+    color: rgb(56, 56, 56);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+  }
+  
+  .schedule-day-time:not(:last-child) {
+    border-right: 1px solid rgb(182, 182, 182);
+    position: relative;
+  }
+  
+  .schedule-day-time:not(:last-child):after {
+    content: "";
+    border-left: 1px dotted rgb(221, 221, 221);
+    position: absolute;
+    top: 24px;
+    right: -1px;
+    height: 388px;
+  }
+  
+  .schedule-day-blank {
+    border-right: 1px solid rgb(182, 182, 182);
+    width: 200px;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+  }
+  
+  .schedule-day-body-schemas {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .schedule-day-body-row {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(182, 182, 182);
+  }
+  
+  .schedule-day-body-row-device {
+    width: 200px;
+    border-right: 1px solid rgb(182, 182, 182);
+    display: flex;
+    justify-content: center;
+    background-color: rgb(236, 236, 236);
+    font-size: 14px;
+    padding: 12px;
+    font-weight: 600;
+    box-sizing: border-box;
+  }
+  
+  .schedule-day-body-row-schema {
+    flex: 28;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .schedule-day-body-row-schema-row {
+    padding: 8px;
+    height: 20px;
+    position: relative;
+  }
+  
+  .schedule-day-timeslot {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 1;
+  }
+  
+  .schedule-day-timeslot:hover {
+    opacity: 0.9;
+  }
+  
+  .schedule-day-timeslot-title {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 0 0 4px;
+  }
+  
+  .schedule-day-timeslot-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgb(22, 22, 22);
+    padding: 0 0 4px 4px;
+  }
+  
+  /* 1 time = 4.166%*/
+  .timeslot1 {
+    left: 25%;
+    right: 20.833%;
+    height: 100%;
+  
+    background-color: rgba(59, 137, 255, 0.6);
+    box-sizing: border-box;
+  }
+  .timeslot2 {
+    left: 41.66667%;
+    right: 33.33344%;
+    height: 100%;
+    background-color: rgba(0, 128, 0, 0.6);
+  }
+  .timeslot3 {
+    height: 100%;
+    left: 62.5%;
+    right: 20.833327%;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 2px;
+  }
+  
+  .grey-one {
+    height: 100%;
+    background-image: linear-gradient(
+      45deg,
+      #ababab 25%,
+      #4a4a4a 25%,
+      #4a4a4a 50%,
+      #ababab 50%,
+      #ababab 75%,
+      #4a4a4a 75%,
+      #4a4a4a 100%
+    );
+    background-size: 8.49px 8.49px;
+    position: absolute;
+  }
+  
+  .schedule-day-body-row-add {
+    background-color: rgba(58, 58, 58, 0.856);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    color: white;
+    font-size: 10px;
+    align-self: flex-end;
+    transition: all 0.1s;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    right: 12px;
+    bottom: 6px;
+  }
+  
+  .schedule-day-header-day-button {
+    border: none;
+    background-color: rgb(85, 85, 85);
+    color: white;
+    padding: 6px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .schedule-day-header-week-button {
+    border: none;
+    color: white;
+    background-color: rgb(58, 58, 58);
+    padding: 6px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+  }

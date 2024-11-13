@@ -81,7 +81,7 @@ const week = getWeekDatesFormatted(date);
     </div>
     <div class="schedule-week-header-middle">
       <a
-        href="/html/schedule-day.html"
+        href="/schedule-day"
         class="schedule-week-header-day-button tooltippable tooltipText-Change-to-day-schedule"
         >Change to Day Schedule</a
       >
