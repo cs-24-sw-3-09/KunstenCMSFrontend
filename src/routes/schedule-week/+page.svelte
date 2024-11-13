@@ -14,12 +14,16 @@ import Screen from "./screen_component.svelte"
                         color: "schedule-color-blue",
                         startTime: "6:00",
                         endTime: "19:00",
+                        size: "schedule-size-3",
+                        id: 1,
                     },
                     {
                         title: "Default 2024",
                         color: "schedule-color-blue",
                         startTime: "6:00",
                         endTime: "19:00",
+                        size: "schedule-size-3",
+                        id: 1,
                     }
                 ],
                 [
@@ -28,7 +32,10 @@ import Screen from "./screen_component.svelte"
                         color: "schedule-color-red",
                         startTime: "6:00",
                         endTime: "19:00",
-                    },],
+                        size: "schedule-size-3",
+                        id: 1,
+                    },
+                ],
                 [],
                 [],
                 [],
