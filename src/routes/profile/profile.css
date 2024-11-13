@@ -179,7 +179,7 @@
     margin-top: 24px;
 }
 
-.profile-notis-pause-button button {
+.profile-notis-pause-button input[type="submit"] {
     background-color: rgb(167, 167, 167);
     border: none;
     height: 32px;
@@ -188,6 +188,6 @@
     cursor: pointer;
 }
 
-.profile-notis-pause-button button:hover {
+.profile-notis-pause-button input[type="submit"]:hover {
     background-color: rgb(156, 156, 156);
 }

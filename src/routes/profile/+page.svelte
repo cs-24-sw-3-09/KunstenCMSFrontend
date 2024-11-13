@@ -1,3 +1,9 @@
+<!-- 
+    TODO:
+    - Add functionality for edit profile
+    - Correct updating to database
+ -->
+
 <script>
     import ProfileInfo from "./profile_info.svelte";
     import ProfileEdit from "./profile_edit.svelte";
@@ -16,10 +22,31 @@
         role: "Media Planner",
         notifications: true,
         pause_notifications: {
-            from: "2023-01-01",
-            to: "2023-01-31",
+            from: "2024-11-01",
+            to: "2024-11-30",
         },
     };
+
+    function toggleNotifications() {
+        profileData.notifications = !profileData.notifications;
+        console.log("Notifications toggled:", profileData.notifications); 
+    }
+
+    function pauseNotifications(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const data = new FormData(form);
+        console.log(data);
+    }
+
+    function editProfile() {
+        console.log("edit");
+    }
+
+    function changePassword() {
+        console.log("changePassword");
+    }
+
 </script>
 
 <svelte:head>
@@ -33,11 +60,11 @@
     <div class="main-content">
         <div class="profile">
             <div class="profile-top">
-                <ProfileInfo {profileData} />
-                <ProfileEdit {profileData} /> <!-- TODO: Add functionality for edit profile -->
+                <ProfileInfo profileData={profileData} />
+                <ProfileEdit profileData={profileData} doEditProfile={editProfile} doChangePassword={changePassword} /> <!-- TODO: Add functionality for edit profile -->
             </div>
             <div class="profile-notis">
-                <Notis {profileData} />
+                <Notis {profileData} doToggleNotifications={toggleNotifications} doPauseNotifications={pauseNotifications}/>
             </div>
         </div>
     </div>
