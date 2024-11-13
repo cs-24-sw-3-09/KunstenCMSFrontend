@@ -96,8 +96,8 @@
 
 
 <style>
-    import "$lib/styles/tooltip.css";
-    import "$lib/styles/page.css";
-    import "$lib/styles/admin.css";
-    import "$lib/styles/adminModal.css";
+    @import "$lib/styles/tooltip.css";
+    @import "$lib/styles/page.css";
+    @import "$lib/styles/admin.css";
+    @import "$lib/styles/adminModal.css";
 </style>
