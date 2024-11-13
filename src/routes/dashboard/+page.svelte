@@ -1,9 +1,9 @@
 <script>
     /* Importing the components needed for the dashboard page */
-    import Dashboard from "./dashboard.svelte";
-    import NewDeviceModal from "./new_device_modal.svelte";
+    import Dashboard from "$lib/components/dashboard.svelte";
+    import NewDeviceModal from "$lib/components/new_device_modal.svelte";
 
-    import { deviceStore } from "$lib/stores.js";
+    import { deviceStore } from "$lib/stores/deviceStore.js";
 
     // Subscribe to the deviceStore and update the devices variable
     let devices = $state([]);
@@ -67,8 +67,8 @@
 
 <style>
     /* All Styling needed for the dashboard page */
-    @import "./page.css";
-    @import "./dashboard.css";
-    @import "./tooptip.css";
-    @import "./model.css";
+    @import "$lib/styles/page.css";
+    @import "$lib/styles/dashboard.css";
+    @import "$lib/styles/tooptip.css";
+    @import "$lib/styles/model.css";
 </style>

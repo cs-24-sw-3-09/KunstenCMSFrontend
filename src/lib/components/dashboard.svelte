@@ -1,20 +1,9 @@
 <script>
-    import Card from "./card.svelte";
+    import Card from "$lib/components/card.svelte";
+    import fallback from "$lib/images/default.png"; // temp image, fallback need to be dynamically changed via data from database
 
     let { devices } = $props();
     $inspect(devices);
-    
-    import fallback from "$lib/images/default.png"; // temp image, fallback need to be dynamically changed via data from database
-
-    /* async function fetchData() {
-        const response = await fetch('/api/display_devices');
-        const data = await response.json();
-        deviceStore.set(data);
-    }
-
-    setInterval(fetchData, 10000);
-    fetchData();  // Initial fetch */
-
 </script>
 
 <!-- <h1>Dashboard</h1> -->
