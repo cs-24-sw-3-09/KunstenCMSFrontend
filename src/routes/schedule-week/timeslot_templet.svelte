@@ -2,6 +2,8 @@
 
     //import from Database 
     //import {timeslot}
+
+    let props = $props();
     
     let scheduleItems = [
     {
@@ -14,25 +16,25 @@
     
   ];
 
-
+/*
     let timeSlots = &state([]);
     timeslot.subscribe((value)) => {
         timeSlots = value;
     }
 
-    
+    */
+
 
 
 
 </script>
 
 
-
 <div class="schedule-container">
     {#each scheduleItems as item}
-     <div class={`schedule-week-schema-row-item ${item.color} ${item.size}`}>
+     <div class={`schedule-week-schema-row-item ${props.color} ${item.size}`}>
         <div class="schedule-week-schema-row-item-title">
-          {item.title}
+          {props.title}
       </div>
      <div class="schedule-week-schema-row-item-time">
        {item.startTime} <i class="fa-solid fa-arrow-right-long"></i> {item.endTime}
