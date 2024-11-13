@@ -5,31 +5,23 @@
  -->
 
 <script>
-    import ProfileInfo from "./profile_info.svelte";
-    import ProfileEdit from "./profile_edit.svelte";
-    import Notis from "./notis.svelte";
+    import ProfileInfo from "$lib/components/profile_info.svelte";
+    import ProfileEdit from "$lib/components/profile_edit.svelte";
+    import Notis from "$lib/components/notis.svelte";
 
-    let profileData = $state([]);
-    /* profileStore.subscribe((value) => {
-        profileData = value;
+    import { userStore } from "$lib/stores/userStore.js";
+
+    let userData = $state([]);
+    userStore.subscribe((value) => {
+        userData = value;
         //$inspect(profileData);
-    }); */
+    });
 
-    profileData = {
-        first_name: "Søren",
-        last_name: "Sørensen",
-        email: "Søren0120@gmail.com",
-        role: "Media Planner",
-        notifications: true,
-        pause_notifications: {
-            from: "2024-11-01",
-            to: "2024-11-30",
-        },
-    };
+    // Temp function for testing purposes
 
     function toggleNotifications() {
-        profileData.notifications = !profileData.notifications;
-        console.log("Notifications toggled:", profileData.notifications); 
+        userData.notifications = !userData.notifications;
+        console.log("Notifications toggled:", userData.notifications); 
     }
 
     function pauseNotifications(event) {
@@ -60,19 +52,19 @@
     <div class="main-content">
         <div class="profile">
             <div class="profile-top">
-                <ProfileInfo profileData={profileData} />
-                <ProfileEdit profileData={profileData} doEditProfile={editProfile} doChangePassword={changePassword} /> <!-- TODO: Add functionality for edit profile -->
+                <ProfileInfo profileData={userData} />
+                <ProfileEdit profileData={userData} doEditProfile={editProfile} doChangePassword={changePassword} /> <!-- TODO: Add functionality for edit profile -->
             </div>
             <div class="profile-notis">
-                <Notis {profileData} doToggleNotifications={toggleNotifications} doPauseNotifications={pauseNotifications}/>
+                <Notis profileData={userData} doToggleNotifications={toggleNotifications} doPauseNotifications={pauseNotifications}/>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    @import "./page.css";
-    @import "./profile.css";
-    @import "./checkbox.css";
-    @import "./tooltip.css";
+    @import "$lib/styles/page.css";
+    @import "$lib/styles/profile.css";
+    @import "$lib/styles/checkbox.css";
+    @import "$lib/styles/tooltip.css";
 </style>
