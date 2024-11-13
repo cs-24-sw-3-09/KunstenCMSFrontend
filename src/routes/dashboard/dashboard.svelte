@@ -1,14 +1,8 @@
 <script>
     import Card from "./card.svelte";
 
-    import { deviceStore } from "$lib/stores.js";
-
-    // Subscribe to the deviceStore and update the devices variable
-    let devices = $state([]);
-    deviceStore.subscribe((value) => {
-        devices = value;
-        //$inspect(devices);
-    });
+    let { devices } = $props();
+    $inspect(devices);
     
     import fallback from "$lib/images/default.png"; // temp image, fallback need to be dynamically changed via data from database
 

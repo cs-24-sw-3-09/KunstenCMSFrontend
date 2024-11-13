@@ -1,22 +1,15 @@
 <script>
     /* Exporting the onClose function to be used in the parent component */
-    export let onClose;
-
-    /* Function to handle the closing of the modal */
-    function handleClose(event) {
-        event.preventDefault();
-        console.log("closing")
-        onClose();
-    }
+    let { onClose, onSave } = $props();
 </script>
 
 <div class="new-device-modal">
     <div class="new-device-modal-content">
-      <div class="new-device-modal-close" onclick={handleClose}>
+      <div class="new-device-modal-close" onclick={onClose}>
         <i class="fa-solid fa-x"></i>
       </div>
       <div class="new-device-modal-header">Add New Device</div>
-      <form id="new-device-modal-form">
+      <form id="new-device-modal-form" onsubmit={onSave}>
         <div class="new-device-modal-name">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required />
@@ -49,7 +42,7 @@
           </div>
         </div>
         <div class="new-device-modal-buttons">
-          <button type="button" class="new-device-modal-button new-device-modal-button-cancel" onclick={handleClose}>Cancel</button>
+          <button type="button" class="new-device-modal-button new-device-modal-button-cancel" onclick={onClose}>Cancel</button>
           <!-- TODO: Create function -->
           <button type="submit" class="new-device-modal-button new-device-modal-button-create">Create</button>
         </div>
