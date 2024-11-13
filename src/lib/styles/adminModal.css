@@ -1,0 +1,102 @@
+.new-user-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
+  
+  .new-user-modal.active {
+    display: block;
+  }
+  
+  .new-user-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    width: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .new-user-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+  }
+  
+  .new-user-modal-content form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .new-user-modal-firstname,
+  .new-user-modal-lastname,
+  .new-user-modal-email {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .new-user-modal-firstname label,
+  .new-user-modal-lastname label,
+  .new-user-modal-email label {
+    font-size: 12px;
+    color: rgb(54, 54, 54);
+  }
+  
+  .new-user-modal-firstname input,
+  .new-user-modal-lastname input,
+  .new-user-modal-email input {
+    border: 1px solid black;
+    padding: 8px 12px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  .new-user-modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+  }
+  
+  .new-user-modal-button {
+      padding: 8px 20px;
+      background-color: black;
+      border: none;
+      color: white;
+      cursor: pointer;
+  }
+
+  .new-user-modal-roles {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 8px 0 8px 0;
+  }
+  
+  .new-user-modal-button-create {
+      background-color: rgb(10, 105, 10);
+  
+  }
+  
+  .new-user-modal-button-cancel {
+      background-color: rgb(77, 77, 77);
+  
+  }
+  
+  .new-user-modal-close {
+      position: absolute;
+      top:8px;
+      right: 8px;
+      font-size: 12px;
+      cursor: pointer;
+  }
+  
