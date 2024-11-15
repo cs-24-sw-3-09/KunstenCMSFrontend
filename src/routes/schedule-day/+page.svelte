@@ -1,33 +1,53 @@
 
 <script>
 
-  let props = $props();
-
-  let data = [{
-    screens:  [{
-      id: [{
-        endTime: "09:00",
-        startTime: "07:00",
-        title: "test",
-        prioritize: 1
-
-        },
-        {
-        endTime: "17:00",
-        startTime: "10:00",
-        title: "test",
-        prioritize: 1
-        }
-
-      ]
-
-  }]
-  }]
-
-
-
 import Screen from "./screen_component_day.svelte"
 import TimeHeader from "./timeHeader_component.svelte"
+
+let data = [
+        {
+            name: "Recepition Left",
+            fields: [
+                
+                    {
+                        title: "Default 2023",
+                        color: "rgba(255, 0, 0, 0.6);",
+                        startTime: "2:00",
+                        endTime: "7:00",
+                        size: "schedule-size-3",
+                    },
+                    {
+                        title: "Default 2024",
+                        color: "rgba(255, 0, 0, 0.6);",
+                        startTime: "8:00",
+                        endTime: "20:00",
+                        size: "schedule-size-3",
+                    }
+                
+            ],            
+        },
+        {
+          name: "Recepition Right",
+            fields: [
+                
+                    {
+                        title: "Default 2023",
+                        color: "rgba(59, 137, 255, 0.6);",
+                        startTime: "4:00",
+                        endTime: "7:00",
+                        size: "schedule-size-3",
+                    },
+                    {
+                        title: "Default 2024",
+                        color: "rgba(255, 0, 0, 0.6);",
+                        startTime: "8:00",
+                        endTime: "20:00",
+                        size: "schedule-size-3",
+                    }
+                
+            ]
+        }
+    ]
 
 
 let color = "red";
@@ -36,35 +56,11 @@ let size = "10px";
 </script>
 
 
-
-
-
     <div class="grid-container">
       <div class="main-content">
         <div class="schedule-day">
-          <!--Header-->
-          <div class="schedule-day-header">
-            <div class="schedule-day-header-top">
-              <div class="schedule-day-header-top-left">Oct. 23rd, 2024</div>
-              <div class="schedule-week-header-middle">
-                <a
-                  href="/schedule-week"
-                  class="schedule-day-header-week-button tooltippable tooltipText-Change-to-week-schedule"
-                  >Change to Week Schedule</a
-                >
-              </div>
-              <div class="schedule-day-header-top-right">
-                <button class="tooltippable tooltipText-Today">Today</button>
-                <button class="tooltippable tooltipText-previous-day"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="tooltippable tooltipText-Next-day"><i class="fa-solid fa-chevron-right"></i></button>
-              </div>
-              <div style="--theme-color: {color}; --theme-size: {size};">
-                <p class="timeslot">
-                  the color is set using a CSS variable
-                </p>
-              </div>
-            </div>
-          </div>
+
+        
 
           <TimeHeader/>
           {#each data as device}
@@ -72,14 +68,6 @@ let size = "10px";
           {/each} 
 
           <div class="schedule-day-body">
-
-            <div class="schedule-day-body-schemas">
-
-
-                <div class="schedule-day-body-row-add">hallalallala</div>
-              </div>
-
-
             </div>
           </div>
         </div>
@@ -87,10 +75,4 @@ let size = "10px";
 
 <style>
     @import "page.css";
-.timeslot{
-  color: var(--theme-color);
-  font-size: var(--theme-size);
-
-}
-
 </style>
