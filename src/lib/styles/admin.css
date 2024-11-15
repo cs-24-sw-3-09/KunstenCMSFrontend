@@ -7,12 +7,6 @@
     margin-top: 2.5%;
 }
 
-.admin-page-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
 table {
     border-collapse: collapse;
     width: 100%;

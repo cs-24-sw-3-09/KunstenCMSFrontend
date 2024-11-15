@@ -32,30 +32,30 @@
     function toggleNewUserModal(user = userFocus) {
         userFocus = user;
         showNewUserModal = !showNewUserModal;
-        console.log("showNewUserModal:");
-        console.log(showNewUserModal);
     }
 
     function toggleEditUserModal(user = userFocus) {
         userFocus = user;
         showEditUserModal = !showEditUserModal;
-        console.log("showEditUserModal:");
-        console.log(showEditUserModal);
     }
 
     function createUser(event) {
         event.preventDefault();
-        let form = new FormData(event.target);
+        const form = event.target;
+        const data = new FormData(form);
+        
         console.log("Create User");
-        console.log(form);
+        console.log(data);
         toggleNewUserModal();
     }
 
     function saveUser(event) {
         event.preventDefault();
-        let form = new FormData(event.target);
+        const form = event.target;
+        const data = new FormData(form);
+        
         console.log("Save User");
-        console.log(form);
+        console.log(data);
         toggleEditUserModal();
     }
 </script>
@@ -69,8 +69,8 @@
 
 <div class="grid-container">
     <div class="main-content">
-        <div class="admin-page">
-            <div class="admin-page-header">
+        <div class="page">
+            <div class="page-header">
                 <h2>Users:</h2>
                 <Button text={"New User"} clickFunction={toggleNewUserModal} />
             </div>

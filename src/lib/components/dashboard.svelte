@@ -1,8 +1,8 @@
 <script>
     import Card from "$lib/components/card.svelte";
-    import fallback from "$lib/images/default.png"; // temp image, fallback need to be dynamically changed via data from database
+    
 
-    let { devices } = $props();
+    let { devices, doEdit } = $props();
     $inspect(devices);
 </script>
 
@@ -12,11 +12,8 @@
         <!-- For each device in the deviceStore, render a Card component -->
         {#each devices as device}
             <Card
-                status={device.status}
-                content={device.content || fallback}
-                title={device.title}
-                location={device.location}
-                slideshow={device.slideshow}
+                device={device}
+                doEdit={() => (doEdit(device))}
             />
         {/each}
     </div>

@@ -8,6 +8,8 @@ export const deviceStore = writable([
         location: "Loc1",
         title: "Title1",
         slideshow: "Event1",
+        width: 1920,
+        height: 1080,
         status: "active",
         fallback: "Event1",
     },
@@ -15,6 +17,8 @@ export const deviceStore = writable([
         content: "",
         location: "Loc2",
         title: "Title2",
+        width: 1920,
+        height: 1080,
         slideshow: "Event2",
         status: "inactive",
         fallback: "Event1",
@@ -24,6 +28,8 @@ export const deviceStore = writable([
         location: "Loc3",
         title: "Title3",
         slideshow: "123",
+        width: 1920,
+        height: 1080,
         status: "active",
         fallback: "Event1",
     },
@@ -34,6 +40,8 @@ export const deviceStore = writable([
         slideshow: "12312312312",
         status: "inactive",
         fallback: "Event1",
+        width: 1920,
+        height: 1080,
     },
     {
         content: "",
@@ -42,6 +50,8 @@ export const deviceStore = writable([
         slideshow: "asdasszx",
         status: "active",
         fallback: "Event1",
+        width: 1920,
+        height: 1080,
     },
     /* {
         content: "",
@@ -50,6 +60,8 @@ export const deviceStore = writable([
         slideshow: "zxczfaefew",
         status: "inactive",
         fallback: "Event1",
+        width: 1920,
+        height: 1080,
     },
     {
         content: "",
@@ -58,6 +70,8 @@ export const deviceStore = writable([
         slideshow: "lkmlkmpø",
         status: "active",
         fallback: "Event1",
+        width: 1920,
+        height: 1080,
     },
     {
         content: "",
@@ -66,5 +80,7 @@ export const deviceStore = writable([
         slideshow: "wælknamefæwklen",
         status: "inactive",
         fallback: "Event1",
+        width: 1920,
+        height: 1080,
     }, */
 ]);
