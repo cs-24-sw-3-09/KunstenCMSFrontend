@@ -2,19 +2,19 @@
 
 import Timeslot from "./timeslot_templet_day.svelte";
 let props = $props();
-let name = "test "
+
+console.log(props.device.name);
+
 </script>
 
 
 
 
   <div class="schedule-day-body-row">
-    <div class="schedule-day-body-row-device">{name}</div>
+    <div class="schedule-day-body-row-device">{props.device.name}</div>
     <div class="schedule-day-body-row-schema">
-      <div class="schedule-day-body-row-schema-row">
-      <Timeslot/>
-
-      </div>
+        {#each props.device.fields  as timeslot}
+            <Timeslot {timeslot} />
+        {/each}
     </div>
-    <div class="schedule-day-body-row-add">+</div>
   </div>
