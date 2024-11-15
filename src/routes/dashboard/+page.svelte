@@ -69,6 +69,6 @@
     /* All Styling needed for the dashboard page */
     @import "$lib/styles/page.css";
     @import "$lib/styles/dashboard.css";
-    @import "$lib/styles/tooptip.css";
-    @import "$lib/styles/model.css";
+    @import "$lib/styles/tooltip.css";
+    @import "$lib/styles/dashboardModal.css";
 </style>

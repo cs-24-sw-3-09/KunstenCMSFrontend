@@ -11,15 +11,16 @@
     border-radius: 2px;
     user-select: none;
     pointer-events: none;
-}
-
-.tooltip-relative {
+  }
+  
+  .tooltip-relative {
     position: relative;
-}
-
-.tooltippable {}
-
-.tooltippable:hover .tooltip {
+  }
+  
+  .tooltippable {
+  }
+  
+  .tooltippable:hover .tooltip {
     visibility: visible;
     transition-delay: 1s;
-}
+  }

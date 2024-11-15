@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 
 // Initialise store with empty array, used to store freshests device data
+//export const deviceStore = writable([]);
 export const deviceStore = writable([
     {
         content: "",
