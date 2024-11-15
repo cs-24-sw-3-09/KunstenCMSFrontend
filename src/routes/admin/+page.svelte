@@ -1,4 +1,63 @@
 <script>
+    import Table from "$lib/components/adminTable.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import EditModal from "$lib/components/adminEdit.svelte";
+    import NewModal from "$lib/components/adminNew.svelte";
+    import { usersStore } from "$lib/stores/usersStore.js";
+
+    // Subscribe to the usersStore to get the users data
+    let usersData = $state([]);
+    usersStore.subscribe((value) => {
+        usersData = value;
+        //$inspect(usersData);
+    });
+
+    // Temp variable to store the user that is being edited, deleted or created
+    let userFocus = $state({});
+
+    // Modal visibility variables
+    let showNewUserModal = $state(false);
+    let showEditUserModal = $state(false);
+
+    function deleteUser(user = userFocus) {
+        let confirmation = confirm(
+            "Are you sure you want to delete this user?",
+        );
+        if (!confirmation) return;
+        userFocus = user;
+        console.log("Delete:");
+        console.log(userFocus);
+    }
+
+    function toggleNewUserModal(user = userFocus) {
+        userFocus = user;
+        showNewUserModal = !showNewUserModal;
+        console.log("showNewUserModal:");
+        console.log(showNewUserModal);
+    }
+
+    function toggleEditUserModal(user = userFocus) {
+        userFocus = user;
+        showEditUserModal = !showEditUserModal;
+        console.log("showEditUserModal:");
+        console.log(showEditUserModal);
+    }
+
+    function createUser(event) {
+        event.preventDefault();
+        let form = new FormData(event.target);
+        console.log("Create User");
+        console.log(form);
+        toggleNewUserModal();
+    }
+
+    function saveUser(event) {
+        event.preventDefault();
+        let form = new FormData(event.target);
+        console.log("Save User");
+        console.log(form);
+        toggleEditUserModal();
+    }
 </script>
 
 <svelte:head>
@@ -8,96 +67,32 @@
     ></script>
 </svelte:head>
 
-<link rel="stylesheet" href="../css/admin.css" />
-<link rel="stylesheet" href="../css/adminModal.css" />
-<link rel="stylesheet" href="../css/general.css" />
-<link rel="stylesheet" href="../css/tooltip.css" />
-
 <div class="grid-container">
     <div class="main-content">
         <div class="admin-page">
             <div class="admin-page-header">
                 <h2>Users:</h2>
-                <button id="admin-page-new-user-btn">New User</button>
+                <Button text={"New User"} clickFunction={toggleNewUserModal} />
             </div>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Notifications</th>
-                        <th>Roles</th>
-                        <th>Actions</th>
-                    </tr>
-                </tbody>
-            </table>
+            <Table
+                {usersData}
+                onEdit={toggleEditUserModal}
+                onDelete={deleteUser}
+            />
         </div>
     </div>
-    <div class="new-user-modal">
-        <div class="new-user-modal-content">
-            <!--  <div
-                class="new-user-modal-close"
-                onclick="closeNewUserModal(event)"
-            > -->
-            <i class="fa-solid fa-x"></i>
-        </div>
-        <div class="new-user-modal-header"></div>
-        <form action="#" id="new-user-modal-form">
-            <div class="new-user-modal-firstname">
-                <label for="firstname">First Name</label>
-                <input type="text" id="firstname" name="firstname" required />
-            </div>
-            <div class="new-user-modal-lastname">
-                <label for="lastname">Last Name</label>
-                <input type="text" id="lastname" name="lastname" required />
-            </div>
-            <div class="new-user-modal-email">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required />
-            </div>
-            <div class="new-user-modal-notifications">
-                <input
-                    type="checkbox"
-                    id="notifications"
-                    name="notifications"
-                />
-                <label for="notifications">Receive Notifications</label>
-            </div>
-            <div class="new-user-modal-roles">
-                <p>Roles:</p>
-                <div class="new-user-modal-role-admin">
-                    <input type="checkbox" id="role-admin" name="role-admin" />
-                    <label for="role-admin">Admin</label>
-                </div>
-                <div class="new-user-modal-role-admin">
-                    <input
-                        type="checkbox"
-                        id="role-mediaplanner"
-                        name="role-mediaplanner"
-                    />
-                    <label for="role-mediaplanner">Media Planner</label>
-                </div>
-            </div>
-            <div class="new-user-modal-buttons">
-                <!-- <button
-                    class="new-user-modal-button new-user-modal-button-cancel"
-                    onclick="closeNewUserModal(event)"
-                >
-                    Cancel
-                </button> -->
-                <button
-                    class="new-user-modal-button new-user-modal-button-create"
-                ></button>
-            </div>
-        </form>
-    </div>
+    {#if showNewUserModal}
+        <NewModal doClose={toggleNewUserModal} doSubmit={createUser} />
+    {/if}
+    {#if showEditUserModal}
+        <EditModal doClose={toggleEditUserModal} doSubmit={saveUser} user={userFocus}
+        />
+    {/if}
 </div>
 
-
 <style>
-    @import "$lib/styles/tooltip.css";
-    @import "$lib/styles/page.css";
     @import "$lib/styles/admin.css";
-    @import "$lib/styles/adminModal.css";
+    @import "$lib/styles/button.css";
+    @import "$lib/styles/page.css";
+    @import "$lib/styles/tooltip.css";
 </style>
