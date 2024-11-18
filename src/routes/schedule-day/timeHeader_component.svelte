@@ -1,5 +1,7 @@
 <script>
 
+  import Buttom from "./buttom.component.svelte"
+
 let currentDay1 = new Date();
 
     let time = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 ,23];
@@ -55,6 +57,8 @@ function getWeekRange(input) {
   }
 
 
+
+
 $: day = getWeekRange(new Date(currentDay1));
 $: isoWeekNumber ="Week " + getISOWeekNumber(new Date(currentDay1));
 
@@ -64,7 +68,7 @@ $: isoWeekNumber ="Week " + getISOWeekNumber(new Date(currentDay1));
 <div class="schedule-day-header">
     <div class="schedule-day-header-top">
       <div class="schedule-day-header-top-left"  >{isoWeekNumber} {day}
-          <button class="gallery-header-upload-button">Add Timeslot</button>
+        <Buttom/>
       </div>
       
 
