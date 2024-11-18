@@ -12,7 +12,13 @@
     devices = testdevices;
 
     // Options for the fallback slideshow dropdown, TODO: Get this from the database
-    let options = ["Event 2024", "Event 2023", "Event 2022", "Event 2021", "Event 2020"];
+    let options = [
+        "Event 2024",
+        "Event 2023",
+        "Event 2022",
+        "Event 2021",
+        "Event 2020",
+    ];
 
     // Temp variable to store the device that is being edited, deleted or created
     let deviceFocus = $state({});
@@ -21,7 +27,7 @@
     let showNewModal = $state(false);
     let showEditModal = $state(false);
 
-    function toggleNewModal(device=deviceFocus) {
+    function toggleNewModal(device = deviceFocus) {
         deviceFocus = {};
         console.log(deviceFocus);
         showNewModal = !showNewModal;
@@ -29,7 +35,7 @@
         console.log(showNewModal);
     }
 
-    function toggleEditModal(device=deviceFocus) {
+    function toggleEditModal(device = deviceFocus) {
         deviceFocus = device;
         console.log(deviceFocus);
         showEditModal = !showEditModal;
@@ -41,9 +47,9 @@
         event.preventDefault();
         const form = event.target;
         const data = new FormData(form);
-        
+
         // TODO
-        
+
         console.log("Device added:");
         console.log(data);
     }
@@ -60,39 +66,31 @@
     }
 </script>
 
-<svelte:head>
-    <script
-        src="https://kit.fontawesome.com/86cff0f4ad.js"
-        crossorigin="anonymous"
-    ></script>
-</svelte:head>
-
-<div class="grid-container">
-    <div class="main-content">
-        <div class="page-header">
-            <h1>Dashboard</h1>
-            <!-- <Button text={"New Device"} clickFunction={toggleNewModal} /> -->
-        </div>
-        
-        <Dashboard devices={devices} doEdit={toggleEditModal}  />
-        
-        <!-- TODO: Move this to a separate component -->
-        <a href="#" class="dashboard-new-button" onclick={toggleNewModal}>
-            <i class="fa-solid fa-circle-plus"></i>
-        </a>
+<div class="main-content">
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <!-- <Button text={"New Device"} clickFunction={toggleNewModal} /> -->
     </div>
-    {#if showNewModal}
-        <NewModal doClose={toggleNewModal} doSubmit={addDevice} options={options} />
-    {/if}
-    {#if showEditModal}
-        <EditModal doClose={toggleEditModal} doSubmit={editDevice} options={options} device={deviceFocus} />
-    {/if}
+
+    <Dashboard {devices} doEdit={toggleEditModal} />
+
+    <!-- TODO: Move this to a separate component -->
+    <a class="dashboard-new-button" onclick={toggleNewModal}>
+        <i class="fa-solid fa-circle-plus"></i>
+    </a>
 </div>
+{#if showNewModal}
+    <NewModal doClose={toggleNewModal} doSubmit={addDevice} {options} />
+{/if}
+{#if showEditModal}
+    <EditModal
+        doClose={toggleEditModal}
+        doSubmit={editDevice}
+        {options}
+        device={deviceFocus}
+    />
+{/if}
 
 <style>
-    /* All Styling needed for the dashboard page */
-    @import "$lib/styles/page.css";
     @import "$lib/styles/dashboard.css";
-    @import "$lib/styles/tooltip.css";
-    @import "$lib/styles/dashboardModal.css";
 </style>
