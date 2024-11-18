@@ -36,7 +36,8 @@ let data = [
                         startTime: "8:00",
                         endTime: "20:00",
                         size: "schedule-size-3",
-                    } 
+                    },
+                    
               
                 
             ],            
@@ -82,8 +83,7 @@ let size = "10px";
           <Screen {device}/> 
           {/each} 
 
-          <div class="schedule-day-body">
-            </div>
+
           </div>
         </div>
       </div>
