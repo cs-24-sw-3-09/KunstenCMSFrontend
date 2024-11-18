@@ -14,6 +14,13 @@ npx sv create
 npx sv create my-app
 ```
 
+## Intall dependencies
+
+```bash
+npm install
+```
+
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
