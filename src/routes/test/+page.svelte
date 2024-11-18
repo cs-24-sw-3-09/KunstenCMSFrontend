@@ -22,13 +22,8 @@
 </script>
 
 <h1>Modal Page</h1>
-<button on:click={toggleTestModal}>Show Test Modal</button>
+<button onclick={toggleTestModal}>Show Test Modal</button>
 
 {#if showTestModal}
     <Testmodal doClose={toggleTestModal} doSubmit={submitTestModal}/>
 {/if}
-
-<style>
-    @import "$lib/styles/page.css";
-    @import "$lib/styles/tooptip.css";
-</style>
