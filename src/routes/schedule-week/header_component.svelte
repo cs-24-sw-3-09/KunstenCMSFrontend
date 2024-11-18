@@ -1,10 +1,10 @@
 <script>
 
 let weekrange = '';
-let weekDates = []
+let currentDay1 = new Date();
 
-function getWeekRange() {
-    const today = new Date();
+function getWeekRange(inputdata) {
+    const today = new Date(inputdata);
     
     const dayOfWeek = today.getDay();
     
@@ -28,10 +28,8 @@ function getWeekRange() {
         const month = date.toLocaleString('en-US', { month: 'short' });
         return `${month}. ${day}${getDayOrdinal(day)}`;
     };
-    weekrange =  `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}, ${startOfWeek.getFullYear()}`;
+    return weekrange =  `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}, ${startOfWeek.getFullYear()}`;
 }
-
-getWeekRange();
 
 
 function getWeekDatesFormatted(inputDate) {
@@ -52,25 +50,39 @@ function getWeekDatesFormatted(inputDate) {
   }
 
   return weekDates;
-}
+} 
 
-function getISOWeekNumber(inputDate){
-  const date = new Date(inputDate);
-  date.setDate(date.getDate() + 4 - (date.getDate() || 7));
-  
-  const startOfYear = new Date(date.getFullYear(), 0 , 1);
+  //Function to calculate ISO week number
+  function getISOWeekNumber(date) {
+    const dayOfWeek = date.getDay() || 7;
+    date.setDate(date.getDate() + 4 - dayOfWeek);
 
-  const weekNumber = Math.ceil(((date - startOfYear) / 86400000 + 1) / 7);
-  return weekNumber;
-}
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const startDayOfWeek = startOfYear.getDay() || 7;
 
-function getWeek(inputDate) {
-  const date = new Date(inputDate);
-  return"Week " + getISOWeekNumber(date);
-}
+    const firstThursday = startDayOfWeek <= 4
+      ? startOfYear
+      : new Date(startOfYear.setDate(startOfYear.getDate() + (8 - startDayOfWeek)));
 
-const date = new Date();
-const week = getWeekDatesFormatted(date);
+    return Math.ceil(((date - firstThursday) / 86400000 + 1) / 7);
+  }
+
+  // Function to shift the current date by a number of weeks
+  function shiftWeek(shift) {
+    // Add or subtract 7 days (one week) and reassign currentDate
+    const newDate = new Date(currentDay1);
+    newDate.setDate(currentDay1.getDate() + shift * 7);
+    currentDay1 = newDate; // Reassign to trigger reactivity
+  }
+
+    // Function to reset to the current date's week
+    function resetToCurrentWeek() {
+    currentDay1 = new Date(); // Reset to today
+  }
+
+$: week = getWeekDatesFormatted(new Date(currentDay1));
+$: isoWeekNumber = getISOWeekNumber(new Date(currentDay1));
+$: weekrange = getWeekRange(new Date(currentDay1))
 
 </script>
 
@@ -87,13 +99,15 @@ const week = getWeekDatesFormatted(date);
       >
     </div>
     <div class="schedule-week-header-top-right">
-      <button>Today</button>
-      <button><i class="arrow left"></i></button>
-      <button><i class="arrow right"></i></button>
+      <button on:click={resetToCurrentWeek}>Today</button>
+      <!-- svelte-ignore a11y_consider_explicit_label -->
+      <button on:click={() => shiftWeek(-1)}><i class="arrow left"></i></button>
+      <!-- svelte-ignore a11y_consider_explicit_label -->
+      <button on:click={() => shiftWeek(1)}><i class="arrow right"></i></button>
     </div>
   </div>
   <div class="schedule-week-header-bottom">
-    <div class="schedule-week-header-devices">{getWeek(date)}</div>
+    <div class="schedule-week-header-devices">{isoWeekNumber}</div>
     <a href="/html/schedule-day.html" class="schedule-week-header-day"
       > {week[0]}</a
     >

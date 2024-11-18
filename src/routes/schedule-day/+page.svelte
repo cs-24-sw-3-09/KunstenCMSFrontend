@@ -19,10 +19,25 @@ let data = [
                     {
                         title: "Default 2024",
                         color: "rgba(255, 0, 0, 0.6);",
+                        startTime: "00:00",
+                        endTime: "20:00",
+                        size: "schedule-size-3",
+                    },
+                    {
+                        title: "Default 2024",
+                        color: "rgba(255, 0, 0, 0.6);",
                         startTime: "8:00",
                         endTime: "20:00",
                         size: "schedule-size-3",
-                    }
+                    },
+                    {
+                        title: "Default 2024",
+                        color: "rgba(255, 0, 0, 0.6);",
+                        startTime: "8:00",
+                        endTime: "20:00",
+                        size: "schedule-size-3",
+                    } 
+              
                 
             ],            
         },
