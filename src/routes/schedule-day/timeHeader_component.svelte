@@ -25,6 +25,23 @@ function getWeekRange(input) {
     return (`${formatDate(today)} ${today.getFullYear()}`);
 }
 
+  //Function to calculate ISO week number
+  function getISOWeekNumber(date) {
+    const dayOfWeek = date.getDay() || 7;
+    date.setDate(date.getDate() + 4 - dayOfWeek);
+
+    const startOfYear = new Date(date.getFullYear(), 0, 1);
+    const startDayOfWeek = startOfYear.getDay() || 7;
+
+    const firstThursday = startDayOfWeek <= 4
+      ? startOfYear
+      : new Date(startOfYear.setDate(startOfYear.getDate() + (8 - startDayOfWeek)));
+
+    return Math.ceil(((date - firstThursday) / 86400000 + 1) / 7);
+  }
+
+
+
   // Function to shift the current date by a number of weeks
   function shiftWeek(shift) {
     // Add or subtract 7 days (one week) and reassign currentDate
@@ -40,15 +57,15 @@ function getWeekRange(input) {
 
 
 $: day = getWeekRange(new Date(currentDay1));
-
+$: isoWeekNumber ="Week " + getISOWeekNumber(new Date(currentDay1));
 
 </script>
 
 
 <div class="schedule-day-header">
     <div class="schedule-day-header-top">
-      <div class="schedule-day-header-top-left">{day}
-        <button class="gallery-header-upload-button">Add Timeslot</button>
+      <div class="schedule-day-header-top-left"  >{isoWeekNumber} {day}
+          <button class="gallery-header-upload-button">Add Timeslot</button>
       </div>
       
 
