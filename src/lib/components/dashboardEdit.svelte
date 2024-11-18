@@ -3,6 +3,7 @@
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
+    import SmallHeader from "$lib/components/modal/smallheader.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
     import Numberinput from "$lib/components/modal/numberinput.svelte";
     import Dropdown from "$lib/components/modal/dropdown.svelte";
@@ -24,10 +25,16 @@
         
         <form action="#" id="modal-form" onsubmit={doSubmit}>
 
-            <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" value={device.title} />
+            <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" value={device.name} />
             <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" value={device.location} />
 
-            <Dropdown title={"Fallback"} name={"fallback"} options={options} selected={device.fallback} />
+            <Dropdown title={"Fallback"} name={"fallback"} options={options} selected={device.fallbackVisualMedia.name} required="true" />
+            
+            <Separator />
+
+            <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" value={device.model} />
+            
+            <SmallHeader text={"Horizontal resolution"} />
             
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
@@ -35,6 +42,8 @@
                 <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.height} />
             </div>
 
+            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["Horizontal", "Vertical"]} selected={device.fallbackVisualMedia.name} required="true" />
+            
             <Separator />
 
             <div class="modal-buttons">

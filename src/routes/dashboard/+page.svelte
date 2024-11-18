@@ -5,14 +5,11 @@
     import NewModal from "$lib/components/dashboardNew.svelte";
     import EditModal from "$lib/components/dashboardEdit.svelte";
 
-    import { deviceStore } from "$lib/stores/deviceStore.js";
+    import { testdevices } from "$lib/testdata.js";
 
     // Subscribe to the deviceStore and update the devices variable
     let devices = $state([]);
-    deviceStore.subscribe((value) => {
-        devices = value;
-        //$inspect(devices);
-    });
+    devices = testdevices;
 
     // Options for the fallback slideshow dropdown, TODO: Get this from the database
     let options = ["Event 2024", "Event 2023", "Event 2022", "Event 2021", "Event 2020"];
@@ -25,7 +22,8 @@
     let showEditModal = $state(false);
 
     function toggleNewModal(device=deviceFocus) {
-        deviceFocus = device;
+        deviceFocus = {};
+        console.log(deviceFocus);
         showNewModal = !showNewModal;
         console.log("showNewModal:");
         console.log(showNewModal);
@@ -33,6 +31,7 @@
 
     function toggleEditModal(device=deviceFocus) {
         deviceFocus = device;
+        console.log(deviceFocus);
         showEditModal = !showEditModal;
         console.log("showEditModal:");
         console.log(showEditModal);
@@ -42,19 +41,8 @@
         event.preventDefault();
         const form = event.target;
         const data = new FormData(form);
-
-        deviceStore.update((devices) => {
-            devices.push({
-                title: data.get("name"),
-                location: data.get("location"),
-                fallback: data.get("fallback"),
-                width: data.get("width"),
-                height: data.get("height"),
-                content: "",
-                slideshow: "Event 2024", // TODO: Get this from the database
-            });
-            return devices;
-        });
+        
+        // TODO
         
         console.log("Device added:");
         console.log(data);
@@ -64,6 +52,8 @@
         event.preventDefault();
         const form = event.target;
         const data = new FormData(form);
+
+        // TODO
 
         console.log("Device edited:");
         console.log(data);
