@@ -81,7 +81,7 @@ function getWeekDatesFormatted(inputDate) {
   }
 
 $: week = getWeekDatesFormatted(new Date(currentDay1));
-$: isoWeekNumber = getISOWeekNumber(new Date(currentDay1));
+$: isoWeekNumber ="Week " + getISOWeekNumber(new Date(currentDay1));
 $: weekrange = getWeekRange(new Date(currentDay1))
 
 </script>
