@@ -40,7 +40,7 @@
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    z-index: 1;
+    z-index: 0;
   }
 
   .timeslot {
