@@ -1,6 +1,6 @@
 <script>
     let { children } = $props();
-    import logo from "$lib/images/logo-white.png";
+    import logo from "$lib/assets/logo-white.png";
 
     let largeSidebar = $state(true);
 

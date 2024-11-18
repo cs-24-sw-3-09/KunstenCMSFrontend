@@ -1,7 +1,7 @@
 <script>
     let { children } = $props();
     import { page } from "$app/stores";
-    import logo from "$lib/images/logo.ico";
+    import logo from "$lib/assets/logo.ico";
 
     const title = "Kunsten CMS";
     let subtitle = ($page.url.pathname.split("/").slice(1).toString()[0].toUpperCase() + $page.url.pathname.split("/").slice(1).toString().slice(1)).replace(/_/g, " ").replace(/-/g, " ");

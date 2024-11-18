@@ -1,6 +1,6 @@
 <script>
     let { device, doEdit } = $props();
-    import test_fallback from "$lib/images/default.png"; // temp image, fallback need to be dynamically changed via data from database
+    import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
 </script>
 
 <div class="dashboard-card">
