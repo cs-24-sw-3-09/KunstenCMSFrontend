@@ -9,7 +9,7 @@
 <div class="profile-info">
     <div class="profile-info-item">
         <div class="profile-info-item-title">Full Name</div>
-        <div class="profile-info-item-text">{profileData.first_name} {profileData.last_name}</div>
+        <div class="profile-info-item-text">{profileData.firstName} {profileData.lastName}</div>
     </div>
     <div class="profile-info-item">
         <div class="profile-info-item-title">Email</div>

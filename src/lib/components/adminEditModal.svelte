@@ -1,5 +1,5 @@
 <script>
-    let { doClose, doSubmit } = $props();
+    let { doClose, doSubmit, user } = $props();
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -24,20 +24,20 @@
 
         <form action="#" id="modal-form" onsubmit={doSubmit}>
 
-            <TextInput title={"First Name"} placeholder={"First Name Here"} name={"text1"} required="true" />
-            <TextInput title={"Last Name"} placeholder={"Last Name Here"} name={"text2"} required="true" />
-            <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"text2"} required="true" />
+            <TextInput title={"First Name"} placeholder={"First Name Here"} name={"firstName"} required="true" value={user.firstName} />
+            <TextInput title={"Last Name"} placeholder={"Last Name Here"} name={"lastName"} required="true" value={user.lastName} />
+            <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"email"} required="true" value={user.email} />
             
             <Separator />
 
-            <Checkbox title={"Receive Notifications"} name={"notifications"} checked={false} />
+            <Checkbox title={"Receive Notifications"} name={"notificationState"} checked={user.notificationState ? "checked" : ""} />
             
             <Separator />
             
             <Smallheader text="Roles:" />
             
-            <Checkbox title={"Admin"} name={"admin"} checked={false} /> 
-            <Checkbox title={"Media Planner"} name={"mediaplanner"} checked={false} />
+            <Checkbox title={"Media Planner"} name={"mediaPlanner"} checked={user.mediaPlanner ? "checked" : ""} /> 
+            <Checkbox title={"Admin"} name={"admin"} checked={user.admin ? "checked" : ""} />
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
