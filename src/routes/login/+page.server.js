@@ -1,5 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit';
 
+const API_URL = import.meta.env.VITE_API_URL
+
+
 // Actions:
 // - Login
 
@@ -7,32 +10,51 @@ import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
 	login : async ({ cookies, url, request }) => {
 		const formData = await request.formData();
-		const email = formData.get("email");
-		const password = formData.get("password");
-		
-		// Debug
-		console.log(formData);
 
+		const email = formData.get("email").toString();
+		const password = formData.get("password").toString();
+
+		const loginRequestBody = {
+			email,
+			password,
+		};
+		
 		// Validate the email and password fields
-        if (!email || !password) {
+        if (!loginRequestBody.email || !loginRequestBody.password) {
             return fail(400, { error: "Email and password are required." });
         }
 
-		// Mock validate the email and password
-        if (email !== "admin@example.com" || password !== "password") {
-            return fail(400, { error: "Invalid email or password." });
-        }
+		// Login request
+		const loginResponse = await fetch(API_URL + "/api/auth/login", {
+			method: "POST",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify(loginRequestBody),
+		});
 
-		// Mock logging in
-		console.log(`Logging in: ${email}`);
+		console.log("loginResponsestart", loginResponse,"loginResponseend");		
 
-		// Mock setting authToken cookie
-		cookies.set("authToken", "true", { path: "/" });
+		if (loginResponse.status !== 200) {
+			try {
+				cookies.delete('authToken', { path: '/' });
+			} catch (e) {
+				console.error(e);
+			}
+
+			return fail(loginResponse.status, {
+				error: true,
+				message: "Incorrect email or password."
+			});
+		}
+
+		if (loginResponse.status === 200) {
+			const token = await loginResponse.text(); // Extract the jwt token as plain text
 		
-		// Redirect to dashboard if successful
-		redirect(303, url.searchParams.get("redirectTo") ?? "/dashboard");
+			cookies.set("authToken", token, { path: '/' }); // Set the jwt token as a cookie
 		
-		// Respond with success
-        //return { success: true };
+			console.log("Token:", token); // Optional: Log for debugging
+			redirect(303, url.searchParams.get('redirectTo') ?? '/dashboard');
+		}		
 	},
 };

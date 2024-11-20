@@ -20,7 +20,7 @@
             <input type="password" name="password" placeholder="Password" required />
 
             {#if form?.error}
-                <p class="login-error">{form.error}</p>
+                <p class="login-error">{form?.message}</p>
             {/if}
 
             <button type="submit" class="login-submit">Log In</button>
