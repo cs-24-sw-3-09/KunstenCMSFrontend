@@ -19,6 +19,14 @@
     gap: 24px;
 }
 
+.sidebar form button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 .main-content {
     flex: 1;
     height: 100%;

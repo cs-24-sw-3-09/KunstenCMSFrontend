@@ -73,15 +73,14 @@
                 <i class="fa-solid fa-user"></i>
                 {#if largeSidebar} <p class="sidebar-item-text">User Profile</p> {/if}
             </a>
-            <a
-                href="/login"
-                class="sidebar-item tooltippable tooltipText-Logout"
-            >
-                <i class="fa-solid fa-right-from-bracket"></i>
-                {#if largeSidebar}
-                    <p class="sidebar-item-text">Logout</p>
-                {/if}
-            </a>
+            <form method="POST" action="/logout">
+                <button class="sidebar-item tooltippable tooltipText-Logout" type="submit">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    {#if largeSidebar}
+                        <p class="sidebar-item-text">Logout</p>
+                    {/if}
+                </button>
+            </form>
         </div>
         <button class="toggle-sidebar-button" onclick={toggle_sidebar} aria-label="Toggle Sidebar">
             <i class={largeSidebar ? "fa-solid fa-angle-left" : "fa-solid fa-angle-right"}></i>
