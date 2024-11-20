@@ -1,4 +1,74 @@
-p {
-    color: red;
+
+.login-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
+.login-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    border-radius: 8px;
+    background-color: rgb(238, 238, 238);
+    width: clamp(100px, 50%, 400px);
+    position: relative;
+}
+
+
+.login-icon {
+    width: 32px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    height: 32px;
+}
+
+.login-title  {
+    width: 100%;
+    text-align: center;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+
+}
+
+
+.login-container form input {
+    padding: 12px 18px;
+    border: none;
+}
+
+#login-error {
+    color: red;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.login-submit {
+    background-color: white;
+    border: none;
+    border-radius: 0;
+    padding: 10px 0;
+}
+
+.login-submit:hover {
+    background-color: rgb(246, 246, 246);
+}
+
+.login-forgot {
+    text-decoration: underline;
+    color: black;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 8px;
+}
