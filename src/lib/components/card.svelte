@@ -16,15 +16,15 @@
             {:else}
                 <div class="dashboard-card-slideshow-inactive tooltippable tooltipText-Active"></div>
             {/if}
-            <p>{device.name}</p>
+            <p>{device.name ? device.name : "No name"}</p>
         </div>
         <div class="dashboard-card-slideshow-info">
             <i class="fa-solid fa-file"></i> <!-- spacing -->
-            <div class="dashboard-card-slideshow-title">{device.visualMedia}</div>
+            <div class="dashboard-card-slideshow-title">{device.visualMedia ? device.visualMedia : "No media"}</div>
         </div>
         <div class="dashboard-card-location-title">
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
-            <p>{device.location}</p>
+            <p>{device.location ? device.location : "No location"}</p>
         </div>
         <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
             <i class="fa-solid fa-pen-to-square"></i>

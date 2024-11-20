@@ -1,16 +1,13 @@
 <script>
-    import Table from "$lib/components/adminTable.svelte";
     import Button from "$lib/components/Button.svelte";
+    import Table from "$lib/components/adminTable.svelte";
     import EditModal from "$lib/components/adminEdit.svelte";
     import NewModal from "$lib/components/adminNew.svelte";
-    import { usersStore } from "$lib/stores/usersStore.js";
+    import { testUsers } from "$lib/testdata.js";
 
     // Subscribe to the usersStore to get the users data
     let usersData = $state([]);
-    usersStore.subscribe((value) => {
-        usersData = value;
-        //$inspect(usersData);
-    });
+    usersData = testUsers;
 
     // Temp variable to store the user that is being edited, deleted or created
     let userFocus = $state({});

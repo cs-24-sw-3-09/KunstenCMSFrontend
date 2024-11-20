@@ -1,21 +1,16 @@
 <script>
-    import ProfileInfo from "$lib/components/profile_info.svelte";
-    import ProfileEdit from "$lib/components/profile_edit.svelte";
-    import Notis from "$lib/components/notis.svelte";
+    import ProfileInfo from "$lib/components/profileInfo.svelte";
+    import ProfileEdit from "$lib/components/profileEdit.svelte";
+    import ProfileNotis from "$lib/components/ProfileNotis.svelte";
 
-    import { userStore } from "$lib/stores/userStore.js";
+    import { testUser } from "$lib/testdata.js";
 
     let userData = $state([]);
-    userStore.subscribe((value) => {
-        userData = value;
-        //$inspect(profileData);
-    });
-
-    // Temp function for testing purposes
+    userData = testUser;
 
     function toggleNotifications() {
-        userData.notifications = !userData.notifications;
-        console.log("Notifications toggled:", userData.notifications);
+        userData.notificationState = !userData.notificationState;
+        console.log("notificationState toggled:", userData.notificationState);
     }
 
     function pauseNotifications(event) {
@@ -46,7 +41,7 @@
             <!-- TODO: Add functionality for edit profile -->
         </div>
         <div class="profile-notis">
-            <Notis
+            <ProfileNotis
                 profileData={userData}
                 doToggleNotifications={toggleNotifications}
                 doPauseNotifications={pauseNotifications}

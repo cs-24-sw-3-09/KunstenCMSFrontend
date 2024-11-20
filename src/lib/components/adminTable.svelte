@@ -1,5 +1,5 @@
 <script>
-    import Button from '$lib/components/Button.svelte';
+    import Button from "$lib/components/Button.svelte";
     let { usersData, onEdit, onDelete } = $props();
 </script>
 
@@ -15,28 +15,25 @@
         </tr>
         {#each usersData as user}
             <tr>
-                <td>{user.firstname}</td>
-                <td>{user.lastname}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.notifications}</td>
+                <td>{user.notificationState}</td>
                 <td>
-                    {#if user.roles.length === 0}
-                        none
-                    {:else if user.roles.length === 1}
-                        {user.roles[0]}
-                    {:else}
-                        {#each user.roles as role}
-                            {#if role === user.roles[user.roles.length - 1]}
-                                {role}
-                            {:else}
-                                {role},&nbsp;
-                            {/if}
-                        {/each}
+                    {#if user.mediaPlanner && user.admin}
+                        Admin, Media Planner
+                    {:else if user.mediaPlanner}
+                        Media Planner
+                    {:else if user.admin}
+                        Admin
                     {/if}
                 </td>
                 <td>
-                    <Button text={"Edit"} clickFunction={() => (onEdit(user))} />
-                    <Button text={"Delete"} clickFunction={() => (onDelete(user))} />
+                    <Button text={"Edit"} clickFunction={() => onEdit(user)} />
+                    <Button
+                        text={"Delete"}
+                        clickFunction={() => onDelete(user)}
+                    />
                 </td>
             </tr>
         {/each}

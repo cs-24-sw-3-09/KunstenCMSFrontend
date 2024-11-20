@@ -5,11 +5,11 @@
     import NewModal from "$lib/components/dashboardNew.svelte";
     import EditModal from "$lib/components/dashboardEdit.svelte";
 
-    import { testdevices } from "$lib/testdata.js";
+    import { testDevices } from "$lib/testdata.js";
 
     // Subscribe to the deviceStore and update the devices variable
     let devices = $state([]);
-    devices = testdevices;
+    devices = testDevices;
 
     // Options for the fallback slideshow dropdown, TODO: Get this from the database
     let options = [

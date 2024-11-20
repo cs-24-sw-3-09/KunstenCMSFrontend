@@ -24,20 +24,20 @@
 
         <form action="#" id="modal-form" onsubmit={doSubmit}>
 
-            <TextInput title={"First Name"} placeholder={"First Name Here"} name={"text1"} required="true" />
-            <TextInput title={"Last Name"} placeholder={"Last Name Here"} name={"text2"} required="true" />
-            <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"text2"} required="true" />
+            <TextInput title={"First Name"} placeholder={"First Name Here"} name={"firstName"} required="true" />
+            <TextInput title={"Last Name"} placeholder={"Last Name Here"} name={"lastName"} required="true" />
+            <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"email"} required="true" />
             
             <Separator />
 
-            <Checkbox title={"Receive Notifications"} name={"notifications"} checked={false} />
+            <Checkbox title={"Receive Notifications"} name={"notificationState"} checked={false} />
             
             <Separator />
             
             <Smallheader text="Roles:" />
             
+            <Checkbox title={"Media Planner"} name={"mediaPlanner"} checked={false} />
             <Checkbox title={"Admin"} name={"admin"} checked={false} /> 
-            <Checkbox title={"Media Planner"} name={"mediaplanner"} checked={false} />
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
