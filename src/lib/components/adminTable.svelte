@@ -30,9 +30,7 @@
                 </td>
                 <td>
                     <Button text={"Edit"} clickFunction={() => onEdit(user)} />
-                    <Button
-                        text={"Delete"}
-                        clickFunction={() => onDelete(user)}
+                    <Button text={"Delete"} clickFunction={() => onDelete(user)}
                     />
                 </td>
             </tr>

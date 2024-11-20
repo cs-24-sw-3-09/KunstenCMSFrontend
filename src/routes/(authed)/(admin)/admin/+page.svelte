@@ -1,8 +1,8 @@
 <script>
     import Button from "$lib/components/Button.svelte";
     import Table from "$lib/components/adminTable.svelte";
-    import EditModal from "$lib/components/adminEdit.svelte";
-    import NewModal from "$lib/components/adminNew.svelte";
+    import EditModal from "$lib/components/adminEditModal.svelte";
+    import NewModal from "$lib/components/adminNewModal.svelte";
     import { testUsers } from "$lib/testdata.js";
 
     // Subscribe to the usersStore to get the users data
@@ -70,11 +70,7 @@
     <NewModal doClose={toggleNewUserModal} doSubmit={createUser} />
 {/if}
 {#if showEditUserModal}
-    <EditModal
-        doClose={toggleEditUserModal}
-        doSubmit={saveUser}
-        user={userFocus}
-    />
+    <EditModal doClose={toggleEditUserModal} doSubmit={saveUser} user={userFocus} />
 {/if}
 
 <style>
