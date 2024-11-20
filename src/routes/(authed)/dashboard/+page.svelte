@@ -7,7 +7,6 @@
 
     import { testDevices } from "$lib/testdata.js";
 
-    // Subscribe to the deviceStore and update the devices variable
     let devices = $state([]);
     devices = testDevices;
 
@@ -67,17 +66,13 @@
 </script>
 
 <div class="main-content">
-    <div class="page-header">
-        <h1>Dashboard</h1>
-        <!-- <Button text={"New Device"} clickFunction={toggleNewModal} /> -->
+    <div class="page">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <Button text={"New Device"} clickFunction={toggleNewModal} />
+        </div>
+        <Dashboard {devices} doEdit={toggleEditModal} />
     </div>
-
-    <Dashboard {devices} doEdit={toggleEditModal} />
-
-    <!-- TODO: Move this to a separate component -->
-    <a class="dashboard-new-button" onclick={toggleNewModal}>
-        <i class="fa-solid fa-circle-plus"></i>
-    </a>
 </div>
 {#if showNewModal}
     <NewModal doClose={toggleNewModal} doSubmit={addDevice} {options} />
