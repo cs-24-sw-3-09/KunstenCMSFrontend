@@ -1,7 +1,6 @@
 <script>
     let { form, data } = $props();
-    import { userStore } from "$lib/auth.js";
-    
+       
     import logo from "$lib/assets/logo.ico";
 
     let showError = $state(false);
@@ -58,7 +57,7 @@
             <input type="email" name="email" placeholder="Email" required />
             <input type="password" name="password" placeholder="Password" required />
             
-            {#if toggleError}
+            {#if showError}
                 <p id="login-error" class="error">
                     Incorrect email or password.
                 </p>
