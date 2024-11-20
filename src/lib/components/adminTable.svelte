@@ -18,7 +18,7 @@
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.notificationState}</td>
+                <td>{user.notificationState ? "On" : "Off"}</td>
                 <td>
                     {#if user.mediaPlanner && user.admin}
                         Admin, Media Planner
