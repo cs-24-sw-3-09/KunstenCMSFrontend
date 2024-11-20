@@ -8,11 +8,8 @@
     return (hours + minutes / 60) * 4.166;
   }
 
-  function timeslotIndex() {}
-
   let start = timeToPercentage(timeslot.startTime) + "%";
-  let end =
-    timeToPercentage(timeslot.endTime) -
+  let end = timeToPercentage(timeslot.endTime) -
     timeToPercentage(timeslot.startTime) +
     "%";
 </script>

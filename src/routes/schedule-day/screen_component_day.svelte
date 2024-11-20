@@ -3,8 +3,6 @@
 import Timeslot from "./timeslot_templet_day.svelte";
 let props = $props();
 
-console.log(props.device.name);
-
 </script>
 
 

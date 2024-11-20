@@ -145,29 +145,6 @@
     padding: 0 0 4px 4px;
   }
   
-  /* 1 time = 4.166%*/
-  .timeslot1 {
-    left: 25%;
-    right: 20.833%;
-    height: 100%;
-  
-    background-color: rgba(59, 137, 255, 0.6);
-    box-sizing: border-box;
-  }
-  .timeslot2 {
-    left: 41.66667%;
-    right: 33.33344%;
-    height: 100%;
-    background-color: rgba(0, 128, 0, 0.6);
-  }
-  .timeslot3 {
-    height: 100%;
-    left: 62.5%;
-    right: 20.833327%;
-    background-color: rgba(255, 0, 0, 0.6);
-    border-radius: 2px;
-  }
-  
   .grey-one {
     height: 100%;
     background-image: linear-gradient(
