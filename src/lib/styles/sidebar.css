@@ -40,6 +40,7 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
+    background-color: #F0F0F4;
     box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, 0.3);
     left: 100%;
     top: 2rem;
@@ -47,6 +48,19 @@
     cursor: pointer;
     z-index: 2;
 }
+
+.toggle-sidebar-button:hover {
+    background-color: #E0E0E4;
+}
+
+.toggle-sidebar-button:active {
+    background-color: #D0D0D4;
+}
+
+.toggle-sidebar-button i {
+    color: black;
+}
+
 
 .sidebar-item {
     color: white;
