@@ -120,3 +120,15 @@
 .modal-separator {
     border-top: 1px solid black;
 }
+
+.checkbox-container {
+    display: flex;
+    justify-content: space-between; /* Distributes items evenly in a row */
+}
+
+.checkbox-item {
+    display: flex;
+    flex-direction: column; /* Stacks the text and checkbox vertically */
+    align-items: center; /* Centers text and checkbox horizontally */
+    gap: 1px; /* Adds spacing between text and checkbox */
+}

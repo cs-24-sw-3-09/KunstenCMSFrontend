@@ -1,36 +1,33 @@
 <script>
+    import TimeslotModal from "$lib/components/modal/addtimeslot.svelte";
 
-import TimeslotModal from '$lib/components/modal/addtimeslot.svelte';
-    import { onMount } from 'svelte';
-    
-    let showTestModal = false;
+    let showTestModal = $state(false);
 
-    onMount(() => {
-        showTestModal = true;
-    });
-
-
-function toggleTestModal() {
-
+    function toggleTestModal() {
         showTestModal = !showTestModal;
     }
 
     function submitTestModal(event) {
         event.preventDefault();
-        let form = new FormData(event.target);
+        const form = event.target;
         console.log(form);
+        const data = new FormData(form);
+        console.log(data);
         toggleTestModal();
     }
 
-
-
-
+    function checkSelectedDays() {
+        const selectedDays = Object.keys(days).filter((day) => days[day]);
+        console.log("Selected Days:", selectedDays);
+    }
 </script>
 
-<button onclick={toggleTestModal} class="gallery-header-upload-button">Add Timeslot</button>
+<button onclick={toggleTestModal} class="gallery-header-upload-button"
+    >Add Timeslot</button
+>
 
 {#if showTestModal}
-    <TimeslotModal doClose={toggleTestModal} doSubmit={submitTestModal}/>
+    <TimeslotModal  doClose={toggleTestModal} doSubmit={submitTestModal} />
 {/if}
 
 <style>

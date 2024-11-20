@@ -67,7 +67,7 @@ let data = [
 
 
 let color = "red";
-let size = "10px"; 
+let size = "10px";
 
 </script>
 
@@ -89,5 +89,5 @@ let size = "10px";
       </div>
 
 <style>
-    @import "page.css";
+    @import "./page.css";
 </style>

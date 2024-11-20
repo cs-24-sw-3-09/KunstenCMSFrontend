@@ -1,5 +1,21 @@
 <script>
     let { doClose, doSubmit } = $props();
+    let days = {
+        Mon: false,
+        Tue: false,
+        Wed: false,
+        Thu: false,
+        Fri: false,
+        Sat: false,
+        Sun: false
+    };
+
+    // Function to log checked days
+    
+
+
+    
+
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -10,6 +26,25 @@
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
+    import Dateinput from "$lib/components/modal/InputDate.svelte";
+
+    let addtimeslotform = $state({
+        selectedDateFrom: "",
+        selectedTimeFrom: "",
+        selectedDateTo: "",
+        selectedTimeTo: "",
+        TimeSlotName: ""
+    });
+
+
+    function logSelections() {
+        console.log("From Date:", addtimeslotform.selectedDateFrom);
+        console.log("From Time:", addtimeslotform.selectedTimeFrom);
+        console.log("To Date:", addtimeslotform.selectedDateTo);
+        console.log("To Time:", addtimeslotform.selectedTimeTo);
+        console.log("Name:", addtimeslotform.TimeSlotName);
+    }
+
 </script>
 
 <svelte:head>
@@ -22,42 +57,28 @@
 <div class="modal">
     <div class="modal-content">
         <CloseX doFunc={doClose} />
-        <Header text="Test Modal" />
+        <Header text="Create Timeslot" />
         <form action="#" id="modal-form" onsubmit={doSubmit}>
-            <Smallheader text="Test Header:" />
 
-            <TextInput title={"Test Text"} placeholder={"Type your text here"} name={"text1"} required="true" value={""} />
-            <TextInput title={"Test Text2"} placeholder={"Typing here is not required"} name={"text2"} value={"´hello"} />
+            <Dateinput {addtimeslotform} />
 
-            <Separator />
-
-            <Dropdown title={"Test Dropdown"} name={"dropdown1"} options={["Option 1", "Option 2", "Option 3"]} selected={"Option 1"} />
-
-            <Separator />
-
-            <Smallheader text="Test Checkbox:" />
-
-            <Checkbox title={"Mon"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Tue"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Wed"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Thu"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Fri"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Sat"} name={"checkbox1"} checked={false} />
-            <Checkbox title={"Sun"} name={"checkbox1"} checked={false} />
-
-
-
-
-            <Separator />
-
-            <Smallheader text="Test Number Input:" />
-
-            <div class="modal-inline">
-                <Numberinput title={"x dim"} placeholder={""} name={"x"} min={1} max={99999} step={2} required={true} subscript={"px"} value={1} />
-                <Numberinput title={"y dim"} placeholder={"y"} name={"y"} min={0} max={99999} step={1} required={false} subscript={"px"} value={0} />
+            <div class="checkbox-container">
+                {#each Object.keys(days) as day}
+                    <div class="checkbox-item">
+                        <p>{day}</p>
+                        <input
+                            type="checkbox" name={day}
+                            bind:checked={days[day]} />
+                    </div>
+                {/each}
             </div>
 
-            <Separator />
+            <Separator/>
+
+            <Dropdown title={"Slideshow"} name={"dropdown1"} options={["Option 1", "Option 2", "Option 3"]} selected={"Option 1"} />
+            <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
+            
+            <Separator/>
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
