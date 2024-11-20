@@ -28,6 +28,9 @@
             
         <a href="/forgot" class="login-forgot">Forgot password?</a>
     </div>
+    <form method="POST">
+        <button>log in</button>
+    </form>
 </div>
 
 
