@@ -8,13 +8,18 @@
     }
 
     function submitTestModal(event) {
+        console.log(event.target);
         event.preventDefault();
         let form = new FormData(event.target);
         console.log(form);
-        toggleTestModal();
+        //toggleTestModal();
     }
 
 </script>
+
+<button onclick={toggleTestModal} class="gallery-header-upload-button"
+    >Add Timeslot</button
+>
 
 {#if showTestModal}
     <Testmodal doClose={toggleTestModal} doSubmit={submitTestModal}/>
@@ -25,7 +30,5 @@
     @import "$lib/styles/tooptip.css";
 </style>
 
-<button onclick={toggleTestModal} class="gallery-header-upload-button"
-    >Add Timeslot</button
->
+
 

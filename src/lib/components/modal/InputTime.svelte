@@ -1,8 +1,8 @@
 <script>
 
-let {name, required, value } = $props();
+let {name, required } = $props();
 
 </script>
 
 <label for={name+"_id"}>Time:</label>
-<input type="time" id={name+"_id"} name={name} required={required} value={value} />
+<input type="time" id={name+"_id"} name={name} required={required} />
