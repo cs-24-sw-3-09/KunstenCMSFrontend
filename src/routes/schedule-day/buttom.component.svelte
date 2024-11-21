@@ -11,7 +11,8 @@
         console.log(event.target);
         event.preventDefault();
         let form = new FormData(event.target);
-        console.log(form);
+        console.log(form.get("")
+        );
         //toggleTestModal();
     }
 
