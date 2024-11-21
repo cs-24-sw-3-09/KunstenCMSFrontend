@@ -1,12 +1,10 @@
 <script>
     import Card from "$lib/components/card.svelte";
     
-
     let { devices, doEdit } = $props();
     $inspect(devices);
 </script>
 
-<!-- <h1>Dashboard</h1> -->
 <div class="dashboard-page">
     <div class="dashboard-grid">
         <!-- For each device in the deviceStore, render a Card component -->
