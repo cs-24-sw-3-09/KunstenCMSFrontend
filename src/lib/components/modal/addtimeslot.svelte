@@ -42,7 +42,7 @@
         <form action="#" id="modal-form" onsubmit={doSubmit}>
             <div>
                 <p>From</p>
-                <Dateinput name={"DateFrom"} required="true" value="" />
+                <Dateinput name={"DateFrom"} required="true" />
                 <InputTime name={"TimeFrom"} required="true" />
             </div>
             <div>
