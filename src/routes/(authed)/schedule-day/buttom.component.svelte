@@ -1,29 +1,27 @@
 <script>
-    import Testmodal from '$lib/components/modal/addtimeslot.svelte';
+    import AddModal from '$lib/components/dayaddtimeslotmodal.svelte';
     
-    let showTestModal = false;
+    let showAddModal = false;
 
-    function toggleTestModal() {
-        showTestModal = !showTestModal;
+    function toggleAddModal() {
+        showAddModal = !showAddModal;
     }
 
-    function submitTestModal(event) {
+    function submitAddModal(event) {
         console.log(event.target);
         event.preventDefault();
         let form = new FormData(event.target);
         console.log(form.get("")
         );
-        //toggleTestModal();
+        toggleAddModal();
     }
 
 </script>
 
-<button onclick={toggleTestModal} 
-    >Add Timeslot</button
->
+<button onclick={toggleAddModal}>Add Timeslot</button>
 
-{#if showTestModal}
-    <Testmodal doClose={toggleTestModal} doSubmit={submitTestModal}/>
+{#if showAddModal}
+    <AddModal doClose={toggleAddModal} doSubmit={submitAddModal}/>
 {/if}
 
 

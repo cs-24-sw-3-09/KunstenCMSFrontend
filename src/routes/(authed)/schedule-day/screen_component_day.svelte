@@ -4,10 +4,6 @@ import Timeslot from "./timeslot_templet_day.svelte";
 let props = $props();
 
 </script>
-
-
-
-
   <div class="schedule-day-body-row">
     <div class="schedule-day-body-row-device">{props.device.name}</div>
     <div class="schedule-day-body-row-schema">
