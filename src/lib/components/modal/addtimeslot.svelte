@@ -42,33 +42,14 @@
         <form action="#" id="modal-form" onsubmit={doSubmit}>
             <div>
                 <p>From</p>
-                <Dateinput
-                    name={"DateFrom"}
-                    required="true"
-                    value=""
-                />
-                <InputTime
-                    name={"TimeFrom"}
-                    required="true"
-                    value=""
-
-                />
+                <Dateinput name={"DateFrom"} required="true" value="" />
+                <InputTime name={"TimeFrom"} required="true" />
             </div>
             <div>
                 <p>To</p>
-                <Dateinput
-                    name={"DateTo"}
-                    required="true"
-                    value=""
-                />
-                <InputTime
-                    name={"TimeTo"}
-                    required="true"
-                    value=""
-                />
-            </div>
-
-            
+                <Dateinput name={"DateTo"} required="true" />
+                <InputTime name={"TimeTo"} required="true" />
+            </div>            
 
             <div class="checkbox-container">
                 {#each Object.keys(days) as day}
@@ -85,36 +66,15 @@
 
             <Separator />
 
-            <Dropdown
-                title={"Slideshow"}
-                name={"dropdown1"}
-                options={["Option 1", "Option 2", "Option 3"]}
-                selected={"Option 1"}
-            />
-            <TextInput
-                title={"Timeslot Name"}
-                placeholder={"Type name here"}
-                name={"name"}
-                required="true"
-                value=""
-            />
-            
-            <MultiSelectDropdown/>
+            <Dropdown title={"Slideshow"} name={"dropdown1"} options={["Option 1", "Option 2", "Option 3"]} selected={"Option 1"} />
+
+            <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
 
             <Separator />
 
             <div class="modal-buttons">
-                <Button
-                    type="button"
-                    text="Cancel"
-                    doFunc={doClose}
-                    extra_class={"modal-button-close"}
-                />
-                <Button
-                    type="submit"
-                    text="Submit"
-                    extra_class={"modal-button-submit"}
-                />
+                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
+                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>
