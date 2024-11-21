@@ -26,8 +26,8 @@
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
             <p>{device.location ? device.location : "No location"}</p>
         </div>
-        <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
+        <button class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit} aria-label="Edit">
             <i class="fa-solid fa-pen-to-square"></i>
-        </div>
+        </button>
     </div>
 </div>

@@ -11,13 +11,6 @@
     import Separator from "$lib/components/modal/separator.svelte";
 </script>
 
-<svelte:head>
-    <script
-        src="https://kit.fontawesome.com/86cff0f4ad.js"
-        crossorigin="anonymous"
-    ></script>
-</svelte:head>
-
 <div class="modal">
     <div class="modal-content">
         <CloseX doFunc={doClose} />
