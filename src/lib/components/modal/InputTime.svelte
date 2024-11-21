@@ -1,6 +1,6 @@
 <script>
 
-let { title, placeholder, name, required, value } = $props();
+let {name, required, value } = $props();
 
 </script>
 
