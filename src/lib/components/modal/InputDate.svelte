@@ -1,18 +1,12 @@
 <script>
 
     // Declare variables for the date and time
-    let { type, id, name, value, label } = $props();
+    let { title, placeholder, name, required, value } = $props();
+
 
 
 </script>
 
-<div>
-    <p>From</p>
-    <label for={label}>Date:</label>
-    <input
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-    />
-</div>
+
+    <label for={name+"_id"}>Date:</label>
+    <input type="date" id={name+"_id"} name={name} placeholder={placeholder} required={required} value={value} />
