@@ -41,30 +41,28 @@
             <div>
                 <p>From</p>
                 <Dateinput
-                    title={"Test Text"}
                     name={"text1"}
                     required="true"
+                    value=""
                 />
                 <InputTime
-                    title={"Test Text"}
                     name={"text1"}
                     required="true"
+                    value=""
 
                 />
             </div>
             <div>
                 <p>To</p>
                 <Dateinput
-                    title={"Test Text"}
-                    placeholder={"Type your text here"}
                     name={"text1"}
                     required="true"
+                    value=""
                 />
                 <InputTime
-                    title={"Test Text"}
-                    placeholder={"Type your text here"}
                     name={"text1"}
                     required="true"
+                    value=""
                 />
             </div>
 
@@ -96,6 +94,7 @@
                 placeholder={"Type name here"}
                 name={"name"}
                 required="true"
+                value=""
             />
 
             <Separator />
