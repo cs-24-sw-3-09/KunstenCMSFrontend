@@ -50,7 +50,7 @@
         // TODO
 
         console.log("Device added:");
-        console.log(data);
+        console.log(...data);
     }
 
     function editDevice(event) {
@@ -61,7 +61,7 @@
         // TODO
 
         console.log("Device edited:");
-        console.log(data);
+        console.log(...data);
     }
 </script>
 
