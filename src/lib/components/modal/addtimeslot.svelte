@@ -7,15 +7,10 @@
         Thu: false,
         Fri: false,
         Sat: false,
-        Sun: false
+        Sun: false,
     };
 
     // Function to log checked days
-    
-
-
-    
-
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -27,24 +22,8 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
-
-    let addtimeslotform = $state({
-        selectedDateFrom: "",
-        selectedTimeFrom: "",
-        selectedDateTo: "",
-        selectedTimeTo: "",
-        TimeSlotName: ""
-    });
-
-
-    function logSelections() {
-        console.log("From Date:", addtimeslotform.selectedDateFrom);
-        console.log("From Time:", addtimeslotform.selectedTimeFrom);
-        console.log("To Date:", addtimeslotform.selectedDateTo);
-        console.log("To Time:", addtimeslotform.selectedTimeTo);
-        console.log("Name:", addtimeslotform.TimeSlotName);
-    }
-
+    import Timeinput from "$lib/components/modal/InputTime.svelte";
+    import InputTime from "./InputTime.svelte";
 </script>
 
 <svelte:head>
@@ -59,30 +38,80 @@
         <CloseX doFunc={doClose} />
         <Header text="Create Timeslot" />
         <form action="#" id="modal-form" onsubmit={doSubmit}>
+            <div>
+                <p>From</p>
+                <Dateinput
+                    title={"Test Text"}
+                    name={"text1"}
+                    required="true"
+                />
+                <InputTime
+                    title={"Test Text"}
+                    name={"text1"}
+                    required="true"
 
-            <Dateinput {addtimeslotform} />
+                />
+            </div>
+            <div>
+                <p>To</p>
+                <Dateinput
+                    title={"Test Text"}
+                    placeholder={"Type your text here"}
+                    name={"text1"}
+                    required="true"
+                />
+                <InputTime
+                    title={"Test Text"}
+                    placeholder={"Type your text here"}
+                    name={"text1"}
+                    required="true"
+                />
+            </div>
+
+            
 
             <div class="checkbox-container">
                 {#each Object.keys(days) as day}
                     <div class="checkbox-item">
                         <p>{day}</p>
                         <input
-                            type="checkbox" name={day}
-                            bind:checked={days[day]} />
+                            type="checkbox"
+                            name={day}
+                            bind:checked={days[day]}
+                        />
                     </div>
                 {/each}
             </div>
 
-            <Separator/>
+            <Separator />
 
-            <Dropdown title={"Slideshow"} name={"dropdown1"} options={["Option 1", "Option 2", "Option 3"]} selected={"Option 1"} />
-            <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
-            
-            <Separator/>
+            <Dropdown
+                title={"Slideshow"}
+                name={"dropdown1"}
+                options={["Option 1", "Option 2", "Option 3"]}
+                selected={"Option 1"}
+            />
+            <TextInput
+                title={"Timeslot Name"}
+                placeholder={"Type name here"}
+                name={"name"}
+                required="true"
+            />
+
+            <Separator />
 
             <div class="modal-buttons">
-                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    type="submit"
+                    text="Submit"
+                    extra_class={"modal-button-submit"}
+                />
             </div>
         </form>
     </div>
