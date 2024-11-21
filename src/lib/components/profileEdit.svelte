@@ -1,3 +1,7 @@
+<!-- 
+    TODO: Add functionality for edit profile
+ -->
+
 <script>
     let { profileData, doEditProfile, doChangePassword} = $props();
 </script>
