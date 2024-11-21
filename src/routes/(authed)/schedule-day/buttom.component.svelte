@@ -18,7 +18,7 @@
 
 </script>
 
-<button onclick={toggleTestModal} class="gallery-header-upload-button"
+<button onclick={toggleTestModal} 
     >Add Timeslot</button
 >
 
@@ -26,10 +26,6 @@
     <Testmodal doClose={toggleTestModal} doSubmit={submitTestModal}/>
 {/if}
 
-<style>
-    @import "$lib/styles/page.css";
-    @import "$lib/styles/tooptip.css";
-</style>
 
 
 

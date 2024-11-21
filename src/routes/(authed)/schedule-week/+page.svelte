@@ -1,8 +1,6 @@
 <script>
-
-
-import Header from "./header_component.svelte"
-import Screen from "./screen_component.svelte"
+    import Header from "./header_component.svelte";
+    import Screen from "./screen_component.svelte";
 
     let data = [
         {
@@ -24,7 +22,7 @@ import Screen from "./screen_component.svelte"
                         endTime: "19:00",
                         size: "schedule-size-3",
                         id: 1,
-                    }
+                    },
                 ],
                 [
                     {
@@ -62,7 +60,7 @@ import Screen from "./screen_component.svelte"
                         endTime: "19:00",
                         size: "schedule-size-3",
                         id: 1,
-                    }
+                    },
                 ],
                 [
                     {
@@ -80,25 +78,21 @@ import Screen from "./screen_component.svelte"
                 [],
                 [],
             ],
-        }
-    ]
-
+        },
+    ];
 </script>
 
-
-    <div class="grid-container">
-      <div class="main-content">
+<div class="main-content">
+    <div>
         <div class="schedule-week">
-            <Header/>
+            <Header />
             {#each data as device}
-                <Screen {device}/> 
-            {/each} 
-
-             </div>
-      </div>
+                <Screen {device} />
+            {/each}
+        </div>
     </div>
+</div>
 
-
- <style>
-    @import "./page.css";
+<style>
+    @import "$lib/styles/schedule_week.css";
 </style>
