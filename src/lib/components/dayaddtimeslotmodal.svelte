@@ -19,29 +19,17 @@
     let slideshows = ["slideshow_id1", "slideshow_id2", "slideshow_id3", "slideshow_id4" ];
 
     // Function to log checked days
-
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import Smallheader from "$lib/components/modal/smallheader.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
-    import Numberinput from "$lib/components/modal/numberinput.svelte";
     import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
-    import Timeinput from "$lib/components/modal/InputTime.svelte";
-    import InputTime from "./InputTime.svelte";
-    import Multidropdown from "./multiSelectDropdown.svelte"
-    import MultiSelectDropdown from "./multiSelectDropdown.svelte";
+    import InputTime from "./modal/InputTime.svelte";
 </script>
-
-<svelte:head>
-    <script
-        src="https://kit.fontawesome.com/86cff0f4ad.js"
-        crossorigin="anonymous"
-    ></script>
-</svelte:head>
 
 <div class="modal">
     <div class="modal-content">
