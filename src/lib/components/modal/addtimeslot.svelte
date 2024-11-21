@@ -10,6 +10,14 @@
         Sun: false,
     };
 
+    let display_devices = {
+        Display1: "Reception Left",
+        Display2: "Reception Right",
+        Display3: "Reception Middle"
+    }
+
+    let slideshows = ["slideshow_id1", "slideshow_id2", "slideshow_id3", "slideshow_id4" ];
+
     // Function to log checked days
 
     import CloseX from "$lib/components/modal/closex.svelte";
@@ -54,21 +62,25 @@
             <div class="checkbox-container">
                 {#each Object.keys(days) as day}
                     <div class="checkbox-item">
-                        <p>{day}</p>
-                        <input
-                            type="checkbox"
-                            name={day}
-                            bind:checked={days[day]}
-                        />
+                        <Smallheader text= {day}/>
+                        <Checkbox name= {day}/>
                     </div>
                 {/each}
             </div>
 
             <Separator />
 
-            <Dropdown title={"Slideshow"} name={"dropdown1"} options={["Option 1", "Option 2", "Option 3"]} selected={"Option 1"} />
-
             <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
+
+            <Dropdown title={"Slideshow"} name={"dropdown1"} options={slideshows} selected={"Option 1"} />
+            <div class="checkbox-container">
+                {#each Object.keys(display_devices) as display}
+                    <div class="checkbox-item">
+                        <Smallheader text= {display}/>
+                        <Checkbox name= {display}/>
+                    </div>
+                {/each}
+            </div>
 
             <Separator />
 
