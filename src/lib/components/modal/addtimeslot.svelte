@@ -24,6 +24,8 @@
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import Timeinput from "$lib/components/modal/InputTime.svelte";
     import InputTime from "./InputTime.svelte";
+    import Multidropdown from "./multiSelectDropdown.svelte"
+    import MultiSelectDropdown from "./multiSelectDropdown.svelte";
 </script>
 
 <svelte:head>
@@ -41,12 +43,12 @@
             <div>
                 <p>From</p>
                 <Dateinput
-                    name={"text1"}
+                    name={"DateFrom"}
                     required="true"
                     value=""
                 />
                 <InputTime
-                    name={"text1"}
+                    name={"TimeFrom"}
                     required="true"
                     value=""
 
@@ -55,12 +57,12 @@
             <div>
                 <p>To</p>
                 <Dateinput
-                    name={"text1"}
+                    name={"DateTo"}
                     required="true"
                     value=""
                 />
                 <InputTime
-                    name={"text1"}
+                    name={"TimeTo"}
                     required="true"
                     value=""
                 />
@@ -96,6 +98,8 @@
                 required="true"
                 value=""
             />
+            
+            <MultiSelectDropdown/>
 
             <Separator />
 
