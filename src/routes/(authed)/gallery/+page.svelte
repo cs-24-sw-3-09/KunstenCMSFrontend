@@ -1,0 +1,1 @@
+<div>Hello from gallery/+page.svelte</div>
