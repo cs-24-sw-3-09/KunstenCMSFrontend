@@ -2,6 +2,6 @@
     let { doFunc } = $props();
 </script>
 
-<button class="modal-close" onclick={doFunc} aria-label="Close">
+<div class="modal-close" onclick={doFunc}>
     <i class="fa-solid fa-x"></i>
-</button>
+</div>
