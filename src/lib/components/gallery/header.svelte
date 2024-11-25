@@ -8,11 +8,12 @@
 
     <div class="gallery-header-tag-search-container">
         <input type="text" class="gallery-header-tag-input" placeholder="search tag..." value={searchTags} oninput={searchTagsUpdate} />
+        <!-- TODO: make work as dropdown? -->
         <!-- <div class="gallery-header-tag-icon">
             <i class="fa-solid fa-chevron-down"></i>
         </div> -->
     </div>
-
+    <!-- TODO: make? -->
     <!-- <div class="gallery-header-advanced">
         Advanced filter
         <i class="fa-solid fa-chevron-down"></i>

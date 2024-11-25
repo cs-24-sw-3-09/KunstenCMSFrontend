@@ -14,15 +14,6 @@
             <Item item={item} doDelete={() => (doDelete(item))} doToggleEditModal={() => (doToggleEditModal(item))} doToggleItemModal={() => (doToggleItemModal(item))} />
         {/each}
     </div>
-
-    <!-- replace image for gallery item -->
-    <!-- <input
-      type="file"
-      accept="image/*"
-      name="image"
-      id="input-replace-image"
-      style="display: none"
-    /> -->
 </div>
 
 <style>

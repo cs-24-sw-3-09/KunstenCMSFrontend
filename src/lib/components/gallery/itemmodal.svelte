@@ -40,6 +40,7 @@
                             </div>
                         {/each}
                         <div class="gallery-add-tag-button">
+                            <!-- TODO: make lige in prototype -->
                             <!-- <p>Add tag</p> -->
                             <!-- <input placeholder="Enter Tag" hidden="" /> -->
                             <input type="text" placeholder="Enter New Tag" id="newtagid" />

@@ -158,7 +158,6 @@
 
         console.log("New item submitted:");
         console.log(data);
-
     }
 
     function doSubmitEdit(event) {
@@ -166,7 +165,6 @@
         const form = event.target;
         const data = new FormData(form);
         
-
         console.log("Edit item submitted:");
         console.log(data);
     }
@@ -199,13 +197,22 @@
 </div>
 
 {#if showItemModal}
-    <ItemModal item={focusItem} doClose={doToggleItemModal} onTagSubmit={doSubmitTag} onTagDelete={doDeleteTag} />
+    <ItemModal 
+        item={focusItem} 
+        doClose={doToggleItemModal} 
+        onTagSubmit={doSubmitTag} 
+        onTagDelete={doDeleteTag} />
 {/if}
 {#if showNewModal}
-    <NewModal doClose={doToggleNewModal} doSubmit={doSubmitNew} />
+    <NewModal 
+        doClose={doToggleNewModal} 
+        doSubmit={doSubmitNew} />
 {/if}
 {#if showEditModal}
-    <EditModal item={focusItem} doClose={doToggleEditModal} doSubmit={doSubmitEdit} />
+    <EditModal 
+        item={focusItem} 
+        doClose={doToggleEditModal} 
+        doSubmit={doSubmitEdit} />
 {/if}
 
 
