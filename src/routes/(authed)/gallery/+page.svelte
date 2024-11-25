@@ -1,5 +1,8 @@
 <script>
     import Gallery from "$lib/components/gallery/gallery.svelte";
+    import ItemModal from "$lib/components/gallery/itemmodal.svelte";
+    import NewModal from "$lib/components/gallery/newmodal.svelte";
+    import EditModal from "$lib/components/gallery/editmodal.svelte";
     
     // mock data
     let data = $state([
@@ -72,26 +75,26 @@
     }
 
     function doToggleItemModal(item) {
+        focusItem = item;
         showEditModal = false;
         showNewModal = false;
         showItemModal = !showItemModal;
-        focusItem = item;
         console.log("showItemModal: ", showItemModal);
     }
 
     function doToggleNewModal() {
+        focusItem = {};
         showEditModal = false;
         showItemModal = false;
         showNewModal = !showNewModal;
-        focusItem = {};
         console.log("showNewModal: ", showNewModal);
     }
 
     function doToggleEditModal(item) {
+        focusItem = item;
         showItemModal = false;
         showNewModal = false;
         showEditModal = !showEditModal;
-        focusItem = item;
         console.log("showEditModal: ", showEditModal);
     }
 
@@ -101,6 +104,36 @@
             console.log("delete:", item);
         }
     }
+
+    function doSubmitNew(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+
+        console.log("New item submitted:");
+        console.log(data);
+
+    }
+
+    function doSubmitEdit(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+        
+
+        console.log("Edit item submitted:");
+        console.log(data);
+    }
+
+    function doSubmitTag(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+
+        console.log("Tag submitted:");
+        console.log(data);
+    }
+
 </script>
 
 <div class="main-content">
@@ -120,13 +153,13 @@
 </div>
 
 {#if showItemModal}
-    <h1>Helllooo</h1>
+    <ItemModal item={focusItem} doClose={doToggleItemModal} onTagSubmit={doSubmitTag} />
 {/if}
 {#if showNewModal}
-    <h1>Hollaaa</h1>
+    <NewModal doClose={doToggleNewModal} doSubmit={doSubmitNew} />
 {/if}
 {#if showEditModal}
-    <h1>Heeeeeello</h1>
+    <EditModal item={focusItem} doClose={doToggleEditModal} doSubmit={doSubmitEdit} />
 {/if}
 
 
