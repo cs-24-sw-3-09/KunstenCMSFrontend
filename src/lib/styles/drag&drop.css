@@ -1,0 +1,29 @@
+/* The outer container */
+.slideshows-dnd-container {
+    position: relative; /* Necessary for child positioning */
+    overflow: hidden; /* Prevents items from escaping */
+    max-width: 100%; /* Ensure it fits within layout */
+    height: 400px; /* Set a height constraint */
+    border: 1px solid #ccc; /* Optional: for debugging */
+    background: #f9f9f9; /* Optional: visual debugging */
+  }
+  
+  /* Drag-and-drop zone */
+  .slideshows-dnd-zone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Individual draggable items */
+  .slideshows-dnd-zone > * {
+    position: relative;
+    cursor: grab;
+    user-select: none; /* Prevent text selection during dragging */
+  }
+  
+  .slideshows-dnd-zone > *:active {
+    cursor: grabbing;
+  }
+  
