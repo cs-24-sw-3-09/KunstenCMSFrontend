@@ -29,7 +29,11 @@
             <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"email"} required="true" value={user.email} />
             
             <Separator />
+            
+            <TextInput title={"Change Password"} placeholder={"Password here"} name={"password"} />
 
+            <Separator />
+            
             <Checkbox title={"Receive Notifications"} name={"notificationState"} checked={user.notificationState ? "checked" : ""} />
             
             <Separator />
