@@ -10,7 +10,9 @@
       <div class="gallery-item-preview">
         <img src={item.image} alt="gallery-item-preview" />
       </div>
-      <div class="gallery-dot tooltippable tooltipText-Active gallery-green-dot" ></div>
+      <div class="gallery-dot tooltippable tooltipText-Active gallery-{
+        item.status === "used" ? "red" : item.status === "planned" ? "yellow" : "green"
+      }-dot" ></div>
       <div class="gallery-item-info">
         <div class="gallery-item-left-top">
           <div class="gallery-item-title">{item.name}</div>

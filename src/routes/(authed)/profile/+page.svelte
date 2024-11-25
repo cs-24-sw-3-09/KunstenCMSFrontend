@@ -1,9 +1,9 @@
 <script>
-    import ProfileInfo from "$lib/components/profileInfo.svelte";
-    import ProfileEdit from "$lib/components/profileEdit.svelte";
-    import ProfileNotis from "$lib/components/ProfileNotis.svelte";
-    import EditModal from "$lib/components/profileEditModal.svelte";
-    import PasswordModal from "$lib/components/profilePasswordModal.svelte";
+    import ProfileInfo from "$lib/components/profile/info.svelte";
+    import ProfileEdit from "$lib/components/profile/edit.svelte";
+    import ProfileNotis from "$lib/components/profile/notis.svelte";
+    import EditModal from "$lib/components/profile/editmodal.svelte";
+    import PasswordModal from "$lib/components/profile/passwordmodal.svelte";
 
     import { testUser } from "$lib/testdata.js";
 

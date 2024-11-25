@@ -24,7 +24,7 @@
 }
 
 .gallery-header-upload-button {
-    width: 100px;
+    width: 120px;
     border: 1px solid black;
     height: 32px;
     background-color: rgb(59, 59, 59);
@@ -178,6 +178,7 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
+    color: rgb(39, 39, 39);
 }
 
 .gallery-item-edit-button:hover,
