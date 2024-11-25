@@ -1,0 +1,375 @@
+.gallery {}
+
+.gallery-header {
+    border-bottom: 1px solid rgb(182, 182, 182);
+    max-width: 100%;
+    height: 50px;
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    gap: 12px;
+    background-color: white;
+    z-index: 1;
+}
+
+.gallery-header-input {
+    width: 50%;
+    padding: 0 8px;
+    height: 32px;
+    border: 1px solid black;
+}
+
+.gallery-header-upload-button {
+    width: 100px;
+    border: 1px solid black;
+    height: 32px;
+    background-color: rgb(59, 59, 59);
+    color: white;
+    cursor: pointer;
+}
+
+.gallery-header-tag-search-container {
+    display: flex;
+}
+
+.gallery-header-tag-search-container input {
+    width: 100%;
+    padding: 0 8px;
+    height: 32px;
+    border: 1px solid black;
+}
+
+.gallery-header-tag-icon {
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.gallery-header-advanced {
+    display: flex;
+    gap: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+.gallery-list {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    margin: 8px 12px;
+}
+
+.gallery-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(241, 241, 241);
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gallery-item:not(:has(.gallery-item-tag:hover)):not( :has(.gallery-item-buttons:hover)):hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.gallery-item-left {
+    position: relative;
+    display: flex;
+}
+
+.gallery-item-preview {
+    width: 160px;
+    min-width: 160px;
+    height: 90px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.gallery-item-preview img {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.gallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 88px;
+    position: absolute;
+    left: 172px;
+    top: 4px;
+}
+
+.gallery-green-dot {
+    background-color: green;
+}
+
+.gallery-yellow-dot {
+    background-color: rgb(255, 187, 0);
+}
+
+.gallery-red-dot {
+    background-color: rgb(206, 0, 0);
+}
+
+.gallery-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.gallery-item-title {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.gallery-item-description {
+    color: rgb(83, 83, 83);
+}
+
+.gallery-item-tags {
+    display: flex;
+    gap: 12px;
+}
+
+.gallery-item-tag {
+    background-color: rgb(88, 88, 88);
+    padding: 4px 7px;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
+.gallery-item-tag:hover {
+    background-color: rgb(100, 100, 100);
+}
+
+.gallery-item-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.gallery-item-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.gallery-item-delete-button,
+.gallery-item-edit-button,
+.gallery-item-replace-button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.gallery-item-edit-button:hover,
+.gallery-item-delete-button:hover,
+.gallery-item-replace-button:hover {
+    color: rgb(39, 39, 39);
+}
+
+.gallery-item-date {
+    font-size: 12px;
+    color: rgb(158, 158, 158);
+    text-align: end;
+}
+
+/* Gallery modal*/
+
+.gallery-modal {
+    display: block;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 3;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+.gallery-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    width: 75%;
+    position: relative;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-modal-img-container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.gallery-modal-image {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.gallery-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.gallery-modal-info {
+    display: flex;
+    background-color: rgb(245, 245, 245);
+    padding: 8px;
+    flex: 1;
+    gap: 20px;
+}
+
+.gallery-modal-content-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-modal-title {
+    font-size: 20px;
+    flex: 1;
+    margin-bottom: 4px;
+}
+
+.gallery-modal-description {
+    color: rgb(83, 83, 83);
+    flex: 1;
+}
+
+.gallery-modal-dates {
+    flex: 3;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    flex-direction: column;
+}
+
+.gallery-modal-content-mid {
+    width: 250px;
+}
+
+.gallery-content-mid-title,
+.gallery-content-right-title {
+    font-size: 12px;
+}
+
+.gallery-content-mid-list {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.gallery-content-mid-list div {
+    background-color: rgb(0, 0, 0);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px 7px;
+    transition: all 0.05s;
+    color: white;
+}
+
+.gallery-content-mid-list div:hover {
+    background-color: rgb(44, 44, 44);
+}
+
+.gallery-modal-content-right {
+    width: 250px;
+    position: relative;
+}
+
+.gallery-modal-tags {
+    display: flex;
+    margin-top: 8px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.gallery-modal-tag {
+    font-size: 12px;
+    background-color: rgb(88, 88, 88);
+    color: white;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding-left: 7px;
+    overflow: hidden;
+}
+
+.gallery-modal-tag i {
+    background-color: rgb(71, 71, 71);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 22px;
+    justify-content: center;
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+.gallery-add-tag-button {
+    font-size: 12px;
+    background-color: rgb(24, 33, 160);
+    color: white;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding-left: 7px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-add-tag-button i {
+    background-color: rgb(42, 51, 170);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 22px;
+    justify-content: center;
+    margin-left: 7px;
+}
+
+.gallery-add-tag-button input {
+    background: none;
+    color: white;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    width: auto;
+}
+
+.gallery-add-tag-button input::placeholder {
+    color: rgb(198, 198, 198);
+}
