@@ -86,6 +86,7 @@
 .gallery-item-left {
     position: relative;
     display: flex;
+    width: 100%;
 }
 
 .gallery-item-preview {
