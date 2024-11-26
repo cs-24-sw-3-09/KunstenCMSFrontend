@@ -38,7 +38,7 @@
                     }
                 }
             ]
-        }
+        },
     ],
     "pageable": {
         "pageNumber": 0,

@@ -2,13 +2,21 @@
     let props = $props();
 
     let content = props.content;
-
-    console.log(content);
-
     let status = "flex";
 
-    
+  
+
+
+
 </script>
+
+<!---
+<ul bind:this={listElement}>
+    {#each items as item}
+      <li>{item.id}</li>
+    {/each}
+  </ul>
+  -->
 
 <div class="slideshows-item-body">
     <div class="slideshows-body-line"></div>
