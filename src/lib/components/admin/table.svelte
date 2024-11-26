@@ -40,13 +40,9 @@
                         if (!confirmation) return cancel();
                         
                         // `formData` is its `FormData` object that's about to be submitted
-                        formData.set("id", user.id);
-                        formData.set("firstName", user.firstName);
-                        formData.set("lastName", user.lastName);
-                        formData.set("email", user.email);
-                        formData.set("notificationState", user.notificationState ? "on" : "off");
-                        formData.set("mediaPlanner", user.mediaPlanner ? "on" : "off");
-                        formData.set("admin", user.admin ? "on" : "off");
+                        for (const key in user) {
+                            formData.set(key, user[key]);
+                        }
                     }}>
                         <Button type="submit" text={"Delete"}/>
                     </form>

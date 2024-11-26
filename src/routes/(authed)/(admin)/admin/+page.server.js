@@ -1,5 +1,5 @@
 
-import { fail, redirect } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 
 // Actions:
 // - New User
@@ -99,46 +99,4 @@ export const actions = {
         
         return { success: true };
     },
-
-
-	/* login : async ({ cookies, url, request }) => {
-		const formData = await request.formData();
-		console.log(formData);
-
-		const email = formData.get("email");
-		console.log(email);
-
-		const password = formData.get("password");
-		console.log(password);
-
-		// Validate the email field
-        if (!email) {
-            return fail(400, { error: "Email is required." });
-        }
-
-		// Validate the password field
-        if (!password) {
-            return fail(400, { error: "Password is required." });
-        }
-
-		// Validate the email and password fields
-        if (!email || !password) {
-            return fail(400, { error: "Email and password are required." });
-        }
-
-
-
-		// Mock validate the email and password
-        if (email !== "admin@example.com" || password !== "password") {
-            return fail(400, { error: "Invalid email or password." });
-        }
-
-		console.log(Logging in: ${email});
-
-		// Respond with success
-        return { success: true };
-
-		//cookies.set("authToken", "true", { path: "/" });
-		//redirect(303, url.searchParams.get("redirectTo") ?? "/dashboard");
-	}, */
 };
