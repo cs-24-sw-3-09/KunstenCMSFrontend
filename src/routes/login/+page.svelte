@@ -12,7 +12,7 @@
 <div class="login-page">
     <div class="login-container">
         
-        <img class="login-icon" src={logo} alt="Logo" />
+        <img class="login-icon" src={logo} alt="Logo" onsubmit={sendData} />
         <h1 class="login-title">Kunsten</h1>
 
         <form method="post" action="?/login" use:enhance>
@@ -28,9 +28,6 @@
             
         <a href="/forgot" class="login-forgot">Forgot password?</a>
     </div>
-    <form method="POST">
-        <button>log in</button>
-    </form>
 </div>
 
 
