@@ -44,7 +44,7 @@
     border: none;
 }
 
-#login-error {
+.login-error {
     color: red;
     font-size: 15px;
     font-weight: 600;

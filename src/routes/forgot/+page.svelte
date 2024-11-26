@@ -15,21 +15,23 @@
         <img class="login-icon" src={logo} alt="Logo" />
         <h1 class="login-title">Kunsten</h1>
 
-        <form method="post" action="?/login" use:enhance>
+        <form method="post" action="?/resetPassword" use:enhance>
             <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Password" required />
+
+            {#if form?.success}
+                <p>Reset password link sent if account exists.</p>
+            {/if}
 
             {#if form?.error}
                 <p class="login-error">{form.error}</p>
             {/if}
 
-            <button type="submit" class="login-submit">Log In</button>
+            <button type="submit" class="login-submit">Reset Password</button>
         </form>
             
-        <a href="/forgot" class="login-forgot">Forgot password?</a>
+        <a href="/login" class="login-forgot">Back to Log In</a>
     </div>
 </div>
-
 
 <style>
     @import "$lib/styles/login.css";
