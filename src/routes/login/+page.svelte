@@ -65,7 +65,7 @@
 
             <button onclick={sendData} type="submit" class="login-submit">Log In</button>
             
-            <a href="/html/forgot.html" class="login-forgot">Forgot password?</a>
+            <a href="/recover" class="login-forgot">Forgot password?</a>
         </form>
     </div>
     <form method="POST">
