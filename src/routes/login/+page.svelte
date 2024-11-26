@@ -32,10 +32,19 @@
         }
     } */
 
-    function sendData() {
+    function sendData(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+        const email = data.get("email").toString();
+        const password = data.get("password").toString();
+
+        if (email === "" | password === "") {
+            return;
+        }
+
         console.log("Sending data");
         console.log(email, password);
-        // TODO: Send data to server
     }
 
     //TODO: Make this function when token are made in backend..
@@ -51,7 +60,7 @@
 <div class="login-page">
     <div class="login-container">
         
-        <img class="login-icon" src={logo} alt="Logo" />
+        <img class="login-icon" src={logo} alt="Logo" onsubmit={sendData} />
         <h1 class="login-title">Kunsten</h1>
         <form method="post">
             <input type="email" name="email" placeholder="Email" required />
@@ -63,14 +72,11 @@
                 </p>
             {/if}
 
-            <button onclick={sendData} type="submit" class="login-submit">Log In</button>
+            <button type="submit" class="login-submit">Log In</button>
             
             <a href="/recover" class="login-forgot">Forgot password?</a>
         </form>
     </div>
-    <form method="POST">
-        <button>log in</button>
-    </form>
 </div>
 
 
