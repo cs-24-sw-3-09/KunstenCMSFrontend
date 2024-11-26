@@ -28,7 +28,8 @@
         use:enhance={({ formData }) => {
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", user.id);
-
+            formData.set("oldData", JSON.stringify(user)); // Pass previous known user data to the action
+            
             return async ({ result }) => {
                 // `result` is an `ActionResult` object              
                 if (result.type === "success") {

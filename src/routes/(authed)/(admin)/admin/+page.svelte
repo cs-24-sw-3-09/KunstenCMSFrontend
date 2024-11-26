@@ -36,7 +36,7 @@
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
         </div>
-        <Table {usersData} onEdit={toggleEditUserModal} onDelete={deleteUser} />
+        <Table {usersData} onEdit={toggleEditUserModal} />
     </div>
 </div>
 {#if showNewUserModal}

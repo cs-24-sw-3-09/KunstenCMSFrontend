@@ -1,6 +1,6 @@
 <script>
     import Button from "$lib/components/Button.svelte";
-    let { usersData, onEdit, onDelete } = $props();
+    let { usersData, onEdit } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
