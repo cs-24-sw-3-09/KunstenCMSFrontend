@@ -1,6 +1,9 @@
 <script>
     import Button from "$lib/components/Button.svelte";
     let { usersData, onEdit, onDelete } = $props();
+
+    // Import the "enhance" function from the "form" module.
+    import { enhance } from '$app/forms';
 </script>
 
 <table>
@@ -30,8 +33,24 @@
                 </td>
                 <td>
                     <Button text={"Edit"} clickFunction={() => onEdit(user)} />
-                    <Button text={"Delete"} clickFunction={() => onDelete(user)}
-                    />
+                    <form action="?/deleteUser" method="post" use:enhance={({ formData, cancel }) => {
+                        let confirmation = confirm(
+                            "Are you sure you want to delete this user?",
+                        );
+                        if (!confirmation) return cancel();
+                        
+                        // `formData` is its `FormData` object that's about to be submitted
+                        formData.set("id", user.id);
+                        formData.set("firstName", user.firstName);
+                        formData.set("lastName", user.lastName);
+                        formData.set("email", user.email);
+                        formData.set("notificationState", user.notificationState ? "on" : "off");
+                        formData.set("mediaPlanner", user.mediaPlanner ? "on" : "off");
+                        formData.set("admin", user.admin ? "on" : "off");
+                    }}>
+                        <Button type="submit" text={"Delete"}/>
+                    </form>
+                    
                 </td>
             </tr>
         {/each}
