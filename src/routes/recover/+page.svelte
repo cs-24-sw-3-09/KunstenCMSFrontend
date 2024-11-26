@@ -24,7 +24,7 @@
         
         <img class="login-icon" src={logo} alt="Logo" />
         <h1 class="login-title">Kunsten</h1>
-        <form method="post">
+        <form method="post" onsubmit={sendData}>
             <input type="email" name="email" placeholder="Email" required />
 
             {#if showSend}
@@ -33,7 +33,7 @@
                 </p>
             {/if}
 
-            <button onclick={sendData} type="submit" class="login-submit">Reset Password</button>
+            <button type="submit" class="login-submit">Reset Password</button>
             
             <a href="/login" class="login-forgot">Back to Log In</a>
         </form>
