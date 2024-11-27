@@ -291,7 +291,7 @@ export let testUsers = [
     }
 ]
 
-export let testVisualMedia = [
+/* export let testVisualMedia = [
     {
         id: 1,
         name: "Sunset Symphony",
@@ -392,9 +392,9 @@ export let testVisualMedia = [
         slideshows: ["Thoughtscapes 2024", "Abstract Ideas 2023"],
         status: "used",
     }
-];
+]; */
 
-/* [
+export let testVisualMedia = [
     {
         id: 1,
         name: "Sunset Symphony",
@@ -406,7 +406,8 @@ export let testVisualMedia = [
             { id: 1, text: "art" },
             { id: 2, text: "painting" },
             { id: 3, text: "seascape" }
-        ]
+        ],
+        status: "available",
     },
     {
         id: 2,
@@ -419,7 +420,8 @@ export let testVisualMedia = [
             { id: 4, text: "art" },
             { id: 5, text: "sculpture" },
             { id: 6, text: "modern" }
-        ]
+        ],
+        status: "planned",
     },
     {
         id: 3,
@@ -432,7 +434,8 @@ export let testVisualMedia = [
             { id: 7, text: "art" },
             { id: 8, text: "photography" },
             { id: 9, text: "landscape" }
-        ]
+        ],
+        status: "used",
     },
     {
         id: 4,
@@ -445,7 +448,8 @@ export let testVisualMedia = [
             { id: 10, text: "art" },
             { id: 11, text: "drawing" },
             { id: 12, text: "realism" }
-        ]
+        ],
+        status: "available",
     },
     {
         id: 5,
@@ -458,7 +462,8 @@ export let testVisualMedia = [
             { id: 13, text: "art" },
             { id: 14, text: "installation" },
             { id: 15, text: "conceptual" }
-        ]
+        ],
+        status: "planned",
     },
     {
         id: 6,
@@ -471,7 +476,8 @@ export let testVisualMedia = [
             { id: 16, text: "art" },
             { id: 17, text: "painting" },
             { id: 18, text: "abstract" }
-        ]
+        ],
+        status: "used",
     },
     {
         id: 7,
@@ -484,7 +490,8 @@ export let testVisualMedia = [
             { id: 19, text: "art" },
             { id: 20, text: "photography" },
             { id: 21, text: "monochrome" }
-        ]
+        ],
+        status: "planned",
     },
     {
         id: 8,
@@ -497,7 +504,8 @@ export let testVisualMedia = [
             { id: 22, text: "art" },
             { id: 23, text: "installation" },
             { id: 24, text: "kinetic" }
-        ]
+        ],
+        status: "available",
     },
     {
         id: 9,
@@ -510,7 +518,8 @@ export let testVisualMedia = [
             { id: 25, text: "art" },
             { id: 26, text: "mural" },
             { id: 27, text: "urban" }
-        ]
+        ],
+        status: "planned",
     },
     {
         id: 10,
@@ -523,6 +532,7 @@ export let testVisualMedia = [
             { id: 28, text: "art" },
             { id: 29, text: "painting" },
             { id: 30, text: "conceptual" }
-        ]
+        ],
+        status: "used",
     }
-]; */
+];

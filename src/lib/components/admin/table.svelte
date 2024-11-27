@@ -33,9 +33,11 @@
                 </td>
                 <td>
                     <Button text={"Edit"} clickFunction={() => onEdit(user)} />
-                    <form action="?/deleteUser" method="post" use:enhance={({ formData, cancel }) => {
+                    <form action="?/deleteUser" method="post" 
+                    use:enhance={({ formData, cancel }) => {
+                        // Causes svelte violation warning, because of holdup
                         let confirmation = confirm(
-                            "Are you sure you want to delete this user?",
+                            `Are you sure you want to delete "${user.firstName} ${user.lastName}"?`,
                         );
                         if (!confirmation) return cancel();
                         

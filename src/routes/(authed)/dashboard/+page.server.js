@@ -18,7 +18,7 @@ export const actions = {
             resolution: formData.get("width")+"x"+formData.get("height"),
         };
 
-        // Validate feilds
+        // Check feilds
         if (!data.name || !data.location || !data.model || !data.displayOrientation || !data.resolution) {
             return fail(400, { error: "All input fields are required." });
         }
@@ -26,7 +26,7 @@ export const actions = {
         // requestBody sendt for the post action
         let requestBody = data;
         
-        // Validate requestBody
+        // Check requestBody
         if (!(Object.keys(requestBody).length === 5)) {
             return fail(400, { error: "All input fields are required." });
         }
@@ -71,7 +71,7 @@ export const actions = {
         let requestBody = diff;
         requestBody.id = data.id;
 
-        // Validate requestBody
+        // Check requestBody
         if (!(Object.keys(requestBody).length > 1)) {
             return fail(400, { error: "At least one field needs to be changed." });
         }
