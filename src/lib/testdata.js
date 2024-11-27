@@ -18,7 +18,7 @@ export let testDevices = [
         location: "Reception",
         model: "Samsung",
         displayOrientation: "Horizontal",
-        resolution: null,
+        resolution: "1920x1080",
         connectedState: true,
         fallbackVisualMedia: {
             id: 67,
@@ -45,7 +45,7 @@ export let testDevices = [
         location: "Reception",
         model: "Samsung",
         displayOrientation: "Horizontal",
-        resolution: null,
+        resolution: "1920x1080",
         connectedState: true,
         fallbackVisualMedia: {
             id: 67,
@@ -293,6 +293,7 @@ export let testUsers = [
 
 export let testVisualMedia = [
     {
+        id: 1,
         name: "Sunset Symphony",
         description: "A captivating painting capturing the beauty of a sunset over the ocean.",
         tags: ["art", "painting", "seascape"],
@@ -302,6 +303,7 @@ export let testVisualMedia = [
         status: "available",
     },
     {
+        id: 2,
         name: "Eternal Form",
         description: "A modern sculpture showcasing the flow and continuity of life.",
         tags: ["art", "sculpture", "modern"],
@@ -311,6 +313,7 @@ export let testVisualMedia = [
         status: "planned",
     },
     {
+        id: 3,
         name: "Captured Horizon",
         description: "A serene photograph of rolling hills meeting the sky at dawn.",
         tags: ["art", "photography", "landscape"],
@@ -320,6 +323,7 @@ export let testVisualMedia = [
         status: "used",
     },
     {
+        id: 4,
         name: "Still Life, Vibrant Life",
         description: "An intricate drawing depicting vibrant fruits in a hyperrealistic style.",
         tags: ["art", "drawing", "realism"],
@@ -329,6 +333,7 @@ export let testVisualMedia = [
         status: "used",
     },
     {
+        id: 5,
         name: "Abstract Perception",
         description: "An installation challenging perceptions of space and color.",
         tags: ["art", "installation", "conceptual"],
@@ -338,6 +343,7 @@ export let testVisualMedia = [
         status: "planned",
     },
     {
+        id: 6,
         name: "Echoes of Time",
         description: "A painting exploring the interplay between history and memory.",
         tags: ["art", "painting", "abstract"],
@@ -347,6 +353,7 @@ export let testVisualMedia = [
         status: "used",
     },
     {
+        id: 7,
         name: "Light and Shadow",
         description: "A black-and-white photograph emphasizing dramatic contrasts.",
         tags: ["art", "photography", "monochrome"],
@@ -356,6 +363,7 @@ export let testVisualMedia = [
         status: "available",
     },
     {
+        id: 8,
         name: "Kinetic Whirl",
         description: "An installation featuring motion and dynamic light patterns.",
         tags: ["art", "installation", "kinetic"],
@@ -365,6 +373,7 @@ export let testVisualMedia = [
         status: "available",
     },
     {
+        id: 8,
         name: "Urban Canvas",
         description: "A mural depicting the vibrant culture of a bustling city.",
         tags: ["art", "mural", "urban"],
@@ -374,6 +383,7 @@ export let testVisualMedia = [
         status: "planned",
     },
     {
+        id: 9,
         name: "Reflections of the Mind",
         description: "A conceptual painting exploring the layers of human thought.",
         tags: ["art", "painting", "conceptual"],
@@ -383,3 +393,136 @@ export let testVisualMedia = [
         status: "used",
     }
 ];
+
+/* [
+    {
+        id: 1,
+        name: "Sunset Symphony",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A captivating painting capturing the beauty of a sunset over the ocean.",
+        lastDateModified: "2023-05-15",
+        tags: [
+            { id: 1, text: "art" },
+            { id: 2, text: "painting" },
+            { id: 3, text: "seascape" }
+        ]
+    },
+    {
+        id: 2,
+        name: "Eternal Form",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A modern sculpture showcasing the flow and continuity of life.",
+        lastDateModified: "2022-11-10",
+        tags: [
+            { id: 4, text: "art" },
+            { id: 5, text: "sculpture" },
+            { id: 6, text: "modern" }
+        ]
+    },
+    {
+        id: 3,
+        name: "Captured Horizon",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A serene photograph of rolling hills meeting the sky at dawn.",
+        lastDateModified: "2023-03-22",
+        tags: [
+            { id: 7, text: "art" },
+            { id: 8, text: "photography" },
+            { id: 9, text: "landscape" }
+        ]
+    },
+    {
+        id: 4,
+        name: "Still Life, Vibrant Life",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "An intricate drawing depicting vibrant fruits in a hyperrealistic style.",
+        lastDateModified: "2023-07-08",
+        tags: [
+            { id: 10, text: "art" },
+            { id: 11, text: "drawing" },
+            { id: 12, text: "realism" }
+        ]
+    },
+    {
+        id: 5,
+        name: "Abstract Perception",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "An installation challenging perceptions of space and color.",
+        lastDateModified: "2023-09-30",
+        tags: [
+            { id: 13, text: "art" },
+            { id: 14, text: "installation" },
+            { id: 15, text: "conceptual" }
+        ]
+    },
+    {
+        id: 6,
+        name: "Echoes of Time",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A painting exploring the interplay between history and memory.",
+        lastDateModified: "2023-02-18",
+        tags: [
+            { id: 16, text: "art" },
+            { id: 17, text: "painting" },
+            { id: 18, text: "abstract" }
+        ]
+    },
+    {
+        id: 7,
+        name: "Light and Shadow",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A black-and-white photograph emphasizing dramatic contrasts.",
+        lastDateModified: "2022-12-01",
+        tags: [
+            { id: 19, text: "art" },
+            { id: 20, text: "photography" },
+            { id: 21, text: "monochrome" }
+        ]
+    },
+    {
+        id: 8,
+        name: "Kinetic Whirl",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "An installation featuring motion and dynamic light patterns.",
+        lastDateModified: "2023-06-20",
+        tags: [
+            { id: 22, text: "art" },
+            { id: 23, text: "installation" },
+            { id: 24, text: "kinetic" }
+        ]
+    },
+    {
+        id: 9,
+        name: "Urban Canvas",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A mural depicting the vibrant culture of a bustling city.",
+        lastDateModified: "2023-08-12",
+        tags: [
+            { id: 25, text: "art" },
+            { id: 26, text: "mural" },
+            { id: 27, text: "urban" }
+        ]
+    },
+    {
+        id: 10,
+        name: "Reflections of the Mind",
+        location: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Faust_bei_der_Arbeit.JPG/1280px-Faust_bei_der_Arbeit.JPG",
+        fileType: "jpg",
+        description: "A conceptual painting exploring the layers of human thought.",
+        lastDateModified: "2023-04-25",
+        tags: [
+            { id: 28, text: "art" },
+            { id: 29, text: "painting" },
+            { id: 30, text: "conceptual" }
+        ]
+    }
+]; */

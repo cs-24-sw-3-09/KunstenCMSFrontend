@@ -1,15 +1,17 @@
 <script>
+    // Export form
+    let { form } = $props(); // Is automatically populated by SvelteKit
+
     /* Importing the components needed for the dashboard page */
     import Button from "$lib/components/button.svelte";
     import Dashboard from "$lib/components/dashboard/dashboard.svelte";
     import NewModal from "$lib/components/dashboard/newmodal.svelte";
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
-    import { testDevices } from "$lib/testdata.js";
-
     let devices = $state([]);
+    
+    import { testDevices } from "$lib/testdata.js";
     devices = testDevices;
-
     // Options for the fallback slideshow dropdown, TODO: Get this from the database
     let options = [
         "Event 2024",
@@ -28,41 +30,14 @@
 
     function toggleNewModal(device = deviceFocus) {
         deviceFocus = {};
-        console.log(deviceFocus);
         showNewModal = !showNewModal;
-        console.log("showNewModal:");
-        console.log(showNewModal);
     }
 
     function toggleEditModal(device = deviceFocus) {
         deviceFocus = device;
-        console.log(deviceFocus);
         showEditModal = !showEditModal;
-        console.log("showEditModal:");
-        console.log(showEditModal);
     }
 
-    function addDevice(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-
-        // TODO
-
-        console.log("Device added:");
-        console.log(data);
-    }
-
-    function editDevice(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-
-        // TODO
-
-        console.log("Device edited:");
-        console.log(data);
-    }
 </script>
 
 <div class="main-content">
@@ -75,14 +50,10 @@
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} doSubmit={addDevice} {options} />
+    <NewModal doClose={toggleNewModal} options={options} />
 {/if}
 {#if showEditModal}
-    <EditModal
-        doClose={toggleEditModal}
-        doSubmit={editDevice}
-        {options}
-        device={deviceFocus}
+    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus}
     />
 {/if}
 

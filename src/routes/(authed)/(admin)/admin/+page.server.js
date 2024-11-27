@@ -49,7 +49,7 @@ export const actions = {
         const formData = await request.formData();
         
         // Extract old data from the form data
-        const oldDataJson = formData.get("oldUser"); // Get serialized JSON
+        const oldDataJson = formData.get("oldData"); // Get serialized JSON
         const oldData = oldDataJson ? JSON.parse(oldDataJson) : null; // Parse back to an object
 
         // Checkboxes are sent as "on" or "off", so we need to convert them to booleans
