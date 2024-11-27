@@ -1,5 +1,13 @@
 <script>
-    let { doClose, doSubmit, options } = $props();
+        let { doClose, options } = $props();
+    
+    // Import the "enhance" function from the "form" module.
+    import { enhance } from '$app/forms';
+
+    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
+    function closeModal() {
+        doClose();
+    }
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -23,7 +31,16 @@
         <CloseX doFunc={doClose} />
         <Header text="New Device" />
         
-        <form action="#" id="modal-form" onsubmit={doSubmit}>
+        <form method="post" action="?/newDevice" 
+        use:enhance={({}) => {
+
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object              
+                if (result.type === "success") {
+                    closeModal(); // Call doClose on successful form submission
+                }
+            };
+        }}>
 
             <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" />
             <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" />

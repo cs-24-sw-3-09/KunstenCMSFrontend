@@ -1,9 +1,7 @@
 <script>
     import Card from "$lib/components/dashboard/card.svelte";
     
-
     let { devices, doEdit } = $props();
-    $inspect(devices);
 </script>
 
 <!-- <h1>Dashboard</h1> -->

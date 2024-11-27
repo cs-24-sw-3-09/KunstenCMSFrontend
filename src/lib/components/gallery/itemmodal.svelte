@@ -1,11 +1,12 @@
 <script>
     let { item, doClose, onTagSubmit, onTagDelete } = $props();
+    import { enhance } from '$app/forms'; 
 </script>
 
 <div class="gallery-modal">
     <div class="gallery-modal-content">
         <div class="gallery-modal-img-container">
-            <img src={item.image} class="gallery-modal-image" />
+            <img src={item.location} alt="Gallery Image" class="gallery-modal-image" />
         </div>
         <div class="gallery-modal-close" onclick={doClose}>
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -33,19 +34,40 @@
                 <div>
                     <div class="gallery-content-right-title">Media Tags:</div>
                     <div class="gallery-modal-tags">
+
                         {#each item.tags as tag}
-                            <div class="gallery-modal-tag">
-                                {tag}
-                                <i class="fa-solid fa-trash" aria-hidden="true" onclick={() => (onTagDelete(item, tag))}></i>
-                            </div>
+                            <form method="post" action="?/deleteTagFromVisualMedia" 
+                            use:enhance={({ formData }) => {
+                                // `formData` is its `FormData` object that's about to be submitted
+                                formData.set("id", item.id);
+                                formData.set("tag", tag);
+                            }}>
+                                <div class="gallery-modal-tag">
+                                    {tag.text}
+                                    <!-- Hacky way to make trashcan icon pressable and submit the form -->
+                                    <button type="submit" aria-label="Delete tag" style="all: unset;">
+                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </form>
                         {/each}
-                        <div class="gallery-add-tag-button">
-                            <!-- TODO: make lige in prototype -->
-                            <!-- <p>Add tag</p> -->
-                            <!-- <input placeholder="Enter Tag" hidden="" /> -->
-                            <input type="text" placeholder="Enter New Tag" id="newtagid" />
-                            <i class="fa-solid fa-plus" aria-hidden="true" onclick={() => (onTagSubmit(item, document.getElementById("newtagid").value))}></i>
-                        </div>
+
+                        <form method="post" action="?/addTagToVisualMedia" 
+                        use:enhance={({ formData }) => {
+                            // `formData` is its `FormData` object that's about to be submitted
+                            formData.set("id", item.id);
+                        }}>
+                            <div class="gallery-add-tag-button">
+                                <!-- TODO: make lige in prototype -->
+                                <!-- <p>Add tag</p> -->
+                                <!-- <input placeholder="Enter Tag" hidden="" /> -->
+                                <input type="text" placeholder="Enter New Tag" name="tag" />
+                                <button type="submit" aria-label="Add tag" style="all: unset;">
+                                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
