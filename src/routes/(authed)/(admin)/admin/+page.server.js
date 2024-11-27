@@ -21,15 +21,27 @@ export const actions = {
             admin: formData.get("admin") === "on" ? true : false,
         }
         
-		// Log the data for debugging
-        console.log("New User");
-        console.log(data);
-        
         // Validate feilds
         if (!data.firstName || !data.lastName || !data.email ) {
             return fail(400, { error: "All input fields are required." });
         }
 
+        // requestBody sendt for the post action
+        let requestBody = data;
+        
+        // Validate requestBody
+        if (!(Object.keys(requestBody).length === 6)) {
+            return fail(400, { error: "All input fields are required." });
+        }
+        
+        console.log("New User");
+        console.log("requestBody");
+        console.log(requestBody);
+        
+        // Send the request to the backend
+        /* TODO */
+        
+        
         return { success: true };
     },
 
@@ -59,22 +71,25 @@ export const actions = {
             }
         }
 
-        // requestData sendt for the patch action
-        let requestData = diff;
-        requestData.id = data.id;
+        // requestBody sendt for the patch action
+        let requestBody = diff;
+        requestBody.id = data.id;
 
-        console.log("requestData");
-        console.log(requestData);
-
-        if (Object.keys(diff).length > 0 && data.id) {
-            /* TODO: PATCH THE USER */
+        // Validate requestBody
+        if (!(Object.keys(requestBody).length > 1)) {
+            return fail(400, { error: "At least one field needs to be changed." });
         }
-
         
-
+        console.log("Edit User");
+        console.log("requestBody");
+        console.log(requestBody);
+        
+        // Send the request to the backend
+        /* TODO */
+        
         return { success: true };
     },
-
+    
     deleteUser : async ({ cookies, url, request }) => {
         const formData = await request.formData();
         // Checkboxes are sent as "on" or "off", so we need to convert them to booleans
@@ -89,13 +104,28 @@ export const actions = {
         }
         
 		// Log the data for debugging
-        console.log("Delete User");
         console.log(data);
         
         // Validate feilds
-        if (!data.firstName || !data.lastName || !data.email ) {
-            return fail(400, { error: "All input fields are required." });
+        if (!data.id) {
+            return fail(400, { error: "No id provided." });
         }
+        
+        // requestBody sendt for the delete action
+        let requestBody = {};
+        requestBody.id = data.id;
+        
+        console.log("Delete User");
+        console.log("requestBody");
+        console.log(requestBody)
+
+        // Validate requestBody
+        /* if (!(Object.keys(requestBody).length === 1)) {
+            return fail(400, { error: "Only the id field can be passed." });
+        } */
+
+        // Send the request to the backend
+        /* TODO */
         
         return { success: true };
     },
