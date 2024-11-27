@@ -67,34 +67,6 @@
         showNewModal = false;
         showEditModal = !showEditModal;
     }
-
-
-
-    function doDelete(item) {
-        let confirmation = alert("Delete item: " + item.name);
-        if (confirmation) {
-            console.log("delete:", item);
-        }
-    }
-
-    function doSubmitEdit(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-        
-        console.log("Edit item submitted:");
-        console.log(data);
-    }
-
-    function doSubmitTag(item, tag) {
-        console.log("Tag submitted to item:");
-        console.log(tag, item);
-    }
-
-    function doDeleteTag(item, tag) {
-        console.log("Tag deleted from item:");
-        console.log(tag, item);
-    }
 </script>
 
 <div class="main-content">
@@ -103,7 +75,6 @@
             items={filteredData}
             doToggleNewModal={doToggleNewModal}
             doToggleEditModal={doToggleEditModal}
-            doDelete={doDelete}
             doToggleItemModal={doToggleItemModal}
             searchTermUpdate={searchTermUpdate}
             searchTerm={searchTerm}
@@ -120,11 +91,7 @@
     <EditModal item={focusItem} doClose={doToggleEditModal} />
 {/if}
 {#if showItemModal}
-    <ItemModal 
-        item={focusItem} 
-        doClose={doToggleItemModal} 
-        onTagSubmit={doSubmitTag} 
-        onTagDelete={doDeleteTag} />
+    <ItemModal item={focusItem} doClose={doToggleItemModal} />
 {/if}
 
 <style>

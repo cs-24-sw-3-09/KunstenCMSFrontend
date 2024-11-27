@@ -4,7 +4,6 @@
     import { enhance } from '$app/forms';
 
     import Tag from "$lib/components/gallery/tag.svelte";
-
 </script>
 
 <div class="gallery-item">
