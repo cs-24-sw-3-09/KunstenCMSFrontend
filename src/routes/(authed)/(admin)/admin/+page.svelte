@@ -1,8 +1,8 @@
 <script>
-    import Button from "$lib/components/Button.svelte";
-    import Table from "$lib/components/adminTable.svelte";
-    import EditModal from "$lib/components/adminEditModal.svelte";
-    import NewModal from "$lib/components/adminNewModal.svelte";
+    import Button from "$lib/components/button.svelte";
+    import Table from "$lib/components/admin/table.svelte";
+    import EditModal from "$lib/components/admin/editmodal.svelte";
+    import NewModal from "$lib/components/admin/newmodal.svelte";
     import { testUsers } from "$lib/testdata.js";
 
     // Subscribe to the usersStore to get the users data

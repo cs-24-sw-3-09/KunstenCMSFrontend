@@ -1,0 +1,2 @@
+<label for="image">Choose an image</label>
+<input type="file" id="image" name="image" accept="image/*" />

@@ -1,5 +1,5 @@
 <script>
-    import Card from "$lib/components/card.svelte";
+    import Card from "$lib/components/dashboard/card.svelte";
     
 
     let { devices, doEdit } = $props();

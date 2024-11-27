@@ -1,9 +1,9 @@
 <script>
     /* Importing the components needed for the dashboard page */
-    import Dashboard from "$lib/components/dashboard.svelte";
     import Button from "$lib/components/button.svelte";
-    import NewModal from "$lib/components/dashboardNewModal.svelte";
-    import EditModal from "$lib/components/dashboardEditModal.svelte";
+    import Dashboard from "$lib/components/dashboard/dashboard.svelte";
+    import NewModal from "$lib/components/dashboard/newmodal.svelte";
+    import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     import { testDevices } from "$lib/testdata.js";
 
