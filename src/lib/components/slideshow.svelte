@@ -14,6 +14,7 @@
   let items = props.screen.visualMediaInclusionCollection;
   let listElement;
 
+
   onMount(() => {
     new Sortable(listElement, {
       animation: 150,
@@ -46,7 +47,7 @@
 </script>
 
 {#if showAddMediaModal}
-  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal}/>
+  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal} Item = {props.testVisualMedia}/>
 {/if}
 
 

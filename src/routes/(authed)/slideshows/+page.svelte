@@ -1,6 +1,9 @@
 <script>
     import Slideshow from "$lib/components/slideshow.svelte";
     import Header from "$lib/components/slideshowHeader.svelte";
+
+    import { testVisualMedia } from "$lib/testdata.js";
+
     let slideshows = [
         {
             content: [
@@ -117,6 +120,7 @@
         {#each slideshow.content as screen}
             <Slideshow
                 {screen}
+                {testVisualMedia}
                 on:update={(event) => updateState(event.detail)}
                 {selectedId}
             />
@@ -126,4 +130,5 @@
 
 <style>
     @import "$lib/styles/slideshow.css";
+    @import "$lib/styles/addMedia.css";
 </style>
