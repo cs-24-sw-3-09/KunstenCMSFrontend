@@ -1,7 +1,6 @@
 <script>
   let props = $props();
 
-
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -24,16 +23,44 @@
       },
     });
   });
+
+  import AddMedia from '$lib/components/addMediaModal.svelte';
+  
+  // svelte-ignore non_reactive_update
+    let showAddMediaModal = $state(false);
+
+  function toggleAddMediaModal() {
+      showAddMediaModal = !showAddMediaModal;
+  }
+
+  function submitAddMediaModal(event) {
+      console.log(event.target);
+      event.preventDefault();
+      let form = new FormData(event.target);
+      console.log(form.get("")
+      );
+
+  }
+
+  
 </script>
+
+{#if showAddMediaModal}
+  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal}/>
+{/if}
+
+
 
 <div class="slideshows-item active">
   <div class="slideshows-item-header">
-    <div class="slideshows-item-header-top">
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore event_directive_deprecated -->
+    <div class="slideshows-item-header-top" on:click={() => dispatch("update", props.screen.id)}>
       <div class="slideshows-item-header-left">
         <div class="slideshows-item-header-arrow">
-          <button on:click={() => dispatch("update", props.screen.id)}>
-            Click me: {props.screen.id}
-          </button>
+          <i class = "fa-soild slideshow-arrow fa-caret down" aria-hidden= "true">
+          </i>
         </div>
         <div
           class="slideshows-item-header-activity tooltippable tooltipText-Active"
@@ -74,8 +101,11 @@
           <Content {content} />
         {/each}
       </div>
-      <div class="slideshows-body-add">
-        <i class="fa-solid fa-plus"></i> Add Media
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <!-- svelte-ignore event_directive_deprecated -->
+      <div class="slideshows-body-add" on:click={toggleAddMediaModal}>
+        <i class="fa-solid fa-plus" ></i> Add Media
       </div>
     </div>
   </div>
