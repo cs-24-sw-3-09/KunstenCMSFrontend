@@ -2,7 +2,6 @@
     let props = $props();
 
     let content = props.content;
-    let status = "flex";
 
   
 
@@ -20,7 +19,7 @@
 
 <div class="slideshows-item-body">
     <div class="slideshows-body-line"></div>
-    <div class="slideshows-body-list" style="--theme-show: {status}">
+    <div class="slideshows-body-list">
         <div draggable="true" class="slideshows-body-item">
             <div class="slideshows-body-item-preview">
                 <img
@@ -58,19 +57,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .slideshows-body-list {
-        display: var(--theme-show);
-        gap: 4px;
-        flex-direction: column;
-    }
-
-    .timeslot {
-        color: rgb(22, 22, 22);
-        height: 100%;
-        background-color: var(--theme-bgcolor);
-        left: var(--theme-left);
-        width: var(--theme-right);
-    }
-</style>

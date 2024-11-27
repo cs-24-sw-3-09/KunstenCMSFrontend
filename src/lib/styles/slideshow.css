@@ -147,7 +147,6 @@
   }
   
   .slideshows-body-list {
-    display: none;
     gap: 4px;
     flex-direction: column;
   }
