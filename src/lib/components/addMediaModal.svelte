@@ -1,10 +1,13 @@
 <script>
-    let { doClose, doSubmit } = $props();
+    let { doClose, doSubmit, Item } = $props();
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
     import Button from "$lib/components/modal/button.svelte";
+    import MediaItem from "$lib/components/modal/mediaItem.svelte"
+
+    console.log(Item);
 </script>
 
 <svelte:head>
@@ -14,14 +17,22 @@
     ></script>
 </svelte:head>
 
-<div class="modal">
-    <div class="modal-content">
+<div class="add-media-modal active">
+    <div class="add-media-modal-content">
+
         <CloseX doFunc={doClose} />
         <Header text="Add new media" />
         
         <form action="#" id="modal-form" onsubmit={doSubmit}>
 
-            <TextInput title={"Name"} placeholder={"Name of slideshow"} name={"name"} required="true" />
+            <!-- <TextInput title={"Name"} placeholder={"Name of slideshow"} name={"name"} required="true" /> -->
+            
+            <div class="add-media-modal-list">
+                
+                {#each Item as item}
+                    <MediaItem item = {item}/>
+                {/each}
+            </div>
             
 
             <div class="modal-buttons">
@@ -34,4 +45,5 @@
 
 <style>
     @import "$lib/styles/modal.css";
+
 </style>
