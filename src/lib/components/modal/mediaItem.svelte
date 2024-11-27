@@ -1,15 +1,19 @@
 <script>
-    let { item, doToggleItemModal } = $props();
+    let { item, toggleAddMediaModal, selectedId } = $props();
+    console.log(selectedId);
 
     import Tag from "$lib/components/gallery/tag.svelte";
-
-    console.log(item);
-
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
     
+    
+    
+
+
 </script>
 
-<div class="gallery-item" on:click = {}>
-    <div class="gallery-item-left" onclick={doToggleItemModal}>
+<div class="gallery-item" style = "background: {selectedId == item.id ? "blue" : "lightblue"}" onclick={() => dispatch("update", item.id)}>
+    <div class="gallery-item-left" onclick={toggleAddMediaModal}>
         <div class="gallery-item-preview">
             <img src={item.location} alt="gallery-item-preview" />
         </div>
