@@ -1,5 +1,5 @@
 <script>
-    let { doClose, doSubmit, Item } = $props();
+    let { doClose, doSubmit, Item, searchTerm, searchTags, searchTermUpdate, searchTagsUpdate } = $props();
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -28,8 +28,10 @@
         <Header text="Add new media" />
 
         <form action="#" id="modal-form" onsubmit={doSubmit}>
-            <!-- <TextInput title={"Name"} placeholder={"Name of slideshow"} name={"name"} required="true" /> -->
-
+            <div class="add-media-modal-search" >
+             <input type="text" placeholder="Search for visual media" value={searchTerm} oninput={searchTermUpdate}/>
+             <input type="text" placeholder="Search for tags" value={searchTags} oninput={searchTagsUpdate}/>
+            </div>
             <div class="add-media-modal-list">
                 {#each Item as item}
                     <MediaItem item = {item}  selectedId = {selectedId} on:update={(event) => updateState(event.detail)} />

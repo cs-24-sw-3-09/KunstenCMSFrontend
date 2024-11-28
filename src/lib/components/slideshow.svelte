@@ -7,6 +7,7 @@
 
 
   import Content from "./slideshowcontent.svelte";
+  import AddMedia from '$lib/components/addMediaModal.svelte';
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -24,8 +25,6 @@
       },
     });
   });
-
-  import AddMedia from '$lib/components/addMediaModal.svelte';
   
   // svelte-ignore non_reactive_update
     let showAddMediaModal = $state(false);
@@ -43,13 +42,15 @@
 
   }
 
+
+
   
 
   
 </script>
 
 {#if showAddMediaModal}
-  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal} Item = {props.testVisualMedia}/>
+  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal} Item = {props.filteredData} searchTerm = {props.searchTerm} searchTags = {props.searchTags} searchTermUpdate = {props.searchTermUpdate} searchTagsUpdate = {props.searchTagsUpdate} />
 {/if}
 
 
@@ -59,8 +60,8 @@
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore event_directive_deprecated -->
-    <div class="slideshows-item-header-top" on:click={() => dispatch("update", props.screen.id)}>
-      <div class="slideshows-item-header-left">
+    <div class="slideshows-item-header-top" >
+      <div class="slideshows-item-header-left" on:click={() => dispatch("update", props.screen.id)}>
         <div class="slideshows-item-header-arrow">
           <i class = "fa-soild slideshow-arrow fa-caret down" aria-hidden= "true">
           </i>
@@ -73,8 +74,8 @@
         </div>
       </div>
       <div class="slideshows-item-header-right">
-        <div class="slideshows-item-header-action">
-          <i class="fa-solid fa-eye"></i>
+        <div class="slideshows-item-header-action" aria-hidden= "true">
+          <i class="fa-solid fa-eye" on:click={() => dispatch("focus", props.screen.id)}></i>
         </div>
         <div class="slideshows-item-header-action">
           <i class="fa-solid fa-box-archive"></i>

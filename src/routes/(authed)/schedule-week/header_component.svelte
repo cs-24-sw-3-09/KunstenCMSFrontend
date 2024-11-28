@@ -1,5 +1,8 @@
 <script>
 
+  import Buttom from "../schedule-day/buttom.component.svelte";
+import Button from "../schedule-day/buttom.component.svelte"
+
 let weekrange = '';
 let currentDay1 = new Date();
 
@@ -90,7 +93,10 @@ $: weekrange = getWeekRange(new Date(currentDay1))
   <div class="schedule-week-header-top">
     <div class="schedule-week-header-top-left">
       {weekrange}
+      <Buttom/>
     </div>
+
+    
     <div class="schedule-week-header-middle">
       <a
         href="/schedule-day"
@@ -99,34 +105,34 @@ $: weekrange = getWeekRange(new Date(currentDay1))
       >
     </div>
     <div class="schedule-week-header-top-right">
-      <button on:click={resetToCurrentWeek}>Today</button>
+      <button onclick={resetToCurrentWeek}>Today</button>
       <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button on:click={() => shiftWeek(-1)}><i class="arrow left"></i></button>
+      <button onclick={() => shiftWeek(-1)}><i class="arrow left"></i></button>
       <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button on:click={() => shiftWeek(1)}><i class="arrow right"></i></button>
+      <button onclick={() => shiftWeek(1)}><i class="arrow right"></i></button>
     </div>
   </div>
   <div class="schedule-week-header-bottom">
     <div class="schedule-week-header-devices">{isoWeekNumber}</div>
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek)}
       > {week[0]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 1)}
       >{week[1]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 2)}
       >{week[2]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 3)}
       >{week[3]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 4)}
       >{week[4]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 5)}
       >{week[5]}</a
     >
-    <a href="/html/schedule-day.html" class="schedule-week-header-day"
+    <a href="/schedule-day" class="schedule-week-header-day" onclick={() => shiftWeek(startDayOfWeek + 6)}
       >{week[6]}</a
     >
   </div>

@@ -12,9 +12,15 @@
       console.log(event.target);
       event.preventDefault();
       let form = new FormData(event.target);
-      console.log(form.get("")
-      );
   }
+
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
+  export let checked = false;
+  console.log(checked);
+  console.log(checked);
 
 </script>
 
@@ -37,12 +43,16 @@
           class="slideshows-header-input"
           type="text"
           placeholder="search..."
+          
         />
-        <label for="slideshows-archived-toggle">Toggle Archived: </label>
+        <label for="slideshows-archived-toggle"> Toggle Archived: 
+        </label>
         <input
           class="slideshows-header-input"
           id="slideshows-archived-toggle"
           type="checkbox"
+          bind:checked
+          onclick={() => dispatch("update", checked)}
         />
       </div>
     </div>
