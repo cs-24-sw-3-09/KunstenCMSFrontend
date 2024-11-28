@@ -35,13 +35,13 @@
         formData.set("id", profileData.id);
 
         return async ({ result }) => {
-            if (result.type === "success") {
+            if (result.type === "failure") {
+                // Handle the error
+                alert(`Failed to update notification state, please reload page (F5).\n${result.data?.error}`);
+            } else if (result.type === "success") {
                 // Update the local state of the checkbox to match the server response
                 onUpdateNotificationState(!profileData.notificationState);
-            } else if (result.type === "failure") {
-                // Handle the error
-                alert(`Failed to update notification state, please reload page.\n${result.data?.error}`);
-            }
+            } 
         };
     }}
 >
@@ -73,7 +73,10 @@
 
         return async ({ result }) => {
             // `result` is an `ActionResult` object
-            if (result.type === "success") {
+            if (result.type === "failure") {
+                // Handle the error
+                alert(`Failed to update notification pause, please reload page (F5).\n${result.data?.error}`);
+            } else if (result.type === "success") {
                 doPauseNotifications(); // Call doClose on successful form submission
             }
         };

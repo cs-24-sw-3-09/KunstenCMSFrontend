@@ -1,8 +1,8 @@
 <script>
     let { doClose } = $props();
-    
+
     // Import the "enhance" function from the "form" module.
-    import { enhance } from '$app/forms';
+    import { enhance } from "$app/forms";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
@@ -16,7 +16,6 @@
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
-
 </script>
 
 <div class="modal">
@@ -24,35 +23,73 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit User" />
 
-        <form method="post" action="?/newUser" 
-        use:enhance={({}) => {
+        <form
+            method="post"
+            action="?/newUser"
+            use:enhance={({}) => {
+                return async ({ result }) => {
+                    // `result` is an `ActionResult` object
+                    if (result.type === "failure") {
+                        // Handle the error
+                        alert(
+                            `Failed to add new user, please reload page (F5).\n${result.data?.error}`,
+                        );
+                    } else if (result.type === "success") {
+                        closeModal(); // Call doClose on successful form submission
+                    }
+                };
+            }}
+        >
+            <TextInput
+                title={"First Name"}
+                placeholder={"First Name Here"}
+                name={"firstName"}
+                required="true"
+            />
+            <TextInput
+                title={"Last Name"}
+                placeholder={"Last Name Here"}
+                name={"lastName"}
+                required="true"
+            />
+            <TextInput
+                title={"E-mail"}
+                placeholder={"E-mail Here"}
+                name={"email"}
+                required="true"
+            />
 
-            return async ({ result }) => {
-                // `result` is an `ActionResult` object              
-                if (result.type === "success") {
-                    closeModal(); // Call doClose on successful form submission
-                }
-            };
-        }}>
-
-            <TextInput title={"First Name"} placeholder={"First Name Here"} name={"firstName"} required="true" />
-            <TextInput title={"Last Name"} placeholder={"Last Name Here"} name={"lastName"} required="true" />
-            <TextInput title={"E-mail"} placeholder={"E-mail Here"} name={"email"} required="true" />
-            
             <Separator />
 
-            <Checkbox title={"Receive Notifications"} name={"notificationState"} checked={false} />
-            
+            <Checkbox
+                title={"Receive Notifications"}
+                name={"notificationState"}
+                checked={false}
+            />
+
             <Separator />
-            
+
             <Smallheader text="Roles:" />
-            
-            <Checkbox title={"Media Planner"} name={"mediaPlanner"} checked={false} />
-            <Checkbox title={"Admin"} name={"admin"} checked={false} /> 
+
+            <Checkbox
+                title={"Media Planner"}
+                name={"mediaPlanner"}
+                checked={false}
+            />
+            <Checkbox title={"Admin"} name={"admin"} checked={false} />
 
             <div class="modal-buttons">
-                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    type="submit"
+                    text="Submit"
+                    extra_class={"modal-button-submit"}
+                />
             </div>
         </form>
     </div>
