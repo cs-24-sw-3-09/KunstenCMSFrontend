@@ -1,5 +1,5 @@
 <script>
-    import Screen from "$lib/components/schedule/daytablerowpopulator.svelte";
+    import TableRowPopulatorDay from "$lib/components/schedule/daytablerowpopulator.svelte";
     import Header from "$lib/components/schedule/dayheader.svelte";
 
     // import testdata from teststore
@@ -15,10 +15,10 @@
 </script>
 
 <div class="main-content">
+    <Header />
     <div class="schedule-day">
-        <Header />
         {#each data as device}
-            <Screen {device} />
+            <TableRowPopulatorDay {device} />
         {/each}
     </div>
 </div>

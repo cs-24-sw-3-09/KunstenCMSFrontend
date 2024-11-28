@@ -9,7 +9,8 @@
   }
 
   let start = timeToPercentage(timeslot.startTime) + "%";
-  let end = timeToPercentage(timeslot.endTime) -
+  let end =
+    timeToPercentage(timeslot.endTime) -
     timeToPercentage(timeslot.startTime) +
     "%";
 </script>
@@ -27,7 +28,6 @@
       {timeslot.endTime}
     </div>
   </div>
-
 </div>
 
 <style>

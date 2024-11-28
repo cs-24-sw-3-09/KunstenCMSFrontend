@@ -6,10 +6,9 @@
 
 <div class="schedule-week-schema-row">
     <div class="schedule-week-schema-row-device">{device.name}</div>
-    <!-- Should execute 7 times for each day of the week -->
-    <!-- column contains a collection of timeslots/feilds -->
-    {#each device.fields as column}
-        <Field fields={column} />
+    <!-- column contains a collection of timeslots/feilds -->    
+    {#each {length: 7-device.fields.length} as _, day}
+        <Field fields={device.fields[day]} />  
     {/each}
     <!-- <Field fields={device.fields[0]}/>
     <Field fields={device.fields[1]}/>

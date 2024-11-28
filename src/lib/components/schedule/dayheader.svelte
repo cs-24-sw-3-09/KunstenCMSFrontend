@@ -1,5 +1,5 @@
 <script>
-  import Button from "$lib/components/schedule/daybutton_whattt.component.svelte";
+  import Button from "$lib/components/schedule/daybutton_what.component.svelte";
 
   let currentDay1 = new Date();
 

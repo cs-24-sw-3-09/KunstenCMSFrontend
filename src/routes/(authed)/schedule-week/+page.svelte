@@ -1,6 +1,6 @@
 <script>
     import Header from "$lib/components/schedule/weekheader.svelte";
-    import TableRowPopulator from "$lib/components/schedule/weektablerowpopulator.svelte";
+    import TableRowPopulatorWeek from "$lib/components/schedule/weektablerowpopulator.svelte";
 
     // import testdata from teststore
     import { testScheduleWeek } from "$lib/testdata.js";
@@ -16,10 +16,11 @@
 </script>
 
 <div class="main-content">
+    
+    <Header />
     <div class="schedule-week">
-        <Header />
         {#each data as device}
-            <TableRowPopulator {device} />
+            <TableRowPopulatorWeek {device} />
         {/each}
     </div>
 </div>
