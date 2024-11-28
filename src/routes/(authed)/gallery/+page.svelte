@@ -17,14 +17,16 @@
     // Search/filtering
     
     let searchTerm = $state(""); // For live text search
-    let searchTags = $state([]); // For tag-based filtering
+    let searchTags = $state(""); // For tag-based filtering
     
     function filterItems(items, searchTerm, searchTags) {
         if (searchTerm) {
+            // Filter by name
             items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         if (searchTags && searchTags.length > 0) {
-            items = items.filter((item) => item.tags.some((tag) => searchTags.includes(tag)));
+            // Filter by tags, if any/some part of the tag is included in the search
+            items = items.filter((item) => item.tags.some((tag) =>tag.text.toLowerCase().includes(searchTags.toLowerCase())));
         }
         return items;
     }
