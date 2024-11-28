@@ -1,96 +1,20 @@
 <script>
-    import Header from "./header_component.svelte";
-    import Screen from "./screen_component.svelte";
+    import Header from "$lib/components/schedule/weekheader.svelte";
+    import TableRowPopulator from "$lib/components/schedule/weektablerowpopulator.svelte";
 
-    let data = [
-        {
-            name: "Recepition Left",
-            fields: [
-                [
-                    {
-                        title: "Default 2023",
-                        color: "schedule-color-blue",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                    {
-                        title: "Default 2024",
-                        color: "schedule-color-blue",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                ],
-                [
-                    {
-                        title: "Default test",
-                        color: "schedule-color-red",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                ],
-                [],
-                [],
-                [],
-                [],
-                [],
-            ],
-        },
-        {
-            name: "Recepition Right",
-            fields: [
-                [
-                    {
-                        title: "Default 2023",
-                        color: "schedule-color-red",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                    {
-                        title: "Default 2024",
-                        color: "schedule-color-blue",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                ],
-                [
-                    {
-                        title: "Default test",
-                        color: "schedule-color-red",
-                        startTime: "6:00",
-                        endTime: "19:00",
-                        size: "schedule-size-3",
-                        id: 1,
-                    },
-                ],
-                [],
-                [],
-                [],
-                [],
-                [],
-            ],
-        },
-    ];
+    // import testdata from teststore
+    import { testScheduleWeek } from "$lib/testdata.js";
+    let data = $state([]);
+    data = testScheduleWeek;
 </script>
 
 <div class="main-content">
-    <div>
         <div class="schedule-week">
             <Header />
             {#each data as device}
-                <Screen {device} />
+                <TableRowPopulator device={device} />
             {/each}
         </div>
-    </div>
 </div>
 
 <style>

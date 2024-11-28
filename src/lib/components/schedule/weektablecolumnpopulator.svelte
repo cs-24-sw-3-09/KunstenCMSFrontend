@@ -1,7 +1,7 @@
 <script>
-    let props = $props();
+    let { fields } = $props();
 
-    import TimeSlotCard from "./timeslot_templet.svelte";
+    import TimeSlotCard from "$lib/components/schedule/weektimeslottemplet.svelte";
 </script>
 
 <div class="schedule-week-schema-row-day">
@@ -9,7 +9,7 @@
         <i class="fa-solid fa-plus"></i>
     </div>
 
-    {#each props.fields as timeslot}
+    {#each fields as timeslot}
         <TimeSlotCard {timeslot} />
     {/each}
 </div>

@@ -1,16 +1,4 @@
 
-export let testUser = {
-    id: 1,
-    email: "aj@kunsten.dk",
-    firstName: "Anne",
-    lastName: "Jensen",
-    pauseNotificationStart: "2024/11/20",
-    pauseNotificationEnd: "2024/11/30",
-    notificationState: true,
-    mediaPlanner: true,
-    admin: true
-}
-
 export let testDevices = [
     {
         id: 17,
@@ -67,6 +55,18 @@ export let testDevices = [
         }
     }
 ]
+
+export let testUser = {
+    id: 1,
+    email: "aj@kunsten.dk",
+    firstName: "Anne",
+    lastName: "Jensen",
+    pauseNotificationStart: "2024/11/20",
+    pauseNotificationEnd: "2024/11/30",
+    notificationState: true,
+    mediaPlanner: true,
+    admin: true
+}
 
 export let testUsers = [
     {
@@ -432,4 +432,138 @@ export let testVisualMedia = [
         ],
         status: "used",
     }
+];
+
+export let testScheduleWeek = [
+    {
+        name: "Recepition Left",
+        fields: [
+            [
+                {
+                    title: "Default 2023",
+                    color: "schedule-color-blue",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+                {
+                    title: "Default 2024",
+                    color: "schedule-color-blue",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+            ],
+            [
+                {
+                    title: "Default test",
+                    color: "schedule-color-red",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+        ],
+    },
+    {
+        name: "Recepition Right",
+        fields: [
+            [
+                {
+                    title: "Default 2023",
+                    color: "schedule-color-red",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+                {
+                    title: "Default 2024",
+                    color: "schedule-color-blue",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+            ],
+            [
+                {
+                    title: "Default test",
+                    color: "schedule-color-red",
+                    startTime: "6:00",
+                    endTime: "19:00",
+                    size: "schedule-size-3",
+                    id: 1,
+                },
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+        ],
+    },
+];
+
+export let testScheduleDay = [
+    {
+        name: "Recepition Left",
+        fields: [
+            {
+                title: "Default 2023",
+                color: "rgba(255, 0, 0, 0.6);",
+                startTime: "2:00",
+                endTime: "7:00",
+                size: "schedule-size-3",
+            },
+            {
+                title: "Default 2024",
+                color: "rgba(255, 0, 0, 0.6);",
+                startTime: "00:00",
+                endTime: "20:00",
+                size: "schedule-size-3",
+            },
+            {
+                title: "Default 2024",
+                color: "rgba(255, 0, 0, 0.6);",
+                startTime: "8:00",
+                endTime: "20:00",
+                size: "schedule-size-3",
+            },
+            {
+                title: "Default 2024",
+                color: "rgba(255, 0, 0, 0.6);",
+                startTime: "8:00",
+                endTime: "20:00",
+                size: "schedule-size-3",
+            },
+        ],
+    },
+    {
+        name: "Recepition Right",
+        fields: [
+            {
+                title: "Default 2023",
+                color: "rgba(59, 137, 255, 0.6);",
+                startTime: "4:00",
+                endTime: "7:00",
+                size: "schedule-size-3",
+            },
+            {
+                title: "Default 2024",
+                color: "rgba(255, 0, 0, 0.6);",
+                startTime: "8:00",
+                endTime: "20:00",
+                size: "schedule-size-3",
+            },
+        ],
+    },
 ];
