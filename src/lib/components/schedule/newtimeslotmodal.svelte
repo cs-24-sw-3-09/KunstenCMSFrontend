@@ -1,5 +1,8 @@
 <script>
-    let { doClose, doSubmit } = $props();
+    let { doClose } = $props();
+
+    import { enhance } from '$app/forms';
+
     let days = {
         Mon: false,
         Tue: false,
@@ -10,12 +13,14 @@
         Sun: false,
     };
 
+    // Test data TODO: make dynamic from database
     let display_devices = {
         Display1: "Reception Left",
         Display2: "Reception Right",
         Display3: "Reception Middle"
     }
 
+    // Test data TODO: make dynamic from database
     let slideshows = ["slideshow_id1", "slideshow_id2", "slideshow_id3", "slideshow_id4" ];
 
     // Function to log checked days
@@ -35,17 +40,32 @@
     <div class="modal-content">
         <CloseX doFunc={doClose} />
         <Header text="Create Timeslot" />
-        <form action="#" id="modal-form" onsubmit={doSubmit}>
-            <div>
-                <p>From</p>
-                <Dateinput name={"DateFrom"} required="true" />
-                <InputTime name={"TimeFrom"} required="true" />
+        <form action="?/newTimeslot" method="post"
+        use:enhance={({ }) => {
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object              
+                if (result.type === "failure") {
+                    // Handle the error
+                    alert(`Failed to add timeslot, please reload page (F5).\n${result.data?.error}`);
+                }
+            }
+        }}>
+            <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
+            
+            <Separator />
+
+            <Smallheader text={"Date from and to"} />
+            <div class="modal-inline">
+                <Dateinput title={"Date from"} name={"dateFrom"} required="true" />
+                <Dateinput title={"Date to"} name={"dateTo"} required="true" />
             </div>
-            <div>
-                <p>To</p>
-                <Dateinput name={"DateTo"} required="true" />
-                <InputTime name={"TimeTo"} required="true" />
-            </div>            
+
+            <Smallheader text={"Time of day from and to"} />
+            
+            <div class="modal-inline">
+                <InputTime title={"Time from"} name={"timeFrom"} required="true" />
+                <InputTime title={"Time to"} name={"timeTo"} required="true" />
+            </div>
 
             <div class="checkbox-container">
                 {#each Object.keys(days) as day}
@@ -57,8 +77,6 @@
             </div>
 
             <Separator />
-
-            <TextInput title={"Timeslot Name"} placeholder={"Type name here"} name={"name"} required="true" />
 
             <Dropdown title={"Slideshow"} name={"dropdown1"} options={slideshows} selected={"Option 1"} />
             <div class="checkbox-container">
