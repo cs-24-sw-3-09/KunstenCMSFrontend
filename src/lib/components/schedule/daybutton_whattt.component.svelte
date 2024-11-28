@@ -1,5 +1,5 @@
 <script>
-    import AddModal from '$lib/components/dayaddtimeslotmodal.svelte';
+    import AddModal from '$lib/components/schedule/newtimeslotmodal.svelte';
     
     let showAddModal = false;
 
@@ -24,6 +24,8 @@
     <AddModal doClose={toggleAddModal} doSubmit={submitAddModal}/>
 {/if}
 
-
+<style>
+    @import "$lib/styles/button.css";
+</style>
 
 

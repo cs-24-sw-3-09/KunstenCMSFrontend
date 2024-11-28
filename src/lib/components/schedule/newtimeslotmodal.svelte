@@ -28,7 +28,7 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
-    import InputTime from "./modal/InputTime.svelte";
+    import InputTime from "$lib/components/modal/InputTime.svelte";
 </script>
 
 <div class="modal">

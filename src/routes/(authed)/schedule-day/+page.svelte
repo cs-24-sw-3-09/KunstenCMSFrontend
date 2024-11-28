@@ -1,21 +1,25 @@
 <script>
-    import Screen from "./screen_component_day.svelte";
-    import TimeHeader from "./timeHeader_component.svelte";
+    import Screen from "$lib/components/schedule/daytablerowpopulator.svelte";
+    import Header from "$lib/components/schedule/dayheader.svelte";
 
     // import testdata from teststore
     import { testScheduleDay } from "$lib/testdata.js";
     let data = testScheduleDay;
-    
+
+    /* 
+    TODO: 
+    - See todo in schedule week
+    - common add timeslot thing
+    - common dataset
+    */
 </script>
 
 <div class="main-content">
-    <div>
-        <div class="schedule-day">
-            <TimeHeader />
-            {#each data as device}
-                <Screen {device} />
-            {/each}
-        </div>
+    <div class="schedule-day">
+        <Header />
+        {#each data as device}
+            <Screen {device} />
+        {/each}
     </div>
 </div>
 

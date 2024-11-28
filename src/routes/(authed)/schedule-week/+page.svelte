@@ -10,6 +10,8 @@
     /* 
     TODO:
     - Make reactive by dates and timeslots instead of static for weekdays and testDataset
+    - Add functionality for adding timeslots???
+    - Parse data between schedule-day and week, or make into one page, and switch states that hides one and another
     */
 </script>
 
