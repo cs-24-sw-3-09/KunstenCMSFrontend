@@ -1,4 +1,6 @@
 <script>
+    let { form } = $props(); // Is automatically populated by SvelteKit
+
     import TableRowPopulatorDay from "$lib/components/schedule/daytablerowpopulator.svelte";
     import Header from "$lib/components/schedule/dayheader.svelte";
 
