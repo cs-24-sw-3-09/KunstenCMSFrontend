@@ -50,7 +50,7 @@
 </script>
 
 {#if showAddMediaModal}
-  <AddMedia doClose={toggleAddMediaModal} doSubmit={submitAddMediaModal} Item = {props.filteredData} searchTerm = {props.searchTerm} searchTags = {props.searchTags} searchTermUpdate = {props.searchTermUpdate} searchTagsUpdate = {props.searchTagsUpdate} />
+  <AddMedia doClose={toggleAddMediaModal} Item = {props.filteredData} searchTerm = {props.searchTerm} searchTags = {props.searchTags} searchTermUpdate = {props.searchTermUpdate} searchTagsUpdate = {props.searchTagsUpdate} />
 {/if}
 
 
