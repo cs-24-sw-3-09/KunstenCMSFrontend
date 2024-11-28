@@ -11,16 +11,16 @@
         console.log(event.target);
         event.preventDefault();
         let form = new FormData(event.target);
-        console.log(form.get("")
+        console.log(form.get("Mon")
         );
         //toggleTestModal();
     }
 
 </script>
 
-<button onclick={toggleAddtimeslotModal} 
-    >Add Timeslot</button
->
+    <button onclick={toggleAddModal}>Add Timeslot</button>
+
+
 
 {#if showTestModal}
     <Addtimeslot doClose={toggleAddtimeslotModal} doSubmit={submitAddtimeslotModal}/>

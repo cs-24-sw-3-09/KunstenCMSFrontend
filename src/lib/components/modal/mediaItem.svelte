@@ -1,5 +1,5 @@
 <script>
-    let { item, toggleAddMediaModal, selectedId } = $props();
+    let { item, toggleAddMediaModal, selectedId,  } = $props();
     console.log(selectedId);
 
     import Tag from "$lib/components/gallery/tag.svelte";
@@ -12,7 +12,7 @@
 
 </script>
 
-<div class="gallery-item" style = "background: {selectedId == item.id ? "blue" : "lightblue"}" onclick={() => dispatch("update", item.id)}>
+<div class="gallery-item" style = "background: {selectedId == item.id ? "lightblue" : "lightgray"}" onclick={() => dispatch("update", item.id)}>
     <div class="gallery-item-left" onclick={toggleAddMediaModal}>
         <div class="gallery-item-preview">
             <img src={item.location} alt="gallery-item-preview" />

@@ -185,3 +185,10 @@
     color: white;
     cursor: pointer;
   }
+
+  .gallery-header-input {
+    width: 50%;
+    padding: 0 8px;
+    height: 32px;
+    border: 1px solid black;
+}

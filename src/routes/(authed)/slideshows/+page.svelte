@@ -106,24 +106,71 @@
         },
     ];
 
-    var selectedId = null;
+    
+
+    let searchTerm = $state(""); // For live text search
+    let searchTags = $state([]); // For tag-based filtering 
+    let data = $state(testVisualMedia);
+    
+    function filterItems(items, searchTerm, searchTags) {
+        console.log(items)
+        if (searchTerm) {
+            items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+        if(searchTags && searchTags.length > 0) {
+            items = items.filter((item) => item.tags.some((tag) => searchTags.includes(tag)));
+        }
+        return items;
+    }
+    
+    let filteredData = $derived.by(() => {
+        return filterItems(data, searchTerm, searchTags);
+    }); // Reactive var
+
+    function searchTermUpdate(event) {
+        searchTerm = event.target.value;
+    }
+
+    function searchTagsUpdate(event) {
+        searchTags = event.target.value;
+    }
+
+    var selectedId = $state(null);
+    var isChecked = $state(false);
+    var focusedSlideshow =  $state(null);
 
     function updateState(id) {
         selectedId = (id == selectedId ? null : id);
     }
+    function updateChecked(){
+        isChecked = !isChecked
+        console.log(isChecked);
+    }
+    function focusSlideshow(id){
+        focusedSlideshow = (id == focusedSlideshow ? null : id)
+        console.log(focusedSlideshow);
+
+    }
 </script>
 
 <div class="main-content">
-    <Header />
+    <Header on:update={(event) => updateChecked(event.detail)}/>
 
     {#each slideshows as slideshow}
         {#each slideshow.content as screen}
+        {#if (!focusedSlideshow && screen.isArchived === isChecked) || (focusedSlideshow && screen.id === focusedSlideshow)}
             <Slideshow
                 {screen}
-                {testVisualMedia}
+                {filteredData}
                 on:update={(event) => updateState(event.detail)}
+                on:focus={(event) => focusSlideshow(event.detail)}
                 {selectedId}
+                {searchTags}
+                {searchTerm}
+                {searchTagsUpdate}
+                {searchTermUpdate}
             />
+            {/if}
         {/each}
     {/each}
 </div>
