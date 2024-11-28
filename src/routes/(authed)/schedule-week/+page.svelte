@@ -6,15 +6,20 @@
     import { testScheduleWeek } from "$lib/testdata.js";
     let data = $state([]);
     data = testScheduleWeek;
+
+    /* 
+    TODO:
+    - Make reactive by dates and timeslots instead of static for weekdays and testDataset
+    */
 </script>
 
 <div class="main-content">
-        <div class="schedule-week">
-            <Header />
-            {#each data as device}
-                <TableRowPopulator device={device} />
-            {/each}
-        </div>
+    <div class="schedule-week">
+        <Header />
+        {#each data as device}
+            <TableRowPopulator {device} />
+        {/each}
+    </div>
 </div>
 
 <style>
