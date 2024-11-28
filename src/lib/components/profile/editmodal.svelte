@@ -1,5 +1,12 @@
 <script>
-    let { doClose, doSubmit, user } = $props();
+    let { doClose, profileData } = $props();
+
+    import { enhance } from '$app/forms';
+
+    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
+    function closeModal() {
+        doClose();
+    }
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -12,10 +19,26 @@
     <div class="modal-content">
         <CloseX doFunc={doClose} />
         <Header text="Edit Profile" />
-        <form action="#" id="modal-form" onsubmit={doSubmit}>
-            <TextInput title={"First Name"} placeholder={"First name here"} name={"firstName"} required="true" value={user.firstName} />
-            <TextInput title={"Last Name"} placeholder={"Last name here"} name={"lastName"} required="true" value={user.lastName} />
-            <TextInput title={"E-mail"} placeholder={"E-mail here"} name={"email"} required="true" value={user.email} />
+
+        <form action="?/editProfile" id="modal-form" method="post" 
+        use:enhance={({ formData }) => {
+            // `formData` is its `FormData` object that's about to be submitted
+            formData.set("id", profileData.id);
+            formData.set("oldData", JSON.stringify(profileData)); // Pass previous known user data to the action
+            
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object              
+                if (result.type === "failure") {
+                    // Handle the error
+                    alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
+                } else if (result.type === "success") {
+                    closeModal(); // Call doClose on successful form submission
+                }
+            };
+        }}>
+            <TextInput title={"First Name"} placeholder={"First name here"} name={"firstName"} required="true" value={profileData.firstName} />
+            <TextInput title={"Last Name"} placeholder={"Last name here"} name={"lastName"} required="true" value={profileData.lastName} />
+            <TextInput title={"E-mail"} placeholder={"E-mail here"} name={"email"} required="true" value={profileData.email} />
             
             <Separator />
 

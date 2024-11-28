@@ -1,4 +1,7 @@
 <script>
+    // Export form
+    let { form } = $props(); // Is automatically populated by SvelteKit
+    
     import Gallery from "$lib/components/gallery/gallery.svelte";
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";
     import NewModal from "$lib/components/gallery/newmodal.svelte";
@@ -8,22 +11,22 @@
     import { testVisualMedia } from "$lib/testdata.js";
     
     let data = $state(testVisualMedia);
-
-    let showItemModal = $state(false);
-    let showNewModal = $state(false);
-    let showEditModal = $state(false);
     
     let focusItem = $state({});
 
+    // Search/filtering
+    
     let searchTerm = $state(""); // For live text search
-    let searchTags = $state([]); // For tag-based filtering
+    let searchTags = $state(""); // For tag-based filtering
     
     function filterItems(items, searchTerm, searchTags) {
         if (searchTerm) {
+            // Filter by name
             items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         if (searchTags && searchTags.length > 0) {
-            items = items.filter((item) => item.tags.some((tag) => searchTags.includes(tag)));
+            // Filter by tags, if any/some part of the tag is included in the search
+            items = items.filter((item) => item.tags.some((tag) =>tag.text.toLowerCase().includes(searchTags.toLowerCase())));
         }
         return items;
     }
@@ -31,21 +34,26 @@
     let filteredData = $derived.by(() => {
         return filterItems(data, searchTerm, searchTags);
     }); // Reactive var
-
+    
     function searchTermUpdate(event) {
         searchTerm = event.target.value;
     }
-
+    
     function searchTagsUpdate(event) {
         searchTags = event.target.value;
     }
+    
+    // Toggles
+
+    let showItemModal = $state(false);
+    let showNewModal = $state(false);
+    let showEditModal = $state(false);
 
     function doToggleItemModal(item=focusItem) {
         focusItem = item;
         showEditModal = false;
         showNewModal = false;
         showItemModal = !showItemModal;
-        //console.log("showItemModal: ", showItemModal);
     }
 
     function doToggleNewModal() {
@@ -53,7 +61,6 @@
         showEditModal = false;
         showItemModal = false;
         showNewModal = !showNewModal;
-        //console.log("showNewModal: ", showNewModal);
     }
 
     function doToggleEditModal(item) {
@@ -61,42 +68,6 @@
         showItemModal = false;
         showNewModal = false;
         showEditModal = !showEditModal;
-        //console.log("showEditModal: ", showEditModal);
-    }
-
-    function doDelete(item) {
-        let confirmation = alert("Delete item: " + item.name);
-        if (confirmation) {
-            console.log("delete:", item);
-        }
-    }
-
-    function doSubmitNew(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-
-        console.log("New item submitted:");
-        console.log(data);
-    }
-
-    function doSubmitEdit(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-        
-        console.log("Edit item submitted:");
-        console.log(data);
-    }
-
-    function doSubmitTag(item, tag) {
-        console.log("Tag submitted to item:");
-        console.log(tag, item);
-    }
-
-    function doDeleteTag(item, tag) {
-        console.log("Tag deleted from item:");
-        console.log(tag, item);
     }
 </script>
 
@@ -106,7 +77,6 @@
             items={filteredData}
             doToggleNewModal={doToggleNewModal}
             doToggleEditModal={doToggleEditModal}
-            doDelete={doDelete}
             doToggleItemModal={doToggleItemModal}
             searchTermUpdate={searchTermUpdate}
             searchTerm={searchTerm}
@@ -116,25 +86,15 @@
     </div>
 </div>
 
-{#if showItemModal}
-    <ItemModal 
-        item={focusItem} 
-        doClose={doToggleItemModal} 
-        onTagSubmit={doSubmitTag} 
-        onTagDelete={doDeleteTag} />
-{/if}
 {#if showNewModal}
-    <NewModal 
-        doClose={doToggleNewModal} 
-        doSubmit={doSubmitNew} />
+    <NewModal doClose={doToggleNewModal}  />
 {/if}
 {#if showEditModal}
-    <EditModal 
-        item={focusItem} 
-        doClose={doToggleEditModal} 
-        doSubmit={doSubmitEdit} />
+    <EditModal item={focusItem} doClose={doToggleEditModal} />
 {/if}
-
+{#if showItemModal}
+    <ItemModal item={focusItem} doClose={doToggleItemModal} />
+{/if}
 
 <style>
     @import "$lib/styles/gallery.css";

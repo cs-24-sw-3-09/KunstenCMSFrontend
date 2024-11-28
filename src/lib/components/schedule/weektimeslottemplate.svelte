@@ -1,7 +1,7 @@
 <script>
     let { timeslot } = $props();
 
-    console.log(timeslot.title)
+    // console.log(timeslot.title)
 </script>
 
 <div class="schedule-container">

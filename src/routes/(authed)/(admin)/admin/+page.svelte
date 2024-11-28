@@ -1,4 +1,7 @@
 <script>
+    // Export form
+    let { form } = $props(); // Is automatically populated by SvelteKit
+
     import Button from "$lib/components/button.svelte";
     import Table from "$lib/components/admin/table.svelte";
     import EditModal from "$lib/components/admin/editmodal.svelte";
@@ -16,16 +19,6 @@
     let showNewUserModal = $state(false);
     let showEditUserModal = $state(false);
 
-    function deleteUser(user = userFocus) {
-        let confirmation = confirm(
-            "Are you sure you want to delete this user?",
-        );
-        if (!confirmation) return;
-        userFocus = user;
-        console.log("Delete:");
-        console.log(userFocus);
-    }
-
     function toggleNewUserModal(user = userFocus) {
         userFocus = user;
         showNewUserModal = !showNewUserModal;
@@ -35,26 +28,6 @@
         userFocus = user;
         showEditUserModal = !showEditUserModal;
     }
-
-    function createUser(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-
-        console.log("Create User");
-        console.log(data);
-        toggleNewUserModal();
-    }
-
-    function saveUser(event) {
-        event.preventDefault();
-        const form = event.target;
-        const data = new FormData(form);
-
-        console.log("Save User");
-        console.log(data);
-        toggleEditUserModal();
-    }
 </script>
 
 <div class="main-content">
@@ -63,14 +36,14 @@
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
         </div>
-        <Table {usersData} onEdit={toggleEditUserModal} onDelete={deleteUser} />
+        <Table {usersData} onEdit={toggleEditUserModal} />
     </div>
 </div>
 {#if showNewUserModal}
-    <NewModal doClose={toggleNewUserModal} doSubmit={createUser} />
+    <NewModal doClose={toggleNewUserModal} />
 {/if}
 {#if showEditUserModal}
-    <EditModal doClose={toggleEditUserModal} doSubmit={saveUser} user={userFocus} />
+    <EditModal doClose={toggleEditUserModal} user={userFocus} />
 {/if}
 
 <style>

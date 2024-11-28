@@ -1,5 +1,5 @@
 <script>
-  import Buttom from "./buttom.component.svelte";
+  import Button from "$lib/components/schedule/daybutton_what.component.svelte";
 
   let currentDay1 = new Date();
 
@@ -66,7 +66,7 @@
     <div class="schedule-day-header-top-left">
       {isoWeekNumber}
       {day}
-      <Buttom />
+      <Button />
     </div>
 
     <div class="schedule-week-header-middle">

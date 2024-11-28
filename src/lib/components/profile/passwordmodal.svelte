@@ -1,5 +1,12 @@
 <script>
-    let { doClose, doSubmit } = $props();
+    let { doClose, profileData } = $props();
+
+    import { enhance } from '$app/forms';
+
+    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
+    function closeModal() {
+        doClose();
+    }
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -11,8 +18,24 @@
 <div class="modal">
     <div class="modal-content">
         <CloseX doFunc={doClose} />
-        <Header text="Edit Profile" />
-        <form action="#" id="modal-form" onsubmit={doSubmit}>
+        <Header text="Change Password" />
+
+        <form action="?/changePassword" id="modal-form" method="post" 
+        use:enhance={({ formData }) => {
+            // `formData` is its `FormData` object that's about to be submitted
+            formData.set("id", profileData.id);
+            
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object              
+                if (result.type === "failure") {
+                    // Handle the error
+                    alert(`Failed to update password, please reload page (F5).\n${result.data?.error}`);
+                } else if (result.type === "success") {
+                    closeModal(); // Call doClose on successful form submission
+                }
+            };
+        }}>
+
             <HiddenTextInput title={"New Password"} placeholder={"New password here"} name={"password"} required="true" />
             <HiddenTextInput title={"Confirm New Password"} placeholder={"Rewrite password here"} name={"confpassword"} required="true" />
             

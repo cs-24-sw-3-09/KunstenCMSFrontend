@@ -3,5 +3,7 @@
     let { title, placeholder, name, required, value } = $props();
 </script>
 
-<label for={name + "_id"}>{title ? title : "Date:"}</label>
-<input type="date" id={name + "_id"} {name} {placeholder} {required} {value} />
+<div class="modal-textinput">
+    <label for={name + "_id"}>{title ? title : "Date:"}</label>
+    <input type="date" id={name + "_id"} {name} {placeholder} {required} {value} />
+</div>

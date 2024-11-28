@@ -1,5 +1,13 @@
 <script>
-    let { doClose, doSubmit, options } = $props();
+    let { doClose, options } = $props();
+
+    // Import the "enhance" function from the "form" module.
+    import { enhance } from "$app/forms";
+
+    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
+    function closeModal() {
+        doClose();
+    }
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -22,31 +30,93 @@
     <div class="modal-content">
         <CloseX doFunc={doClose} />
         <Header text="New Device" />
-        
-        <form action="#" id="modal-form" onsubmit={doSubmit}>
 
-            <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" />
-            <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" />
+        <form
+            method="post"
+            action="?/newDevice"
+            use:enhance={({}) => {
+                return async ({ result }) => {
+                    // `result` is an `ActionResult` object
+                    if (result.type === "failure") {
+                        // Handle the error
+                        alert(
+                            `Failed to add display device, please reload page (F5).\n${result.data?.error}`,
+                        );
+                    } else if (result.type === "success") {
+                        closeModal(); // Call doClose on successful form submission
+                    }
+                };
+            }}
+        >
+            <TextInput
+                title={"Name"}
+                placeholder={"Name of device here"}
+                name={"name"}
+                required="true"
+            />
+            <TextInput
+                title={"Location"}
+                placeholder={"Location of device here"}
+                name={"location"}
+                required="true"
+            />
 
-            <Dropdown title={"Fallback"} name={"fallback"} options={options} />
+            <Dropdown title={"Fallback"} name={"fallback"} {options} />
 
-            <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" />
-            
+            <TextInput
+                title={"Model"}
+                placeholder={"Model of device here"}
+                name={"model"}
+                required="true"
+            />
+
             <SmallHeader text={"Horizontal resolution"} />
 
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
-                <Numberinput title={"Width"} placeholder={"x"} name={"width"} min={1} max={122880} step={1} required={true} subscript={"px"} />
-                <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} />
+                <Numberinput
+                    title={"Width"}
+                    placeholder={"x"}
+                    name={"width"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                />
+                <Numberinput
+                    title={"Height"}
+                    placeholder={"y"}
+                    name={"height"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                />
             </div>
 
-            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["Horizontal", "Vertical"]} required="true" />
-            
+            <Dropdown
+                title={"Display Orientation"}
+                name={"displayOrientation"}
+                options={["Horizontal", "Vertical"]}
+                required="true"
+            />
+
             <Separator />
 
             <div class="modal-buttons">
-                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    type="submit"
+                    text="Submit"
+                    extra_class={"modal-button-submit"}
+                />
             </div>
         </form>
     </div>

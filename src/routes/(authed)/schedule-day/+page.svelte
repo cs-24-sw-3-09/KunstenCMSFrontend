@@ -1,74 +1,27 @@
 <script>
-    import Screen from "./screen_component_day.svelte";
-    import TimeHeader from "./timeHeader_component.svelte";
+    let { form } = $props(); // Is automatically populated by SvelteKit
 
-    let data = [
-        {
-            name: "Recepition Left",
-            fields: [
-                {
-                    title: "Default 2023",
-                    color: "rgba(255, 0, 0, 0.6);",
-                    startTime: "2:00",
-                    endTime: "7:00",
-                    size: "schedule-size-3",
-                },
-                {
-                    title: "Default 2024",
-                    color: "rgba(255, 0, 0, 0.6);",
-                    startTime: "00:00",
-                    endTime: "20:00",
-                    size: "schedule-size-3",
-                },
-                {
-                    title: "Default 2024",
-                    color: "rgba(255, 0, 0, 0.6);",
-                    startTime: "8:00",
-                    endTime: "20:00",
-                    size: "schedule-size-3",
-                },
-                {
-                    title: "Default 2024",
-                    color: "rgba(255, 0, 0, 0.6);",
-                    startTime: "8:00",
-                    endTime: "20:00",
-                    size: "schedule-size-3",
-                },
-            ],
-        },
-        {
-            name: "Recepition Right",
-            fields: [
-                {
-                    title: "Default 2023",
-                    color: "rgba(59, 137, 255, 0.6);",
-                    startTime: "4:00",
-                    endTime: "7:00",
-                    size: "schedule-size-3",
-                },
-                {
-                    title: "Default 2024",
-                    color: "rgba(255, 0, 0, 0.6);",
-                    startTime: "8:00",
-                    endTime: "20:00",
-                    size: "schedule-size-3",
-                },
-            ],
-        },
-    ];
+    import TableRowPopulatorDay from "$lib/components/schedule/daytablerowpopulator.svelte";
+    import Header from "$lib/components/schedule/dayheader.svelte";
 
-    let color = "red";
-    let size = "10px";
+    // import testdata from teststore
+    import { testScheduleDay } from "$lib/testdata.js";
+    let data = testScheduleDay;
+
+    /* 
+    TODO: 
+    - See todo in schedule week
+    - common add timeslot thing
+    - common dataset
+    */
 </script>
 
 <div class="main-content">
-    <div>
-        <div class="schedule-day">
-            <TimeHeader />
-            {#each data as device}
-                <Screen {device} />
-            {/each}
-        </div>
+    <Header />
+    <div class="schedule-day">
+        {#each data as device}
+            <TableRowPopulatorDay {device} />
+        {/each}
     </div>
 </div>
 
