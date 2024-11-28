@@ -111,17 +111,20 @@
 
     
 
-    let searchTerm = $state(""); // For live text search
-    let searchTags = $state([]); // For tag-based filtering 
+
     let data = $state(testVisualMedia);
     
+    let searchTerm = $state(""); // For live text search
+    let searchTags = $state(""); // For tag-based filtering
+
     function filterItems(items, searchTerm, searchTags) {
-        console.log(items)
         if (searchTerm) {
+            // Filter by name
             items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
-        if(searchTags && searchTags.length > 0) {
-            items = items.filter((item) => item.tags.some((tag) => searchTags.includes(tag)));
+        if (searchTags && searchTags.length > 0) {
+            // Filter by tags, if any/some part of the tag is included in the search
+            items = items.filter((item) => item.tags.some((tag) =>tag.text.toLowerCase().includes(searchTags.toLowerCase())));
         }
         return items;
     }
