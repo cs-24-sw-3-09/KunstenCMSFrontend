@@ -138,6 +138,10 @@
     ];
 
     let data = $state(testVisualMedia);
+    let Slideshows = $state(slideshows);
+    console.log(Slideshows);
+
+
 
     let searchTerm = $state(""); // For live text search
     let searchTags = $state(""); // For tag-based filtering
@@ -163,6 +167,11 @@
     let filteredData = $derived.by(() => {
         return filterItems(data, searchTerm, searchTags);
     }); // Reactive var
+
+    let filteredslideshow = $derived.by(() => {
+        return filterItems(Slideshows.content, searchTerm, searchTags);
+    }); // Reactive var
+    console.log(filteredslideshow);
 
     function searchTermUpdate(event) {
         searchTerm = event.target.value;
@@ -195,6 +204,7 @@
         {searchTerm}
         {searchTermUpdate}
     />
+
     {#each slideshows as slideshowsid}
         {#each slideshowsid.content as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
