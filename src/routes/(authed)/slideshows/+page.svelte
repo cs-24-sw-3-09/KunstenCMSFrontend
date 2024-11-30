@@ -57,7 +57,7 @@
                             visualMedia: {
                                 type: "visualMedia",
                                 id: 12,
-                                name: "Sample Media",
+                                name: "Sample",
                                 location: "/visual_media/1.jpg",
                                 fileType: "image/jpeg",
                                 description: "A sample media file for testing.",
@@ -138,10 +138,8 @@
     ];
 
     let data = $state(testVisualMedia);
-    let Slideshows = $state(slideshows);
-    console.log(Slideshows);
-
-
+    let allContent = slideshows.flatMap((slideshow) => slideshow.content);
+    console.log(allContent);
 
     let searchTerm = $state(""); // For live text search
     let searchTags = $state(""); // For tag-based filtering
@@ -169,9 +167,8 @@
     }); // Reactive var
 
     let filteredslideshow = $derived.by(() => {
-        return filterItems(Slideshows.content, searchTerm, searchTags);
+        return filterItems(allContent, searchTerm, searchTags);
     }); // Reactive var
-    console.log(filteredslideshow);
 
     function searchTermUpdate(event) {
         searchTerm = event.target.value;
@@ -196,6 +193,22 @@
         focusedSlideshow = id == focusedSlideshow ? null : id;
         console.log(focusedSlideshow);
     }
+
+    function handleOrderUpdate(updatedItems) {
+      // Find the relevant slideshow
+      const slideshowToUpdate = slideshows.find(
+          (slideshow) => slideshow.id === updatedItems[0]?.parentSlideshowId
+      );
+      console.log("Here");
+
+      if (slideshowToUpdate) {
+          // Update the visualMediaInclusionCollection with the reordered items
+          slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
+
+          // Optional: Log the updated slideshow for debugging
+          console.log("Updated slideshow:", slideshowToUpdate);
+      }
+  }
 </script>
 
 <div class="main-content">
@@ -205,14 +218,14 @@
         {searchTermUpdate}
     />
 
-    {#each slideshows as slideshowsid}
-        {#each slideshowsid.content as slideshow}
+        {#each filteredslideshow  as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
                 <Slideshow
                     {slideshow}
                     {filteredData}
                     on:update={(event) => updateState(event.detail)}
                     on:focus={(event) => focusSlideshow(event.detail)}
+                    on:updateOrder={(event) => handleOrderUpdate(event.detail)}
                     {selectedId}
                     {searchTags}
                     {searchTerm}
@@ -221,7 +234,6 @@
                 />
             {/if}
         {/each}
-    {/each}
 </div>
 
 <style>

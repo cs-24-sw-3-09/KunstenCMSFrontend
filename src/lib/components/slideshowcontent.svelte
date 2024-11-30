@@ -42,7 +42,11 @@
                         Duration:
                     </div>
                     <div class="slideshows-body-item-duration-input non-draggable">
+                        {#if content.visualMedia.fileType == "image/jpeg"}
                         <input type="text" value={content.slideDuration} />
+                        {:else}
+                        <label for="country"> {content.slideDuration}:</label>
+                        {/if}
                     </div>
                 </div>
             </div>
