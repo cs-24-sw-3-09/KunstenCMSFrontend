@@ -1,5 +1,5 @@
 <script>
-    let { device, doEdit } = $props();
+    let { admin, device, doEdit } = $props();
     import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
 </script>
 
@@ -26,8 +26,13 @@
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
             <p>{device.location ? device.location : "No location"}</p>
         </div>
-        <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
-            <i class="fa-solid fa-pen-to-square"></i>
-        </div>
+        {#if admin}
+            <!-- <div class="dashboard-card-delete tooltippable tooltipText-Delete" onclick={doEdit}>
+                <i class="fa-solid fa-trash"></i>
+            </div> -->
+            <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
+        {/if}
     </div>
 </div>

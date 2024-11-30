@@ -1,6 +1,6 @@
 <script>
-    // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    /** @type {{ data: import('./$types').PageData }} */
+    let { data, form } = $props(); // "form" is automatically populated by SvelteKit
 
     import ProfileInfo from "$lib/components/profile/info.svelte";
     import ProfileEdit from "$lib/components/profile/edit.svelte";
@@ -8,11 +8,7 @@
     import EditModal from "$lib/components/profile/editmodal.svelte";
     import PasswordModal from "$lib/components/profile/passwordmodal.svelte";
 
-    import { testUser } from "$lib/testdata.js";
-
-    let userData = $state([]);
-    userData = testUser;
-
+    let userData = $state(data.user);
 
     // Callback function for updating checkbox state
     function updateNotificationState(state) {
