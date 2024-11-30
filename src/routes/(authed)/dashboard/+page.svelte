@@ -1,6 +1,6 @@
 <script>
-    // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    /** @type {{ data: import('./$types').PageData }} */
+    let { data, form } = $props(); // "form" is automatically populated by SvelteKit
 
     /* Importing the components needed for the dashboard page */
     import Button from "$lib/components/button.svelte";
@@ -10,8 +10,10 @@
 
     let devices = $state([]);
     
+    // Test data
     import { testDevices } from "$lib/testdata.js";
     devices = testDevices;
+
     // Options for the fallback slideshow dropdown, TODO: Get this from the database
     let options = [
         "Event 2024",
@@ -44,9 +46,11 @@
     <div class="page">
         <div class="page-header">
             <h1>Dashboard</h1>
-            <Button text={"New Device"} clickFunction={toggleNewModal} />
+            {#if data.user.admin}
+                <Button text={"New Device"} clickFunction={toggleNewModal} />
+            {/if}
         </div>
-        <Dashboard {devices} doEdit={toggleEditModal} />
+        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} />
     </div>
 </div>
 {#if showNewModal}

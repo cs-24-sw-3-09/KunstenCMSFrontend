@@ -1,7 +1,7 @@
 
 import { fail } from "@sveltejs/kit";
 
-// load user from locals for modifieing the layout
+// load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals }) {
     return { 
