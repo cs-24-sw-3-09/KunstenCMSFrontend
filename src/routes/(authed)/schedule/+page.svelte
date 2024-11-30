@@ -138,8 +138,8 @@
             <div class="schedule-week-header-devices">Week: {focusWeek.week}</div>
             {#each [0, 1, 2, 3, 4, 5, 6] as offest}
                 <a class="schedule-week-header-day" onclick={() => {
-                    /* TODO: Add logic to change the focus date */
-                    focusDate = new Date(focusDate.setDate(focusDate.getDate() + offest));
+                    focusDate = new Date(focusDate.setDate(focusWeek.start.getDate() + offest)); 
+
                     weekView = !weekView;
                     }}>{formatWeekDayHeader[offest]}</a>
             {/each}
