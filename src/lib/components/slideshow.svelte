@@ -12,16 +12,23 @@
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
 
-  let items = props.screen.visualMediaInclusionCollection;
+  let items = props.slideshow.visualMediaInclusionCollection;
   let listElement;
+  let index;
 
 
   onMount(() => {
     new Sortable(listElement, {
       animation: 150,
+      filter: ".non-draggable", 
+      preventOnFilter: false,  
       onEnd: (event) => {
         const [movedItem] = items.splice(event.oldIndex, 1);
-        items.splice(event.newIndex, 0, movedItem);
+        index = items.splice(event.newIndex, 0, movedItem);
+        items.forEach((item, i) => {
+          item.index = i + 1;
+        });
+        console.log(items);
       },
     });
   });
@@ -43,10 +50,6 @@
   }
 
 
-
-  
-
-  
 </script>
 
 {#if showAddMediaModal}
@@ -61,7 +64,7 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore event_directive_deprecated -->
     <div class="slideshows-item-header-top" >
-      <div class="slideshows-item-header-left" on:click={() => dispatch("update", props.screen.id)}>
+      <div class="slideshows-item-header-left" on:click={() => dispatch("update", props.slideshow.id)}>
         <div class="slideshows-item-header-arrow">
           <i class = "fa-soild slideshow-arrow fa-caret down" aria-hidden= "true">
           </i>
@@ -70,12 +73,12 @@
           class="slideshows-item-header-activity tooltippable tooltipText-Active"
         ></div>
         <div class="slideshows-item-header-title">
-          {props.screen.name}
+          {props.slideshow.name}
         </div>
       </div>
       <div class="slideshows-item-header-right">
         <div class="slideshows-item-header-action" aria-hidden= "true">
-          <i class="fa-solid fa-eye" on:click={() => dispatch("focus", props.screen.id)}></i>
+          <i class="fa-solid fa-eye" on:click={() => dispatch("focus", props.slideshow.id)}></i>
         </div>
         <div class="slideshows-item-header-action">
           <i class="fa-solid fa-box-archive"></i>
@@ -91,18 +94,18 @@
     <div class="slideshows-item-header-bottom">
       <i class="fa-solid fa-tower-cell"></i>
       <div class="slideshows-item-live-list">
-        {#each props.screen.Screens as name}
+        {#each props.slideshow.Screens as name}
           <div class="slideshows-item-live-screen">{name}</div>
         {/each}
       </div>
     </div>
     <div
       class="slideshow-body-list"
-      style="display: {props.selectedId == props.screen.id ? 'block' : 'none'}"
+      style="display: {props.selectedId == props.slideshow.id ? 'block' : 'none'}"
     >
       <div bind:this={listElement} class="drag-delete-me">
-        {#each props.screen.visualMediaInclusionCollection as content}
-          <Content {content} />
+        {#each props.slideshow.visualMediaInclusionCollection as content}
+          <Content {content}/>
         {/each}
       </div>
       <!-- svelte-ignore a11y_click_events_have_key_events -->

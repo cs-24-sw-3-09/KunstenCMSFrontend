@@ -4,14 +4,12 @@
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
 
-    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
         doClose();
     } 
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
-    import TextInput from "$lib/components/modal/textinput.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import MediaItem from "$lib/components/modal/mediaItem.svelte";
 
@@ -67,7 +65,6 @@
                         selectedItem = item;
                         updateState(event.detail);
                         }} />
-                    
                 {/each}
             </div>
 

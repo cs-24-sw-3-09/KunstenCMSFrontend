@@ -3,7 +3,7 @@
 
     let content = props.content;
 
-  
+    
 
 
 
@@ -23,7 +23,7 @@
         <div draggable="true" class="slideshows-body-item">
             <div class="slideshows-body-item-preview">
                 <img
-                    src="http://152.53.110.114:8080/files/{content.visualMedia.location}"
+                    src="http://152.53.110.114:8080/files{content.visualMedia.location}"
                     alt=""
                 />
             </div>
@@ -38,10 +38,10 @@
                     <div class="slideshows-body-item-duration-icon">
                         <i class="fa-regular fa-clock"></i>
                     </div>
-                    <div class="slideshows-body-item-duration-title">
+                    <div class="slideshows-body-item-duration-title"  >
                         Duration:
                     </div>
-                    <div class="slideshows-body-item-duration-input">
+                    <div class="slideshows-body-item-duration-input non-draggable">
                         <input type="text" value={content.slideDuration} />
                     </div>
                 </div>
