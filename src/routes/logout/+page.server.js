@@ -1,8 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
-export const actions = {
-	default: ({ cookies }) => {
-		cookies.delete('authToken', { path: '/' });
-		redirect(303, '/login');
-	}
+export const load = async ({ cookies }) => {
+	// Clear the auth token cookie
+	cookies.delete('authToken', { path: '/' });
+	throw redirect(303, '/login');
 };

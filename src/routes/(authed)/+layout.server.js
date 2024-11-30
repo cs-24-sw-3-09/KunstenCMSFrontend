@@ -1,7 +1,9 @@
-import {redirect} from "@sveltejs/kit"
 
-export function load({ cookies, url }) {
-	if (!cookies.get("authToken")) {
-		redirect(303, `/login?redirectTo=${url.pathname}`);
-	}
+// load user from locals for modifieing the layout
+/** @type {import("./$types").PageServerLoad} */
+export async function load({ locals }) {
+    return { 
+        user: locals.user, 
+    };
 }
+

@@ -2,6 +2,12 @@ import { fail, redirect } from '@sveltejs/kit';
 
 const API_URL = import.meta.env.VITE_API_URL
 
+// Load function that clears the auth token cookie
+export const load = async ({ cookies }) => {
+	// Clear the auth token cookie
+	cookies.delete('authToken', { path: '/' });
+};
+
 // Actions:
 // - Login
 
@@ -50,9 +56,15 @@ export const actions = {
 		if (loginResponse.status === 200) {
 			const token = await loginResponse.text(); // Extract the jwt token as plain text
 		
-			cookies.set("authToken", token, { path: '/' }); // Set the jwt token as a cookie
+			// Set the jwt token as a cookie
+			cookies.set("authToken", token, { 
+				path: '/',
+				httpOnly: true, // Prevent JavaScript access. Good practice to prevent XSS attacks
+				secure: true, // Ensures the cookie is sent only over HTTPS
+				sameSite: 'strict', // To prevent the cookie from being sent in cross-site requests
+				maxAge: 60 * 60 * 24 * 7 // 7 days
+			}); 
 		
-			console.log("Token:", token); // Optional: Log for debugging
 			redirect(303, url.searchParams.get('redirectTo') ?? '/dashboard');
 		}		
 	},
