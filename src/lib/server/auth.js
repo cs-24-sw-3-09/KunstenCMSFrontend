@@ -7,10 +7,15 @@ export async function authenticateUser({ request, cookies }) {
     if (token) {
         const user = { 
             id: 13,
-            name: "sebastian",
+            firstName: "Sebastian",
+            lastName: "Lorenzen",
             email: "admin@kunsten.dk",
-            admin: false,
-            mediaPlanner: true
+            pauseNotificationStart: "2024/12/20",
+            pauseNotificationEnd: "2024/12/30",
+            notificationState: true,
+            mediaPlanner: true,
+            admin: true,
+        
         };
 		return user;
     }
