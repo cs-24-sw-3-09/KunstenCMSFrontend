@@ -2,8 +2,8 @@
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props();
 
-    import HeaderDates from "./headerdates.svelte";
     import Button from "$lib/components/button.svelte";
+    import NewTimeslotModal from "$lib/components/schedule/newtimeslotmodal.svelte";
 
     let weekView = $state(true);
     
@@ -19,9 +19,10 @@
         showNewTimeslotModal = false;
         showEditTimeslotModal = !showEditTimeslotModal;
     }
-    
+
     let focusDate = $state();
     focusDate = new Date();
+    $inspect(focusDate);
 
     let formatFocusDate = $derived.by(() => {
         const options = {
@@ -29,9 +30,8 @@
             month: "short",
         };
 
-        const rt = focusDate.toLocaleDateString("en-GB", options)
+        return focusDate.toLocaleDateString("en-GB", options)
             + ", " + focusDate.getFullYear();
-        return rt;
     }); // Reactive variable
     
     let focusWeek = $derived.by(() => {
@@ -44,11 +44,9 @@
             month: "short",
         };
 
-        const rt = focusWeek.start.toLocaleDateString("en-GB", options)
+        return focusWeek.start.toLocaleDateString("en-GB", options)
             + " - " + focusWeek.end.toLocaleDateString("en-GB", options)
             + ", " + focusDate.getFullYear();
-
-        return rt;
     });// Reactive variable
 
     function updateFocusWeek(date) {
@@ -61,12 +59,6 @@
         endOfWeek.setDate(startOfWeek.getDate() + 6); // Should be sunday
 
         const weekNumber = getISOWeekNumber(date, startOfWeek);
-
-        console.log({
-            week: weekNumber,
-            start: startOfWeek,
-            end: endOfWeek,
-        });
 
         return {
             week: weekNumber,
@@ -88,7 +80,23 @@
         return weekNumber;
     }
 
+    let formatWeekDayHeader = $derived.by(() => {
+        const startOfWeek = focusWeek.start.getDate()
 
+        const weekDates = [];
+        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        for (let i = 0; i < 7; i++) {
+            const currentDay = new Date(focusDate);
+            currentDay.setDate(startOfWeek + i);
+
+            const dayName = daysOfWeek[currentDay.getDay()];
+            const formattedDate = `${dayName} ${currentDay.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })}`;
+            weekDates.push(formattedDate);
+        }
+
+        return weekDates;
+    }); // Reactive variable
 </script>
 
 <div class="main-content">
@@ -106,27 +114,39 @@
                 </div>
                 <div>
                     {#if weekView}
-                        <Button
-                            text={"Change to Day View"}
-                            clickFunction={() => (weekView = false)}
-                        />
+                        <Button text={"Change to Day View"} clickFunction={() => (weekView = false)} />
                     {:else}
-                        <Button
-                            text={"Change to Week View"}
-                            clickFunction={() => (weekView = true)}
-                        />
+                        <Button text={"Change to Week View"} clickFunction={() => (weekView = true)} />
                     {/if}
                 </div>
                 <div>
-                    <Button text={"Today"} />
-                    <Button text={"<"} />
-                    <Button text={">"} />
+                    <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
+                    
+                    {#if weekView}
+                        <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7))}}><i class="arrow left"></i></button>
+                        <button aria-label="Next Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 7))}}><i class="arrow right"></i></button>
+                    {:else}
+                        <button aria-label="Previous Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 1))}}><i class="arrow left"></i></button>
+                        <button aria-label="Next Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 1))}}><i class="arrow right"></i></button>
+                    {/if}
                 </div>
             </div>
         </div>
         
         {#if weekView}
-            WeekView
+        <div class="schedule-week-header-bottom">
+            <div class="schedule-week-header-devices">Week: {focusWeek.week}</div>
+            {#each [0, 1, 2, 3, 4, 5, 6] as offest}
+                <a class="schedule-week-header-day" onclick={() => {
+                    /* TODO: Add logic to change the focus date */
+                    focusDate = new Date(focusDate.setDate(focusDate.getDate() + offest));
+                    weekView = !weekView;
+                    }}>{formatWeekDayHeader[offest]}</a>
+            {/each}
+        </div>    
+
+
+
         {:else}
             DayView
         {/if}
@@ -135,7 +155,7 @@
 </div>
 
 {#if showNewTimeslotModal}
-    NewTimeslotModal
+    <NewTimeslotModal />
 {/if}
 {#if showEditTimeslotModal}
     EditTimeslotModal
@@ -143,5 +163,4 @@
 
 <style>
     @import "$lib/styles/schedule.css";
-    @import "$lib/styles/button.css";
 </style>
