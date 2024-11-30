@@ -4,6 +4,7 @@
 
     import Button from "$lib/components/button.svelte";
     import NewTimeslotModal from "$lib/components/schedule/newtimeslotmodal.svelte";
+    import EditTimeslotModal from "$lib/components/schedule/edittimeslotmodal.svelte";
 
     let weekView = $state(true);
     
@@ -22,7 +23,7 @@
 
     let focusDate = $state();
     focusDate = new Date();
-    $inspect(focusDate);
+    //$inspect(focusDate);
 
     let formatFocusDate = $derived.by(() => {
         const options = {
@@ -35,7 +36,21 @@
     }); // Reactive variable
     
     let focusWeek = $derived.by(() => {
-        return updateFocusWeek(focusDate);
+        const dayOfWeek = focusDate.getDay();
+        const daysToMonday = (dayOfWeek + 6) % 7;
+        const startOfWeek = new Date(focusDate);
+        startOfWeek.setDate(focusDate.getDate() - daysToMonday); // Adjust for Monday
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Should be sunday
+
+        const weekNumber = getISOWeekNumber(focusDate, startOfWeek);
+
+        return {
+            week: weekNumber,
+            start: startOfWeek,
+            end: endOfWeek,
+        };
     }); // Reactive variable
 
     let formatFocusWeek = $derived.by(() => {
@@ -48,24 +63,6 @@
             + " - " + focusWeek.end.toLocaleDateString("en-GB", options)
             + ", " + focusDate.getFullYear();
     });// Reactive variable
-
-    function updateFocusWeek(date) {
-        const dayOfWeek = date.getDay();
-        const daysToMonday = (dayOfWeek + 6) % 7;
-        const startOfWeek = new Date(date);
-        startOfWeek.setDate(date.getDate() - daysToMonday); // Adjust for Monday
-
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6); // Should be sunday
-
-        const weekNumber = getISOWeekNumber(date, startOfWeek);
-
-        return {
-            week: weekNumber,
-            start: startOfWeek,
-            end: endOfWeek,
-        };
-    }
 
     function getISOWeekNumber(date, from) {
         const dayOfWeek = date.getDay() || 7; 
@@ -97,6 +94,8 @@
 
         return weekDates;
     }); // Reactive variable
+
+    let time = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 </script>
 
 <div class="main-content">
@@ -110,7 +109,7 @@
                     {:else}
                         {formatFocusDate}
                     {/if}
-                    <Button text={"New Timeslot"} />
+                    <Button text={"New Timeslot"} clickFunction={() => {showNewTimeslotModal = true}} />
                 </div>
                 <div>
                     {#if weekView}
@@ -143,22 +142,40 @@
                     weekView = !weekView;
                     }}>{formatWeekDayHeader[offest]}</a>
             {/each}
+
+
+
+
+
+
+            
         </div>    
 
-
-
         {:else}
-            DayView
+            <div class="schedule-day-body-header">
+                <div class="schedule-day-blank"></div>
+                <div class="schedule-day-times">
+                {#each time as times}
+                    <div class="schedule-day-time">{times + ":00"}</div>
+                {/each}
+                </div>
+            </div>
+
+
+
+
+
+
         {/if}
         
     </div>
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal />
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} />
 {/if}
 {#if showEditTimeslotModal}
-    EditTimeslotModal
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} />
 {/if}
 
 <style>

@@ -45,9 +45,52 @@
 .schedule-week-header-day:hover {
     background-color: rgb(224, 224, 224);
     cursor: pointer;
+}
+
+.schedule-day-body-header {
+    display: flex;
+    border-bottom: 1px solid rgb(182, 182, 182);
+}
+
+.schedule-day-times {
+    display: flex;
+    flex: 24;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+}
+
+.schedule-day-time {
+    flex: 1;
+    padding: 4px;
+    font-size: 14px;
+    color: rgb(56, 56, 56);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.schedule-day-time:not(:last-child) {
+    border-right: 1px solid rgb(182, 182, 182);
+    position: relative;
+}
+
+.schedule-day-time:not(:last-child):after {
+    content: "";
+    border-left: 1px dotted rgb(221, 221, 221);
+    position: absolute;
+    top: 24px;
+    right: -1px;
+    height: 388px;
+}
+
+.schedule-day-blank {
+    border-right: 1px solid rgb(182, 182, 182);
+    width: 200px;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
   }
-
-
 
 
 
@@ -61,24 +104,24 @@
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
-  }
-  
-  .right {
+}
+
+.right {
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-  }
-  
-  .left {
+}
+
+.left {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
-  }
-  
-  .up {
+}
+
+.up {
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
-  }
-  
-  .down {
+}
+
+.down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
-  }
+}
