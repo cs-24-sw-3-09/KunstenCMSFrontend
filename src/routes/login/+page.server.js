@@ -67,7 +67,7 @@ export const actions = {
 				maxAge: 60 * 60 * 24 * 7 // 7 days
 			}); 
 		
-			redirect(303, url.searchParams.get('redirectTo') ?? '/dashboard');
+			return redirect(303, url.searchParams.get('redirectTo') ?? '/dashboard');
 		}		
 	},
 };
