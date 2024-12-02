@@ -25,7 +25,7 @@
   <Newslideshow
     doClose={toggleNewslideshowModal}
     allContent = {props.allContent}
-    updateAllContent = {props.updateAllContent}
+    updateSlideshowContent = {props.updateSlideshowContent}
   />
 {/if}
 
@@ -41,7 +41,7 @@
       <input
         type="text"
         placeholder="Search for slideshow"
-        value={props.searchTerm}
+        value={props.searchSlideshow}
         oninput={props.searchTermUpdate}
       />
     </div>

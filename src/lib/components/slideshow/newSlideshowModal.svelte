@@ -1,5 +1,5 @@
 <script>
-    let { doClose, allContent, updateAllContent } = $props();
+    let { doClose, allContent, updateSlideshowContent } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -32,11 +32,7 @@
                     );
                 } else if (result.type === "success") {
                     doClose();
-                    console.log(result.data.newData);
-                    console.log("allcontent",allContent);
-                    //console.log(result.data.newData)
-                    updateAllContent(result.data.newData);
-                    console.log("Allcontent",allContent);
+                    updateSlideshowContent(result.data.newData);
                 }
             };
         }}>

@@ -45,6 +45,8 @@
     let form = new FormData(event.target);
     console.log(form.get(""));
   }
+  let slideshowID = $state(props.slideshow.id); 
+
 </script>
 
 {#if showAddMediaModal}
@@ -55,6 +57,9 @@
     searchTags={props.searchTags}
     searchTermUpdate={props.searchTermUpdate}
     searchTagsUpdate={props.searchTagsUpdate}
+    slideshowID = {slideshowID}
+    Items = {items}
+    updateSlideshowContent = {props.updateSlideshowContent}
   />
 {/if}
 
@@ -113,7 +118,7 @@
     >
       <div bind:this={listElement} class="drag-delete-me">
         {#each props.slideshow.visualMediaInclusionCollection as content}
-          <Content {content} />
+          <Content {content} {slideshowID}/>
         {/each}
       </div>
       <!-- svelte-ignore a11y_click_events_have_key_events -->

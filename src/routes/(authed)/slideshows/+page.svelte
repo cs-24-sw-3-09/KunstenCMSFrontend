@@ -6,16 +6,14 @@
     import Slideshow from "$lib/components/slideshow/slideshow.svelte";
     import Header from "$lib/components/slideshow/slideshowHeader.svelte";
 
-    //console.table(data);
-    //let allContent = slideshows.flatMap((slideshow) => slideshow.content);
-    let allContent = $state(data.slideshow);
-    //console.log(allContent);
-
-    function updateAllContent(data) {
-        allContent = data;
+    let slideshowContent = $state(data.slideshow);
+    let visualMediaContent = $state(data.visualMedia);
+    function updateSlideshowContent(data) {
+        slideshowContent = data;
     }
 
     let searchTerm = $state(""); // For live text search
+    let searchSlideshow = $state("");
     let searchTags = $state(""); // For tag-based filtering
 
     function filterItems(items, searchTerm, searchTags) {
@@ -36,12 +34,15 @@
         return items;
     }
 
+    
+
+
     let filteredData = $derived.by(() => {
-        return filterItems(data, searchTerm, searchTags);
+        return filterItems(visualMediaContent.content, searchTerm, searchTags);
     }); // Reactive var
 
     let filteredslideshow = $derived.by(() => {
-        return filterItems(allContent, searchTerm, searchTags);
+        return filterItems(slideshowContent, searchSlideshow, searchTags);
     }); // Reactive var
 
     function searchTermUpdate(event) {
@@ -87,9 +88,9 @@
 <div class="main-content">
     <Header
         on:update={(event) => updateChecked(event.detail)}
-        {searchTerm}
+        {searchSlideshow}
         {searchTermUpdate}
-        {updateAllContent}
+        updateSlideshowContent={updateSlideshowContent}
     />
 
     {#each filteredslideshow as slideshow}
@@ -105,6 +106,7 @@
                 {searchTerm}
                 {searchTagsUpdate}
                 {searchTermUpdate}
+                updateSlideshowContent = {updateSlideshowContent}
             />
         {/if}
     {/each}
