@@ -18,8 +18,6 @@
         doClose();
     }
 
-    //let position = (Items.id == selectedId ? Items.length + 1 : null);
-
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import Button from "$lib/components/modal/button.svelte";
@@ -56,7 +54,7 @@
                 formData.set("fileType", selectedItem.fileType);
                 formData.set("description", selectedItem.description);
                 formData.set("ssId", slideshowID);
-                formData.set("ssPos", Items.length + 2); // Plus +1 do to 0-index and +1 for getting over the size
+                formData.set("ssPos", Items.length + 1);
 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object

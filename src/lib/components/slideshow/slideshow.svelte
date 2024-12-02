@@ -6,7 +6,7 @@
 
   const dispatch = createEventDispatcher();
 
-  import Content from "./slideshowcontent.svelte";
+  import Slideshowcontent from "./slideshowcontent.svelte";
   import AddMedia from "./addMediaModal.svelte";
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
@@ -125,7 +125,7 @@
               </button>
           </div>
         </form>
-        <!-- Copy slidehow -->
+        <!-- Copy slideshow -->
         <form
           method="post"
           action="?/changeArchviedState"
@@ -207,7 +207,7 @@
     >
       <div bind:this={listElement} class="drag-delete-me">
         {#each props.slideshow.visualMediaInclusionCollection as content}
-          <Content {content} {slideshowID} />
+          <Slideshowcontent content = {content} slideshowID = {slideshowID} slideshow = {props.slideshow} />
         {/each}
       </div>
       <!-- svelte-ignore a11y_click_events_have_key_events -->

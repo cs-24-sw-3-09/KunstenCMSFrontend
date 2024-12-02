@@ -119,9 +119,18 @@ export const actions = {
         if (!formData.get("name")) {
             return fail(400, { error: "did not pick an Visual Media" });
         }
+        //console.log("sspos", formData.get("ssPos"));
 
         // requestBody sendt for the patch action
-        let requestBody = "{\"id\": 0, \"slideDuration\": 25, \"slideshowPosition\": " + formData.get("ssPos") + ", \"visualMedia\": {\"id\": " + formData.get("id") + ", \"type\": \"visualMedia\"}}";
+        let requestBody = JSON.stringify({
+            id: 0,
+            slideDuration: 25,
+            slideshowPosition: formData.get("ssPos"),
+            visualMedia: {
+                id: formData.get("id"),
+                type: "visualMedia",
+            },
+        });
 
         // Send the request to the backend        
         const response = await fetch(API_URL + "/api/visual_media_inclusions", {
@@ -136,7 +145,9 @@ export const actions = {
         let newVMIId = responseData.id
 
         // Send the request to the backend     
-        requestBody = "{\"visualMediaInclusionId\": " + newVMIId + "}"
+        requestBody = JSON.stringify({
+            visualMediaInclusionId: newVMIId
+        });
         const secondResponse = await fetch(API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
             method: "PATCH",
             headers: {
@@ -147,8 +158,8 @@ export const actions = {
         });
 
         responseData = await secondResponse.json();
-
-        if (responseData.status !== 201) {
+        console.log("status", response.status, secondResponse.status)
+        if (response.status !== 201 || secondResponse.status !== 200) {
             return fail(response.status, { error: "Failed to add visual media to slideshow." });
         }
 
@@ -209,3 +220,4 @@ async function getSlideshows({ cookies, url, request }) {
     let slideshowData = await slideshow.json();
     return slideshowData;
 }
+
