@@ -1,7 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import { SOCKET_URL } from "$env/static/private";
-import { VITE_API_URL } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
 export const load = async ({ params }) => {
     if(isNaN(params.id) || params.id.indexOf(".") !== -1) {
@@ -9,7 +8,7 @@ export const load = async ({ params }) => {
     }
 	return {
 	    deviceId: params.id,
-        socketUrl: SOCKET_URL,
-        apiUrl: VITE_API_URL
+        socketUrl: env.SOCKET_URL,
+        apiUrl: env.VITE_API_URL
 	};
 };
