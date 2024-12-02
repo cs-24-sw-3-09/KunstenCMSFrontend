@@ -1,4 +1,5 @@
 <script>
+  //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
 
   import { createEventDispatcher } from "svelte";
@@ -7,6 +8,8 @@
 
   import Content from "./slideshowcontent.svelte";
   import AddMedia from "./addMediaModal.svelte";
+  import Button from "$lib/components/modal/button.svelte";
+  import { enhance } from "$app/forms";
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -20,15 +23,15 @@
       filter: ".non-draggable",
       preventOnFilter: false,
       onEnd: (event) => {
-    const [movedItem] = items.splice(event.oldIndex, 1);
-    items.splice(event.newIndex, 0, movedItem);
-    items.forEach((item, i) => {
-        item.slideshowPosition = i + 1;
-    });
+        const [movedItem] = items.splice(event.oldIndex, 1);
+        items.splice(event.newIndex, 0, movedItem);
+        items.forEach((item, i) => {
+          item.slideshowPosition = i + 1;
+        });
 
-    dispatch("updateOrder", items);
-    console.log(items);
-},
+        dispatch("updateOrder", items);
+        console.log(items);
+      },
     });
   });
 
@@ -45,8 +48,7 @@
     let form = new FormData(event.target);
     console.log(form.get(""));
   }
-  let slideshowID = $state(props.slideshow.id); 
-
+  let slideshowID = $state(props.slideshow.id);
 </script>
 
 {#if showAddMediaModal}
@@ -57,9 +59,9 @@
     searchTags={props.searchTags}
     searchTermUpdate={props.searchTermUpdate}
     searchTagsUpdate={props.searchTagsUpdate}
-    slideshowID = {slideshowID}
-    Items = {items}
-    updateSlideshowContent = {props.updateSlideshowContent}
+    {slideshowID}
+    Items={items}
+    updateSlideshowContent={props.updateSlideshowContent}
   />
 {/if}
 
@@ -84,6 +86,7 @@
           {props.slideshow.name}
         </div>
       </div>
+
       <div class="slideshows-item-header-right">
         <div class="slideshows-item-header-action" aria-hidden="true">
           <i
@@ -91,9 +94,32 @@
             on:click={() => dispatch("focus", props.slideshow.id)}
           ></i>
         </div>
-        <div class="slideshows-item-header-action">
-          <i class="fa-solid fa-box-archive"></i>
-        </div>
+        <form
+          method="post"
+          action="?/changeArchviedState"
+          use:enhance={({ formData }) => {
+            formData.set("isArchived", !props.archivedState);
+            formData.set("slideshowID", props.slideshow.id);
+
+            return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+                alert(
+                  `Failed to change slideshow to archived status, please reload page (F5).\n${result.data?.error}`,
+                );
+              } else if (result.type === "success") {
+                props.updateSlideshowContent(result.data.newData);
+              }
+            };
+          }}
+        >
+          <div class="slideshows-item-header-action">
+            <div class="slideshows-item-header-action">
+              <button type="submit" class="fa-solid fa-box-archive"></button>
+            </div>
+          </div>
+        </form>
         <div class="slideshows-item-header-action">
           <i class="fa-solid fa-copy"></i>
         </div>
@@ -118,7 +144,7 @@
     >
       <div bind:this={listElement} class="drag-delete-me">
         {#each props.slideshow.visualMediaInclusionCollection as content}
-          <Content {content} {slideshowID}/>
+          <Content {content} {slideshowID} />
         {/each}
       </div>
       <!-- svelte-ignore a11y_click_events_have_key_events -->

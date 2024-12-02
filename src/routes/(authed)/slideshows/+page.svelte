@@ -56,6 +56,7 @@
     var selectedId = $state(null);
     var isChecked = $state(false);
     var focusedSlideshow = $state(null);
+    var archivedState = $state(false);
 
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
@@ -83,6 +84,11 @@
             console.log("Updated slideshow:", slideshowToUpdate);
         }
     }
+
+    function flipArchived (state){
+        archivedState = !state;
+    }
+
 </script>
 
 <div class="main-content">
@@ -101,9 +107,11 @@
                 on:update={(event) => updateState(event.detail)}
                 on:focus={(event) => focusSlideshow(event.detail)}
                 on:updateOrder={(event) => handleOrderUpdate(event.detail)}
+                on:archived={(event) => flipArchived(event.detail)}
                 {selectedId}
                 {searchTags}
                 {searchTerm}
+                {archivedState}
                 {searchTagsUpdate}
                 {searchTermUpdate}
                 updateSlideshowContent = {updateSlideshowContent}
