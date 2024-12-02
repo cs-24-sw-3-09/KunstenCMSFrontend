@@ -98,7 +98,7 @@
           method="post"
           action="?/changeArchviedState"
           use:enhance={({ formData }) => {
-            formData.set("isArchived", !props.archivedState);
+            formData.set("isArchived", !props.slideshow.isArchived);
             formData.set("slideshowID", props.slideshow.id);
 
             return async ({ result }) => {
@@ -115,17 +115,80 @@
           }}
         >
           <div class="slideshows-item-header-action">
-            <div class="slideshows-item-header-action">
-              <button type="submit" class="fa-solid fa-box-archive"></button>
-            </div>
+              <!-- svelte-ignore a11y_consider_explicit_label -->
+              <button
+                type="submit"
+                style="all: unset; display: inline-block; cursor: pointer;"
+              >
+                <!-- svelte-ignore element_invalid_self_closing_tag -->
+                <i class="fa-solid fa-box-archive" />
+              </button>
           </div>
         </form>
-        <div class="slideshows-item-header-action">
-          <i class="fa-solid fa-copy"></i>
-        </div>
-        <div class="slideshows-item-header-action">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+        <!-- Copy slidehow -->
+        <form
+          method="post"
+          action="?/changeArchviedState"
+          use:enhance={({ formData }) => {
+            formData.set("isArchived", !props.slideshow.isArchived);
+            formData.set("slideshowID", props.slideshow.id);
+
+            return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+                alert(
+                  `Failed to change slideshow to archived status, please reload page (F5).\n${result.data?.error}`,
+                );
+              } else if (result.type === "success") {
+                props.updateSlideshowContent(result.data.newData);
+              }
+            };
+          }}
+        >
+          <div class="slideshows-item-header-action">
+            <!-- svelte-ignore a11y_consider_explicit_label -->
+            <button
+              type="submit"
+              style="all: unset; display: inline-block; cursor: pointer;"
+            >
+              <!-- svelte-ignore element_invalid_self_closing_tag -->
+              <i class="fa-solid fa-copy" />
+            </button>
+          </div>
+        </form>
+
+        <!-- Delete slideshow -->
+        <form
+          method="post"
+          action="?/deleteSlideshow"
+          use:enhance={({ formData }) => {
+            formData.set("slideshowID", props.slideshow.id);
+
+            return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+                alert(
+                  `Failed to delete slideshow, please reload page (F5).\n${result.data?.error}`,
+                );
+              } else if (result.type === "success") {
+                props.updateSlideshowContent(result.data.newData);
+              }
+            };
+          }}
+        >
+          <div class="slideshows-item-header-action">
+            <!-- svelte-ignore a11y_consider_explicit_label -->
+            <button
+              type="submit"
+              style="all: unset; display: inline-block; cursor: pointer;"
+            >
+              <!-- svelte-ignore element_invalid_self_closing_tag -->
+              <i class="fa-solid fa-trash" />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="slideshows-item-header-bottom">

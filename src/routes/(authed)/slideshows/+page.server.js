@@ -43,20 +43,19 @@ export async function load({ cookies }) {
 
 /** @type {import("./$types").Actions} */
 export const actions = {
-    deleteSlideshow: async ({ cookies, id }) => {
-        const slideshow = await fetch(API_URL + "/api/slideshows/" + id, {
+    deleteSlideshow: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        const slideshow = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
             }
         })
 
-        const slideshowData = await slideshow.json();
-
-        if (responseData.status == 404) {
-            return fail(response.status, { error: "Could not find the slideshow." });
-        } else if (responseData.status !== 204) {
-            return fail(response.status, { error: "Failed to delete slideshow." });
+        if (slideshow.status == 404) {
+            return fail(slideshow.status, { error: "Could not find the slideshow." });
+        } else if (slideshow.status !== 204) {
+            return fail(slideshow.status, { error: "Failed to delete slideshow." });
         }
 
         let newSlideshowData = await getSlideshows({ cookies, url, request });
@@ -65,7 +64,7 @@ export const actions = {
             newData: newSlideshowData,
         };
     },
-    changeArchviedState: async ({ cookies, request }) => {
+    changeArchviedState: async ({ cookies, url, request }) => {
         const formData = await request.formData();
         console.log("From state server", formData);
 
@@ -73,8 +72,6 @@ export const actions = {
         const requestBody = JSON.stringify({
             isArchived: formData.get("isArchived"), // Convert formData value to JSON
         });
-
-        console.log(requestBody);
 
         const slideshow = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
             method: "PATCH",
@@ -86,13 +83,10 @@ export const actions = {
         });
 
         const slideshowData = await slideshow.json();
-        console.log("slideshowdata",slideshowData);
-        console.log("skudeshow", slideshow)
         if (slideshow.status == 404) {
             console.log("herer1234")
             return fail(slideshow.status, { error: "Could not find the slideshow." });
         } else if (slideshow.status != 200) {
-            console.log("herer1234567654321", slideshow.status)
             return fail(slideshow.status, { error: "Failed to change archived state for slideshow." });
         }
 
@@ -128,8 +122,7 @@ export const actions = {
 
         // requestBody sendt for the patch action
         let requestBody = "{\"id\": 0, \"slideDuration\": 25, \"slideshowPosition\": " + formData.get("ssPos") + ", \"visualMedia\": {\"id\": " + formData.get("id") + ", \"type\": \"visualMedia\"}}";
-        //console.log("resbody", requestBody)
-        //console.log("joson "+requestBody)
+
         // Send the request to the backend        
         const response = await fetch(API_URL + "/api/visual_media_inclusions", {
             method: "POST",
@@ -140,12 +133,8 @@ export const actions = {
             body: requestBody,
         });
         let responseData = await response.json();
-        //console.log("resData", responseData.id)
         let newVMIId = responseData.id
 
-        //console.log("resbody", requestBody)
-        //console.log("ssid", formData.get("ssId"))
-        //console.log("joson "+requestBody)
         // Send the request to the backend     
         requestBody = "{\"visualMediaInclusionId\": " + newVMIId + "}"
         const secondResponse = await fetch(API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
