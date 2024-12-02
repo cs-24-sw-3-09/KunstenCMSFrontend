@@ -1,6 +1,6 @@
 <script>
   let props = $props();
-  import Newslideshow from "$lib/components/newSlideshowModal.svelte";
+  import Newslideshow from "./newSlideshowModal.svelte";
 
   let showNewslideshowModal = $state(false);
 

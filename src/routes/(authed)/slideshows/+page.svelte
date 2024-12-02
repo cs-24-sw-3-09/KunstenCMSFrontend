@@ -2,8 +2,8 @@
     // Export form
     let { form } = $props(); // Is automatically populated by SvelteKit
 
-    import Slideshow from "$lib/components/slideshow.svelte";
-    import Header from "$lib/components/slideshowHeader.svelte";
+    import Slideshow from "$lib/components/slideshow/slideshow.svelte";
+    import Header from "$lib/components/slideshow/slideshowHeader.svelte";
 
     import { testVisualMedia } from "$lib/testdata.js";
 
@@ -138,6 +138,9 @@
     ];
 
     let data = $state(testVisualMedia);
+
+    
+    console.table(data);
     let allContent = slideshows.flatMap((slideshow) => slideshow.content);
     console.log(allContent);
 
