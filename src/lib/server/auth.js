@@ -1,31 +1,24 @@
 
+const API_URL = import.meta.env.VITE_API_URL
+
 /** @type {import('@sveltejs/kit').RequestEvent} */
 export async function authenticateUser({ request, cookies }) {
 
 	const token = cookies.get('authToken');
 	
     if (token) {
-        const user = { 
-            id: 13,
-            firstName: "Sebastian",
-            lastName: "Lorenzen",
-            email: "admin@kunsten.dk",
-            pauseNotificationStart: "2024/12/20",
-            pauseNotificationEnd: "2024/12/30",
-            notificationState: true,
-            mediaPlanner: true,
-            admin: true,
+        const user = await fetch(API_URL+"/api/account", {
+            method: "GET",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token,
+            },
+        });
+
+        const userData = await user.json();
         
-        };
-		return user;
+		return userData;
     }
 
     return null;
-
-	/* try {
-		const decoded = jwt.verify(token, 'your-secret-key'); // Replace with your secret or public key
-		return { user: decoded }; // Expose user info to the layout
-	} catch {
-		return false;
-	} */
 }

@@ -1,5 +1,6 @@
-
 import { fail } from "@sveltejs/kit";
+
+const API_URL = import.meta.env.VITE_API_URL
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
@@ -63,7 +64,23 @@ export const actions = {
         console.log(requestBody);
 
         // Send the request to the backend        
-        /* TODO */
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+        console.log(response.status);
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
 
         return { success: true };
     },

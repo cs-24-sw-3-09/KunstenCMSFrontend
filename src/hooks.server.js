@@ -14,7 +14,6 @@ export async function handle({ event, resolve }) {
 
     console.log("user", event.locals.user);
 
-
     const protectedUserRoutes = ["/dashboard", "/profile"];
     //if (event.url.pathname.startsWith("/(authed)")) {
     if (protectedUserRoutes.some(route => event.url.pathname.startsWith(route))) {
