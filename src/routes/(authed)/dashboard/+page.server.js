@@ -1,5 +1,13 @@
 import { fail } from "@sveltejs/kit";
 
+// load user from locals for modifieing the page
+/** @type {import("./$types").PageServerLoad} */
+export async function load({ locals }) {
+    return { 
+        user: locals.user, 
+    };
+}
+
 // Actions:
 // - New Device
 // - Edit Device

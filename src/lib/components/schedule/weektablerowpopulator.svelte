@@ -7,7 +7,7 @@
 <div class="schedule-week-schema-row">
     <div class="schedule-week-schema-row-device">{device.name}</div>
     <!-- column contains a collection of timeslots/feilds -->    
-    {#each {length: 7-device.fields.length} as _, day}
+    {#each {length: 9-device.fields.length} as _, day}
         <Field fields={device.fields[day]} />  
     {/each}
     <!-- <Field fields={device.fields[0]}/>
