@@ -59,9 +59,9 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit User");
-        console.log("requestBody");
-        console.log(requestBody);
+        //console.log("Edit User");
+        //console.log("requestBody");
+        //console.log(requestBody);
 
         // Send the request to the backend        
         const response = await fetch(API_URL+"/api/account", {
@@ -75,8 +75,8 @@ export const actions = {
 
         const responseData = await response.json();
 
-        console.log(responseData);
-        console.log(response.status);
+        //console.log(responseData);
+        //console.log(response.status);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
@@ -149,7 +149,24 @@ export const actions = {
         console.log(requestBody);
 
         // Send the request to the backend
-        /* TODO */
+        // Send the request to the backend        
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+        console.log(response.status);
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
 
         return { success: true };
     },
@@ -180,7 +197,24 @@ export const actions = {
         console.log(requestBody);
 
         // Send the request to the backend
-        /* TODO */
+        // Send the request to the backend        
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+        console.log(response.status);
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
 
         return { success: true };
     }
