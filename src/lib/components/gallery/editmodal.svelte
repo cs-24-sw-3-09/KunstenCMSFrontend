@@ -40,8 +40,6 @@
                 }
             };
         }}>
-            <Smallheader text="About:" />
-
             <TextInput title={"Name"} placeholder={"Name here"} name={"name"} value={item.name} required="true" />
             <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={item.description} required="true" />
 

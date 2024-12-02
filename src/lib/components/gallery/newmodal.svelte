@@ -42,9 +42,8 @@
                 };
             }}
         >
-            <Smallheader text="About:" />
 
-            <TextInput
+            <!-- <TextInput
                 title={"Name"}
                 placeholder={"Name here"}
                 name={"name"}
@@ -68,7 +67,7 @@
                 value={""}
             />
 
-            <Separator />
+            <Separator /> -->
 
             <ImageInput name={"file"} />
 

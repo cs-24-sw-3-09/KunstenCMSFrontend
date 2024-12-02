@@ -1,5 +1,34 @@
-
 import { fail } from "@sveltejs/kit";
+import { mimeToType } from "$lib/utils/fileutils";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+/** @type {import("./$types").PageServerLoad} */
+export async function load({ cookies }) {
+
+    const VisualMedia = await fetch(API_URL+"/api/visual_medias", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    })
+
+    const visualMediasData = await VisualMedia.json();
+
+    for (let i = 0; i < visualMediasData.content.length; i++) {
+        visualMediasData.content[i].src = 
+            API_URL + "/files/visual_media/" 
+            + visualMediasData.content[i].id 
+            + mimeToType(visualMediasData.content[i].fileType);
+    }
+
+    console.log(visualMediasData);
+    
+    return { 
+        visualMedias: visualMediasData, 
+    };
+}
 
 // Actions:
 // - New VisualMedia
@@ -16,6 +45,7 @@ export const actions = {
     newVisualMedia : async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
+        /* 
         // Tags are an array of objects, where each object has a text property
         // Files are blobs
         let data = {
@@ -45,11 +75,29 @@ export const actions = {
 
         console.log("New Visual Media");
         console.log("requestBody");
-        console.log(requestBody);
-        
+        console.log(requestBody); */
+
+        //console.log(formData);
+
         // Send the request to the backend
-        /* TODO */
-        
+        const response = await fetch(API_URL+"/api/visual_medias", {
+            method: "POST",
+            headers: { 
+                /* "Content-type": "multipart/form-data", */
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: formData,
+        });
+
+        //const responseData = await response.json();
+
+        //console.log(responseData);
+        //console.log(response.status);
+
+        if (response.status !== 201) {
+            return fail(response.status, { error: "Failed to create visual media." });
+        }
+
         return { success: true };
     },
 
