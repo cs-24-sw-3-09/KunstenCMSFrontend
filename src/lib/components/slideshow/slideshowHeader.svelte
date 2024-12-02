@@ -24,7 +24,8 @@
 {#if showNewslideshowModal}
   <Newslideshow
     doClose={toggleNewslideshowModal}
-    doSubmit={submitNewslideshowModal}
+    allContent = {props.allContent}
+    updateAllContent = {props.updateAllContent}
   />
 {/if}
 

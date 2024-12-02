@@ -12,7 +12,7 @@ export async function load({ cookies }) {
             /* "Content-type": "application/json", */
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
-    })
+    });
 
     const slideshowData = await slideshow.json();
 
@@ -32,6 +32,21 @@ export async function load({ cookies }) {
 
 /** @type {import("./$types").Actions} */
 export const actions = {
+    getSlideshows: async({ cookies, url, request }) =>{
+        const slideshow = await fetch(API_URL + "/api/slideshows", {
+            method: "GET",
+            headers: {
+                /* "Content-type": "application/json", */
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        })
+    
+        const slideshowData = await slideshow.json();
+    
+        return {
+            slideshow: slideshowData,
+        };
+    },
     newMediaToSLideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
@@ -43,9 +58,8 @@ export const actions = {
     },
     postNewSlideshow: async ({ cookies, url, request }) => {
         {
-            console.log("here");
             const formData = await request.formData();
-            console.log(formData);
+            //console.log(formData);
             const name = formData.get("name");
             // Extract old data from the form data
 
@@ -57,7 +71,7 @@ export const actions = {
 
             // requestBody sendt for the patch action
             const requestBody = "{\"name\": \""+name+"\", \"isArchived\":0}"; // Parse back to an object
-            console.log("joson "+requestBody)
+            //console.log("joson "+requestBody)
             // Send the request to the backend        
             const response = await fetch(API_URL + "/api/slideshows", {
                 method: "POST",
@@ -67,15 +81,29 @@ export const actions = {
                 },
                 body: requestBody,
             });
+            let responseData = await response.json();
 
-            const responseData = await response.json();
-            console.log("Res");
-            console.table(responseData);
             if (response.status !== 201) {
                 return fail(response.status, { error: "Failed to post slideshow." });
             }
 
-            return { success: true };
+            responseData = await getSlideshows({ cookies, url, request });
+            
+            return { success: true,
+                    newData: responseData,
+             };
         }
     }
+}
+
+async function getSlideshows({ cookies, url, request }){
+    const slideshow = await fetch(API_URL + "/api/slideshows", {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    })
+
+    let slideshowData = await slideshow.json();
+    return slideshowData;
 }

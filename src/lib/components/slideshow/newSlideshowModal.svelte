@@ -1,11 +1,7 @@
 <script>
-    let { doClose, doSubmit } = $props();
+    let { doClose, allContent, updateAllContent } = $props();
 
     import { enhance } from "$app/forms";
-
-    function closeModal() {
-        doClose();
-    }
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -35,7 +31,12 @@
                         `Failed to create new slideshow, please reload page (F5).\n${result.data?.error}`,
                     );
                 } else if (result.type === "success") {
-                    closeModal(); // Call doClose on successful form submission
+                    doClose();
+                    console.log(result.data.newData);
+                    console.log("allcontent",allContent);
+                    //console.log(result.data.newData)
+                    updateAllContent(result.data.newData);
+                    console.log("Allcontent",allContent);
                 }
             };
         }}>
