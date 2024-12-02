@@ -32,7 +32,6 @@
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
-                        //console.log("res:", result.data.responseData);
                         updateProfileData(result.data.responseData);
                         closeModal(); 
                         break;

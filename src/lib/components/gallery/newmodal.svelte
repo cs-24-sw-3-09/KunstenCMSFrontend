@@ -1,14 +1,8 @@
 <script>
     let { doClose } = $props();
-
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
-
-    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
-    function closeModal() {
-        doClose();
-    }
-
+    
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import Smallheader from "$lib/components/modal/smallheader.svelte";
@@ -16,6 +10,11 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import ImageInput from "$lib/components/modal/imageinput.svelte";
+
+    // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
+    function closeModal() {
+        doClose();
+    }
 </script>
 
 <div class="modal">
@@ -24,25 +23,19 @@
         <Header text="New Visual Media" />
 
         <!-- enctype="multipart/form-data" is needed for the file upload -->
-        <form
-            method="post"
-            action="?/newVisualMedia"
-            enctype="multipart/form-data"
-            use:enhance={({}) => {
-                return async ({ result }) => {
-                    // `result` is an `ActionResult` object
-                    if (result.type === "failure") {
-                        // Handle the error
-                        alert(
-                            `Failed to add new visual media, please reload page (F5).\n${result.data?.error}`,
-                        );
-                    } else if (result.type === "success") {
+        <form method="post" action="?/newVisualMedia" enctype="multipart/form-data"
+        use:enhance={({}) => {
+            return async ({ result }) => {
+                switch (result.type) {
+                    case "failure":
+                        alert(`Failed to add new visual media, please reload page (F5).\n${result.data?.error}`);
+                        break;
+                    case "success":
                         closeModal(); // Call doClose on successful form submission
-                    }
-                };
-            }}
-        >
-
+                        break;
+                }
+            };
+        }}>
             <!-- <TextInput
                 title={"Name"}
                 placeholder={"Name here"}
