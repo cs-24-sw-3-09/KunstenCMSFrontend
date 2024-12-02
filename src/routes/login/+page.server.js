@@ -1,4 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
+import fetch from 'node-fetch';
 
 import { env } from "$env/dynamic/private";
 
