@@ -9,7 +9,7 @@
 <div class="gallery-item">
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
-      <img src={item.location} alt="gallery-item-preview" />
+      <img src={item.src} alt="gallery-item-preview" />
     </div>
     <div
       class="gallery-dot tooltippable tooltipText-Active gallery-{item.status ===

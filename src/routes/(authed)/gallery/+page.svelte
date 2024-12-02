@@ -1,7 +1,9 @@
 <script>
     // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    let { data, form } = $props(); // Is automatically populated by SvelteKit
     
+    const API_URL = import.meta.env.VITE_API_URL;
+
     import Gallery from "$lib/components/gallery/gallery.svelte";
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";
     import NewModal from "$lib/components/gallery/newmodal.svelte";
@@ -10,7 +12,8 @@
     // mock data
     import { testVisualMedia } from "$lib/testdata.js";
     
-    let data = $state(testVisualMedia);
+    let visual_medias = $state(data.visualMedias.content);
+    //let visual_medias = $state(testVisualMedia);
     
     let focusItem = $state({});
 
@@ -32,7 +35,7 @@
     }
     
     let filteredData = $derived.by(() => {
-        return filterItems(data, searchTerm, searchTags);
+        return filterItems(visual_medias, searchTerm, searchTags);
     }); // Reactive var
     
     function searchTermUpdate(event) {
@@ -49,7 +52,7 @@
     let showNewModal = $state(false);
     let showEditModal = $state(false);
 
-    function doToggleItemModal(item=focusItem) {
+    async function doToggleItemModal(item=focusItem) {
         focusItem = item;
         showEditModal = false;
         showNewModal = false;

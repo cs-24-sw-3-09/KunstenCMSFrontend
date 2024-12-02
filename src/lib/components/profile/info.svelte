@@ -1,7 +1,3 @@
-<!-- 
-    TODO: Add correct implementation of access text
--->
-
 <script>
     let { profileData } = $props();
 </script>

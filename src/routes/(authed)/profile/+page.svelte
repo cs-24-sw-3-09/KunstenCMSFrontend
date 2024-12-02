@@ -8,11 +8,10 @@
     import EditModal from "$lib/components/profile/editmodal.svelte";
     import PasswordModal from "$lib/components/profile/passwordmodal.svelte";
 
-    let userData = $state(data.user);
+    let profileData = $state(data.user);
 
-    // Callback function for updating checkbox state
-    function updateNotificationState(state) {
-        userData.notificationState = state;
+    function updateProfileData(data) {
+        profileData = data;
     }
 
     let showEditModal = $state(false);
@@ -30,32 +29,23 @@
 <div class="main-content">
     <div class="profile">
         <div class="profile-top">
-            <ProfileInfo
-                profileData={userData}
-                />
+            <ProfileInfo profileData={profileData} />
                 
-                <ProfileEdit
-                profileData={userData}
-                doEditProfile={toggleEditModal}
-                doChangePassword={togglePasswordModal}
-                />
-            </div>
+            <ProfileEdit profileData={profileData} doEditProfile={toggleEditModal} doChangePassword={togglePasswordModal} />
+        </div>
             
-            <div class="profile-notis">
-                <ProfileNotis
-                profileData={userData}
-                onUpdateNotificationState={updateNotificationState}
-            />
+        <div class="profile-notis">
+            <ProfileNotis profileData={profileData} updateProfileData={updateProfileData} />
         </div>
     </div>
 </div>
 
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} profileData={userData} />
+    <EditModal doClose={toggleEditModal} profileData={profileData} updateProfileData={updateProfileData} />
 {/if}
 
 {#if showChangePasswordModal}
-    <PasswordModal doClose={togglePasswordModal} profileData={userData} />
+    <PasswordModal doClose={togglePasswordModal} profileData={profileData} />
 {/if}
 
 <style>
