@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -82,7 +82,20 @@ export const actions = {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
-        return { success: true };
+        if (requestBody.email) {
+            cookies.delete('authToken', { path: '/' });
+        }
+
+        
+        
+
+
+
+
+        return { 
+            success: true,
+            data: responseData,
+        };
     },
     changePassword: async ({ cookies, url, request }) => {
         const formData = await request.formData();

@@ -19,13 +19,6 @@
     import Separator from "$lib/components/modal/separator.svelte";
 </script>
 
-<svelte:head>
-    <script
-        src="https://kit.fontawesome.com/86cff0f4ad.js"
-        crossorigin="anonymous"
-    ></script>
-</svelte:head>
-
 <div class="modal">
     <div class="modal-content">
         <CloseX doFunc={doClose} />
@@ -34,7 +27,12 @@
         <form
             method="post"
             action="?/newDevice"
-            use:enhance={({}) => {
+            use:enhance={({ formData }) => {
+                // `formData` is its `FormData` object that's about to be submitted
+
+                /* formData.set("fallbackContent", options.filter(option => option.id == formData.get("fallbackContent"))[0]);
+                console.log(formData); */
+
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
@@ -61,7 +59,16 @@
                 required="true"
             />
 
-            <Dropdown title={"Fallback"} name={"fallback"} {options} />
+            <!-- <Dropdown title={"Fallback"} name={"fallback"} {options} /> -->
+            
+            <div class="modal-dropdown">
+                <label for={"fallback_id"}>{"Fallback"}</label>
+                <select id={"fallback_id"} name={"fallbackContent"} required>
+                    {#each options as option}
+                        <option value={`{"id": ${option.id}, "type": "${option.type}"}`}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
+                    {/each}
+                </select>
+            </div>
 
             <TextInput
                 title={"Model"}

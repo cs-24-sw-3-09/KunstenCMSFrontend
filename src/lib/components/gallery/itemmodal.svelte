@@ -7,7 +7,7 @@
     <div class="gallery-modal-content">
         <div class="gallery-modal-img-container">
             <img
-                src={item.location}
+                src={item.src}
                 alt="Gallery Image"
                 class="gallery-modal-image"
             />
@@ -28,7 +28,7 @@
                     <div class="gallery-content-mid-list">
                         {#each item.slideshows as slideshow}
                             <div class="gallery-content-mid-list">
-                                {slideshow}
+                                {slideshow.name}
                             </div>
                         {/each}
                     </div>

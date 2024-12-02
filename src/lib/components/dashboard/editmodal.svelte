@@ -61,13 +61,13 @@
                 value={device.location}
             />
 
-            <Dropdown
+            <!-- <Dropdown
                 title={"Fallback"}
                 name={"fallback"}
                 {options}
                 selected={device.fallbackVisualMedia.name}
                 required="true"
-            />
+            /> -->
 
             <Separator />
 
@@ -107,13 +107,14 @@
                 />
             </div>
 
-            <Dropdown
-                title={"Display Orientation"}
-                name={"displayOrientation"}
-                options={["Horizontal", "Vertical"]}
-                selected={device.fallbackVisualMedia.name}
-                required="true"
-            />
+            <div class="modal-dropdown">
+                <label for={"fallback_id"}>{"Fallback"}</label>
+                <select id={"fallback_id"} name={"fallbackContent"} required>
+                    {#each options as option}
+                        <option value={option}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
+                    {/each}
+                </select>
+            </div>
 
             <Separator />
 
