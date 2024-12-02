@@ -68,6 +68,7 @@ export const actions = {
 			}); 
 		
 			redirect(307, url.searchParams.get('redirectTo') ?? '/dashboard');
+			console.log("hit");
 		}		
 	},
 };
