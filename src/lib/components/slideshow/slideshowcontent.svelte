@@ -22,16 +22,14 @@
     <div class="slideshows-body-list">
         <div draggable="true" class="slideshows-body-item">
             <div class="slideshows-body-item-preview">
-                <img
-                    src="http://152.53.110.114:8080/files{content.visualMedia.location}"
-                    alt=""
-                />
+                <img src={content.visualMedia ? `http://152.53.110.114:8080/files${content.visualMedia.location}` : ''} alt="Media">
+
             </div>
             <div class="slideshows-body-item-num">
                 {content.slideshowPosition}
             </div>
             <div class="slideshows-body-item-title">
-                {content.visualMedia.name}
+                {content.visualMedia ? content.visualMedia.name: "No name"}
             </div>
             <div class="slideshows-body-item-settings">
                 <div class="slideshows-body-item-duration">
@@ -42,10 +40,10 @@
                         Duration:
                     </div>
                     <div class="slideshows-body-item-duration-input non-draggable">
-                        {#if content.visualMedia.fileType == "image/jpeg"}
+                        {#if content.visualMedia && (content.visualMedia.fileType == "image/jpeg" || content.visualMedia.fileType == "image/png")}
                         <input type="text" value={content.slideDuration} />
                         {:else}
-                        <label for="country"> {content.slideDuration}:</label>
+                        <label for="country"> {(content.visualMedia)?content.slideDuration: 0}:</label>
                         {/if}
                     </div>
                 </div>

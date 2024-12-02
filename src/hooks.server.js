@@ -12,7 +12,7 @@ export async function handle({ event, resolve }) {
     // Get test user and set to locals
     event.locals.user = await authenticateUser(event);
 
-    console.log("user", event.locals.user);
+    //console.log("user", event.locals.user);
 
 
     const protectedUserRoutes = ["/dashboard", "/profile"];

@@ -1,6 +1,6 @@
 <script>
     // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    let {data, form } = $props(); // Is automatically populated by SvelteKit
 
     import Slideshow from "$lib/components/slideshow/slideshow.svelte";
     import Header from "$lib/components/slideshow/slideshowHeader.svelte";
@@ -137,12 +137,14 @@
         },
     ];
 
-    let data = $state(testVisualMedia);
+    //console.log("Get data:")
+    //console.log(data.slideshow.content);
 
-    
-    console.table(data);
-    let allContent = slideshows.flatMap((slideshow) => slideshow.content);
-    console.log(allContent);
+
+    //console.table(data);
+    //let allContent = slideshows.flatMap((slideshow) => slideshow.content);
+    let allContent = data.slideshow.content;
+    //console.log(allContent);
 
     let searchTerm = $state(""); // For live text search
     let searchTags = $state(""); // For tag-based filtering
@@ -202,7 +204,6 @@
       const slideshowToUpdate = slideshows.find(
           (slideshow) => slideshow.id === updatedItems[0]?.parentSlideshowId
       );
-      console.log("Here");
 
       if (slideshowToUpdate) {
           // Update the visualMediaInclusionCollection with the reordered items
