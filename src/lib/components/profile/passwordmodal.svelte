@@ -26,13 +26,15 @@
             formData.set("id", profileData.id);
             
             return async ({ result }) => {
-                // `result` is an `ActionResult` object              
-                if (result.type === "failure") {
-                    // Handle the error
-                    alert(`Failed to update password, please reload page (F5).\n${result.data?.error}`);
-                } else if (result.type === "success") {
-                    closeModal(); // Call doClose on successful form submission
+                switch (result.type) {
+                    case "failure":
+                        alert(`Failed to update password, please reload page (F5).\n${result.data?.error}`);
+                        break;
+                    case "success":
+                        closeModal(); // Call doClose on successful form submission
+                        break;
                 }
+
             };
         }}>
 

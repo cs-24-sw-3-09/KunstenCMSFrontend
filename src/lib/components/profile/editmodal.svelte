@@ -1,5 +1,5 @@
 <script>
-    let { doClose, profileData } = $props();
+    let { doClose, profileData, updateProfileData } = $props();
 
     import { enhance } from '$app/forms';
 
@@ -23,20 +23,19 @@
         <form action="?/editProfile" id="modal-form" method="post" 
         use:enhance={({ formData }) => {
             // `formData` is its `FormData` object that's about to be submitted
-
-            
-
             formData.set("id", profileData.id);
             formData.set("oldData", JSON.stringify(profileData)); // Pass previous known user data to the action
             
             return async ({ result }) => {
-                // `result` is an `ActionResult` object              
-                if (result.type === "failure") {
-                    // Handle the error
-                    alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
-                } else if (result.type === "success") {
-                    profileData = result.data; // Update the profile data
-                    closeModal(); // Call doClose on successful form submission
+                switch (result.type) {
+                    case "failure":
+                        alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
+                        break;
+                    case "success":
+                        //console.log("res:", result.data.responseData);
+                        updateProfileData(result.data.responseData);
+                        closeModal(); 
+                        break;
                 }
             };
         }}>

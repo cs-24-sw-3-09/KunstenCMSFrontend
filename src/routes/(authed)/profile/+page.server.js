@@ -75,26 +75,19 @@ export const actions = {
 
         const responseData = await response.json();
 
-        //console.log(responseData);
-        //console.log(response.status);
-
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
+        // If email is changed, delete the authToken
         if (requestBody.email) {
             cookies.delete('authToken', { path: '/' });
+            throw redirect("/login");
         }
-
-        
-        
-
-
-
 
         return { 
             success: true,
-            data: responseData,
+            responseData,
         };
     },
     changePassword: async ({ cookies, url, request }) => {
@@ -157,11 +150,6 @@ export const actions = {
             return fail(400, { error: "Wrong size of data in request body." });
         }
 
-        //console.log("notificationState");
-        //console.log("requestBody");
-        //console.log(requestBody);
-
-        // Send the request to the backend
         // Send the request to the backend        
         const response = await fetch(API_URL+"/api/account", {
             method: "PATCH",
@@ -174,14 +162,15 @@ export const actions = {
 
         const responseData = await response.json();
 
-        //console.log(responseData);
-        //console.log(response.status);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
-        return { success: true };
+        return { 
+            success: true,
+            responseData,
+        };
     },
     pauseNotifications: async ({ cookies, url, request }) => {
         const formData = await request.formData();
@@ -205,12 +194,7 @@ export const actions = {
             return fail(400, { error: "Wrong size of data in request body." });
         }
 
-        //console.log("Pause Notifications");
-        //console.log("requestBody");
-        //console.log(requestBody);
-
-        // Send the request to the backend
-        // Send the request to the backend        
+        // Send the request to the backend    
         const response = await fetch(API_URL+"/api/account", {
             method: "PATCH",
             headers: { 
@@ -222,13 +206,13 @@ export const actions = {
 
         const responseData = await response.json();
 
-        //console.log(responseData);
-        //console.log(response.status);
-
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
-        return { success: true };
+        return { 
+            success: true,
+            responseData,
+        };
     }
 }

@@ -38,8 +38,6 @@ export const actions = {
 			body: JSON.stringify(loginRequestBody),
 		});
 
-		//console.log("loginResponsestart", loginResponse,"loginResponseend");		
-
 		if (loginResponse.status !== 200) {
 			try {
 				cookies.delete('authToken', { path: '/' });
