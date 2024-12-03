@@ -1,9 +1,11 @@
 import { fail } from "@sveltejs/kit";
+import { env } from "$env/dynamic/private";
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals }) {
-    return { 
+    return {
+        socketUrl: env.SOCKET_URL,
         user: locals.user, 
     };
 }

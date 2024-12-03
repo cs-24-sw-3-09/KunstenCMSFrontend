@@ -1,4 +1,7 @@
 <script>
+    import { onMount } from "svelte";
+    import { Manager } from "socket.io-client";
+
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props(); // "form" is automatically populated by SvelteKit
 
@@ -39,6 +42,18 @@
         deviceFocus = device;
         showEditModal = !showEditModal;
     }
+
+    onMount(() => {
+        const manager = new Manager(data.socketUrl, {
+            reconnectionDelayMax: 10000
+        });
+        const socket = manager.socket("/dashboard");
+
+        socket.onAny((event, ...args) => {
+            console.log("event: ", event);
+            console.log("args: ", args);
+        });
+    })
 
 </script>
 
