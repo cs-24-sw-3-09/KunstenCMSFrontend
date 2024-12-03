@@ -8,20 +8,14 @@
     import NewModal from "$lib/components/dashboard/newmodal.svelte";
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
-    let devices = $state([]);
+    let devices = $state(data.displayDevices.content);
     
-    // Test data
-    import { testDevices } from "$lib/testdata.js";
-    devices = testDevices;
+    let options = $state(data.fallbackContent);
 
-    // Options for the fallback slideshow dropdown, TODO: Get this from the database
-    let options = [
-        "Event 2024",
-        "Event 2023",
-        "Event 2022",
-        "Event 2021",
-        "Event 2020",
-    ];
+    // Test data
+    /* import { testDevices } from "$lib/testdata.js";
+    devices = testDevices; */
+
 
     // Temp variable to store the device that is being edited, deleted or created
     let deviceFocus = $state({});

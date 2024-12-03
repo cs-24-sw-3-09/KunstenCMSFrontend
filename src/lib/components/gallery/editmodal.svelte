@@ -1,5 +1,5 @@
 <script>
-    let { doClose, item } = $props();
+    let { doClose, item, updateVisualMedia } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
@@ -31,17 +31,17 @@
             formData.set("oldData", JSON.stringify(item)); // Pass previous known user data to the action
             
             return async ({ result }) => {
-                // `result` is an `ActionResult` object              
-                if (result.type === "failure") {
-                    // Handle the error
-                    alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
-                } else if (result.type === "success") {
-                    closeModal(); // Call doClose on successful form submission
+                switch (result.type) {
+                    case "failure":
+                        alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
+                        break;
+                    case "success":
+                        updateVisualMedia(result.data.responseData);
+                        closeModal(); // Call doClose on successful form submission
+                        break;
                 }
             };
         }}>
-            <Smallheader text="About:" />
-
             <TextInput title={"Name"} placeholder={"Name here"} name={"name"} value={item.name} required="true" />
             <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={item.description} required="true" />
 

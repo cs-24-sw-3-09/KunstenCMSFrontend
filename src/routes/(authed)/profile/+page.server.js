@@ -1,5 +1,6 @@
+import { fail, redirect } from "@sveltejs/kit";
 
-import { fail } from "@sveltejs/kit";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
@@ -58,14 +59,36 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit User");
-        console.log("requestBody");
-        console.log(requestBody);
+        //console.log("Edit User");
+        //console.log("requestBody");
+        //console.log(requestBody);
 
         // Send the request to the backend        
-        /* TODO */
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        return { success: true };
+        const responseData = await response.json();
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
+
+        // If email is changed, delete the authToken
+        if (requestBody.email) {
+            cookies.delete('authToken', { path: '/' });
+            throw redirect("/login");
+        }
+
+        return { 
+            success: true,
+            responseData,
+        };
     },
     changePassword: async ({ cookies, url, request }) => {
         const formData = await request.formData();
@@ -127,14 +150,27 @@ export const actions = {
             return fail(400, { error: "Wrong size of data in request body." });
         }
 
-        console.log("notificationState");
-        console.log("requestBody");
-        console.log(requestBody);
+        // Send the request to the backend        
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        // Send the request to the backend
-        /* TODO */
+        const responseData = await response.json();
 
-        return { success: true };
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
+
+        return { 
+            success: true,
+            responseData,
+        };
     },
     pauseNotifications: async ({ cookies, url, request }) => {
         const formData = await request.formData();
@@ -158,13 +194,25 @@ export const actions = {
             return fail(400, { error: "Wrong size of data in request body." });
         }
 
-        console.log("Pause Notifications");
-        console.log("requestBody");
-        console.log(requestBody);
+        // Send the request to the backend    
+        const response = await fetch(API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        // Send the request to the backend
-        /* TODO */
+        const responseData = await response.json();
 
-        return { success: true };
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
+
+        return { 
+            success: true,
+            responseData,
+        };
     }
 }
