@@ -22,7 +22,8 @@
         <button class="profile-info-pass-button" onclick={doChangePassword}>Change Password</button> -->
         <Button clickFunction={doEditProfile} text="Edit Profile" />
         <div class="change-password">
-            <a href="/forgot">Change password</a>
+            <!-- data-sveltekit-reload allow the browser to handle full-page navigation -->
+            <a href="/forgot" data-sveltekit-reload >Change password</a>
         </div>
         <!-- <Button clickFunction={doChangePassword} text="Change Password" /> -->
     </div>

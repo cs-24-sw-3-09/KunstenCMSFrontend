@@ -15,7 +15,7 @@
         <img class="login-icon" src={logo} alt="Logo" />
         <h1 class="login-title">Kunsten</h1>
 
-        <form method="post" action="?/resetPassword" use:enhance>
+        <form method="post" action="?/requestPassword" use:enhance>
             <input type="email" name="email" placeholder="Email" required />
 
             {#if form?.success}

@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 /** @type {import("./$types").Actions} */
 export const actions = {
-	resetPassword: async ({ request }) => {
+	requestPassword: async ({ request }) => {
 		const formData = await request.formData();
 
 		const email = formData.get("email");
