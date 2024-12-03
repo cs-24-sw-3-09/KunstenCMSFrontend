@@ -6,6 +6,24 @@
     import NewTimeslotModal from "$lib/components/schedule/newtimeslotmodal.svelte";
     import EditTimeslotModal from "$lib/components/schedule/edittimeslotmodal.svelte";
 
+
+    // TEST DATA; THAT IS NOT ACCURATE TO THE REAL DATA
+
+    import TableRowPopulatorWeek from "$lib/components/schedule/weektablerowpopulator.svelte";
+    import TableRowPopulatorDay from "$lib/components/schedule/daytablerowpopulator.svelte";
+
+    // import testdata from teststore
+    import { testScheduleDay } from "$lib/testdata.js";
+    let daydata = $state(testScheduleDay);
+
+    import { testScheduleWeek } from "$lib/testdata.js";
+    let weekdata = $state(testScheduleWeek);
+
+
+
+
+
+
     let weekView = $state(true);
     
     let showNewTimeslotModal = $state(false);
@@ -133,23 +151,22 @@
         </div>
         
         {#if weekView}
-        <div class="schedule-week-header-bottom">
-            <div class="schedule-week-header-devices">Week: {focusWeek.week}</div>
-            {#each [0, 1, 2, 3, 4, 5, 6] as offest}
-                <a class="schedule-week-header-day" onclick={() => {
-                    focusDate = new Date(focusDate.setDate(focusWeek.start.getDate() + offest)); 
+            <div class="schedule-week-header-bottom">
+                <div class="schedule-week-header-devices">Week: {focusWeek.week}</div>
+                {#each [0, 1, 2, 3, 4, 5, 6] as offest}
+                    <a class="schedule-week-header-day" onclick={() => {
+                        focusDate = new Date(focusDate.setDate(focusWeek.start.getDate() + offest)); 
 
-                    weekView = !weekView;
-                    }}>{formatWeekDayHeader[offest]}</a>
-            {/each}
+                        weekView = !weekView;
+                        }}>{formatWeekDayHeader[offest]}</a>
+                {/each}                
+            </div>    
 
-
-
-
-
-
-            
-        </div>    
+            <div class="schedule-week">
+                {#each weekdata as device}
+                    <TableRowPopulatorWeek {device} />
+                {/each}
+            </div>
 
         {:else}
             <div class="schedule-day-body-header">
@@ -161,13 +178,18 @@
                 </div>
             </div>
 
-
-
+            <div class="schedule-day">
+                {#each daydata as device}
+                    <TableRowPopulatorDay {device} />
+                {/each}
+            </div>
 
 
 
         {/if}
         
+        <h1>DATA IS NOT BEING UTILIZED YET IN THIS PAGE</h1>
+
     </div>
 </div>
 
@@ -180,4 +202,6 @@
 
 <style>
     @import "$lib/styles/schedule.css";
+    @import "$lib/styles/schedule_day.css";
+    @import "$lib/styles/schedule_week.css";
 </style>
