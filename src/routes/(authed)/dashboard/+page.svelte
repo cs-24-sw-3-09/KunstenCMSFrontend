@@ -9,6 +9,17 @@
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     let devices = $state(data.displayDevices.content);
+
+    function updateDevices(updatedDevice) {
+        const index = devices.findIndex((device) => device.id === updatedDevice.id);
+        if (index !== -1) {
+            devices[index] = updatedDevice;
+        }
+    }
+
+    function createDevice(newDevice) {
+        devices = [...devices, newDevice];
+    }
     
     let options = $state(data.fallbackContent);
 
@@ -48,11 +59,10 @@
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} options={options} />
+    <NewModal doClose={toggleNewModal} options={options} createDevice={createDevice} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus}
-    />
+    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus} updateDevices={updateDevices} />
 {/if}
 
 <style>

@@ -1,5 +1,5 @@
 <script>
-    let { doClose, options } = $props();
+    let { doClose, options, createDevice } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -36,6 +36,7 @@
                         alert(`Failed to add display device, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
+                        createDevice(result.data.responseData);
                         closeModal(); // Call doClose on successful form submission
                         break;
                 }
@@ -55,7 +56,7 @@
                 </select>
             </div>
 
-            <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" />
+            <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" /> -->
 
             <SmallHeader text={"Horizontal resolution"} />
 
@@ -65,7 +66,7 @@
                 <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} />
             </div>
 
-            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["Horizontal", "Vertical"]} required="true" />
+            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} required="true" />
 
             <Separator />
 

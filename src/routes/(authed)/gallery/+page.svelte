@@ -22,8 +22,6 @@
         const index = visual_medias.findIndex((item) => item.id === updatedItem.id);
         if (index !== -1) {
             visual_medias[index] = updatedItem;
-        } else {
-            createVisualMedia(updatedItem);
         }
     }
 

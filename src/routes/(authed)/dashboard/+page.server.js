@@ -70,7 +70,7 @@ export const actions = {
         let data = {
             name: formData.get("name"),
             location: formData.get("location"),
-            model: formData.get("model"),
+            /* model: formData.get("model"), */
             displayOrientation: formData.get("displayOrientation").toLowerCase(),
             resolution: formData.get("width") + "x" + formData.get("height"),
             fallbackContent: {
@@ -87,10 +87,6 @@ export const actions = {
         // requestBody sendt for the post action
         let requestBody = data;
 
-        console.log("New Device");
-        console.log("requestBody");
-        console.log(requestBody);
-
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/display_devices", {
             method: "POST",
@@ -103,11 +99,18 @@ export const actions = {
 
         console.log(response.status);
 
+        const responseData = await response.json();
+
+        console.log(responseData);
+
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create new device." });
         }
 
-        return { success: true };
+        return { 
+            success: true, 
+            responseData
+        };
     },
 
     editDevice: async ({ cookies, url, request }) => {
@@ -122,7 +125,7 @@ export const actions = {
             id: formData.get("id"),
             name: formData.get("name"),
             location: formData.get("location"),
-            model: formData.get("model"),
+            /* model: formData.get("model"), */
             displayOrientation: formData.get("displayOrientation"),
             resolution: formData.get("width") + "x" + formData.get("height"),
         };
@@ -148,9 +151,29 @@ export const actions = {
         console.log("requestBody");
         console.log(requestBody);
 
-        // Send the request to the backend
-        /* TODO */
+        /* // Send the request to the backend
+        const response = await fetch(API_URL + "/api/display_devices", {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        return { success: true };
+        console.log(response.status);
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to edit device." });
+        }
+
+        return { 
+            success: true,
+            responseData,
+        }; */
     },
 }

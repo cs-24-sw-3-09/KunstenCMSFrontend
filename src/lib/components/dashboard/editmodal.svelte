@@ -1,5 +1,5 @@
 <script>
-    let { doClose, options, device } = $props();
+    let { doClose, options, device, updateDevices } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -36,6 +36,7 @@
                         alert(`Failed to edit display device, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
+                        updateDevices(result.data.responseData);
                         closeModal(); // Call doClose on successful form submission
                         break;
                 }
@@ -43,26 +44,6 @@
         }}>
             <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" value={device.name} />
             <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" value={device.location} />
-
-            <!-- <Dropdown
-                title={"Fallback"}
-                name={"fallback"}
-                {options}
-                selected={device.fallbackVisualMedia.name}
-                required="true"
-            /> -->
-
-            <Separator />
-
-            <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" value={device.model} />
-
-            <SmallHeader text={"Horizontal resolution"} />
-
-            <div class="modal-inline">
-                <!-- MAX values are overtly large -->
-                <Numberinput title={"Width"} placeholder={"x"} name={"width"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[0]} />
-                <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[1]} />
-            </div>
 
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
@@ -72,6 +53,20 @@
                     {/each}
                 </select>
             </div>
+
+            <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" value={device.model} /> -->
+
+            <SmallHeader text={"Horizontal resolution"} />
+
+            <div class="modal-inline">
+                <!-- MAX values are overtly large -->
+                <Numberinput title={"Width"} placeholder={"x"} name={"width"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[0]} />
+                <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[1]} />
+            </div>
+
+            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} value={device.displayOrientation} required="true" />
+
+            
 
             <Separator />
 
