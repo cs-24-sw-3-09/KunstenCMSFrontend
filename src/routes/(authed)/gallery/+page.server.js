@@ -238,14 +238,14 @@ export const actions = {
         }
 
         // Check feilds
-        if (!data.id || !data.tag) {
+        if (!data.id || !data.tags) {
             return fail(400, { error: "No id or tag provided." });
         }
 
         // requestBody sendt for the action
         let requestBody = {
             id : data.id,
-            tags : data.tag,
+            tags : data.tags,
         };
         
         // Check requestBody
