@@ -29,7 +29,7 @@
         </a>
         
         {#if data.user.mediaPlanner}
-            <a href="/schedule-week" class="sidebar-item tooltippable tooltipText-Schedule">
+            <a href="/schedule" class="sidebar-item tooltippable tooltipText-Schedule">
                 <i class="fa-solid fa-calendar-days"></i>
                 {#if largeSidebar}
                     <p class="sidebar-item-text">Schedule</p>
