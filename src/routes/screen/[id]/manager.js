@@ -20,12 +20,12 @@ export class Manager {
   }
 
   run() {
-    const connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
+    this.connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
     const dataProcessor = new DataProcessor(this);
-    connectionHandler.register("connect", () =>
+    this.connectionHandler.register("connect", () =>
       dataProcessor.statusHandler(),
     );
-    connectionHandler.register("content", (content) =>
+    this.connectionHandler.register("content", (content) =>
       dataProcessor.contentHandler(content),
     );
   }
@@ -74,11 +74,12 @@ export class Manager {
         currentElem.currentTime = 0;
       }
       if (nextElem?.tagName === "VIDEO") nextElem.play();
-      this.io.emit("changeContent", {
-        "deviceId": this.deviceid,
-        "current_url": this.getCurrentItem["url"],
-        "type": nextElem?.tagName === "VIDEO" ? "video" : "image"
-      });
+      console.log(this.getCurrentItem().location);
+      this.connectionHandler.sendContentChange(
+        this.deviceid,
+        this.getCurrentItem().location,
+        nextElem?.tagName === "VIDEO" ? "video" : "image"
+      );
       this.#startCarousel();
     }, this.durations[this.getCurrentItemIndex()]);
   }
