@@ -230,7 +230,16 @@ export const actions = {
                 newData: responseData,
             };
         }
+    },    
+    postNewOrder: async ({ cookies, url, request }) => {
+        {
+            const formData = await request.formData();
+            const Slideorder = formData.get("Slideorder");
+            console.log("test3", Slideorder);
+            // Extract old data from the form data
+        }
     }
+
 }
 
 async function getSlideshows({ cookies, url, request }) {

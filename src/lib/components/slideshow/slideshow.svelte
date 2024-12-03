@@ -1,6 +1,7 @@
 <script>
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
+  let hiddenForm;
 
   import { createEventDispatcher } from "svelte";
 
@@ -14,7 +15,11 @@
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
 
-  let items = $state(props.slideshow.visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition));
+  let items = $state(
+    props.slideshow.visualMediaInclusionCollection.sort(
+      (a, b) => a.slideshowPosition - b.slideshowPosition,
+    ),
+  );
   let listElement;
 
   onMount(() => {
@@ -28,6 +33,8 @@
         items.forEach((item, i) => {
           item.slideshowPosition = i + 1;
         });
+
+        hiddenForm.submit();
 
         dispatch("updateOrder", items);
         console.log(items);
@@ -115,14 +122,14 @@
           }}
         >
           <div class="slideshows-item-header-action">
-              <!-- svelte-ignore a11y_consider_explicit_label -->
-              <button
-                type="submit"
-                style="all: unset; display: inline-block; cursor: pointer;"
-              >
-                <!-- svelte-ignore element_invalid_self_closing_tag -->
-                <i class="fa-solid fa-box-archive" />
-              </button>
+            <!-- svelte-ignore a11y_consider_explicit_label -->
+            <button
+              type="submit"
+              style="all: unset; display: inline-block; cursor: pointer;"
+            >
+              <!-- svelte-ignore element_invalid_self_closing_tag -->
+              <i class="fa-solid fa-box-archive" />
+            </button>
           </div>
         </form>
         <!-- Copy slideshow -->
@@ -207,9 +214,38 @@
     >
       <div bind:this={listElement} class="drag-delete-me">
         {#each props.VMIForSS as VMI}
-          <Slideshowcontent VMI = {VMI} slideshowID = {slideshowID} slideshow = {props.slideshow} form = {props.form} />
+          <Slideshowcontent
+            {VMI}
+            {slideshowID}
+            slideshow={props.slideshow}
+            form={props.form}
+          />
         {/each}
       </div>
+      <form
+        method="post"
+        action="?/postNewOrder"
+        use:enhance={({ formData }) => {
+          formData.set("Slideorder", items);
+          console.log("test 300", items);
+
+          return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+                alert(
+                  `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
+                );
+              } else if (result.type === "success") {
+                props.updateSlideshowContent(result.data.newData);
+              }
+            };
+        }}
+        bind:this={hiddenForm}
+        style="display: none;"
+      >
+        <input type="hidden" name="updatedOrder" />
+      </form>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore event_directive_deprecated -->

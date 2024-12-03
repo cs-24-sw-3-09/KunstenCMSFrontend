@@ -74,13 +74,12 @@
     }
     function focusSlideshow(id) {
         focusedSlideshow = id == focusedSlideshow ? null : id;
-        console.log(focusedSlideshow);
     }
 
     function handleOrderUpdate(updatedItems) {
         // Find the relevant slideshow
-        const slideshowToUpdate = slideshows.find(
-            (slideshow) => slideshow.id === updatedItems[0]?.parentSlideshowId,
+        const slideshowToUpdate = slideshowContent.find(
+            (slideshow) => slideshowContent.id === updatedItems[0]?.parentSlideshowId,
         );
 
         if (slideshowToUpdate) {
