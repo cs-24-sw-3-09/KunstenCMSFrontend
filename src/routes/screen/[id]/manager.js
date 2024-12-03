@@ -3,7 +3,7 @@ import { ConnectionHandler, DataProcessor } from "./application.js";
 import Sha256 from "./sha256.js";
 
 export class Manager {
-  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItem, getCarouselItemsDom, getCurrentItem) {
+  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem) {
     this.io = io;
     this.socket_url = socket_url;
     this.deviceid = deviceid;
@@ -13,8 +13,9 @@ export class Manager {
     this.clearCarouselItems = clearCarouselItems;
     this.addCarouselItem = addCarouselItem;
     this.setStatus = setStatus;
-    this.setCurrentItem = setCurrentItem;
+    this.setCurrentItemIndex = setCurrentItemIndex;
     this.getCarouselItemsDom = getCarouselItemsDom;
+    this.getCurrentItemIndex = getCurrentItemIndex;
     this.getCurrentItem = getCurrentItem;
   }
 
@@ -41,7 +42,7 @@ export class Manager {
     this.#stopCarousel();
     this.clearCarouselItems();
     this.durations = [];
-    this.setCurrentItem(0);
+    this.setCurrentItemIndex(0);
 
     if(content.type == "slideshow") {
       content.visualMediaInclusionCollection.forEach((item, i) => {
@@ -58,23 +59,28 @@ export class Manager {
     this.#stopCarousel();
     this.durations = [];
     this.clearCarouselItems();
-    this.setCurrentItem(0);
+    this.setCurrentItemIndex(0);
   }
 
   #startCarousel() {
     this.carouselTimer = setTimeout(() => {
-      console.log(this.getCurrentItem(), this.durations[this.getCurrentItem()]);
+      console.log(this.getCurrentItemIndex(), this.durations[this.getCurrentItemIndex()]);
       const elements = this.getCarouselItemsDom().querySelectorAll("img, video");
-      const currentElem = elements.item(this.getCurrentItem());
-      this.setCurrentItem((this.getCurrentItem() + 1) % elements.length);
-      const nextElem = elements.item(this.getCurrentItem());
+      const currentElem = elements.item(this.getCurrentItemIndex());
+      this.setCurrentItemIndex((this.getCurrentItemIndex() + 1) % elements.length);
+      const nextElem = elements.item(this.getCurrentItemIndex());
       if (currentElem?.tagName === "VIDEO") {
         currentElem.pause();
         currentElem.currentTime = 0;
       }
       if (nextElem?.tagName === "VIDEO") nextElem.play();
+      this.io.emit("changeContent", {
+        "deviceId": this.deviceid,
+        "current_url": this.getCurrentItem["url"],
+        "type": nextElem?.tagName === "VIDEO" ? "video" : "image"
+      });
       this.#startCarousel();
-    }, this.durations[this.getCurrentItem()]);
+    }, this.durations[this.getCurrentItemIndex()]);
   }
 
   #stopCarousel() {
