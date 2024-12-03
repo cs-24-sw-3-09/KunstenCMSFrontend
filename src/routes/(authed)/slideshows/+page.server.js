@@ -1,5 +1,6 @@
 
 import { fail } from "@sveltejs/kit";
+import { slide } from "svelte/transition";
 const API_URL = import.meta.env.VITE_API_URL
 
 
@@ -43,6 +44,29 @@ export async function load({ cookies }) {
 
 /** @type {import("./$types").Actions} */
 export const actions = {
+    updateVMIForSS: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        //console.log(formData)
+        let slideshow = JSON.parse(formData.get("slideshow"));
+        let newDuration = formData.get("newDuration");
+        let VMI = JSON.parse(formData.get("VMI"));
+
+        slideshow.visualMediaInclusionCollection.find(vmi => vmi.id === VMI.id).slideDuration = newDuration;
+
+        // Constructing the requestBody as a JSON object
+        const requestBody = JSON.stringify(slideshow);
+        console.log(requestBody)
+        console.log("sss", slideshow.id)
+        const returnData = await fetch(API_URL + "/api/slideshows/" + slideshow.id, {
+            method: "PATCH",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+            body: requestBody,
+        });
+        return fail(400, { error: "did not pick an Visual Media" });
+    },
     deleteSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
         const slideshow = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowID"), {

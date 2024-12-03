@@ -7,7 +7,7 @@
         searchTermUpdate,
         searchTagsUpdate,
         slideshowID,
-        Items,
+        VMIForSS,
         updateSlideshowContent,
     } = $props();
 
@@ -54,7 +54,7 @@
                 formData.set("fileType", selectedItem.fileType);
                 formData.set("description", selectedItem.description);
                 formData.set("ssId", slideshowID);
-                formData.set("ssPos", Items.length + 1);
+                formData.set("ssPos", VMIForSS.length + 1);
 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object

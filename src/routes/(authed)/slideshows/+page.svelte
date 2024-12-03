@@ -7,9 +7,15 @@
     import Header from "$lib/components/slideshow/slideshowHeader.svelte";
 
     let slideshowContent = $state(data.slideshow);
+    let VMIForSS = $state(null);
     let visualMediaContent = $state(data.visualMedia);
     function updateSlideshowContent(data) {
+        console.log("selectedId", selectedId);
         slideshowContent = data;
+        if(selectedId != null){
+            VMIForSS = slideshowContent.find(ss => ss.id ===selectedId).visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+            console.log(VMIForSS);
+        }
     }
 
     let searchTerm = $state(""); // For live text search
@@ -60,6 +66,7 @@
 
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
+        VMIForSS = slideshowContent.find(ss => ss.id ===selectedId).visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
     }
     function updateChecked() {
         isChecked = !isChecked;
@@ -84,11 +91,6 @@
             console.log("Updated slideshow:", slideshowToUpdate);
         }
     }
-
-    function flipArchived (state){
-        archivedState = !state;
-    }
-
 </script>
 
 <div class="main-content">
@@ -103,11 +105,11 @@
         {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
             <Slideshow
                 {slideshow}
+                {VMIForSS}
                 {filteredData}
                 on:update={(event) => updateState(event.detail)}
                 on:focus={(event) => focusSlideshow(event.detail)}
                 on:updateOrder={(event) => handleOrderUpdate(event.detail)}
-                on:archived={(event) => flipArchived(event.detail)}
                 {selectedId}
                 {searchTags}
                 {searchTerm}
@@ -115,6 +117,7 @@
                 {searchTagsUpdate}
                 {searchTermUpdate}
                 updateSlideshowContent = {updateSlideshowContent}
+                {form}
             />
         {/if}
     {/each}

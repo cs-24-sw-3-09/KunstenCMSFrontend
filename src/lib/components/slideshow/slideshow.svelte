@@ -14,7 +14,7 @@
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
 
-  let items = props.slideshow.visualMediaInclusionCollection;
+  let items = $state(props.slideshow.visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition));
   let listElement;
 
   onMount(() => {
@@ -60,7 +60,7 @@
     searchTermUpdate={props.searchTermUpdate}
     searchTagsUpdate={props.searchTagsUpdate}
     {slideshowID}
-    Items={items}
+    VMIForSS={props.VMIForSS}
     updateSlideshowContent={props.updateSlideshowContent}
   />
 {/if}
@@ -206,8 +206,8 @@
         : 'none'}"
     >
       <div bind:this={listElement} class="drag-delete-me">
-        {#each props.slideshow.visualMediaInclusionCollection as content}
-          <Slideshowcontent content = {content} slideshowID = {slideshowID} slideshow = {props.slideshow} />
+        {#each props.VMIForSS as VMI}
+          <Slideshowcontent VMI = {VMI} slideshowID = {slideshowID} slideshow = {props.slideshow} form = {props.form} />
         {/each}
       </div>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
