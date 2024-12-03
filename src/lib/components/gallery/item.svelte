@@ -1,5 +1,5 @@
 <script>
-  let { item, doToggleEditModal, doToggleItemModal } = $props();
+  let { item, doToggleEditModal, doToggleItemModal, deleteVisualMedia } = $props();
 
   import { enhance } from "$app/forms";
 
@@ -26,9 +26,12 @@
       </div>
       <div class="gallery-item-left-bottom">
         <div class="gallery-item-tags">
-          {#each item.tags as tag}
-            <Tag tag={tag.text} />
-          {/each}
+          {#if item.tags}
+          {:else}
+            {#each item.tags as tag}
+              <Tag tag={tag.text} />
+            {/each}
+          {/if}
         </div>
       </div>
     </div>
@@ -55,9 +58,15 @@
 
           return async ({ result }) => {
             // `result` is an `ActionResult` object
-            if (result.type === "failure") {
-              // Handle the error
-              alert(`Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,);
+            switch (result.type) {
+              case "failure":
+                // Handle the error
+                alert(`Failed to delete visual media, please reload page (F5).\n${result.data?.error}`);
+                break;
+              case "success":
+                // Handle the success
+                deleteVisualMedia(result.data.id);
+                break;
             }
           };
         }}

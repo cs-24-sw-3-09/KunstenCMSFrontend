@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
-    const tags = await fetch(API_URL+"/api/tags", {
+    const tags = await fetch(API_URL + "/api/tags", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -15,8 +15,8 @@ export async function load({ cookies }) {
     })
 
     const tagsData = await tags.json();
-    
-    const visualMedia = await fetch(API_URL+"/api/visual_medias", {
+
+    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -27,30 +27,27 @@ export async function load({ cookies }) {
     const visualMediasData = await visualMedia.json();
 
     for (let i = 0; i < visualMediasData.content.length; i++) {
-        visualMediasData.content[i].src = 
-            API_URL + "/files/visual_media/" 
-            + visualMediasData.content[i].id 
+        visualMediasData.content[i].src =
+            API_URL + "/files/visual_media/"
+            + visualMediasData.content[i].id
             + mimeToType(visualMediasData.content[i].fileType);
     }
 
     for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(API_URL+"/api/visual_medias/"+visualMediasData.content[i].id+"/risk", {
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/risk", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + cookies.get("authToken"),
             }
         });
-    
+
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
-        console.log(slideshowsData);
     }
 
-    console.log(visualMediasData);
-
-    return { 
-        visualMedias: visualMediasData, 
+    return {
+        visualMedias: visualMediasData,
         authcookie: cookies.get("authToken"),
     };
 }
@@ -67,7 +64,7 @@ export async function load({ cookies }) {
 
 /** @type {import("./$types").Actions} */
 export const actions = {
-    newVisualMedia : async ({ cookies, url, request }) => {
+    newVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
         /* 
@@ -97,43 +94,43 @@ export const actions = {
         if (!(Object.keys(requestBody).length === 4)) {
             return fail(400, { error: "All input fields are required." });
         }
-
-        console.log("New Visual Media");
-        console.log("requestBody");
-        console.log(requestBody); */
-
         //console.log(formData);
+        */
 
         // Send the request to the backend
-        const response = await fetch(API_URL+"/api/visual_medias", {
+        const response = await fetch(API_URL + "/api/visual_medias", {
             method: "POST",
-            headers: { 
+            headers: {
                 /* "Content-type": "multipart/form-data", */
                 "Authorization": "Bearer " + cookies.get("authToken"),
             },
             body: formData,
         });
 
-        //const responseData = await response.json();
+        const responseData = await response.json();
+
+        responseData.src = API_URL + responseData.location;
 
         //console.log(responseData);
-        //console.log(response.status);
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create visual media." });
         }
 
-        return { success: true };
+        return {
+            success: true,
+            responseData,
+        };
     },
 
-    editVisualMedia : async ({ cookies, url, request }) => {
+    editVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
         // Files are blobs
         let data = {
-            id : parseInt(formData.get("id")),
-            name : formData.get("name"),
-            description : formData.get("description"),
+            id: parseInt(formData.get("id")),
+            name: formData.get("name"),
+            description: formData.get("description"),
         }
 
         // Extract old data from the form data
@@ -157,12 +154,8 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
-        
         // Send the request to the backend
-        const response = await fetch(API_URL+"/api/visual_medias/"+data.id, {
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -171,11 +164,22 @@ export const actions = {
             body: JSON.stringify(requestBody),
         })
 
-        /* const responseData = await response.json();
-        console.log(responseData); */
+        // Get the response data and add the src and slideshows
+        const responseData = await response.json();
 
-        console.log(API_URL+"/api/visual_medias/"+data.id);
-        console.log(response.status);
+        responseData.src = API_URL + responseData.location;
+        
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+        });
+
+        const slideshowsData = await slideshows.json();
+
+        responseData.slideshows = slideshowsData;
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update visual media." });
@@ -183,14 +187,17 @@ export const actions = {
 
         /* TODO, repalce file post/patch */
 
-        return { success: true };
+        return { 
+            success: true,
+            responseData,
+        };
     },
 
-    deleteVisualMedia : async ({ cookies, url, request }) => {
+    deleteVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
+            id: formData.get("id"),
         }
 
         // Check feilds
@@ -209,32 +216,35 @@ export const actions = {
 
         console.log("Delete Visual Media");
         console.log("requestBody");
-        console.log(requestBody);        
+        console.log(requestBody);
 
         // Send the request to the backend
-        const response = await fetch(API_URL+"/api/visual_medias/"+data.id, {
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + cookies.get("authToken"),
             },
         });
-        
+
         console.log(response.status);
 
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete visual media." });
         }
 
-        return { success: true };
+        return { 
+            success: true,
+            id: data.id,
+        };
     },
 
-    addTagToVisualMedia : async ({ cookies, url, request }) => {
+    addTagToVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
-            tags : [{text: formData.get("tag")}],
+            id: formData.get("id"),
+            tags: [{ text: formData.get("tag") }],
         }
 
         // Check feilds
@@ -244,21 +254,21 @@ export const actions = {
 
         // requestBody sendt for the action
         let requestBody = {
-            id : data.id,
-            tags : data.tags,
+            id: data.id,
+            tags: data.tags,
         };
-        
+
         // Check requestBody
         if (!(Object.keys(requestBody).length === 2)) {
             return fail(400, { error: "Only the id and tag fields can be passed." });
         }
-        
+
         console.log("Add Tag to Visual Media");
         console.log("requestBody");
         console.log(requestBody);
 
         // Send the request to the backend
-        const response = await fetch(API_URL+"/api/visual_medias/"+data.id+"/tags", {
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -271,16 +281,16 @@ export const actions = {
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to add tag to visual media." });
         }
-        
+
         return { success: true };
     },
 
-    deleteTagFromVisualMedia : async ({ cookies, url, request }) => {
+    deleteTagFromVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
-            tag : {text: formData.get("tag")},
+            id: formData.get("id"),
+            tag: { text: formData.get("tag") },
         }
 
         // Check feilds
@@ -304,7 +314,7 @@ export const actions = {
 
         // Send the request to the backend
         /* TODO */
-        
+
         return { success: true };
     },
     allSildeshows: async ({ cookies, url, request }) => {
@@ -314,7 +324,7 @@ export const actions = {
             id: formData.get("id"),
         };
 
-        const slideshows = await fetch(API_URL+"/api/visual_medias/"+data.id+"risk", {
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + data.id + "risk", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -322,9 +332,9 @@ export const actions = {
             },
         });
 
-        return { 
+        return {
             success: true,
-            data: await slideshows.json() 
+            data: await slideshows.json()
         };
     },
 }

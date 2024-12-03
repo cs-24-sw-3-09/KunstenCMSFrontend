@@ -1,5 +1,5 @@
 <script>
-    let { doClose, item } = $props();
+    let { doClose, item, updateVisualMedia } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
@@ -36,6 +36,7 @@
                         alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
+                        updateVisualMedia(result.data.responseData);
                         closeModal(); // Call doClose on successful form submission
                         break;
                 }

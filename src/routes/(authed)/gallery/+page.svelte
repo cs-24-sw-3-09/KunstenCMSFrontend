@@ -11,10 +11,46 @@
     
     // mock data
     import { testVisualMedia } from "$lib/testdata.js";
-    
+
+    // Data
     let visual_medias = $state(data.visualMedias.content);
-    //let visual_medias = $state(testVisualMedia);
+    //$inspect(visual_medias);
+
+    function updateVisualMedia(updatedItem) {
+        // Update the item in the state
+        // if the item is not found, create a new one
+        const index = visual_medias.findIndex((item) => item.id === updatedItem.id);
+        if (index !== -1) {
+            visual_medias[index] = updatedItem;
+        } else {
+            createVisualMedia(updatedItem);
+        }
+    }
+
+    function createVisualMedia(newItem) {
+        // adds item to state
+        visual_medias = [...visual_medias, newItem];
+    }
+
+    function deleteVisualMedia(id) {
+        // Delete the item from the state
+        // Svelte reative variables dose not like filter functions, or any smart indexing functions
+        // Therefore the indexx and splice is done manually
+        let index = -1;
+        for (let i = 0; i < visual_medias.length; i++) {
+            if (visual_medias[i].id == id) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            visual_medias.splice(index, 1); // Directly remove the item
+        }
+        console.log("After deletion: ", visual_medias);
+    }
     
+    // Focus item for modals and such
+
     let focusItem = $state({});
 
     // Search/filtering
@@ -25,7 +61,7 @@
     function filterItems(items, searchTerm, searchTags) {
         if (searchTerm) {
             // Filter by name
-            items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            items = items.filter((item) => item.id.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         if (searchTags && searchTags.length > 0) {
             // Filter by tags, if any/some part of the tag is included in the search
@@ -52,7 +88,7 @@
     let showNewModal = $state(false);
     let showEditModal = $state(false);
 
-    async function doToggleItemModal(item=focusItem) {
+    function doToggleItemModal(item=focusItem) {
         focusItem = item;
         showEditModal = false;
         showNewModal = false;
@@ -85,15 +121,16 @@
             searchTerm={searchTerm}
             searchTagsUpdate={searchTagsUpdate}
             searchTags={searchTags}
+            deleteVisualMedia={deleteVisualMedia}
         />
     </div>
 </div>
 
 {#if showNewModal}
-    <NewModal doClose={doToggleNewModal}  />
+    <NewModal doClose={doToggleNewModal} createVisualMedia={createVisualMedia} />
 {/if}
 {#if showEditModal}
-    <EditModal item={focusItem} doClose={doToggleEditModal} />
+    <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} />
 {/if}
 {#if showItemModal}
     <ItemModal item={focusItem} doClose={doToggleItemModal} />

@@ -1,5 +1,5 @@
 <script>
-    let { doClose } = $props();
+    let { doClose, createVisualMedia } = $props();
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
     
@@ -32,50 +32,25 @@
                         break;
                     case "success":
                         closeModal(); // Call doClose on successful form submission
+                        createVisualMedia(result.data.responseData);
                         break;
                 }
             };
         }}>
-            <!-- <TextInput
-                title={"Name"}
-                placeholder={"Name here"}
-                name={"name"}
-                value={""}
-                required="true"
-            />
-            <TextInput
-                title={"Description"}
-                placeholder={"Description here"}
-                name={"description"}
-                value={""}
-                required="true"
-            />
+            <!-- <TextInput title={"Name"} placeholder={"Name here"} name={"name"} value={""} required="true" />
+            <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={""} required="true" />
 
             <Separator />
 
-            <TextInput
-                title={"Tags"}
-                placeholder={"Format: tag1, art, event3..."}
-                name={"tags"}
-                value={""}
-            />
+            <TextInput title={"Tags"} placeholder={"Format: tag1, art, event3..."} name={"tags"} value={""} />
 
             <Separator /> -->
 
             <ImageInput name={"file"} />
 
             <div class="modal-buttons">
-                <Button
-                    type="button"
-                    text="Cancel"
-                    doFunc={doClose}
-                    extra_class={"modal-button-close"}
-                />
-                <Button
-                    type="submit"
-                    text="Submit"
-                    extra_class={"modal-button-submit"}
-                />
+                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
+                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>
