@@ -47,7 +47,7 @@
         // Check if during timeslot
 
         /* TODO */
-        
+
 
         // Check if fallback content is set
         if (device.fallbackContent.type == "visualMedia") { 
@@ -103,13 +103,13 @@
 
         // Check if fallback content is set
         if (device.fallbackContent.type == "visualMedia") { 
-            return "Media: "+device.fallbackContent.name;
+            return "Fallback Media: "+device.fallbackContent.name;
         }
         if (device.fallbackContent.type == "slideshow") { 
-            return "Slideshow: "+device.fallbackContent.name; 
+            return "Fallback Slideshow: "+device.fallbackContent.name; 
         }
         if (device.fallbackContent == null) { 
-            return "No media title yet"; 
+            return "No media"; 
         }
 
         return "No media";
