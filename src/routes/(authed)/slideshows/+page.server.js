@@ -250,10 +250,26 @@ export const actions = {
             };
         }
     },
-    patchNewVMIOrder: async ({ cookies, url, data, request }) => {
+    patchNewVMIOrder: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        let slideOrder = JSON.parse(formData.get("Slideorder"));
-        console.log(slideOrder);
+        const slideshowId = formData.get("slideshowId");
+        let slideOrder = JSON.parse(formData.get("slideorder"));
+        slideOrder = slideOrder.map(({ id, slideshowPosition }) => ({
+            id,
+            slideshowPosition
+        }));
+
+        const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
+        console.log(requestBody)
+        console.log(slideshowId)
+        const returnData = await fetch(API_URL + "/api/visual_media_inclusions/positions", {
+            method: "PATCH",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+            body: requestBody,
+        });
         return {
             success: true,
         };
@@ -307,6 +323,15 @@ export const actions = {
         return {
             success: true,
             newData: newSlideshowData,
+        };
+    },
+    getSSPartOfTS: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        console.log("here123");
+        console.log(formData.get("slideshowId"));
+        return {
+            success: true,
+            newData: 123,
         };
     },
 }

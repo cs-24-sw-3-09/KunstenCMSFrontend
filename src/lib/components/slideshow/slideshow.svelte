@@ -1,8 +1,11 @@
 <script>
+const API_URL = import.meta.env.VITE_API_URL
+
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
   let hiddenFormGetSSPartOfTS;
+  let getSSPartOfTSData;
 
   import { createEventDispatcher } from "svelte";
 
@@ -55,6 +58,12 @@
     console.log(form.get(""));
   }
   let slideshowID = $state(props.slideshow.id);
+
+  function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 </script>
 
 {#if showAddMediaModal}
@@ -187,12 +196,23 @@
         <form
           method="post"
           action="?/deleteSlideshow"
-          use:enhance={({ formData, cancel }) => {
+          use:enhance={async ({ formData, cancel }) => {
             // Causes svelte violation warning, because of holdup
             //const infomationData = hiddenFormGetSSPartOfTS.requestSubmit();
-            //console.log("infodata",infomationData);
+            const authToken = getCookie("authToken");
+            console.log(authToken);
+
+            let informationData = await fetch(API_URL + "/api/slideshows", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + authToken,
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+        });
+
+        console.log(informationData)
             let confirmation = confirm(
-              `Are you sure you want to delete "${props.slideshow.name}"?`,
+              `Are you sure you want to delete "${props.slideshow.name}"? ${getSSPartOfTSData}`,
             );
             if (!confirmation) return cancel();
 
@@ -253,7 +273,8 @@
         method="post"
         action="?/patchNewVMIOrder"
         use:enhance={({ formData }) => {
-          formData.set("Slideorder", JSON.stringify(items));
+          formData.set("slideorder", JSON.stringify(items));
+          formData.set("slideshowId", props.slideshow.id);
 
           return async ({ result }) => {
             // `result` is an `ActionResult` object
@@ -273,25 +294,25 @@
       </form>
       <form
         method="post"
-        action="?/patchNewVMIOrder"
+        action="?/getSSPartOfTS"
         use:enhance={({ formData }) => {
-          formData.set("Slideorder", JSON.stringify(items));
+          formData.set("slideshowId", props.slideshow.id);
 
           return async ({ result }) => {
             // `result` is an `ActionResult` object
             if (result.type === "failure") {
-              // Handle the error
-              /*alert(
-                `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
-              );*/
+              
             } else if (result.type === "success") {
+              console.log("here down bad")
+              console.log(result.data)
+              getSSPartOfTSData = result.data.newData;
             }
           };
         }}
         bind:this={hiddenFormGetSSPartOfTS}
         style="display: none;"
       >
-        <input type="hidden" name="updatedOrder" />
+        <input type="hidden"/>
       </form>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->

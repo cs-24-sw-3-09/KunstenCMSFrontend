@@ -1,6 +1,5 @@
 <script>
   const API_URL = import.meta.env.VITE_API_URL;
-  import updateVMIForSS from "$lib/../routes/(authed)/slideshows/serverReq.js";
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
   let props = $props();
@@ -78,7 +77,6 @@
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
                 // Handle the error
-
                 alert(
                   `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
                 );
