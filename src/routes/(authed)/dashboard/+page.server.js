@@ -47,6 +47,8 @@ export async function load({ locals, cookies }) {
 
     //console.log(visualMediasData.concat(slideshowsData));
 
+    //console.log(displayDevicesData);
+
     return {
         displayDevices: displayDevicesData,
         fallbackContent: visualMediasData.concat(slideshowsData),
@@ -80,7 +82,7 @@ export const actions = {
         };
 
         // Check feilds
-        if (!data.name || !data.location || !data.model || !data.displayOrientation || !data.resolution) {
+        if (!data.name || !data.location || !data.displayOrientation || !data.resolution) {
             return fail(400, { error: "All input fields are required. error1" });
         }
 
@@ -112,7 +114,6 @@ export const actions = {
             responseData
         };
     },
-
     editDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
@@ -147,12 +148,12 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit Device");
+        /* console.log("Edit Device");
         console.log("requestBody");
-        console.log(requestBody);
+        console.log(requestBody); */
 
-        /* // Send the request to the backend
-        const response = await fetch(API_URL + "/api/display_devices", {
+        // Send the request to the backend
+        const response = await fetch(API_URL + "/api/display_devices/" + requestBody.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -165,7 +166,7 @@ export const actions = {
 
         const responseData = await response.json();
 
-        console.log(responseData);
+        //console.log(responseData);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to edit device." });
@@ -174,6 +175,30 @@ export const actions = {
         return { 
             success: true,
             responseData,
-        }; */
+        };
     },
+    deleteDevice: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+
+        const id = formData.get("id");
+
+        // Send the request to the backend
+        const response = await fetch(API_URL + "/api/display_devices/" + id, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        });
+
+        console.log(response.status);
+
+        if (response.status !== 204) {
+            return fail(response.status, { error: "Failed to delete device." });
+        }
+
+        return {
+            success: true,
+        };
+    }
 }

@@ -105,6 +105,24 @@
     color: rgb(34, 34, 34);
 }
 
+.dashboard-card-delete {
+    display: flex;
+    gap: 12px;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0;
+    margin-top: 6px;
+    position: absolute;
+    right: 4px;
+    top: 12px;
+}
+
+.dashboard-card-delete:hover {
+    cursor: pointer;
+    color: rgb(34, 34, 34);
+}
+
 /* NEW BUTTON */
 .dashboard-new-button {
     position: fixed;

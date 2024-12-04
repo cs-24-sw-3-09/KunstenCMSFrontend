@@ -38,7 +38,7 @@
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
         </div>
-        <Table {usersData} onEdit={toggleEditUserModal} updateUsersData={updateUsersData} />
+        <Table {usersData} onEdit={toggleEditUserModal} updateUsersData={updateUsersData} {form} />
     </div>
 </div>
 {#if showNewUserModal}
