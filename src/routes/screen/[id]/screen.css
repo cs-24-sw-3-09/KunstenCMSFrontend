@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    cursor: none;
+    background-color: black;
+    color: white;
+    height: 100%;
+    width: 100%;
+}
+
+img, video {
+    display: block;
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.carousel-items img, .carousel-items video {
+    width: 100%;
+    position: absolute;
+}
+
+img.active, video.active {
+    width: 100%;
+}
+
+.carousel img {
+    opacity: 0;
+    transition-duration: 1.5s;
+    transition-property: opacity;
+}
+
+.carousel video {
+    opacity: 0;
+    transition-duration: 0s;
+    transition-property: opacity;
+}
+
+.carousel img.active, .carousel video.active {
+    opacity: 1;
+}
+
+#status {
+    margin: 24px;
+}
