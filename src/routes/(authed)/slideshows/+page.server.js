@@ -55,8 +55,6 @@ export const actions = {
 
         // Constructing the requestBody as a JSON object
         const requestBody = JSON.stringify(slideshow);
-        console.log(requestBody)
-        console.log("sss", slideshow.id)
         const returnData = await fetch(API_URL + "/api/slideshows/" + slideshow.id, {
             method: "PATCH",
             headers: {
@@ -65,7 +63,9 @@ export const actions = {
             },
             body: requestBody,
         });
-        return fail(400, { error: "did not pick an Visual Media" });
+        return {
+            success: true,
+        };
     },
     deleteSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
@@ -80,6 +80,27 @@ export const actions = {
             return fail(slideshow.status, { error: "Could not find the slideshow." });
         } else if (slideshow.status !== 204) {
             return fail(slideshow.status, { error: "Failed to delete slideshow." });
+        }
+
+        let newSlideshowData = await getSlideshows({ cookies, url, request });
+        return {
+            success: true,
+            newData: newSlideshowData,
+        };
+    },
+    deleteVM: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        const visualmedia = await fetch(API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        })
+        console.log(visualmedia)
+        if (visualmedia.status == 404) {
+            return fail(visualmedia.status, { error: "Could not find the visual media." });
+        } else if (visualmedia.status !== 204) {
+            return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
 
         let newSlideshowData = await getSlideshows({ cookies, url, request });
@@ -199,7 +220,6 @@ export const actions = {
             const name = formData.get("name");
             // Extract old data from the form data
 
-
             // Check feilds
             if (!name) {
                 return fail(400, { error: "All input fields are required." });
@@ -230,17 +250,70 @@ export const actions = {
                 newData: responseData,
             };
         }
-    },    
-    postNewOrder: async ({ cookies, url, request }) => {
-        {
-            const formData = await request.formData();
-            const Slideorder = formData.get("Slideorder");
-            console.log("test3", Slideorder);
-            // Extract old data from the form data
-        }
-    }
+    },
+    patchNewVMIOrder: async ({ cookies, url, data, request }) => {
+        const formData = await request.formData();
+        let slideOrder = JSON.parse(formData.get("Slideorder"));
+        console.log(slideOrder);
+        return {
+            success: true,
+        };
+    },
+    patchSSName: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        console.log(formData)
 
+        const requestObj = { id: formData.get("slideshowId"), name: formData.get("newName") }
+        const requestBody = JSON.stringify(requestObj);
+        console.log(requestBody)
+
+        const returnData = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowId"), {
+            method: "PATCH",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+            body: requestBody,
+        });
+        return {
+            success: true,
+        };
+    },
+    cloneSS: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        const slideshow = JSON.parse(formData.get("slideshow"));
+        //console.log(slideshow)
+
+        const requestObj = { name: slideshow.name + " - clone" }
+        const requestBody = JSON.stringify(requestObj);
+        console.log(requestBody)
+        console.log(slideshow.id)
+
+        const returnData = await fetch(API_URL + "/api/slideshows/" + slideshow.id + "/duplicate", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+            body: requestBody,
+        });
+
+        if (returnData.status == 404) {
+            return fail(returnData.status, { error: "Could not find the slideshow." });
+        } else if (returnData.status != 201) {
+            return fail(returnData.status, { error: "Failed to duplicate slideshow." });
+        }
+
+        let newSlideshowData = await getSlideshows({ cookies, url, request });
+        return {
+            success: true,
+            newData: newSlideshowData,
+        };
+    },
 }
+
+
+
 
 async function getSlideshows({ cookies, url, request }) {
     const slideshow = await fetch(API_URL + "/api/slideshows", {

@@ -33,11 +33,9 @@
         items.forEach((item, i) => {
           item.slideshowPosition = i + 1;
         });
-
-        hiddenForm.submit();
-
+        hiddenForm.requestSubmit();
         dispatch("updateOrder", items);
-        console.log(items);
+        console.table(items);
       },
     });
   });
@@ -89,9 +87,29 @@
         <div
           class="slideshows-item-header-activity tooltippable tooltipText-Active"
         ></div>
-        <div class="slideshows-item-header-title">
-          {props.slideshow.name}
-        </div>
+        <form
+          method="post"
+          action="?/patchSSName"
+          use:enhance={({ formData }) => {
+            formData.set("slideshowId", props.slideshow.id);
+            formData.set("newName", props.slideshow.name);
+
+            return async ({ result }) => {};
+          }}
+        >
+          <div class="slideshows-item-header-title">
+            <input
+              type="text"
+              value={props.slideshow.name}
+              class="unstyled-input"
+              on:click|stopPropagation
+              on:change={(event) => {
+                props.slideshow.name = event.target.value;
+                event.target.form.requestSubmit();
+              }}
+            />
+          </div>
+        </form>
       </div>
 
       <div class="slideshows-item-header-right">
@@ -135,17 +153,16 @@
         <!-- Copy slideshow -->
         <form
           method="post"
-          action="?/changeArchviedState"
+          action="?/cloneSS"
           use:enhance={({ formData }) => {
-            formData.set("isArchived", !props.slideshow.isArchived);
-            formData.set("slideshowID", props.slideshow.id);
+            formData.set("slideshow", JSON.stringify(props.slideshow));
 
             return async ({ result }) => {
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
                 // Handle the error
                 alert(
-                  `Failed to change slideshow to archived status, please reload page (F5).\n${result.data?.error}`,
+                  `Failed to clone slideshow, please reload page (F5).\n${result.data?.error}`,
                 );
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
@@ -169,8 +186,17 @@
         <form
           method="post"
           action="?/deleteSlideshow"
-          use:enhance={({ formData }) => {
+          use:enhance={({ formData, cancel }) => {
+             // Causes svelte violation warning, because of holdup
+
+             let confirmation = confirm(
+                                `Are you sure you want to delete "${props.slideshow.name}"?`,
+                                `${fetch()}`
+                            );
+                            if (!confirmation) return cancel();
+
             formData.set("slideshowID", props.slideshow.id);
+            
 
             return async ({ result }) => {
               // `result` is an `ActionResult` object
@@ -219,33 +245,34 @@
             {slideshowID}
             slideshow={props.slideshow}
             form={props.form}
+            updateSlideshowContent = {props.updateSlideshowContent}
           />
         {/each}
       </div>
       <form
         method="post"
-        action="?/postNewOrder"
+        action="?/patchNewVMIOrder"
         use:enhance={({ formData }) => {
-          formData.set("Slideorder", items);
+          formData.set("Slideorder", JSON.stringify(items));
           console.log("test 300", items);
 
           return async ({ result }) => {
-              // `result` is an `ActionResult` object
-              if (result.type === "failure") {
-                // Handle the error
-                alert(
-                  `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
-                );
-              } else if (result.type === "success") {
-                props.updateSlideshowContent(result.data.newData);
-              }
-            };
+            // `result` is an `ActionResult` object
+            if (result.type === "failure") {
+              // Handle the error
+              /*alert(
+                `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
+              );*/
+            } else if (result.type === "success") {
+            }
+          };
         }}
         bind:this={hiddenForm}
         style="display: none;"
       >
         <input type="hidden" name="updatedOrder" />
       </form>
+      
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore event_directive_deprecated -->
@@ -255,3 +282,15 @@
     </div>
   </div>
 </div>
+
+<style>
+  .unstyled-input {
+    all: inherit; /* Inherit all styles from the parent */
+    border: none; /* Remove input borders */
+    background: transparent; /* Remove input background */
+    padding: 0; /* Remove extra padding */
+    margin: 0; /* Remove extra margin */
+    outline: none; /* Disable focus outline */
+    width: 100%; /* Make the input span the container width */
+  }
+</style>

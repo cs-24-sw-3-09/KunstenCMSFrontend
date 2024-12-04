@@ -1,4 +1,5 @@
 <script>
+  const API_URL = import.meta.env.VITE_API_URL;
   import updateVMIForSS from "$lib/../routes/(authed)/slideshows/serverReq.js";
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
@@ -6,11 +7,6 @@
   let VMI = props.VMI;
   let slideshowId = props.slideshowId;
   let test1 = props.slideshow;
-
-  async function updateSlideDuration(newDuration) {
-    // Create the data to send
-    await updateVMIForSS(props.slideshow, newDuration, VMI);
-  }
 </script>
 
 <div class="slideshows-item-body">
@@ -19,9 +15,7 @@
     <div draggable="true" class="slideshows-body-item">
       <div class="slideshows-body-item-preview">
         <img
-          src={VMI.visualMedia
-            ? `http://152.53.110.114:8080${VMI.visualMedia.location}`
-            : ""}
+          src={VMI.visualMedia ? `${API_URL}${VMI.visualMedia.location}` : ""}
           alt="Media"
         />
       </div>
@@ -69,9 +63,42 @@
         </div>
       </div>
       <div class="slideshows-body-item-actions">
-        <div class="slideshows-body-item-action-trash">
-          <i class="fa-solid fa-trash"></i>
-        </div>
+        <form
+          method="post"
+          action="?/deleteVM"
+          use:enhance={({ formData, cancel }) => {
+                         // Causes svelte violation warning, because of holdup
+                         let confirmation = confirm(
+                                `Are you sure you want to delete "${VMI}"?`,
+                            );
+                            if (!confirmation) return cancel();
+            formData.set("ContentID", VMI.id);
+
+            return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+
+                alert(
+                  `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
+                );
+              } else if (result.type === "success") {
+                props.updateSlideshowContent(result.data.newData);
+              }
+            };
+          }}
+        >
+          <div class="slideshows-item-header-action">
+            <!-- svelte-ignore a11y_consider_explicit_label -->
+            <button
+              type="submit"
+              style="all: unset; display: inline-block; cursor: pointer;"
+            >
+              <!-- svelte-ignore element_invalid_self_closing_tag -->
+              <i class="fa-solid fa-trash" />
+            </button>
+          </div>
+        </form>
         <div class="slideshows-body-item-action-hand">
           <i class="fa-solid fa-hand"></i>
         </div>
