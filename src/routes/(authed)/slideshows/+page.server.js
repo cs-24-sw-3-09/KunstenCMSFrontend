@@ -168,7 +168,6 @@ export const actions = {
 
         // requestBody sendt for the patch action
         let requestBody = JSON.stringify({
-            id: 0,
             slideDuration: 25,
             slideshowPosition: formData.get("ssPos"),
             visualMedia: {

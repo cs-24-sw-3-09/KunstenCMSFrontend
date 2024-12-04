@@ -2,6 +2,7 @@
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
+  let hiddenFormGetSSPartOfTS;
 
   import { createEventDispatcher } from "svelte";
 
@@ -187,16 +188,15 @@
           method="post"
           action="?/deleteSlideshow"
           use:enhance={({ formData, cancel }) => {
-             // Causes svelte violation warning, because of holdup
-
-             let confirmation = confirm(
-                                `Are you sure you want to delete "${props.slideshow.name}"?`,
-                                `${fetch()}`
-                            );
-                            if (!confirmation) return cancel();
+            // Causes svelte violation warning, because of holdup
+            //const infomationData = hiddenFormGetSSPartOfTS.requestSubmit();
+            //console.log("infodata",infomationData);
+            let confirmation = confirm(
+              `Are you sure you want to delete "${props.slideshow.name}"?`,
+            );
+            if (!confirmation) return cancel();
 
             formData.set("slideshowID", props.slideshow.id);
-            
 
             return async ({ result }) => {
               // `result` is an `ActionResult` object
@@ -245,7 +245,7 @@
             {slideshowID}
             slideshow={props.slideshow}
             form={props.form}
-            updateSlideshowContent = {props.updateSlideshowContent}
+            updateSlideshowContent={props.updateSlideshowContent}
           />
         {/each}
       </div>
@@ -254,7 +254,6 @@
         action="?/patchNewVMIOrder"
         use:enhance={({ formData }) => {
           formData.set("Slideorder", JSON.stringify(items));
-          console.log("test 300", items);
 
           return async ({ result }) => {
             // `result` is an `ActionResult` object
@@ -272,7 +271,28 @@
       >
         <input type="hidden" name="updatedOrder" />
       </form>
-      
+      <form
+        method="post"
+        action="?/patchNewVMIOrder"
+        use:enhance={({ formData }) => {
+          formData.set("Slideorder", JSON.stringify(items));
+
+          return async ({ result }) => {
+            // `result` is an `ActionResult` object
+            if (result.type === "failure") {
+              // Handle the error
+              /*alert(
+                `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
+              );*/
+            } else if (result.type === "success") {
+            }
+          };
+        }}
+        bind:this={hiddenFormGetSSPartOfTS}
+        style="display: none;"
+      >
+        <input type="hidden" name="updatedOrder" />
+      </form>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore event_directive_deprecated -->
