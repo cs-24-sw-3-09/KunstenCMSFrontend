@@ -9,6 +9,8 @@
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
     let visualMediaContent = $state(data.visualMedia);
+    let color = data.color;
+    console.log(color)
     function updateSlideshowContent(data) {
         console.log("selectedId", selectedId);
         slideshowContent = data;
@@ -117,6 +119,7 @@
                 {searchTermUpdate}
                 updateSlideshowContent = {updateSlideshowContent}
                 {form}
+                color = {color}
             />
         {/if}
     {/each}

@@ -26,10 +26,22 @@ export async function load({ cookies }) {
         }
     });
 
+    const color = await fetch(API_URL + "/api/slideshows/states", {
+        method: "GET",
+        headers: {
+            /* "Content-type": "application/json", */
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const colorData = await color.json();
+
+
     const visualMediaData = await visualMedia.json();
     return {
         slideshow: slideshowData,
         visualMedia: visualMediaData,
+        color: colorData,
     };
 }
 // Actions:

@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL
   let hiddenForm;
   let hiddenFormGetSSPartOfTS;
   let getSSPartOfTSData;
+  let color = "yellow"
 
   import { createEventDispatcher } from "svelte";
 
@@ -95,7 +96,8 @@ const API_URL = import.meta.env.VITE_API_URL
           </i>
         </div>
         <div
-          class="slideshows-item-header-activity tooltippable tooltipText-Active"
+          class="slideshows-item-header-activity tooltippable tooltipText-Active" 
+          style= {"background-color: "+color}
         ></div>
         <form
           method="post"
@@ -333,5 +335,7 @@ const API_URL = import.meta.env.VITE_API_URL
     margin: 0; /* Remove extra margin */
     outline: none; /* Disable focus outline */
     width: 100%; /* Make the input span the container width */
+
+
   }
 </style>
