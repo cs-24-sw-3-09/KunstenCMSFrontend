@@ -10,12 +10,16 @@
     let VMIForSS = $state(null);
     let visualMediaContent = $state(data.visualMedia);
     let color = data.color;
-    console.log(color)
+    console.log(color);
     function updateSlideshowContent(data) {
         console.log("selectedId", selectedId);
         slideshowContent = data;
-        if(selectedId != null){
-            VMIForSS = slideshowContent.find(ss => ss.id ===selectedId).visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+        if (selectedId != null) {
+            VMIForSS = slideshowContent
+                .find((ss) => ss.id === selectedId)
+                .visualMediaInclusionCollection.sort(
+                    (a, b) => a.slideshowPosition - b.slideshowPosition,
+                );
             console.log(VMIForSS);
         }
     }
@@ -42,9 +46,6 @@
         return items;
     }
 
-    
-
-
     let filteredData = $derived.by(() => {
         return filterItems(visualMediaContent.content, searchTerm, searchTags);
     }); // Reactive var
@@ -68,7 +69,11 @@
 
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
-        VMIForSS = slideshowContent.find(ss => ss.id ===selectedId).visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+        VMIForSS = slideshowContent
+            .find((ss) => ss.id === selectedId)
+            .visualMediaInclusionCollection.sort(
+                (a, b) => a.slideshowPosition - b.slideshowPosition,
+            );
     }
     function updateChecked() {
         isChecked = !isChecked;
@@ -81,7 +86,8 @@
     function handleOrderUpdate(updatedItems) {
         // Find the relevant slideshow
         const slideshowToUpdate = slideshowContent.find(
-            (slideshow) => slideshowContent.id === updatedItems[0]?.parentSlideshowId,
+            (slideshow) =>
+                slideshowContent.id === updatedItems[0]?.parentSlideshowId,
         );
 
         if (slideshowToUpdate) {
@@ -99,31 +105,35 @@
         on:update={(event) => updateChecked(event.detail)}
         {searchSlideshow}
         {searchTermUpdate}
-        updateSlideshowContent={updateSlideshowContent}
+        {updateSlideshowContent}
     />
-
-    {#each filteredslideshow as slideshow}
-        {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
-            <Slideshow
-                {slideshow}
-                {VMIForSS}
-                {filteredData}
-                on:update={(event) => updateState(event.detail)}
-                on:focus={(event) => focusSlideshow(event.detail)}
-                on:updateOrder={(event) => handleOrderUpdate(event.detail)}
-                {selectedId}
-                {searchTags}
-                {searchTerm}
-                {archivedState}
-                {searchTagsUpdate}
-                {searchTermUpdate}
-                updateSlideshowContent = {updateSlideshowContent}
-                {form}
-                color = {color.find((row) => row.slideshowId == slideshow.id)?.color}
-                screens = {color.find((row) => row.slideshowId == slideshow.id)?.displayDevices}
-            />
-        {/if}
-    {/each}
+    <div class="slideshows-list">
+        {#each filteredslideshow as slideshow}
+            {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
+                <Slideshow
+                    {slideshow}
+                    {VMIForSS}
+                    {filteredData}
+                    on:update={(event) => updateState(event.detail)}
+                    on:focus={(event) => focusSlideshow(event.detail)}
+                    on:updateOrder={(event) => handleOrderUpdate(event.detail)}
+                    {selectedId}
+                    {searchTags}
+                    {searchTerm}
+                    {archivedState}
+                    {searchTagsUpdate}
+                    {searchTermUpdate}
+                    {updateSlideshowContent}
+                    {form}
+                    color={color.find((row) => row.slideshowId == slideshow.id)
+                        ?.color}
+                    screens={color.find(
+                        (row) => row.slideshowId == slideshow.id,
+                    )?.displayDevices}
+                />
+            {/if}
+        {/each}
+    </div>
 </div>
 
 <style>

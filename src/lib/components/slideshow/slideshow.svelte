@@ -1,5 +1,5 @@
 <script>
-const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL;
 
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
@@ -61,10 +61,10 @@ const API_URL = import.meta.env.VITE_API_URL
   let slideshowID = $state(props.slideshow.id);
 
   function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
 </script>
 
 {#if showAddMediaModal}
@@ -96,8 +96,8 @@ const API_URL = import.meta.env.VITE_API_URL
           </i>
         </div>
         <div
-          class="slideshows-item-header-activity tooltippable tooltipText-Active" 
-          style= {"background-color: "+color}
+          class="slideshows-item-header-activity tooltippable tooltipText-Active"
+          style={"background-color: " + color}
         ></div>
         <form
           method="post"
@@ -205,14 +205,14 @@ const API_URL = import.meta.env.VITE_API_URL
             console.log(authToken);
 
             let informationData = await fetch(API_URL + "/api/slideshows", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + authToken,
+              method: "GET",
+              headers: {
+                Authorization: "Bearer " + authToken,
                 "Content-Type": "application/json", // Indicate JSON content
-            },
-        });
+              },
+            });
 
-        console.log(informationData)
+            console.log(informationData);
             let confirmation = confirm(
               `Are you sure you want to delete "${props.slideshow.name}"? ${getSSPartOfTSData}`,
             );
@@ -246,6 +246,7 @@ const API_URL = import.meta.env.VITE_API_URL
         </form>
       </div>
     </div>
+    <!-- For show the display devies -->
     <div class="slideshows-item-header-bottom">
       <i class="fa-solid fa-tower-cell"></i>
       <div class="slideshows-item-live-list">
@@ -254,12 +255,17 @@ const API_URL = import.meta.env.VITE_API_URL
         {/each}
       </div>
     </div>
+  </div>
+  <!-- Makeing the VMI list -->
+  <div class="slideshows-item-body">
+    <div class="slideshows-body-line"></div>
     <div
-      class="slideshow-body-list"
+      class="slideshows-body-list"
       style="display: {props.selectedId == props.slideshow.id
         ? 'block'
         : 'none'}"
     >
+    
       <div bind:this={listElement} class="drag-delete-me">
         {#each props.VMIForSS as VMI}
           <Slideshowcontent
@@ -283,8 +289,8 @@ const API_URL = import.meta.env.VITE_API_URL
             if (result.type === "failure") {
               // Handle the error
               /*alert(
-                `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
-              );*/
+            `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
+          );*/
             } else if (result.type === "success") {
             }
           };
@@ -303,10 +309,9 @@ const API_URL = import.meta.env.VITE_API_URL
           return async ({ result }) => {
             // `result` is an `ActionResult` object
             if (result.type === "failure") {
-              
             } else if (result.type === "success") {
-              console.log("here down bad")
-              console.log(result.data)
+              console.log("here down bad");
+              console.log(result.data);
               getSSPartOfTSData = result.data.newData;
             }
           };
@@ -314,7 +319,7 @@ const API_URL = import.meta.env.VITE_API_URL
         bind:this={hiddenFormGetSSPartOfTS}
         style="display: none;"
       >
-        <input type="hidden"/>
+        <input type="hidden" />
       </form>
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -335,7 +340,5 @@ const API_URL = import.meta.env.VITE_API_URL
     margin: 0; /* Remove extra margin */
     outline: none; /* Disable focus outline */
     width: 100%; /* Make the input span the container width */
-
-
   }
 </style>

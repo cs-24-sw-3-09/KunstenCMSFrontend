@@ -9,8 +9,7 @@
 </script>
 
 <div class="slideshows-item-body">
-  <div class="slideshows-body-line"></div>
-  <div class="slideshows-body-list">
+
     <div draggable="true" class="slideshows-body-item">
       <div class="slideshows-body-item-preview">
         <img
@@ -102,5 +101,4 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
