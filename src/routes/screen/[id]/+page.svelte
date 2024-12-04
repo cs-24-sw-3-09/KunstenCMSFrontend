@@ -12,8 +12,13 @@
     var carouselItemsDom;
 
     onMount(() => {
-        const manager = new Manager(io, data.deviceId, data.socketUrl, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem);
-        manager.run();
+        try {
+            let deviceId = parseInt(data.deviceId);
+            const manager = new Manager(io, deviceId, data.socketUrl, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem);
+            manager.run();
+        } catch(e) {
+
+        }
     })
 
     var setStatus = (s) => (status = s);

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import { Manager } from "socket.io-client";
+    import { io, Manager } from "socket.io-client";
 
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props(); // "form" is automatically populated by SvelteKit
@@ -44,14 +44,10 @@
     }
 
     onMount(() => {
-        const manager = new Manager(data.socketUrl, {
-            reconnectionDelayMax: 10000
-        });
-        const socket = manager.socket("/dashboard");
+        const socket = io(data.socketUrl);
 
-        socket.onAny((event, ...args) => {
-            console.log("event: ", event);
-            console.log("args: ", args);
+        socket.on("changeContent", ({deviceid, currenturl, type}) => {
+            console.log(deviceid, currenturl, type);
         });
     })
 

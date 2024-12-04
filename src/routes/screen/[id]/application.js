@@ -19,8 +19,8 @@ class ConnectionHandler {
     
     sendContentChange(deviceId, current_url, type) {
         this.socket.emit("changeContent", {
-          "deviceId": deviceId,
-          "current_url": current_url,
+          "deviceid": deviceId,
+          "currenturl": current_url,
           "type": type
         });
       }
