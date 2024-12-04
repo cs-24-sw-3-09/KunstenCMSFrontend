@@ -1,5 +1,7 @@
 import { fail } from "@sveltejs/kit";
 
+import { mimeToType } from "$lib/utils/fileutils";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 // load user from locals for modifieing the page
@@ -49,6 +51,16 @@ export async function load({ locals, cookies }) {
 
     //console.log(displayDevicesData);
 
+
+    // Add src to visualMedia fallbackContent
+    for (let i = 0; i < displayDevicesData.content.length; i++) {
+        if (displayDevicesData.content[i].fallbackContent.type == "visualMedia") {
+            displayDevicesData.content[i].fallbackContent.src = API_URL + "/files/visual_media/"
+                + displayDevicesData.content[i].fallbackContent.id
+                + mimeToType(displayDevicesData.content[i].fallbackContent.fileType);
+        }
+    }
+
     return {
         displayDevices: displayDevicesData,
         fallbackContent: visualMediasData.concat(slideshowsData),
@@ -63,10 +75,10 @@ export async function load({ locals, cookies }) {
 export const actions = {
     newDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         //console.log(formData.get("fallbackContent"));
         //console.log(JSON.parse(formData.get("fallbackContent")));
-        
+
         // Resolution is a string of the form "WIDTHxHEIGHT"
         // Hacky way to get id and type from formdata
         let data = {
@@ -109,8 +121,8 @@ export const actions = {
             return fail(response.status, { error: "Failed to create new device." });
         }
 
-        return { 
-            success: true, 
+        return {
+            success: true,
             responseData
         };
     },
@@ -172,7 +184,7 @@ export const actions = {
             return fail(response.status, { error: "Failed to edit device." });
         }
 
-        return { 
+        return {
             success: true,
             responseData,
         };

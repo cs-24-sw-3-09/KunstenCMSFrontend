@@ -9,6 +9,7 @@
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     let devices = $state(data.displayDevices.content);
+    //$inspect(devices);
 
     function updateDevices(updatedDevice) {
         const index = devices.findIndex((device) => device.id === updatedDevice.id);

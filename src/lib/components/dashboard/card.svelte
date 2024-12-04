@@ -1,14 +1,107 @@
 <script>
     let { admin, device, doEdit, deleteDevice } = $props();
-    import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
 
     import { enhance } from "$app/forms";
+    import { page } from '$app/stores';
+    
+    import { onMount } from "svelte";
+    import { on } from "svelte/events";
+    
+    import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
+    
+    
+    let currentMedia = $derived.by(() => {
+        let datetimeNow = new Date();
+        let dayOfWeek = datetimeNow.getDay();
+        let timeNow = datetimeNow.getHours() * 60 + datetimeNow.getMinutes();
+
+        console.log(device);
+
+        // Check if on hours
+        switch (dayOfWeek) {
+            case 0: // Sunday
+                if (device.sunday_start==null && device.sunday_end==null) {}
+                break;
+            case 1: // Monday
+                if (device.monday_start==null && device.monday_end==null) {}
+                break;
+            case 2: // Tuesday
+                if (device.tuesday_start==null && device.tuesday_end==null) {}
+                break;
+            case 3: // Wednesday
+                if (device.wednesday_start==null && device.wednesday_end==null) {}
+                break;
+            case 4: // Thursday
+                if (device.thursday_start==null && device.thursday_end==null) {}
+                break;
+            case 5: // Friday
+                if (device.friday_start==null && device.friday_end==null) {}
+                break;
+            case 6: // Saturday
+                if (device.saturday_start==null && device.saturday_end==null) {}
+                break;
+            default:
+                return test_fallback;
+        }
+
+        // Check if fallback content is set
+        if (device.fallbackContent.type == "visualMedia") { 
+            return device.fallbackContent.src;
+        }
+        if (device.fallbackContent.type == "slideshow") { return test_fallback; }
+        if (device.fallbackContent == null) { return test_fallback; }
+
+        return test_fallback;
+    });
+
+    let currentTitle = $derived.by(() => {
+        let datetimeNow = new Date();
+        let dayOfWeek = datetimeNow.getDay();
+        let timeNow = datetimeNow.getHours() * 60 + datetimeNow.getMinutes();
+
+        // Check if on hours
+        switch (dayOfWeek) {
+            case 0: // Sunday
+                if (device.sunday_start==null && device.sunday_end==null) {}
+                break;
+            case 1: // Monday
+                if (device.monday_start==null && device.monday_end==null) {}
+                break;
+            case 2: // Tuesday
+                if (device.tuesday_start==null && device.tuesday_end==null) {}
+                break;
+            case 3: // Wednesday
+                if (device.wednesday_start==null && device.wednesday_end==null) {}
+                break;
+            case 4: // Thursday
+                if (device.thursday_start==null && device.thursday_end==null) {}
+                break;
+            case 5: // Friday
+                if (device.friday_start==null && device.friday_end==null) {}
+                break;
+            case 6: // Saturday
+                if (device.saturday_start==null && device.saturday_end==null) {}
+                break;
+            default:
+                return "No media title yet";
+        }
+
+        // Check if fallback content is set
+        if (device.fallbackContent.type == "visualMedia") { 
+            return device.fallbackContent.name;
+        }
+        if (device.fallbackContent.type == "slideshow") { return "Slideshow"; }
+        if (device.fallbackContent == null) { return "No media title yet"; }
+
+        return "No media title yet";
+    });
+
 </script>
 
 <div class="dashboard-card">
     <div class="dashboard-card-top">
         <div class="dashboard-card-preview">
-            <img src={test_fallback} alt=""/> <!-- TODO: add dynamic html element for video-->
+            <img src={currentMedia} alt=""/> <!-- TODO: add dynamic html element for slideshow and video-->
         </div>
     </div>
     <div class="dashboard-card-bottom">
@@ -23,7 +116,7 @@
         <!-- TODO: If during timeslot, else fallbackcontent -->
         <div class="dashboard-card-slideshow-info">
             <i class="fa-solid fa-file"></i>
-            <div class="dashboard-card-slideshow-title">MEDIA TODO</div>
+            <div class="dashboard-card-slideshow-title">{currentTitle}</div>
         </div>
         <div class="dashboard-card-location-title">
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
@@ -43,7 +136,7 @@
             <form method="POST" action="?/deleteDevice"
             use:enhance={ ( { formData }) => {
                 formData.set("id", device.id);
-                
+
                 return async ({ result }) => {
                     switch (result.type) {
                         case "failure":
