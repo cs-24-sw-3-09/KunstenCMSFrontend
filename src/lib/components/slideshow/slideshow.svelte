@@ -264,19 +264,17 @@
       style="display: {props.selectedId == props.slideshow.id
         ? 'block'
         : 'none'}"
+      bind:this={listElement}
     >
-    
-      <div bind:this={listElement} class="drag-delete-me">
-        {#each props.VMIForSS as VMI}
-          <Slideshowcontent
-            {VMI}
-            {slideshowID}
-            slideshow={props.slideshow}
-            form={props.form}
-            updateSlideshowContent={props.updateSlideshowContent}
-          />
-        {/each}
-      </div>
+      {#each props.VMIForSS as VMI}
+        <Slideshowcontent
+          {VMI}
+          {slideshowID}
+          slideshow={props.slideshow}
+          form={props.form}
+          updateSlideshowContent={props.updateSlideshowContent}
+        />
+      {/each}
       <form
         method="post"
         action="?/patchNewVMIOrder"
@@ -334,11 +332,19 @@
 <style>
   .unstyled-input {
     all: inherit; /* Inherit all styles from the parent */
-    border: none; /* Remove input borders */
     background: transparent; /* Remove input background */
     padding: 0; /* Remove extra padding */
     margin: 0; /* Remove extra margin */
-    outline: none; /* Disable focus outline */
-    width: 100%; /* Make the input span the container width */
+    display: block;
+    width: auto;
+    padding: 4px;
+    transition: all 0.05s;
+
+    /*outline: none; /* Disable focus outline */
+  }
+
+  .unstyled-input:hover{
+    background-color: darkgray;
+    cursor: text;
   }
 </style>
