@@ -44,7 +44,7 @@
         if (index !== -1) {
             visual_medias.splice(index, 1); // Directly remove the item
         }
-        console.log("After deletion: ", visual_medias);
+        //console.log("After deletion: ", visual_medias);
     }
     
     // Focus item for modals and such

@@ -43,13 +43,13 @@ export async function load({ cookies }) {
             }
         });
 
-        console.log("slideshows", slideshows.status);
+        //console.log("slideshows", slideshows.status);
         
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
     }
     
-    console.log(visualMediasData);
+    //console.log(visualMediasData);
 
     return {
         visualMedias: visualMediasData,
@@ -218,9 +218,9 @@ export const actions = {
             return fail(400, { error: "Only the id field can be passed." });
         } */
 
-        console.log("Delete Visual Media");
+        /* console.log("Delete Visual Media");
         console.log("requestBody");
-        console.log(requestBody);
+        console.log(requestBody); */
 
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
@@ -231,7 +231,7 @@ export const actions = {
             },
         });
 
-        console.log(response.status);
+        //console.log(response.status);
 
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete visual media." });
@@ -321,7 +321,7 @@ export const actions = {
 
         return { success: true };
     },
-    allSildeshows: async ({ cookies, url, request }) => {
+    /* allSildeshows: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
         let data = {
@@ -342,5 +342,5 @@ export const actions = {
             success: true,
             data: slideshowsData
         };
-    },
+    }, */
 }
