@@ -44,12 +44,21 @@
                 return test_fallback;
         }
 
+        // Check if during timeslot
+
+        /* TODO */
+        
+
         // Check if fallback content is set
         if (device.fallbackContent.type == "visualMedia") { 
             return device.fallbackContent.src;
         }
-        if (device.fallbackContent.type == "slideshow") { return test_fallback; }
-        if (device.fallbackContent == null) { return test_fallback; }
+        if (device.fallbackContent.type == "slideshow") { 
+            return test_fallback; 
+        }
+        if (device.fallbackContent == null) { 
+            return test_fallback; 
+        }
 
         return test_fallback;
     });
@@ -83,17 +92,27 @@
                 if (device.saturday_start==null && device.saturday_end==null) {}
                 break;
             default:
-                return "No media title yet";
+                return "No media";
         }
+
+        // Check if during timeslot
+
+        /* TODO */
+
+
 
         // Check if fallback content is set
         if (device.fallbackContent.type == "visualMedia") { 
-            return device.fallbackContent.name;
+            return "Media: "+device.fallbackContent.name;
         }
-        if (device.fallbackContent.type == "slideshow") { return "Slideshow"; }
-        if (device.fallbackContent == null) { return "No media title yet"; }
+        if (device.fallbackContent.type == "slideshow") { 
+            return "Slideshow: "+device.fallbackContent.name; 
+        }
+        if (device.fallbackContent == null) { 
+            return "No media title yet"; 
+        }
 
-        return "No media title yet";
+        return "No media";
     });
 
 </script>
