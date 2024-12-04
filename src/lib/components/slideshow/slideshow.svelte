@@ -27,7 +27,7 @@
   );
   let listElement;
 
-  onMount(() => {
+  onMount(async () => {
     new Sortable(listElement, {
       animation: 150,
       filter: ".non-draggable",
@@ -201,18 +201,17 @@
           use:enhance={async ({ formData, cancel }) => {
             // Causes svelte violation warning, because of holdup
             //const infomationData = hiddenFormGetSSPartOfTS.requestSubmit();
+
             const authToken = getCookie("authToken");
             console.log(authToken);
 
             let informationData = await fetch(API_URL + "/api/slideshows", {
               method: "GET",
-              headers: {
-                Authorization: "Bearer " + authToken,
-                "Content-Type": "application/json", // Indicate JSON content
-              },
+              headers: {"Authorization": 'Bearer ' + authToken, "Content-type": "application/json"},
             });
 
-            console.log(informationData);
+            console.log(await informationData.json());
+
             let confirmation = confirm(
               `Are you sure you want to delete "${props.slideshow.name}"? ${getSSPartOfTSData}`,
             );
