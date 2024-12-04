@@ -6,23 +6,16 @@
     import NewTimeslotModal from "$lib/components/schedule/newtimeslotmodal.svelte";
     import EditTimeslotModal from "$lib/components/schedule/edittimeslotmodal.svelte";
 
-
-    // TEST DATA; THAT IS NOT ACCURATE TO THE REAL DATA
-
-    import TableRowPopulatorWeek from "$lib/components/schedule/weektablerowpopulator.svelte";
-    import TableRowPopulatorDay from "$lib/components/schedule/daytablerowpopulator.svelte";
-
-    // import testdata from teststore
-    import { testScheduleDay } from "$lib/testdata.js";
-    let daydata = $state(testScheduleDay);
-
-    import { testScheduleWeek } from "$lib/testdata.js";
-    let weekdata = $state(testScheduleWeek);
+    import RowPopulatorWeek from "$lib/components/schedule/weekrowpopulator.svelte";
+    import RowPopulatorDay from "$lib/components/schedule/dayrowpopulator.svelte";   
 
 
     // Data for the page
     let timeslots = $state(data.timeslotsData.content)
-    $inspect(timeslots);
+    //$inspect(timeslots);
+    //$inspect(timeslots[0].displayDevices);
+
+    // Toggles
 
     let weekView = $state(true);
     
@@ -117,16 +110,144 @@
 
 
     // Derive visual data for the week
+    // I hate date calculations, and compiling fields for each day is a bit of a pain
 
+    let weekData = $derived.by(() => {
+        // Helper function to check if two date ranges overlap
+        const isOverlapping = (slotStart, slotEnd, rangeStart, rangeEnd) => {
+            return (
+                (slotStart >= rangeStart && slotStart <= rangeEnd) || // Starts in range
+                (slotEnd >= rangeStart && slotEnd <= rangeEnd) || // Ends in range
+                (slotStart <= rangeStart && slotEnd >= rangeEnd) // Spans the entire range
+            );
+        };
 
+        // Helper function to determine if a timeslot is relevant for a specific day
+        const isRelevantForDay = (weekdaysChosen, dayIndex) => {      
+            return (Number(weekdaysChosen) & (1 << dayIndex)) !== 0; // Check if the bit for the day is set
+        };
 
+        // Create a map of devices to their timeslots
+        const deviceTimeslotMap = {};
+
+        timeslots.forEach(slot => {
+            let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
+            let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
+            const devices = slot.displayDevices;
+
+            slotStart.setHours(0, 0, 0, 0); // Start of the day
+            slotEnd.setHours(23, 59, 59, 999); // End of the day
+
+            // Only consider timeslots that overlap with the week range
+            if (isOverlapping(slotStart, slotEnd, focusWeek.start, focusWeek.end)) {
+                devices.forEach(device => {
+                    // Initialize the device entry if not exists
+                    if (!deviceTimeslotMap[device.id]) {
+                        deviceTimeslotMap[device.id] = {
+                            device,
+                            timeslots: [],
+                            dayfields: Array.from({ length: 7 }, () => []), // Array of 7 days (Monday-Sunday)
+                        };
+                    }
+
+                    // Add the timeslot to the device
+                    const deviceEntry = deviceTimeslotMap[device.id];
+                    deviceEntry.timeslots.push(slot);
+
+                    // Populate dayfields
+                    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
+                        const dayDate = new Date(focusWeek.start);
+                        dayDate.setDate(focusWeek.start.getDate() + dayIndex); // Get the actual date for each day
+
+                        // Check if the timeslot is relevant for the current day
+                        if (dayDate >= slotStart 
+                            && dayDate <= slotEnd 
+                            && isRelevantForDay(slot.weekdaysChosen, dayIndex)) {
+                            deviceEntry.dayfields[dayIndex].push({
+                                color: `color-${slot.id}`, // Unique color based on timeslot ID
+                                size: "schedule-size-3",
+                                timeslot: slot,
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        // Convert the map to an array
+        return Object.values(deviceTimeslotMap);
+    });
+    //$inspect(weekData);
 
 
     // Derive visual data for the day
+    // I hate date calculations, and compiling fields for each day is a bit of a pain
 
+    let dayData = $derived.by(() => {
+        const dayStart = new Date(focusDate);
+        dayStart.setHours(0, 0, 0, 0); // Start of the day
+        const dayEnd = new Date(focusDate);
+        dayEnd.setHours(23, 59, 59, 999); // End of the day
 
-    
+        // Helper function to check if a timeslot overlaps with the specific day
+        const isOverlapping = (slotStart, slotEnd, dayStart, dayEnd) => {
+            console.log("slotend",slotEnd.valueOf());
+            console.log("dayend",dayEnd.valueOf());
+            return (
+                (slotStart >= dayStart && slotStart <= dayEnd) || // Starts within the day
+                (slotEnd >= dayStart && slotEnd <= dayEnd) || // Ends within the day
+                (slotStart <= dayStart && slotEnd >= dayEnd) // Spans the entire day
+            );
+        };
 
+        // Helper function to check if the timeslot is relevant for this specific day
+        const isRelevantForDay = (weekdaysChosen, dayIndex) => {      
+            return (Number(weekdaysChosen) & (1 << dayIndex)) !== 0; // Check if the bit for the day is set
+        };
+
+        // Get the day index (0 = Monday, ..., 6 = Sunday)
+        let dayIndex = dayStart.getDay() - 1; // Adjust to 0-indexed (Monday = 0)
+        if (dayIndex < 0) { dayIndex = 6 }; // Handle Sunday (JavaScript's getDay() returns 0 for Sunday)
+
+        // Create a map of devices to their timeslots
+        const deviceTimeslotMap = {};
+
+        timeslots.forEach(slot => {
+            let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
+            let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
+            const devices = slot.displayDevices;
+
+            slotStart.setHours(0, 0, 0, 0); // Start of the day
+            slotEnd.setHours(23, 59, 59, 999); // End of the day
+
+            if (isOverlapping(slotStart, slotEnd, dayStart, dayEnd) && isRelevantForDay(slot.weekdaysChosen, dayIndex)) {
+                devices.forEach(device => {
+                    // Initialize the device entry if not exists
+                    if (!deviceTimeslotMap[device.id]) {
+                        deviceTimeslotMap[device.id] = {
+                            device,
+                            timeslots: [],
+                            dayfields: [], // Only for the specific day
+                        };
+                    }
+
+                    // Add the timeslot to the device
+                    const deviceEntry = deviceTimeslotMap[device.id];
+                    deviceEntry.timeslots.push(slot);
+
+                    // Add to dayfields
+                    deviceEntry.dayfields.push({
+                        color: `color-${slot.id}`, // Unique color for the timeslot
+                        timeslot: slot,
+                    });
+                });
+            }
+        });
+
+        // Convert the map to an array
+        return Object.values(deviceTimeslotMap);
+    });
+    //$inspect(dayData);
 
 </script>
 
@@ -143,6 +264,7 @@
                     {/if}
                     <Button text={"New Timeslot"} clickFunction={() => {showNewTimeslotModal = true}} />
                 </div>
+
                 <div>
                     {#if weekView}
                         <Button text={"Change to Day View"} clickFunction={() => (weekView = false)} />
@@ -150,6 +272,7 @@
                         <Button text={"Change to Week View"} clickFunction={() => (weekView = true)} />
                     {/if}
                 </div>
+                
                 <div>
                     <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
                     
@@ -165,7 +288,7 @@
         </div>
         
         {#if weekView}
-            <div class="schedule-week-header-bottom">
+            <div class="schedule-week-header-bottom schedule-day-body-header">
                 <div class="schedule-week-header-devices">Week: {focusWeek.week}</div>
                 {#each [0, 1, 2, 3, 4, 5, 6] as offest}
                     <a class="schedule-week-header-day" onclick={() => {
@@ -173,12 +296,12 @@
 
                         weekView = !weekView;
                         }}>{formatWeekDayHeader[offest]}</a>
-                {/each}                
-            </div>    
+                {/each}
+            </div>
 
             <div class="schedule-week">
-                {#each weekdata as device}
-                    <TableRowPopulatorWeek {device} />
+                {#each weekData as row}
+                    <RowPopulatorWeek row={row} />
                 {/each}
             </div>
 
@@ -193,16 +316,13 @@
             </div>
 
             <div class="schedule-day">
-                {#each daydata as device}
-                    <TableRowPopulatorDay {device} />
+                {#each dayData as row}
+                    <RowPopulatorDay row={row} />
                 {/each}
             </div>
 
-
-
         {/if}
         
-        <h1>DATA IS NOT BEING UTILIZED YET IN THIS PAGE</h1>
 
     </div>
 </div>

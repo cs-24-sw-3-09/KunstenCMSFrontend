@@ -567,3 +567,1984 @@ export let testScheduleDay = [
         ],
     },
 ];
+
+/* 
+
+[
+    {
+        "device": {
+            "id": 9,
+            "name": "Important1",
+            "location": "Monarch",
+            "displayOrientation": "horizontal",
+            "resolution": "1920x1080",
+            "fallbackContent": {
+                "type": "visualMedia",
+                "id": 125,
+                "name": "lohse.png",
+                "location": "/files/visual_media/125.png",
+                "fileType": "image/png",
+                "description": "testttt",
+                "lastDateModified": "2024-12-03T20:38:11.022039"
+            },
+            "monday_start": null,
+            "monday_end": null,
+            "tuesday_start": null,
+            "tuesday_end": null,
+            "wednesday_start": null,
+            "wednesday_end": null,
+            "thursday_start": null,
+            "thursday_end": null,
+            "friday_start": null,
+            "friday_end": null,
+            "saturday_start": null,
+            "saturday_end": null,
+            "sunday_start": null,
+            "sunday_end": null
+        },
+        "timeslots": [
+            {
+                "id": 1,
+                "name": "testtimeslot",
+                "startDate": "2024-12-04",
+                "endDate": "2024-12-07",
+                "startTime": "08:30:00",
+                "endTime": "13:30:00",
+                "weekdaysChosen": 63,
+                "displayContent": {
+                    "type": "visualMedia",
+                    "id": 113,
+                    "name": "000350170018.jpg123",
+                    "location": "/files/visual_media/113.jpg",
+                    "fileType": "image/jpeg",
+                    "description": "Don del me <--",
+                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                },
+                "displayDevices": [
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    },
+                    {
+                        "id": 10,
+                        "name": "test2",
+                        "location": "rtest2",
+                        "displayOrientation": "horizontal",
+                        "resolution": "123x123",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "testtimeslot2",
+                "startDate": "2024-12-02",
+                "endDate": "2024-12-06",
+                "startTime": "16:00:00",
+                "endTime": "10:30:00",
+                "weekdaysChosen": 257,
+                "displayContent": {
+                    "type": "slideshow",
+                    "id": 112,
+                    "name": "DO NOT",
+                    "isArchived": false,
+                    "visualMediaInclusionCollection": [
+                        {
+                            "id": 96,
+                            "slideDuration": 50,
+                            "slideshowPosition": 5,
+                            "visualMedia": {
+                                "type": "visualMedia",
+                                "id": 115,
+                                "name": "Background.png",
+                                "location": "/files/visual_media/115.png",
+                                "fileType": "image/png",
+                                "description": "Dont Delete Me",
+                                "lastDateModified": "2024-12-03T20:34:34.17918"
+                            }
+                        },
+                        {
+                            "id": 98,
+                            "slideDuration": 25,
+                            "slideshowPosition": 3,
+                            "visualMedia": {
+                                "type": "visualMedia",
+                                "id": 113,
+                                "name": "000350170018.jpg123",
+                                "location": "/files/visual_media/113.jpg",
+                                "fileType": "image/jpeg",
+                                "description": "Don del me <--",
+                                "lastDateModified": "2024-12-03T20:34:59.410978"
+                            }
+                        },
+                        {
+                            "id": 91,
+                            "slideDuration": 20,
+                            "slideshowPosition": 1,
+                            "visualMedia": {
+                                "type": "visualMedia",
+                                "id": 114,
+                                "name": "Workshop4.pdf - Google Chrome 22-01-2024 10_37_57.png",
+                                "location": "/files/visual_media/114.png",
+                                "fileType": "image/png",
+                                "description": "Dont Delete Me",
+                                "lastDateModified": "2024-12-03T20:34:41.85306"
+                            }
+                        }
+                    ]
+                },
+                "displayDevices": [
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "name": "testtimeslot3",
+                "startDate": "2024-11-30",
+                "endDate": "2024-12-04",
+                "startTime": "08:42:48",
+                "endTime": "10:42:44",
+                "weekdaysChosen": 257,
+                "displayContent": {
+                    "type": "visualMedia",
+                    "id": 114,
+                    "name": "Workshop4.pdf - Google Chrome 22-01-2024 10_37_57.png",
+                    "location": "/files/visual_media/114.png",
+                    "fileType": "image/png",
+                    "description": "Dont Delete Me",
+                    "lastDateModified": "2024-12-03T20:34:41.85306"
+                },
+                "displayDevices": [
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            }
+        ],
+        "dayfields": [
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                },
+                {
+                    "color": "color-2",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 2,
+                        "name": "testtimeslot2",
+                        "startDate": "2024-12-02",
+                        "endDate": "2024-12-06",
+                        "startTime": "16:00:00",
+                        "endTime": "10:30:00",
+                        "weekdaysChosen": 257,
+                        "displayContent": {
+                            "type": "slideshow",
+                            "id": 112,
+                            "name": "DO NOT",
+                            "isArchived": false,
+                            "visualMediaInclusionCollection": [
+                                {
+                                    "id": 96,
+                                    "slideDuration": 50,
+                                    "slideshowPosition": 5,
+                                    "visualMedia": {
+                                        "type": "visualMedia",
+                                        "id": 115,
+                                        "name": "Background.png",
+                                        "location": "/files/visual_media/115.png",
+                                        "fileType": "image/png",
+                                        "description": "Dont Delete Me",
+                                        "lastDateModified": "2024-12-03T20:34:34.17918"
+                                    }
+                                },
+                                {
+                                    "id": 98,
+                                    "slideDuration": 25,
+                                    "slideshowPosition": 3,
+                                    "visualMedia": {
+                                        "type": "visualMedia",
+                                        "id": 113,
+                                        "name": "000350170018.jpg123",
+                                        "location": "/files/visual_media/113.jpg",
+                                        "fileType": "image/jpeg",
+                                        "description": "Don del me <--",
+                                        "lastDateModified": "2024-12-03T20:34:59.410978"
+                                    }
+                                },
+                                {
+                                    "id": 91,
+                                    "slideDuration": 20,
+                                    "slideshowPosition": 1,
+                                    "visualMedia": {
+                                        "type": "visualMedia",
+                                        "id": 114,
+                                        "name": "Workshop4.pdf - Google Chrome 22-01-2024 10_37_57.png",
+                                        "location": "/files/visual_media/114.png",
+                                        "fileType": "image/png",
+                                        "description": "Dont Delete Me",
+                                        "lastDateModified": "2024-12-03T20:34:41.85306"
+                                    }
+                                }
+                            ]
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                },
+                {
+                    "color": "color-3",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 3,
+                        "name": "testtimeslot3",
+                        "startDate": "2024-11-30",
+                        "endDate": "2024-12-04",
+                        "startTime": "08:42:48",
+                        "endTime": "10:42:44",
+                        "weekdaysChosen": 257,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 114,
+                            "name": "Workshop4.pdf - Google Chrome 22-01-2024 10_37_57.png",
+                            "location": "/files/visual_media/114.png",
+                            "fileType": "image/png",
+                            "description": "Dont Delete Me",
+                            "lastDateModified": "2024-12-03T20:34:41.85306"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            []
+        ]
+    },
+    {
+        "device": {
+            "id": 10,
+            "name": "test2",
+            "location": "rtest2",
+            "displayOrientation": "horizontal",
+            "resolution": "123x123",
+            "fallbackContent": {
+                "type": "visualMedia",
+                "id": 113,
+                "name": "000350170018.jpg123",
+                "location": "/files/visual_media/113.jpg",
+                "fileType": "image/jpeg",
+                "description": "Don del me <--",
+                "lastDateModified": "2024-12-03T20:34:59.410978"
+            },
+            "monday_start": null,
+            "monday_end": null,
+            "tuesday_start": null,
+            "tuesday_end": null,
+            "wednesday_start": null,
+            "wednesday_end": null,
+            "thursday_start": null,
+            "thursday_end": null,
+            "friday_start": null,
+            "friday_end": null,
+            "saturday_start": null,
+            "saturday_end": null,
+            "sunday_start": null,
+            "sunday_end": null
+        },
+        "timeslots": [
+            {
+                "id": 1,
+                "name": "testtimeslot",
+                "startDate": "2024-12-04",
+                "endDate": "2024-12-07",
+                "startTime": "08:30:00",
+                "endTime": "13:30:00",
+                "weekdaysChosen": 63,
+                "displayContent": {
+                    "type": "visualMedia",
+                    "id": 113,
+                    "name": "000350170018.jpg123",
+                    "location": "/files/visual_media/113.jpg",
+                    "fileType": "image/jpeg",
+                    "description": "Don del me <--",
+                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                },
+                "displayDevices": [
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    },
+                    {
+                        "id": 10,
+                        "name": "test2",
+                        "location": "rtest2",
+                        "displayOrientation": "horizontal",
+                        "resolution": "123x123",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            }
+        ],
+        "dayfields": [
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            [
+                {
+                    "color": "color-1",
+                    "size": "schedule-size-3",
+                    "timeslot": {
+                        "id": 1,
+                        "name": "testtimeslot",
+                        "startDate": "2024-12-04",
+                        "endDate": "2024-12-07",
+                        "startTime": "08:30:00",
+                        "endTime": "13:30:00",
+                        "weekdaysChosen": 63,
+                        "displayContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "displayDevices": [
+                            {
+                                "id": 9,
+                                "name": "Important1",
+                                "location": "Monarch",
+                                "displayOrientation": "horizontal",
+                                "resolution": "1920x1080",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 125,
+                                    "name": "lohse.png",
+                                    "location": "/files/visual_media/125.png",
+                                    "fileType": "image/png",
+                                    "description": "testttt",
+                                    "lastDateModified": "2024-12-03T20:38:11.022039"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            },
+                            {
+                                "id": 10,
+                                "name": "test2",
+                                "location": "rtest2",
+                                "displayOrientation": "horizontal",
+                                "resolution": "123x123",
+                                "fallbackContent": {
+                                    "type": "visualMedia",
+                                    "id": 113,
+                                    "name": "000350170018.jpg123",
+                                    "location": "/files/visual_media/113.jpg",
+                                    "fileType": "image/jpeg",
+                                    "description": "Don del me <--",
+                                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                                },
+                                "monday_start": null,
+                                "monday_end": null,
+                                "tuesday_start": null,
+                                "tuesday_end": null,
+                                "wednesday_start": null,
+                                "wednesday_end": null,
+                                "thursday_start": null,
+                                "thursday_end": null,
+                                "friday_start": null,
+                                "friday_end": null,
+                                "saturday_start": null,
+                                "saturday_end": null,
+                                "sunday_start": null,
+                                "sunday_end": null
+                            }
+                        ]
+                    }
+                }
+            ],
+            []
+        ]
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[
+    {
+        "device": {
+            "id": 9,
+            "name": "Important1",
+            "location": "Monarch",
+            "displayOrientation": "horizontal",
+            "resolution": "1920x1080",
+            "fallbackContent": {
+                "type": "visualMedia",
+                "id": 125,
+                "name": "lohse.png",
+                "location": "/files/visual_media/125.png",
+                "fileType": "image/png",
+                "description": "testttt",
+                "lastDateModified": "2024-12-03T20:38:11.022039"
+            },
+            "monday_start": null,
+            "monday_end": null,
+            "tuesday_start": null,
+            "tuesday_end": null,
+            "wednesday_start": null,
+            "wednesday_end": null,
+            "thursday_start": null,
+            "thursday_end": null,
+            "friday_start": null,
+            "friday_end": null,
+            "saturday_start": null,
+            "saturday_end": null,
+            "sunday_start": null,
+            "sunday_end": null
+        },
+        "timeslots": [
+            {
+                "id": 1,
+                "name": "testtimeslot",
+                "startDate": "2024-12-04",
+                "endDate": "2024-12-07",
+                "startTime": "08:30:00",
+                "endTime": "13:30:00",
+                "weekdaysChosen": 63,
+                "displayContent": {
+                    "type": "visualMedia",
+                    "id": 113,
+                    "name": "000350170018.jpg123",
+                    "location": "/files/visual_media/113.jpg",
+                    "fileType": "image/jpeg",
+                    "description": "Don del me <--",
+                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                },
+                "displayDevices": [
+                    {
+                        "id": 10,
+                        "name": "test2",
+                        "location": "rtest2",
+                        "displayOrientation": "horizontal",
+                        "resolution": "123x123",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    },
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            }
+        ],
+        "dayfields": [
+            {
+                "color": "color-1",
+                "size": "schedule-size-3",
+                "timeslot": {
+                    "id": 1,
+                    "name": "testtimeslot",
+                    "startDate": "2024-12-04",
+                    "endDate": "2024-12-07",
+                    "startTime": "08:30:00",
+                    "endTime": "13:30:00",
+                    "weekdaysChosen": 63,
+                    "displayContent": {
+                        "type": "visualMedia",
+                        "id": 113,
+                        "name": "000350170018.jpg123",
+                        "location": "/files/visual_media/113.jpg",
+                        "fileType": "image/jpeg",
+                        "description": "Don del me <--",
+                        "lastDateModified": "2024-12-03T20:34:59.410978"
+                    },
+                    "displayDevices": [
+                        {
+                            "id": 10,
+                            "name": "test2",
+                            "location": "rtest2",
+                            "displayOrientation": "horizontal",
+                            "resolution": "123x123",
+                            "fallbackContent": {
+                                "type": "visualMedia",
+                                "id": 113,
+                                "name": "000350170018.jpg123",
+                                "location": "/files/visual_media/113.jpg",
+                                "fileType": "image/jpeg",
+                                "description": "Don del me <--",
+                                "lastDateModified": "2024-12-03T20:34:59.410978"
+                            },
+                            "monday_start": null,
+                            "monday_end": null,
+                            "tuesday_start": null,
+                            "tuesday_end": null,
+                            "wednesday_start": null,
+                            "wednesday_end": null,
+                            "thursday_start": null,
+                            "thursday_end": null,
+                            "friday_start": null,
+                            "friday_end": null,
+                            "saturday_start": null,
+                            "saturday_end": null,
+                            "sunday_start": null,
+                            "sunday_end": null
+                        },
+                        {
+                            "id": 9,
+                            "name": "Important1",
+                            "location": "Monarch",
+                            "displayOrientation": "horizontal",
+                            "resolution": "1920x1080",
+                            "fallbackContent": {
+                                "type": "visualMedia",
+                                "id": 125,
+                                "name": "lohse.png",
+                                "location": "/files/visual_media/125.png",
+                                "fileType": "image/png",
+                                "description": "testttt",
+                                "lastDateModified": "2024-12-03T20:38:11.022039"
+                            },
+                            "monday_start": null,
+                            "monday_end": null,
+                            "tuesday_start": null,
+                            "tuesday_end": null,
+                            "wednesday_start": null,
+                            "wednesday_end": null,
+                            "thursday_start": null,
+                            "thursday_end": null,
+                            "friday_start": null,
+                            "friday_end": null,
+                            "saturday_start": null,
+                            "saturday_end": null,
+                            "sunday_start": null,
+                            "sunday_end": null
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "device": {
+            "id": 10,
+            "name": "test2",
+            "location": "rtest2",
+            "displayOrientation": "horizontal",
+            "resolution": "123x123",
+            "fallbackContent": {
+                "type": "visualMedia",
+                "id": 113,
+                "name": "000350170018.jpg123",
+                "location": "/files/visual_media/113.jpg",
+                "fileType": "image/jpeg",
+                "description": "Don del me <--",
+                "lastDateModified": "2024-12-03T20:34:59.410978"
+            },
+            "monday_start": null,
+            "monday_end": null,
+            "tuesday_start": null,
+            "tuesday_end": null,
+            "wednesday_start": null,
+            "wednesday_end": null,
+            "thursday_start": null,
+            "thursday_end": null,
+            "friday_start": null,
+            "friday_end": null,
+            "saturday_start": null,
+            "saturday_end": null,
+            "sunday_start": null,
+            "sunday_end": null
+        },
+        "timeslots": [
+            {
+                "id": 1,
+                "name": "testtimeslot",
+                "startDate": "2024-12-04",
+                "endDate": "2024-12-07",
+                "startTime": "08:30:00",
+                "endTime": "13:30:00",
+                "weekdaysChosen": 63,
+                "displayContent": {
+                    "type": "visualMedia",
+                    "id": 113,
+                    "name": "000350170018.jpg123",
+                    "location": "/files/visual_media/113.jpg",
+                    "fileType": "image/jpeg",
+                    "description": "Don del me <--",
+                    "lastDateModified": "2024-12-03T20:34:59.410978"
+                },
+                "displayDevices": [
+                    {
+                        "id": 10,
+                        "name": "test2",
+                        "location": "rtest2",
+                        "displayOrientation": "horizontal",
+                        "resolution": "123x123",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 113,
+                            "name": "000350170018.jpg123",
+                            "location": "/files/visual_media/113.jpg",
+                            "fileType": "image/jpeg",
+                            "description": "Don del me <--",
+                            "lastDateModified": "2024-12-03T20:34:59.410978"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    },
+                    {
+                        "id": 9,
+                        "name": "Important1",
+                        "location": "Monarch",
+                        "displayOrientation": "horizontal",
+                        "resolution": "1920x1080",
+                        "fallbackContent": {
+                            "type": "visualMedia",
+                            "id": 125,
+                            "name": "lohse.png",
+                            "location": "/files/visual_media/125.png",
+                            "fileType": "image/png",
+                            "description": "testttt",
+                            "lastDateModified": "2024-12-03T20:38:11.022039"
+                        },
+                        "monday_start": null,
+                        "monday_end": null,
+                        "tuesday_start": null,
+                        "tuesday_end": null,
+                        "wednesday_start": null,
+                        "wednesday_end": null,
+                        "thursday_start": null,
+                        "thursday_end": null,
+                        "friday_start": null,
+                        "friday_end": null,
+                        "saturday_start": null,
+                        "saturday_end": null,
+                        "sunday_start": null,
+                        "sunday_end": null
+                    }
+                ]
+            }
+        ],
+        "dayfields": [
+            {
+                "color": "color-1",
+                "size": "schedule-size-3",
+                "timeslot": {
+                    "id": 1,
+                    "name": "testtimeslot",
+                    "startDate": "2024-12-04",
+                    "endDate": "2024-12-07",
+                    "startTime": "08:30:00",
+                    "endTime": "13:30:00",
+                    "weekdaysChosen": 63,
+                    "displayContent": {
+                        "type": "visualMedia",
+                        "id": 113,
+                        "name": "000350170018.jpg123",
+                        "location": "/files/visual_media/113.jpg",
+                        "fileType": "image/jpeg",
+                        "description": "Don del me <--",
+                        "lastDateModified": "2024-12-03T20:34:59.410978"
+                    },
+                    "displayDevices": [
+                        {
+                            "id": 10,
+                            "name": "test2",
+                            "location": "rtest2",
+                            "displayOrientation": "horizontal",
+                            "resolution": "123x123",
+                            "fallbackContent": {
+                                "type": "visualMedia",
+                                "id": 113,
+                                "name": "000350170018.jpg123",
+                                "location": "/files/visual_media/113.jpg",
+                                "fileType": "image/jpeg",
+                                "description": "Don del me <--",
+                                "lastDateModified": "2024-12-03T20:34:59.410978"
+                            },
+                            "monday_start": null,
+                            "monday_end": null,
+                            "tuesday_start": null,
+                            "tuesday_end": null,
+                            "wednesday_start": null,
+                            "wednesday_end": null,
+                            "thursday_start": null,
+                            "thursday_end": null,
+                            "friday_start": null,
+                            "friday_end": null,
+                            "saturday_start": null,
+                            "saturday_end": null,
+                            "sunday_start": null,
+                            "sunday_end": null
+                        },
+                        {
+                            "id": 9,
+                            "name": "Important1",
+                            "location": "Monarch",
+                            "displayOrientation": "horizontal",
+                            "resolution": "1920x1080",
+                            "fallbackContent": {
+                                "type": "visualMedia",
+                                "id": 125,
+                                "name": "lohse.png",
+                                "location": "/files/visual_media/125.png",
+                                "fileType": "image/png",
+                                "description": "testttt",
+                                "lastDateModified": "2024-12-03T20:38:11.022039"
+                            },
+                            "monday_start": null,
+                            "monday_end": null,
+                            "tuesday_start": null,
+                            "tuesday_end": null,
+                            "wednesday_start": null,
+                            "wednesday_end": null,
+                            "thursday_start": null,
+                            "thursday_end": null,
+                            "friday_start": null,
+                            "friday_end": null,
+                            "saturday_start": null,
+                            "saturday_end": null,
+                            "sunday_start": null,
+                            "sunday_end": null
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+]
+
+
+
+*/
