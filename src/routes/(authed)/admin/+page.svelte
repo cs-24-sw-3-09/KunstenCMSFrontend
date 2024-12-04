@@ -1,16 +1,18 @@
 <script>
-    // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    let { data, form } = $props(); // Is automatically populated by SvelteKit
 
     import Button from "$lib/components/button.svelte";
     import Table from "$lib/components/admin/table.svelte";
     import EditModal from "$lib/components/admin/editmodal.svelte";
     import NewModal from "$lib/components/admin/newmodal.svelte";
-    import { testUsers } from "$lib/testdata.js";
 
     // Subscribe to the usersStore to get the users data
-    let usersData = $state([]);
-    usersData = testUsers;
+    let usersData = $state(data.users.content);
+    //$inspect(usersData);
+
+    function updateUsersData(users) {
+        usersData = users;
+    }
 
     // Temp variable to store the user that is being edited, deleted or created
     let userFocus = $state({});
@@ -36,14 +38,14 @@
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
         </div>
-        <Table {usersData} onEdit={toggleEditUserModal} />
+        <Table {usersData} onEdit={toggleEditUserModal} updateUsersData={updateUsersData} />
     </div>
 </div>
 {#if showNewUserModal}
-    <NewModal doClose={toggleNewUserModal} />
+    <NewModal doClose={toggleNewUserModal} updateUsersData={updateUsersData} />
 {/if}
 {#if showEditUserModal}
-    <EditModal doClose={toggleEditUserModal} user={userFocus} />
+    <EditModal doClose={toggleEditUserModal} user={userFocus} updateUsersData={updateUsersData} />
 {/if}
 
 <style>

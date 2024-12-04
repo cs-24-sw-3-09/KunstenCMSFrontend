@@ -1,6 +1,6 @@
 <script>
     import Button from "$lib/components/button.svelte";
-    let { usersData, onEdit } = $props();
+    let { usersData, onEdit, updateUsersData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -33,32 +33,32 @@
                 </td>
                 <td>
                     <Button text={"Edit"} clickFunction={() => onEdit(user)} />
-                    <form
-                        action="?/deleteUser"
-                        method="post"
-                        use:enhance={({ formData, cancel }) => {
-                            // Causes svelte violation warning, because of holdup
-                            let confirmation = confirm(
-                                `Are you sure you want to delete "${user.firstName} ${user.lastName}"?`,
-                            );
-                            if (!confirmation) return cancel();
-
-                            // `formData` is its `FormData` object that's about to be submitted
-                            for (const key in user) {
-                                formData.set(key, user[key]);
-                            }
-
-                            return async ({ result }) => {
-                                // `result` is an `ActionResult` object
-                                if (result.type === "failure") {
+                    <form action="?/deleteUser" method="post"
+                    use:enhance={({ formData, cancel }) => {
+                        // Causes svelte violation warning, because of holdup
+                        let confirmation = confirm(`Are you sure you want to delete "${user.firstName} ${user.lastName}"?`,);
+                        
+                        if (!confirmation) return cancel();
+                        
+                        // `formData` is its `FormData` object that's about to be submitted
+                        for (const key in user) {
+                            formData.set(key, user[key]);
+                        }
+                        
+                        return async ({ result }) => {
+                            // `result` is an `ActionResult` object
+                            switch (result.type) {
+                                case "success":
+                                    // Handle the success
+                                    updateUsersData(result.data.usersData.content);
+                                    break;
+                                case "failure":
                                     // Handle the error
-                                    alert(
-                                        `Failed to delete user, please reload page (F5).\n${result.data?.error}`,
-                                    );
-                                }
-                            };
-                        }}
-                    >
+                                    alert(`Failed to delete user, please reload page (F5).\n${result.data?.error}`,);
+                                    break;
+                            }
+                        };
+                    }}>
                         <Button type="submit" text={"Delete"} />
                     </form>
                 </td>
