@@ -18,6 +18,8 @@
     // Toggles
 
     let weekView = $state(true);
+
+    let focusTimeslot = $state(null);
     
     let showNewTimeslotModal = $state(false);
     let showEditTimeslotModal = $state(false);
@@ -25,10 +27,12 @@
     function toggleNewTimeslotModal() {
         showEditTimeslotModal = false;
         showNewTimeslotModal = !showNewTimeslotModal;
+        focusTimeslot = null;
     }
     
-    function toggleEditTimeslotModal() {
+    function toggleEditTimeslotModal(timeslot) {
         showNewTimeslotModal = false;
+        focusTimeslot = timeslot;
         showEditTimeslotModal = !showEditTimeslotModal;
     }
 
@@ -301,7 +305,7 @@
 
             <div class="schedule-week">
                 {#each weekData as row}
-                    <RowPopulatorWeek row={row} />
+                    <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
                 {/each}
             </div>
 
@@ -331,7 +335,7 @@
     <NewTimeslotModal doClose={toggleNewTimeslotModal} />
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} />
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot}  />
 {/if}
 
 <style>

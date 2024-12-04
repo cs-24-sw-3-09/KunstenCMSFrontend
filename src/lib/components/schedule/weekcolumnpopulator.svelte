@@ -1,5 +1,5 @@
 <script>
-    let { dayfields } = $props();
+    let { dayfields, toggleEditTimeslotModal } = $props();
 
     import TimeslotTemplate from "$lib/components/schedule/weektimeslotdayfield.svelte";
 </script>
@@ -10,6 +10,6 @@
     </div>
 
     {#each dayfields as dayfield}
-        <TimeslotTemplate dayfield={dayfield} />
+        <TimeslotTemplate dayfield={dayfield} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
     {/each}
 </div>

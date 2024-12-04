@@ -1,8 +1,10 @@
 <script>
-    let { dayfield } = $props();
+    let { dayfield, toggleEditTimeslotModal } = $props();
+
 </script>
 
-<div class="schedule-container">
+<div class="schedule-container"
+onclick = {() => toggleEditTimeslotModal(dayfield.timeslot)}>
     <div
         class={`schedule-week-schema-row-item ${dayfield.color} ${dayfield.size}`}
     >
