@@ -119,7 +119,8 @@
                 {searchTermUpdate}
                 updateSlideshowContent = {updateSlideshowContent}
                 {form}
-                color = {color}
+                color = {color.find((row) => row.slideshowId == slideshow.id)?.color}
+                screens = {color.find((row) => row.slideshowId == slideshow.id)?.displayDevices}
             />
         {/if}
     {/each}

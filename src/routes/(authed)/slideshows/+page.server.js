@@ -36,7 +36,6 @@ export async function load({ cookies }) {
 
     const colorData = await color.json();
 
-
     const visualMediaData = await visualMedia.json();
     return {
         slideshow: slideshowData,

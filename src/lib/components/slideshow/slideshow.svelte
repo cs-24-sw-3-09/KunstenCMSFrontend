@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL
   let hiddenForm;
   let hiddenFormGetSSPartOfTS;
   let getSSPartOfTSData;
-  let color = "yellow"
+  let color = props.color;
 
   import { createEventDispatcher } from "svelte";
 
@@ -249,8 +249,8 @@ const API_URL = import.meta.env.VITE_API_URL
     <div class="slideshows-item-header-bottom">
       <i class="fa-solid fa-tower-cell"></i>
       <div class="slideshows-item-live-list">
-        {#each props.slideshow.Screens as name}
-          <div class="slideshows-item-live-screen">{name}</div>
+        {#each props.screens as screenName}
+          <div class="slideshows-item-live-screen">{screenName.name}</div>
         {/each}
       </div>
     </div>
