@@ -7,24 +7,20 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ locals }) {
+export async function load({ locals, cookies }) {
 
-    const response = await fetch(API_URL + "/api/time_slots", {
+    const timeslots = await fetch(API_URL + "/api/time_slots", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + locals.user.token
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
         }
     });
 
-    console.log(response.status);
-
-    /* const responseData = await response.json();
-
-    console.log(responseData); */
+    const timeslotsData = await timeslots.json();
 
     return {
-        user: locals.user,
+        timeslotsData,
     };
 }
 

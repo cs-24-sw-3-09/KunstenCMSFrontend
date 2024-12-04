@@ -466,6 +466,11 @@ export let testScheduleWeek = [
                     id: 1,
                 },
             ],
+            [],
+            [],
+            [],
+            [],
+            [],
         ],
     },
     {
@@ -499,6 +504,11 @@ export let testScheduleWeek = [
                     id: 1,
                 },
             ],
+            [],
+            [],
+            [],
+            [],
+            [],
         ],
     },
 ];

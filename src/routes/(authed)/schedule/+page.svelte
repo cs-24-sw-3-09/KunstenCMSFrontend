@@ -20,9 +20,9 @@
     let weekdata = $state(testScheduleWeek);
 
 
-
-
-
+    // Data for the page
+    let timeslots = $state(data.timeslotsData.content)
+    $inspect(timeslots);
 
     let weekView = $state(true);
     
@@ -114,6 +114,20 @@
     }); // Reactive variable
 
     let time = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
+
+    // Derive visual data for the week
+
+
+
+
+
+    // Derive visual data for the day
+
+
+    
+
+
 </script>
 
 <div class="main-content">
