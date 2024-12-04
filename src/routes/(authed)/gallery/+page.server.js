@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
+    
     const tags = await fetch(API_URL + "/api/tags", {
         method: "GET",
         headers: {
@@ -13,9 +14,9 @@ export async function load({ cookies }) {
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
     })
-
+    
     const tagsData = await tags.json();
-
+    
     const visualMedia = await fetch(API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
@@ -23,18 +24,18 @@ export async function load({ cookies }) {
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
     });
-
+    
     const visualMediasData = await visualMedia.json();
-
+    
     for (let i = 0; i < visualMediasData.content.length; i++) {
         visualMediasData.content[i].src =
-            API_URL + "/files/visual_media/"
-            + visualMediasData.content[i].id
-            + mimeToType(visualMediasData.content[i].fileType);
+        API_URL + "/files/visual_media/"
+        + visualMediasData.content[i].id
+        + mimeToType(visualMediasData.content[i].fileType);
     }
-
+    
     for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/risk", {
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -42,13 +43,16 @@ export async function load({ cookies }) {
             }
         });
 
+        console.log("slideshows", slideshows.status);
+        
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
     }
+    
+    console.log(visualMediasData);
 
     return {
         visualMedias: visualMediasData,
-        authcookie: cookies.get("authToken"),
     };
 }
 
@@ -332,9 +336,11 @@ export const actions = {
             },
         });
 
+        const slideshowsData = await slideshows.json();
+
         return {
             success: true,
-            data: await slideshows.json()
+            data: slideshowsData
         };
     },
 }

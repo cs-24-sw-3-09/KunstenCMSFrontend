@@ -10,7 +10,7 @@
     import EditModal from "$lib/components/gallery/editmodal.svelte";
     
     // mock data
-    import { testVisualMedia } from "$lib/testdata.js";
+    // import { testVisualMedia } from "$lib/testdata.js";
 
     // Data
     let visual_medias = $state(data.visualMedias.content);
@@ -59,7 +59,7 @@
     function filterItems(items, searchTerm, searchTags) {
         if (searchTerm) {
             // Filter by name
-            items = items.filter((item) => item.id.toLowerCase().includes(searchTerm.toLowerCase()));
+            items = items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
         if (searchTags && searchTags.length > 0) {
             // Filter by tags, if any/some part of the tag is included in the search
