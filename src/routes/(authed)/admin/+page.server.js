@@ -109,15 +109,24 @@ export const actions = {
             notificationState: formData.get("notificationState") === "on" ? true : false,
             mediaPlanner: formData.get("mediaPlanner") === "on" ? true : false,
             admin: formData.get("admin") === "on" ? true : false,
+            password: formData.get("newPassword")
         }
 
         // Find differeences
         let diff = {};
         for (const key in data) {
+            if(key == "password") {
+                if (data[key] == "") {
+                    continue;           
+                }
+            }
+
             if (data[key] !== oldData[key]) {
                 diff[key] = data[key];
             }
         }
+
+        console.log(diff);
 
         // requestBody sendt for the patch action
         let requestBody = diff;
