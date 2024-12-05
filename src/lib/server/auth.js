@@ -1,5 +1,5 @@
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 /** @type {import('@sveltejs/kit').RequestEvent} */
 export async function authenticateUser({ request, cookies }) {
@@ -7,7 +7,7 @@ export async function authenticateUser({ request, cookies }) {
 	const token = cookies.get('authToken');
 	
     if (token) {
-        const user = await fetch(API_URL+"/api/account", {
+        const user = await fetch(env.SERVER_API_URL + "/api/account", {
             method: "GET",
             headers: { 
                 "Content-type": "application/json",
