@@ -10,8 +10,6 @@
     
     import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
     
-    console.log(device);
-
     let contentType = "visualMedia";
     
     let currentMedia = $derived.by(() => {

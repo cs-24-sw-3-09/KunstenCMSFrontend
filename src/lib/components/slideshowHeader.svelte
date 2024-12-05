@@ -9,7 +9,6 @@
   }
 
   function submitNewslideshowModal(event) {
-    console.log(event.target);
     event.preventDefault();
     let form = new FormData(event.target);
   }
