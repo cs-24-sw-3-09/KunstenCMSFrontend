@@ -5,8 +5,8 @@
 
   const dispatch = createEventDispatcher();
 
-  import Content from "./slideshowcontent.svelte";
-  import AddMedia from "$lib/components/addMediaModal.svelte";
+  import Content from "$lib/components/slideshow/slideshowcontent.svelte";
+  import AddMedia from "$lib/components/slideshow/addMediaModal.svelte";
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";

@@ -19,8 +19,48 @@ export async function load({ locals, cookies }) {
 
     const timeslotsData = await timeslots.json();
 
+    const displayDevices = await fetch(API_URL + "/api/display_devices", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    let visualMediasData = await visualMedia.json();
+
+    visualMediasData = visualMediasData.content.map(visualMedia => {
+        return { ...visualMedia, type: "visualMedia" }
+    });
+
+
+    const slideshows = await fetch(API_URL + "/api/slideshows", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    let slideshowsData = await slideshows.json();
+
+    slideshowsData = slideshowsData.map(slideshow => {
+        return { ...slideshow, type: "slideshow" }
+    });
+    console.log(visualMediasData.concat(slideshowsData));
+    const displayDevicesData = (await displayDevices.json()).content;
     return {
         timeslotsData,
+        displayDevicesData,
+        content: visualMediasData.concat(slideshowsData)
     };
 }
 

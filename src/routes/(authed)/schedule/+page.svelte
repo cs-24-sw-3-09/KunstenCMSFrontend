@@ -11,7 +11,9 @@
 
 
     // Data for the page
-    let timeslots = $state(data.timeslotsData.content)
+    let timeslots = $state(data.timeslotsData.content);
+    let visualContent = $state(data.content);
+    let allDisplayDevices = $state(data.displayDevicesData);
     //$inspect(timeslots);
     //$inspect(timeslots[0].displayDevices);
 
@@ -332,10 +334,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} />
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot}  />
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
 {/if}
 
 <style>
