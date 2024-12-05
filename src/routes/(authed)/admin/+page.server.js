@@ -58,10 +58,6 @@ export const actions = {
             return fail(400, { error: "All input fields are required." });
         }
 
-        /* console.log("New User");
-        console.log("requestBody");
-        console.log(requestBody); */
-
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/users", {
             method: "POST",
@@ -90,8 +86,6 @@ export const actions = {
         if (users.status !== 200) {
             return fail(users.status, { error: "Failed to fetch users." });
         }
-
-        /* console.log(usersData); */
 
         return {
             success: true,
@@ -134,10 +128,6 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        /* console.log("Edit User");
-        console.log("requestBody");
-        console.log(requestBody); */
-
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
             method: "PATCH",
@@ -147,8 +137,6 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
-        //console.log(response.status);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to edit user." });
@@ -164,8 +152,6 @@ export const actions = {
         });
     
         const usersData = await users.json();
-
-        //console.log(usersData);
 
         return {
             success: true,
@@ -195,10 +181,6 @@ export const actions = {
         let requestBody = {};
         requestBody.id = data.id;
 
-        console.log("Delete User");
-        console.log("requestBody");
-        console.log(requestBody)
-
         // Validate requestBody
         /* if (!(Object.keys(requestBody).length === 1)) {
             return fail(400, { error: "Only the id field can be passed." });
@@ -213,8 +195,6 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
-        console.log(response.status);
 
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete user." });

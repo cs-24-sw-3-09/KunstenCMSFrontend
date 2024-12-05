@@ -27,7 +27,6 @@
     });
 
     dispatch("updateOrder", items);
-    console.log(items);
 },
     });
   });
@@ -40,10 +39,8 @@
   }
 
   function submitAddMediaModal(event) {
-    console.log(event.target);
     event.preventDefault();
     let form = new FormData(event.target);
-    console.log(form.get(""));
   }
 </script>
 

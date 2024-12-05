@@ -23,8 +23,6 @@ export const actions = {
             password: formData.get("password") === formData.get("confpassword") ? formData.get("password") : null,
         }
 
-        console.log(JSON.stringify(data));
-
 		// Validate the password field
         if (data.password === null) {
             return fail(400, { error: "Password not confirmed." });
@@ -37,9 +35,6 @@ export const actions = {
 			},
 			body: JSON.stringify(data),
 		});
-
-		//const responseData = await response.json();
-        console.log(response.status);
 
 		if (response.status !== 200) {
             return fail(response.status, {
