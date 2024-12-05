@@ -1,14 +1,14 @@
 
 import { fail } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 // Loads:
 // - All users from db
 
 /** @type {import("./$types").PageServerLoad */
 export async function load({ locals, cookies }) {
-    const users = await fetch(API_URL + "/api/users", {
+    const users = await fetch(env.SERVER_API_URL + "/api/users", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -59,7 +59,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users", {
+        const response = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -73,7 +73,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -138,7 +138,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/users/" + requestBody.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -152,7 +152,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -196,7 +196,7 @@ export const actions = {
         } */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/users/" + requestBody.id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -210,7 +210,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",

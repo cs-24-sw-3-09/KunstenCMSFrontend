@@ -1,5 +1,5 @@
 <script>
-    const API_URL = import.meta.env.VITE_API_URL;
+    import { env } from "$env/dynamic/private";
     let { doClose, timeslot, displayDevices, visualContent } = $props();
 
     import { enhance } from "$app/forms";
@@ -135,7 +135,7 @@
                 action="?/deleteTimeslot"
                 use:enhance={async ({ FormData, cancel }) => {
                     let informationData = await fetch(
-                        API_URL + "/api/timeslot",
+                        env.CLIENT_API_URL + "/api/timeslot",
                         {
                             method: "GET",
                             headers: {

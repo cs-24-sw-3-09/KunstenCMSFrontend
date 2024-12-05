@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 // Actions: 
 // - Reset password:
@@ -18,7 +18,7 @@ export const actions = {
 			return fail(400, { error: "Email is required." });
 		}
 
-		const response = await fetch(API_URL + "/api/account/reset-password", {
+		const response = await fetch(env.SERVER_API_URL + "/api/account/reset-password", {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json",

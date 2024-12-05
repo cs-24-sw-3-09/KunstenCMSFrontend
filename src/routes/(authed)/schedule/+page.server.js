@@ -1,6 +1,6 @@
 import { fail } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 // Loads:
 // - Timeslots
@@ -9,7 +9,7 @@ const API_URL = import.meta.env.SERVER_API_URL;
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
 
-    const timeslots = await fetch(API_URL + "/api/time_slots", {
+    const timeslots = await fetch(env.SERVER_API_URL + "/api/time_slots", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -19,7 +19,7 @@ export async function load({ locals, cookies }) {
 
     const timeslotsData = await timeslots.json();
 
-    const displayDevices = await fetch(API_URL + "/api/display_devices", {
+    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -27,7 +27,7 @@ export async function load({ locals, cookies }) {
         }
     });
 
-    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -42,7 +42,7 @@ export async function load({ locals, cookies }) {
     });
 
 
-    const slideshows = await fetch(API_URL + "/api/slideshows", {
+    const slideshows = await fetch(env.SERVER_API_URL + "/api/slideshows", {
         method: "GET",
         headers: {
             "Content-type": "application/json",

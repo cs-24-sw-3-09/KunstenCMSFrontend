@@ -5,10 +5,11 @@
     import { onMount } from "svelte";
     var { data } = $props();
 
+    import { env } from "$env/dynamic/private";
+
     var carouselItems = $state([]);
     var status = $state(true);
     var currentItem = $state(0);
-    const api_url = data.apiUrl;
     var carouselItemsDom;
 
     onMount(() => {
@@ -35,11 +36,11 @@
     <div class="carousel-items" id="carousel-items" bind:this={carouselItemsDom}>
         {#each carouselItems as item, i}
             {#if item.fileType.includes("image/")}
-                <img src={api_url + item.location} alt={item.alt} class:active={i === currentItem} />
+                <img src={env.CLIENT_API_URL + item.location} alt={item.alt} class:active={i === currentItem} />
             {/if}
             {#if item.fileType.includes("video/")}
                 <video muted loop class:active={i === currentItem}>
-                    <source src={api_url + item.location} type={item.fileType} />
+                    <source src={env.CLIENT_API_URL + item.location} type={item.fileType} />
                 </video>
             {/if}
         {/each}

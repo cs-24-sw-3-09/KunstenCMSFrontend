@@ -1,8 +1,6 @@
 <script>
     // Export form
     let { data, form } = $props(); // Is automatically populated by SvelteKit
-    
-    const API_URL = import.meta.env.VITE_API_URL;
 
     import Gallery from "$lib/components/gallery/gallery.svelte";
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";

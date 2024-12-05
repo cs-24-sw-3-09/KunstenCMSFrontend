@@ -1,13 +1,13 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { mimeToType } from "$lib/utils/fileutils";
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
     
-    const tags = await fetch(API_URL + "/api/tags", {
+    const tags = await fetch(env.SERVER_API_URL + "/api/tags", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -17,7 +17,7 @@ export async function load({ cookies }) {
     
     const tagsData = await tags.json();
     
-    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -29,13 +29,13 @@ export async function load({ cookies }) {
     
     for (let i = 0; i < visualMediasData.content.length; i++) {
         visualMediasData.content[i].src =
-        API_URL + "/files/visual_media/"
+        env.SERVER_API_URL + "/files/visual_media/"
         + visualMediasData.content[i].id
         + mimeToType(visualMediasData.content[i].fileType);
     }
     
     for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
+        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -99,7 +99,7 @@ export const actions = {
         */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
             method: "POST",
             headers: {
                 /* "Content-type": "multipart/form-data", */
@@ -110,7 +110,7 @@ export const actions = {
 
         const responseData = await response.json();
 
-        responseData.src = API_URL + responseData.location;
+        responseData.src = env.SERVER_API_URL + responseData.location;
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create visual media." });
@@ -154,7 +154,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -166,9 +166,9 @@ export const actions = {
         // Get the response data and add the src and slideshows
         const responseData = await response.json();
 
-        responseData.src = API_URL + responseData.location;
+        responseData.src = env.CLIENT_API_URL + responseData.location;
         
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
+        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -214,7 +214,7 @@ export const actions = {
         } */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -256,7 +256,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id + "/tags", {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -295,7 +295,7 @@ export const actions = {
         requestBody.tagId = data.tagId;
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id + "/tags", {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",

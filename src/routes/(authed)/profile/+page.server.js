@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.SERVER_API_URL;
+import { env } from "$env/dynamic/private";
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
@@ -60,7 +60,7 @@ export const actions = {
         }
 
         // Send the request to the backend        
-        const response = await fetch(API_URL+"/api/account", {
+        const response = await fetch(env.SERVER_API_URL+"/api/account", {
             method: "PATCH",
             headers: { 
                 "Content-type": "application/json",
@@ -147,7 +147,7 @@ export const actions = {
         }
 
         // Send the request to the backend        
-        const response = await fetch(API_URL+"/api/account", {
+        const response = await fetch(env.SERVER_API_URL+"/api/account", {
             method: "PATCH",
             headers: { 
                 "Content-type": "application/json",
@@ -191,7 +191,7 @@ export const actions = {
         }
 
         // Send the request to the backend    
-        const response = await fetch(API_URL+"/api/account", {
+        const response = await fetch(env.SERVER_API_URL+"/api/account", {
             method: "PATCH",
             headers: { 
                 "Content-type": "application/json",
