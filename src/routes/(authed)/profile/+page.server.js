@@ -59,10 +59,6 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        //console.log("Edit User");
-        //console.log("requestBody");
-        //console.log(requestBody);
-
         // Send the request to the backend        
         const response = await fetch(API_URL+"/api/account", {
             method: "PATCH",

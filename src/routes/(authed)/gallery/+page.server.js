@@ -43,14 +43,10 @@ export async function load({ cookies }) {
             }
         });
 
-        //console.log("slideshows", slideshows.status);
-        
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
     }
     
-    //console.log(visualMediasData);
-
     return {
         visualMedias: visualMediasData,
     };
@@ -98,7 +94,6 @@ export const actions = {
         if (!(Object.keys(requestBody).length === 4)) {
             return fail(400, { error: "All input fields are required." });
         }
-        //console.log(formData);
         */
 
         // Send the request to the backend
@@ -114,8 +109,6 @@ export const actions = {
         const responseData = await response.json();
 
         responseData.src = API_URL + responseData.location;
-
-        //console.log(responseData);
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create visual media." });
@@ -218,10 +211,6 @@ export const actions = {
             return fail(400, { error: "Only the id field can be passed." });
         } */
 
-        /* console.log("Delete Visual Media");
-        console.log("requestBody");
-        console.log(requestBody); */
-
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
             method: "DELETE",
@@ -230,8 +219,6 @@ export const actions = {
                 "Authorization": "Bearer " + cookies.get("authToken"),
             },
         });
-
-        //console.log(response.status);
 
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete visual media." });

@@ -12,8 +12,6 @@ export const actions = {
 		const formData = await request.formData();
 
 		const email = formData.get("email");
-		console.log(JSON.stringify({ email }));
-		console.log(JSON.stringify({ "email": email }))
 
 		// Validate the email field
 		if (!email) {

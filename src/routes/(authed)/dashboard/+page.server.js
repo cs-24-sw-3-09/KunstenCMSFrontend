@@ -47,11 +47,6 @@ export async function load({ locals, cookies }) {
         return { ...slideshow, type: "slideshow" }
     });
 
-    //console.log(visualMediasData.concat(slideshowsData));
-
-    //console.log(displayDevicesData);
-
-
     // Add src to visualMedia fallbackContent
     for (let i = 0; i < displayDevicesData.content.length; i++) {
         if (displayDevicesData.content[i].fallbackContent.type == "visualMedia") {
@@ -119,9 +114,6 @@ export const actions = {
     newDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
-        //console.log(formData.get("fallbackContent"));
-        //console.log(JSON.parse(formData.get("fallbackContent")));
-
         // Resolution is a string of the form "WIDTHxHEIGHT"
         // Hacky way to get id and type from formdata
         let data = {
@@ -154,11 +146,7 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        console.log(response.status);
-
         const responseData = await response.json();
-
-        console.log(responseData);
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create new device." });
@@ -203,10 +191,6 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        /* console.log("Edit Device");
-        console.log("requestBody");
-        console.log(requestBody); */
-
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/display_devices/" + requestBody.id, {
             method: "PATCH",
@@ -217,11 +201,7 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        console.log(response.status);
-
         const responseData = await response.json();
-
-        //console.log(responseData);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to edit device." });
@@ -245,8 +225,6 @@ export const actions = {
                 "Authorization": "Bearer " + cookies.get("authToken"),
             }
         });
-
-        console.log(response.status);
 
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete device." });

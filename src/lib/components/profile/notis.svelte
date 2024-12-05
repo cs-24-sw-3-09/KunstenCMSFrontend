@@ -32,7 +32,6 @@ use:enhance={({ formData }) => {
                 alert(`Failed to update notification state, please reload page (F5).\n${result.data?.error}`);
                 break;
             case "success":
-            console.log("res:", result.data.responseData);
                 updateProfileData(result.data.responseData);
                 break;
         }

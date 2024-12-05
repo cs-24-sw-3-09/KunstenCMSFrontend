@@ -26,9 +26,6 @@
 
         <form method="post" action="?/newDevice"
         use:enhance={({ formData }) => {
-            // `formData` is its `FormData` object that's about to be submitted
-            /* formData.set("fallbackContent", options.filter(option => option.id == formData.get("fallbackContent"))[0]);
-            console.log(formData); */
 
             return async ({ result }) => {
                 switch (result.type) {
