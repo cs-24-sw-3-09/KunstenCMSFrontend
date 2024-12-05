@@ -1,5 +1,5 @@
 <script>
-  import { env } from "$env/dynamic/private";
+  import { env } from "$env/dynamic/public";
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
   import { getCookie } from "$lib/utils/getcookie.js";
@@ -17,7 +17,7 @@
     {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
       <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
     {:else}
-      <img src={VMI.visualMedia ? `${env.CLIENT_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
+      <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
     {/if}
   </div>
   <div class="slideshows-body-item-num">
@@ -73,7 +73,7 @@
         const authToken = getCookie("authToken");
 
         let informationData = await fetch(
-          env.CLIENT_API_URL + "/api/slideshows/" + slideshowId + "/time_slots",
+          env.PUBLIC_API_URL + "/api/slideshows/" + slideshowId + "/time_slots",
           {
             headers: { Authorization: "Bearer " + authToken },
           },

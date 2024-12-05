@@ -1,5 +1,5 @@
 <script>
-    import { env } from "$env/dynamic/private";
+    import { env } from "$env/dynamic/public";
     let { doClose, timeslot, displayDevices, visualContent } = $props();
 
     import { enhance } from "$app/forms";
@@ -135,7 +135,7 @@
                 action="?/deleteTimeslot"
                 use:enhance={async ({ FormData, cancel }) => {
                     let informationData = await fetch(
-                        env.CLIENT_API_URL + "/api/timeslot",
+                        env.PUBLIC_API_URL + "/api/timeslot",
                         {
                             method: "GET",
                             headers: {

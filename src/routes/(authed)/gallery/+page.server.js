@@ -166,7 +166,7 @@ export const actions = {
         // Get the response data and add the src and slideshows
         const responseData = await response.json();
 
-        responseData.src = env.CLIENT_API_URL + responseData.location;
+        responseData.src = env.PUBLIC_API_URL + responseData.location;
         
         const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
             method: "GET",

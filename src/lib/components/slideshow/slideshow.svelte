@@ -1,5 +1,5 @@
 <script>
-  import { env } from "$env/dynamic/private";
+  import { env } from "$env/dynamic/public";
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
@@ -200,7 +200,7 @@
             const authToken = getCookie("authToken");
             console.log(authToken);
 
-            let informationData = await fetch(env.CLIENT_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
+            let informationData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
             });
             
