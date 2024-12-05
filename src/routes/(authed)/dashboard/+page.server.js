@@ -55,12 +55,55 @@ export async function load({ locals, cookies }) {
     // Add src to visualMedia fallbackContent
     for (let i = 0; i < displayDevicesData.content.length; i++) {
         if (displayDevicesData.content[i].fallbackContent.type == "visualMedia") {
-            displayDevicesData.content[i].fallbackContent.src = API_URL + "/files/visual_media/"
+            displayDevicesData.content[i].fallbackContent.src = 
+                API_URL + "/files/visual_media/"
                 + displayDevicesData.content[i].fallbackContent.id
                 + mimeToType(displayDevicesData.content[i].fallbackContent.fileType);
         }
     }
 
+    // Add src to slideshow fallbackContent.visualMediaInclusionCollection[i].visualMedia 
+    for (let i = 0; i < displayDevicesData.content.length; i++) {
+        if (displayDevicesData.content[i].fallbackContent.type == "slideshow") {
+            for (let j = 0; j < displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection.length; j++) {
+                displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.src = 
+                    API_URL + "/files/visual_media/"
+                    + displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.id
+                    + mimeToType(displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.fileType);
+            }
+        }
+    }
+
+    // Add src to all visualMedias for content of timeslots
+    for (let i = 0; i < displayDevicesData.content.length; i++) {
+        for (let j = 0; j < displayDevicesData.content[i].timeSlots.length; j++) {
+            if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "visualMedia") {
+                displayDevicesData.content[i].timeSlots[j].displayContent.src = 
+                    API_URL + "/files/visual_media/"
+                    + displayDevicesData.content[i].timeSlots[j].displayContent.id
+                    + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.fileType);
+            }
+        }
+    }
+
+    // Add src to all visualMediaInclusionCollection[i].visualMedia for content of timeslots with slideshows
+    for (let i = 0; i < displayDevicesData.content.length; i++) {
+        for (let j = 0; j < displayDevicesData.content[i].timeSlots.length; j++) {
+            if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "slideshow") {
+                for (let k = 0; k < displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection.length; k++) {
+                    displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.src = 
+                        API_URL + "/files/visual_media/"
+                        + displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.id
+                        + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.fileType);
+                }
+            }
+        }
+    }
+    
+
+    // Return data to the page
+    // displayDevicesData - data for the display devices, with src for all visual media (hopefully)
+    // fallbackBontent - a collection of all visual medias and slideshows for the dropdown in the form
     return {
         displayDevices: displayDevicesData,
         fallbackContent: visualMediasData.concat(slideshowsData),

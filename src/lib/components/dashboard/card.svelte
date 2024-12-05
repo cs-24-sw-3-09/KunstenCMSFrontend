@@ -6,121 +6,129 @@
     
     import { onMount } from "svelte";
     import { on } from "svelte/events";
+    //import Carousel from "svelte-carousel";
     
     import test_fallback from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
     
+    console.log(device);
+
+    let contentType = "visualMedia";
     
     let currentMedia = $derived.by(() => {
         let datetimeNow = new Date();
         let dayOfWeek = datetimeNow.getDay();
         let timeNow = datetimeNow.getHours() * 60 + datetimeNow.getMinutes();
 
-        console.log(device);
+        let live = false;
 
-        // Check if on hours
-        switch (dayOfWeek) {
-            case 0: // Sunday
-                if (device.sunday_start==null && device.sunday_end==null) {}
-                break;
-            case 1: // Monday
-                if (device.monday_start==null && device.monday_end==null) {}
-                break;
-            case 2: // Tuesday
-                if (device.tuesday_start==null && device.tuesday_end==null) {}
-                break;
-            case 3: // Wednesday
-                if (device.wednesday_start==null && device.wednesday_end==null) {}
-                break;
-            case 4: // Thursday
-                if (device.thursday_start==null && device.thursday_end==null) {}
-                break;
-            case 5: // Friday
-                if (device.friday_start==null && device.friday_end==null) {}
-                break;
-            case 6: // Saturday
-                if (device.saturday_start==null && device.saturday_end==null) {}
-                break;
-            default:
-                return test_fallback;
+        // Map days of the week to their corresponding start and end properties
+        const dayMap = [
+            { start: device.sunday_start, end: device.sunday_end },
+            { start: device.monday_start, end: device.monday_end },
+            { start: device.tuesday_start, end: device.tuesday_end },
+            { start: device.wednesday_start, end: device.wednesday_end },
+            { start: device.thursday_start, end: device.thursday_end },
+            { start: device.friday_start, end: device.friday_end },
+            { start: device.saturday_start, end: device.saturday_end },
+        ];
+
+        // Get the relevant start and end times for the current day
+        const { start, end } = dayMap[dayOfWeek] || { start: null, end: null };
+
+        // Check if live conditions are met
+        // If null, then the device is always live
+        if (start !== null && end !== null) {
+            live = true;
+        // if between start and end, then live
+        } else if (timeNow >= start && timeNow <= end) {
+            live = true;
         }
 
-        // Check if during timeslot
+         // Check if during timeslot
+        // Priority timeslot: is current, shortest timeslot, then lastly the smallest id
 
-        /* TODO */
+        // Helper function to check if a day is relevant for the current day
+        const isRelevantForDay = (weekdaysChosen, dayIndex) => { // 0 for Sunday, 1 for Monday, etc.
+            return (Number(weekdaysChosen) & (1 << dayIndex)) !== 0; // Check if the bit for the day is set
+        };
+
+        let timeslot = null;
+        for (let i = 0; i < device.timeSlots.length; i++) {
+            const slot = device.timeSlots[i];
+
+            // Parse full start and end times with dates
+            const slotStart = new Date(`${slot.startDate}T${slot.startTime}`);
+            const slotEnd = new Date(`${slot.endDate}T${slot.endTime}`);
+
+            // Check if today is a relevant day for the timeslot
+            if (isRelevantForDay(slot.weekdaysChosen, dayOfWeek)) {
+                // Check if the current time is within the timeslot
+                if (datetimeNow >= slotStart && datetimeNow <= slotEnd) {
+                    // Compare durations and prioritize the shorter timeslot or smaller ID
+                    const currentDuration = new Date(timeslot?.endTime) - new Date(timeslot?.startTime);
+                    const slotDuration = slotEnd - slotStart;
+
+                    if (!timeslot || // First valid timeslot found
+                        slotDuration < currentDuration || // Shorter duration
+                        (slotDuration === currentDuration && slot.id < timeslot.id) // Equal duration but smaller ID
+                    ) {
+                        timeslot = slot; // Set the current timeslot
+                    }
+                }
+            }
+        }
+
+        if (timeslot) {
+            if (timeslot.displayContent.type == "visualMedia") {
+                return {
+                    src: timeslot.displayContent.src,
+                    type: "visualMedia",
+                    title: "Media: " + timeslot.displayContent.name,
+                };
+            }
+            if (timeslot.displayContent.type == "slideshow") {
+                return {
+                    src: timeslot.displayContent.visualMediaInclusionCollection[0].visualMedia.src,
+                    type: "visualMedia",
+                    title: "Slideshow: " + timeslot.displayContent.name,
+                }
+            }
+        }
+
+
 
 
         // Check if fallback content is set
         if (device.fallbackContent.type == "visualMedia") { 
-            return device.fallbackContent.src;
+            return {
+                src: device.fallbackContent.src, 
+                type: "visualMedia", 
+                title: "Fallback Media: " + device.fallbackContent.name
+            };
         }
         if (device.fallbackContent.type == "slideshow") { 
-            return test_fallback; 
+            return {
+                src: device.fallbackContent.visualMediaInclusionCollection[0].visualMedia.src, 
+                type: "visualMedia", 
+                title: "Fallback Slideshow: " + device.fallbackContent.name
+            }
         }
         if (device.fallbackContent == null) { 
-            return test_fallback; 
+            return {
+                src: test_fallback, 
+                type: "visualMedia", 
+                title: "No media"
+            }
         }
 
         return test_fallback;
     });
-
-    let currentTitle = $derived.by(() => {
-        let datetimeNow = new Date();
-        let dayOfWeek = datetimeNow.getDay();
-        let timeNow = datetimeNow.getHours() * 60 + datetimeNow.getMinutes();
-
-        // Check if on hours
-        switch (dayOfWeek) {
-            case 0: // Sunday
-                if (device.sunday_start==null && device.sunday_end==null) {}
-                break;
-            case 1: // Monday
-                if (device.monday_start==null && device.monday_end==null) {}
-                break;
-            case 2: // Tuesday
-                if (device.tuesday_start==null && device.tuesday_end==null) {}
-                break;
-            case 3: // Wednesday
-                if (device.wednesday_start==null && device.wednesday_end==null) {}
-                break;
-            case 4: // Thursday
-                if (device.thursday_start==null && device.thursday_end==null) {}
-                break;
-            case 5: // Friday
-                if (device.friday_start==null && device.friday_end==null) {}
-                break;
-            case 6: // Saturday
-                if (device.saturday_start==null && device.saturday_end==null) {}
-                break;
-            default:
-                return "No media";
-        }
-
-        // Check if during timeslot
-
-        /* TODO */
-
-
-
-        // Check if fallback content is set
-        if (device.fallbackContent.type == "visualMedia") { 
-            return "Fallback Media: "+device.fallbackContent.name;
-        }
-        if (device.fallbackContent.type == "slideshow") { 
-            return "Fallback Slideshow: "+device.fallbackContent.name; 
-        }
-        if (device.fallbackContent == null) { 
-            return "No media"; 
-        }
-
-        return "No media";
-    });
-
 </script>
 
 <div class="dashboard-card">
     <div class="dashboard-card-top">
         <div class="dashboard-card-preview">
-            <img src={currentMedia} alt=""/> <!-- TODO: add dynamic html element for slideshow and video-->
+            <img src={currentMedia.src} alt=""/> <!-- TODO: Add slideshow support -->
         </div>
     </div>
     <div class="dashboard-card-bottom">
@@ -135,7 +143,7 @@
         <!-- TODO: If during timeslot, else fallbackcontent -->
         <div class="dashboard-card-slideshow-info">
             <i class="fa-solid fa-file"></i>
-            <div class="dashboard-card-slideshow-title">{currentTitle}</div>
+            <div class="dashboard-card-slideshow-title">{currentMedia.title}</div>
         </div>
         <div class="dashboard-card-location-title">
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
