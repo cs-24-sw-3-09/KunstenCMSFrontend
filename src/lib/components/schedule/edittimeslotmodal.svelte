@@ -1,8 +1,9 @@
 <script>
     const API_URL = import.meta.env.VITE_API_URL;
-    let { doClose, timeslot, displayDevices, visualContent } = $props();
+    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
 
     import { enhance } from "$app/forms";
+    import { getCookie } from "$lib/utils/getcookie.js";
 
     let days = {
         Mon: true,
@@ -12,7 +13,7 @@
         Fri: false,
         Sat: false,
         Sun: false,
-    };    
+    };
 
     updateDaysFromBits();
     function updateDaysFromBits() {
@@ -20,16 +21,12 @@
         const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
         // Loop through the day order and set true/false based on the bits
-        console.log(timeslot.weekdaysChosen)
         dayOrder.forEach((day, index) => {
             // Extract the bit at the corresponding position (from right to left)
-            days[day] =  Boolean((timeslot.weekdaysChosen >> index) & 1);
+            days[day] = Boolean((timeslot.weekdaysChosen >> index) & 1);
         });
     }
     let daysArray = Object.entries(days);
-    console.log("here",days);
-
-
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
@@ -48,7 +45,7 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit timeslot" />
         <form
-            action="?/Edit timeslot"
+            action="?/patchTimeslot"
             method="post"
             use:enhance={({}) => {
                 return async ({ result }) => {
@@ -145,28 +142,17 @@
 
         <div class="modal-buttons">
             <form
-                method="post"
+                method="POST"
                 action="?/deleteTimeslot"
-                use:enhance={async ({ FormData, cancel }) => {
-                    let informationData = await fetch(
-                        API_URL + "/api/timeslot",
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization: "Bearer " + authToken,
-                                "Content-type": "application/json",
-                            },
-                        },
-                    );
-
-                    console.log(await informationData.json());
+                use:enhance={async ({ formData, cancel }) => {
+                    
 
                     let confirmation = confirm(
-                        `Are you sure you want to delete "${props.timeslot.name}"? ${getSSPartOfTSData}`,
+                        `Are you sure you want to delete "${timeslot.name}"?`,
                     );
                     if (!confirmation) return cancel();
 
-                    formData.set("timeslotID", props.timeslot.id);
+                    formData.set("timeslotID", timeslot.id);
 
                     return async ({ result }) => {
                         // `result` is an `ActionResult` object
@@ -176,7 +162,9 @@
                                 `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
                             );
                         } else if (result.type === "success") {
-                            props.updateSlideshowContent(result.data.newData);
+                            //TODO model ikke vises
+                            doClose();
+                            updateTimeslots(result.data.newData);
                         }
                     };
                 }}

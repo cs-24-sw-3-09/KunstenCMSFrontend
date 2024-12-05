@@ -55,7 +55,6 @@ export async function load({ locals, cookies }) {
     slideshowsData = slideshowsData.map(slideshow => {
         return { ...slideshow, type: "slideshow" }
     });
-    console.log(visualMediasData.concat(slideshowsData));
     const displayDevicesData = (await displayDevices.json()).content;
     return {
         timeslotsData,
@@ -75,17 +74,37 @@ export async function load({ locals, cookies }) {
 
 /** @type {import("./$types").Actions} */
 export const actions = {
-    newTimeslot: async ({ cookies, url, request }) => {
-        const formData = await request.formData();
-
-        console.log(formData);
-
-        return fail(400, { error: "Not implemented" });
-
-        return { success: true };
-    },
 
     deleteTimeslot: async ({ cookies, url, request }) => {
+        /*const formData = await request.formData();
+        console.log("in here")
+        console.log(formData);
+
+        return fail(400, { error: "Not implemented" });
+
+        return { success: true };*/
+        ///---------------------------
+        const formData = await request.formData();
+        const timeslot = await fetch(API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        })
+
+        if (timeslot.status == 404) {
+            return fail(timeslot.status, { error: "Could not find the time slot." });
+        } else if (timeslot.status !== 204) {
+            return fail(timeslot.status, { error: "Failed to delete time slot." });
+        }
+
+        let newTimeslotData = await getTimeslot({ cookies, url, request });
+        return {
+            success: true,
+            newData: newTimeslotData,
+        };
+    },
+    patchTimeslot: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
         console.log(formData);
@@ -93,15 +112,134 @@ export const actions = {
         return fail(400, { error: "Not implemented" });
 
         return { success: true };
-    },
+        //-----------------------------------------------
+        const slideshowId = formData.get("slideshowId");
+        let slideOrder = JSON.parse(formData.get("slideorder"));
+        slideOrder = slideOrder.map(({ id, slideshowPosition }) => ({
+            id,
+            slideshowPosition
+        }));
 
-    editTimeslot: async ({ cookies, url, request }) => {
+        const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
+        console.log(requestBody)
+        console.log(slideshowId)
+        const returnData = await fetch(API_URL + "/api/visual_media_inclusions/positions", {
+            method: "PATCH",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+                "Content-Type": "application/json", // Indicate JSON content
+            },
+            body: requestBody,
+        });
+        return {
+            success: true,
+        };
+
+    },
+    newTimeslot: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+        //console.log("formdata123", formData)
+        //console.log(formData)
 
-        console.log(formData);
+        // requestBody sendt for the patch action
+        let startDate = new Date(formData.get("dateFrom"));
+        let endDate = new Date(formData.get("dateTo"));
+        let startTime = formData.get("timeFrom"); // Assuming these are in "HH:MM" format
+        let endTime = formData.get("timeTo");
 
-        return fail(400, { error: "Not implemented" });
+        // Construct the request body
 
-        return { success: true };
+        // Validate date and time
+        if (startDate > endDate) {
+            return fail(400, { error: "End date is before start date." });
+        }
+
+        // If dates are the same, compare times
+        if (startTime > endTime) {
+            return fail(400, { error: "End time is before start time." });
+        }
+
+
+        let weekdaysChosen = 0;
+        if (formData.get("Mon") == "on") {
+            weekdaysChosen += 1;
+        }
+        if (formData.get("Tue") == "on") {
+            weekdaysChosen += 2;
+        }
+        if (formData.get("Wed") == "on") {
+            weekdaysChosen += 4;
+        }
+        if (formData.get("Thu") == "on") {
+            weekdaysChosen += 8;
+        }
+        if (formData.get("Fri") == "on") {
+            weekdaysChosen += 16;
+        }
+        if (formData.get("Sat") == "on") {
+            weekdaysChosen += 32;
+        }
+        if (formData.get("Sun") == "on") {
+            weekdaysChosen += 64;
+        }
+        if (weekdaysChosen == 0) {
+            return fail(400, { error: "Please pick one or multiple weekdays" });
+        }
+
+        let displayDevicesObj = [];
+        for (let key of formData.keys()) {
+            if (!isNaN(key)) {
+                displayDevicesObj.push({ id: Number(key) });
+            }
+        }
+
+        let requestBody = JSON.stringify({
+            name: formData.get("name"),
+            startDate: formData.get("dateFrom"),
+            endDate: formData.get("dateTo"),
+            startTime: formData.get("timeFrom"),
+            endTime: formData.get("timeTo"),
+            weekdaysChosen: weekdaysChosen,
+            displayDevices: displayDevicesObj,
+            displayContent: JSON.parse(formData.get("displayContent")),
+        });
+
+        //console.log("body", requestBody);
+
+
+        //return fail(400, { error: "Timeslot could not be created" });
+        // Send the request to the backend        
+        const response = await fetch(API_URL + "/api/time_slots", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: requestBody,
+        });
+        console.log(response)
+
+        if (response.status !== 201) {
+            return fail(response.status, { error: "Failed to create time slot" });
+        }
+
+        let newTimeSlotData = await getTimeslot({ cookies, url, request });
+        return {
+            success: true,
+            newData: newTimeSlotData,
+        };
     },
+}
+
+
+async function getTimeslot({ cookies, url, request }) {
+    const slideshow = await fetch(API_URL + "/api/time_slots", {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    })
+
+    let slideshowData = await slideshow.json();
+    return slideshowData;
 }

@@ -36,6 +36,7 @@
             action="?/newTimeslot"
             method="post"
             use:enhance={({}) => {
+
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
@@ -91,7 +92,7 @@
 
             <div class="modal-dropdown">
                 <label for={"content_id"}>{"Content to be displayed"}</label>
-                <select id={"content_id"} name={"fallbackContent"} required>
+                <select id={"content_id"} name={"displayContent"} required>
                     {#each visualContent as content}
                         <option
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
@@ -107,7 +108,7 @@
                 {#each displayDevices as display}
                     <div class="checkbox-item">
                         <Smallheader text={display.name} />
-                        <Checkbox name={display.name} />
+                        <Checkbox name={display.id} />
                     </div>
                 {/each}
             </div>
