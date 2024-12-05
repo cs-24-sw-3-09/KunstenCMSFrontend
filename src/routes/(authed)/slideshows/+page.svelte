@@ -71,7 +71,7 @@
         selectedId = id == selectedId ? null : id;
         VMIForSS = slideshowContent
             .find((ss) => ss.id === selectedId)
-            .visualMediaInclusionCollection.sort(
+            .visualMediaInclusionCollection?.sort(
                 (a, b) => a.slideshowPosition - b.slideshowPosition,
             );
     }

@@ -1,11 +1,9 @@
 <script>
   const API_URL = import.meta.env.VITE_API_URL;
 
-
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
-  let hiddenFormGetSSPartOfTS;
   let getSSPartOfTSData;
   let color = props.color;
 
@@ -61,7 +59,6 @@
     console.log(form.get(""));
   }
   let slideshowID = $state(props.slideshow.id);
-
 </script>
 
 {#if showAddMediaModal}
@@ -197,29 +194,31 @@
           action="?/deleteSlideshow"
           use:enhance={async ({ formData, cancel }) => {
             // Causes svelte violation warning, because of holdup
-            //const infomationData = hiddenFormGetSSPartOfTS.requestSubmit();
 
             const authToken = getCookie("authToken");
             console.log(authToken);
 
-            let informationData = await fetch(API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
-              headers: {"Authorization": 'Bearer ' + authToken},
-            });
-            
+            let informationData = await fetch(
+              API_URL + "/api/slideshows/" + slideshowID + "/time_slots",
+              {
+                headers: { Authorization: "Bearer " + authToken },
+              },
+            );
+
             const riskInformation = await informationData.json();
 
             let names = riskInformation.map((risk) => risk.name);
             let riskString = "";
-            if (names.length != 0){
-              riskString = "\n\nThe slideshow i part of the following timeslot(s):\n"
-              for (let name of names){
-                riskString += name+"\n";
+            if (names.length != 0) {
+              riskString =
+                "\n\nThe slideshow i part of the following timeslot(s):\n";
+              for (let name of names) {
+                riskString += name + "\n";
               }
             }
 
             let confirmation = confirm(
               `Are you sure you want to delete "${props.slideshow.name}"? ${riskString}`,
-              
             );
             if (!confirmation) return cancel();
 
@@ -264,69 +263,46 @@
   <!-- Makeing the VMI list -->
   <div class="slideshows-item-body">
     <div class="slideshows-body-line"></div>
-    <div
-      class="slideshows-body-list"
-      style="display: {props.selectedId == props.slideshow.id
-        ? 'block'
-        : 'none'}"
-      bind:this={listElement}
-    >
-      {#each props.VMIForSS as VMI}
-        <Slideshowcontent
-          {VMI}
-          {slideshowID}
-          slideshow={props.slideshow}
-          form={props.form}
-          updateSlideshowContent={props.updateSlideshowContent}
-        />
-      {/each}
-      <form
-        method="post"
-        action="?/patchNewVMIOrder"
-        use:enhance={({ formData }) => {
-          formData.set("slideorder", JSON.stringify(items));
-          formData.set("slideshowId", props.slideshow.id);
+    <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
+      ? 'block'
+      : 'none'}">
+      <div bind:this={listElement}>
+        {#each props.VMIForSS as VMI}
+          <Slideshowcontent
+            {VMI}
+            {slideshowID}
+            slideshow={props.slideshow}
+            form={props.form}
+            updateSlideshowContent={props.updateSlideshowContent}
+          />
+        {/each}
+        <form
+          method="post"
+          action="?/patchNewVMIOrder"
+          use:enhance={({ formData }) => {
+            formData.set("slideorder", JSON.stringify(items));
+            formData.set("slideshowId", props.slideshow.id);
 
-          return async ({ result }) => {
-            // `result` is an `ActionResult` object
-            if (result.type === "failure") {
-              // Handle the error
-              /*alert(
+            return async ({ result }) => {
+              // `result` is an `ActionResult` object
+              if (result.type === "failure") {
+                // Handle the error
+                /*alert(
             `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
           );*/
-            } else if (result.type === "success") {
-            }
-          };
-        }}
-        bind:this={hiddenForm}
-        style="display: none;"
-      >
-        <input type="hidden" name="updatedOrder" />
-      </form>
-      <form
-        method="post"
-        action="?/getSSPartOfTS"
-        use:enhance={({ formData }) => {
-          formData.set("slideshowId", props.slideshow.id);
-
-          return async ({ result }) => {
-            // `result` is an `ActionResult` object
-            if (result.type === "failure") {
-            } else if (result.type === "success") {
-              console.log("here down bad");
-              console.log(result.data);
-              getSSPartOfTSData = result.data.newData;
-            }
-          };
-        }}
-        bind:this={hiddenFormGetSSPartOfTS}
-        style="display: none;"
-      >
-        <input type="hidden" />
-      </form>
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <!-- svelte-ignore event_directive_deprecated -->
+              } else if (result.type === "success") {
+              }
+            };
+          }}
+          bind:this={hiddenForm}
+          style="display: none;"
+        >
+          <input type="hidden" name="updatedOrder" />
+        </form>
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <!-- svelte-ignore event_directive_deprecated -->
+      </div>
       <div class="slideshows-body-add" on:click={toggleAddMediaModal}>
         <i class="fa-solid fa-plus"></i> Add Media
       </div>
@@ -348,7 +324,7 @@
     /*outline: none; /* Disable focus outline */
   }
 
-  .unstyled-input:hover{
+  .unstyled-input:hover {
     background-color: darkgray;
     cursor: text;
   }

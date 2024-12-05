@@ -1,9 +1,12 @@
 <script>
     const API_URL = import.meta.env.VITE_API_URL;
-    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
+    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } =
+        $props();
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
+
+    console.log(timeslot);
 
     let days = {
         Mon: true,
@@ -38,6 +41,11 @@
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
+
+    console.log("TEST",!!timeslot.displayDevices.find((dd) => dd.id == 2))
+
+
+    let selectedContent = JSON.stringify({ id: timeslot.displayContent.id, type: timeslot.displayContent.type});
 </script>
 
 <div class="modal">
@@ -47,15 +55,19 @@
         <form
             action="?/patchTimeslot"
             method="post"
-            use:enhance={({}) => {
+            use:enhance={({formData}) => {
+                formData.set("timeslotID", timeslot.id);
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
-                        // Handle the error
-                        alert(
-                            `Failed to add timeslot, please reload page (F5).\n${result.data?.error}`,
-                        );
-                    }
+                            // Handle the error
+                            alert(
+                                `Failed to mofify timeslot, please reload page (F5).\n${result.data?.error}`,
+                            );
+                        } else if (result.type === "success") {
+                            doClose();
+                            updateTimeslots(result.data.newData);
+                        }
                 };
             }}
         >
@@ -116,10 +128,10 @@
 
             <div class="modal-dropdown">
                 <label for={"content_id"}>{"Content to be displayed"}</label>
-                <select id={"content_id"} name={"fallbackContent"} required>
+                <select id={"content_id"} name={"displayContent"} bind:value={selectedContent} required>
                     {#each visualContent as content}
                         <option
-                            value={`{"id": ${content.id}, "type": "${content.type}"}`}
+                            value={JSON.stringify({ id: content.id, type: content.type })}
                             >{content.type === "visualMedia"
                                 ? "Media"
                                 : "Slideshow"}: {content.name}</option
@@ -132,10 +144,16 @@
                 {#each displayDevices as display}
                     <div class="checkbox-item">
                         <Smallheader text={display.name} />
-                        <Checkbox name={display.name} />
+                        <Checkbox name={display.id} checked = {!!timeslot.displayDevices.find((dd) => dd.id == display.id)}/>
                     </div>
                 {/each}
             </div>
+            
+            <Button
+            type="submit"
+            text="Submit"
+            extra_class={"modal-button-submit"}
+        />
 
             <Separator />
         </form>
@@ -145,8 +163,6 @@
                 method="POST"
                 action="?/deleteTimeslot"
                 use:enhance={async ({ formData, cancel }) => {
-                    
-
                     let confirmation = confirm(
                         `Are you sure you want to delete "${timeslot.name}"?`,
                     );
@@ -181,11 +197,7 @@
                 doFunc={doClose}
                 extra_class={"modal-button-close"}
             />
-            <Button
-                type="submit"
-                text="Submit"
-                extra_class={"modal-button-submit"}
-            />
+
         </div>
     </div>
 </div>

@@ -28,7 +28,7 @@
       <div class="slideshows-body-item-duration-icon">
         <i class="fa-regular fa-clock"></i>
       </div>
-      <div class="slideshows-body-item-duration-title">Duration:</div>
+      <div class="slideshows-body-item-duration-title">Duration (s):</div>
       <div class="slideshows-body-item-duration-input non-draggable">
         {#if VMI.visualMedia && (VMI.visualMedia.fileType == "image/jpeg" || VMI.visualMedia.fileType == "image/png")}
           <form
@@ -53,8 +53,8 @@
             />
           </form>
         {:else}
-          <label for="country">
-            {VMI.visualMedia ? VMI.slideDuration : 0}:
+          <label>
+            {VMI.visualMedia ? VMI.slideDuration : 0}
           </label>
         {/if}
       </div>
@@ -77,7 +77,6 @@
         );
 
         const riskInformation = await informationData.json();
-
 
         let names = riskInformation.map((risk) => risk.name);
         let riskString = "";
@@ -106,9 +105,8 @@
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
           } else if (result.type === "success") {
-            console.log("here123")
+            console.log("here123");
             props.updateSlideshowContent(result.data.newData);
-            
           }
         };
       }}

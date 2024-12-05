@@ -106,33 +106,85 @@ export const actions = {
     },
     patchTimeslot: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+        // requestBody sendt for the patch action
+        let startDate = new Date(formData.get("dateFrom"));
+        let endDate = new Date(formData.get("dateTo"));
+        let startTime = formData.get("timeFrom"); // Assuming these are in "HH:MM" format
+        let endTime = formData.get("timeTo");
 
-        console.log(formData);
+        // Validate date and time
+        if (startDate > endDate) {
+            return fail(400, { error: "End date is before start date." });
+        }
 
-        return fail(400, { error: "Not implemented" });
+        // If dates are the same, compare times
+        if (startTime > endTime) {
+            return fail(400, { error: "End time is before start time." });
+        }
 
-        return { success: true };
-        //-----------------------------------------------
-        const slideshowId = formData.get("slideshowId");
-        let slideOrder = JSON.parse(formData.get("slideorder"));
-        slideOrder = slideOrder.map(({ id, slideshowPosition }) => ({
-            id,
-            slideshowPosition
-        }));
+        let weekdaysChosen = 0;
+        if (formData.get("Mon") == "on") {
+            weekdaysChosen += 1;
+        }
+        if (formData.get("Tue") == "on") {
+            weekdaysChosen += 2;
+        }
+        if (formData.get("Wed") == "on") {
+            weekdaysChosen += 4;
+        }
+        if (formData.get("Thu") == "on") {
+            weekdaysChosen += 8;
+        }
+        if (formData.get("Fri") == "on") {
+            weekdaysChosen += 16;
+        }
+        if (formData.get("Sat") == "on") {
+            weekdaysChosen += 32;
+        }
+        if (formData.get("Sun") == "on") {
+            weekdaysChosen += 64;
+        }
+        if (weekdaysChosen == 0) {
+            return fail(400, { error: "Please pick one or multiple weekdays" });
+        }
 
-        const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
-        console.log(requestBody)
-        console.log(slideshowId)
-        const returnData = await fetch(API_URL + "/api/visual_media_inclusions/positions", {
+        let displayDevicesObj = [];
+        for (let key of formData.keys()) {
+            if (!isNaN(key)) {
+                displayDevicesObj.push({ id: Number(key) });
+            }
+        }
+
+        let requestBody = JSON.stringify({
+            name: formData.get("name"),
+            startDate: formData.get("dateFrom"),
+            endDate: formData.get("dateTo"),
+            startTime: (/^\d{2}:\d{2}$/.test(formData.get("timeFrom")))?formData.get("timeFrom") + ":00": formData.get("timeFrom"), // Needs to be in format dd:dd:dd, so makeing sure
+            endTime: (/^\d{2}:\d{2}$/.test(formData.get("timeTo")))?formData.get("timeTo") + ":00": formData.get("timeTo"),
+            weekdaysChosen: weekdaysChosen,
+            //displayDevices: displayDevicesObj,
+            //displayContent: JSON.parse(formData.get("displayContent")),
+        });
+        console.log("VM", JSON.parse(formData.get("displayContent")));
+        console.log("DD", displayDevicesObj);
+        // Send the request to the backend        
+        const response = await fetch(API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
             method: "PATCH",
             headers: {
+                "Content-type": "application/json",
                 "Authorization": "Bearer " + cookies.get("authToken"),
-                "Content-Type": "application/json", // Indicate JSON content
             },
             body: requestBody,
         });
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to create time slot" });
+        }
+
+        let newTimeSlotData = await getTimeslot({ cookies, url, request });
         return {
             success: true,
+            newData: newTimeSlotData,
         };
 
     },
@@ -204,10 +256,6 @@ export const actions = {
             displayContent: JSON.parse(formData.get("displayContent")),
         });
 
-        //console.log("body", requestBody);
-
-
-        //return fail(400, { error: "Timeslot could not be created" });
         // Send the request to the backend        
         const response = await fetch(API_URL + "/api/time_slots", {
             method: "POST",
@@ -222,7 +270,6 @@ export const actions = {
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create time slot" });
         }
-        console.log("here");
 
         let newTimeSlotData = await getTimeslot({ cookies, url, request });
         return {

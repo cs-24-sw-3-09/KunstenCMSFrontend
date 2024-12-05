@@ -327,7 +327,7 @@
 
             <div class="schedule-day">
                 {#each dayData as row}
-                    <RowPopulatorDay row={row} />
+                    <RowPopulatorDay row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
                 {/each}
             </div>
 
