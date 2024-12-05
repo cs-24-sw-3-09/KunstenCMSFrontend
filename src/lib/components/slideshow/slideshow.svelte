@@ -60,11 +60,6 @@
   }
   let slideshowID = $state(props.slideshow.id);
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  }
 </script>
 
 {#if showAddMediaModal}
@@ -205,15 +200,30 @@
             const authToken = getCookie("authToken");
             console.log(authToken);
 
-            let informationData = await fetch(API_URL + "/api/slideshows", {
-              method: "GET",
-              headers: {"Authorization": 'Bearer ' + authToken, "Content-type": "application/json"},
+            let informationData = await fetch(API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
+              headers: {"Authorization": 'Bearer ' + authToken},
             });
 
-            console.log(await informationData.json());
+            //console.log(await informationData.json());
+            const riskInformation = await informationData.json();
+            console.log(riskInformation)
+
+            //let string = riskInformation.forEach((risk) => risk.name);
+
+            let names = riskInformation.map((risk) => risk.name);
+            console.log(names);
+            let riskString = "";
+            if (names.length != 0){
+              riskString = "\n\nThe slideshow i part of the following timeslot(s):\n"
+              for (let name of names){
+                riskString += name+"\n";
+              }
+            }
+            console.log(riskString)
 
             let confirmation = confirm(
-              `Are you sure you want to delete "${props.slideshow.name}"? ${getSSPartOfTSData}`,
+              `Are you sure you want to delete "${props.slideshow.name}"? ${riskString}`,
+              
             );
             if (!confirmation) return cancel();
 
