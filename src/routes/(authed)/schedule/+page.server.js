@@ -197,8 +197,8 @@ export const actions = {
             name: formData.get("name"),
             startDate: formData.get("dateFrom"),
             endDate: formData.get("dateTo"),
-            startTime: formData.get("timeFrom"),
-            endTime: formData.get("timeTo"),
+            startTime: formData.get("timeFrom") + ":00",
+            endTime: formData.get("timeTo")+ ":00",
             weekdaysChosen: weekdaysChosen,
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
@@ -222,6 +222,7 @@ export const actions = {
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create time slot" });
         }
+        console.log("here");
 
         let newTimeSlotData = await getTimeslot({ cookies, url, request });
         return {

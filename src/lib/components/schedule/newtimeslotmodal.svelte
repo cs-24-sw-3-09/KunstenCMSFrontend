@@ -1,5 +1,5 @@
 <script>
-    let { doClose, displayDevices, visualContent } = $props();
+    let { doClose, displayDevices, visualContent, updateTimeslots } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -40,11 +40,14 @@
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
-                        // Handle the error
-                        alert(
-                            `Failed to add timeslot, please reload page (F5).\n${result.data?.error}`,
-                        );
-                    }
+                            // Handle the error
+                            alert(
+                                `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
+                            );
+                        } else if (result.type === "success") {
+                            doClose();
+                            updateTimeslots(result.data.newData);
+                        }
                 };
             }}
         >

@@ -338,7 +338,7 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>
 {/if}
 {#if showEditTimeslotModal}
     <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>

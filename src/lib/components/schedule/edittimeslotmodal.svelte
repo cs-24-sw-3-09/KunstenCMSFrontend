@@ -162,7 +162,6 @@
                                 `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
                             );
                         } else if (result.type === "success") {
-                            //TODO model ikke vises
                             doClose();
                             updateTimeslots(result.data.newData);
                         }

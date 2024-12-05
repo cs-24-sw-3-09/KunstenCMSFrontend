@@ -4,6 +4,7 @@ import { slide } from "svelte/transition";
 const API_URL = import.meta.env.VITE_API_URL
 
 
+
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
