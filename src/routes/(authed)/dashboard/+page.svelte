@@ -8,20 +8,40 @@
     import NewModal from "$lib/components/dashboard/newmodal.svelte";
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
-    let devices = $state([]);
-    
-    // Test data
-    import { testDevices } from "$lib/testdata.js";
-    devices = testDevices;
+    let devices = $state(data.displayDevices.content);
+    //$inspect(devices);
 
-    // Options for the fallback slideshow dropdown, TODO: Get this from the database
-    let options = [
-        "Event 2024",
-        "Event 2023",
-        "Event 2022",
-        "Event 2021",
-        "Event 2020",
-    ];
+    function updateDevices(updatedDevice) {
+        const index = devices.findIndex((device) => device.id === updatedDevice.id);
+        if (index !== -1) {
+            devices[index] = updatedDevice;
+        }
+    }
+
+    function createDevice(newDevice) {
+        devices = [...devices, newDevice];
+    }
+    7
+    function deleteDevice(id) {
+        let index = -1;
+        for (let i = 0; i < devices.length; i++) {
+            if (devices[i].id == id) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            devices.splice(index, 1);
+        }
+    }
+    
+    
+    let options = $state(data.fallbackContent);
+
+    // Test data
+    /* import { testDevices } from "$lib/testdata.js";
+    devices = testDevices; */
+
 
     // Temp variable to store the device that is being edited, deleted or created
     let deviceFocus = $state({});
@@ -30,7 +50,7 @@
     let showNewModal = $state(false);
     let showEditModal = $state(false);
 
-    function toggleNewModal(device = deviceFocus) {
+    function toggleNewModal() {
         deviceFocus = {};
         showNewModal = !showNewModal;
     }
@@ -50,15 +70,14 @@
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
             {/if}
         </div>
-        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} />
+        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} options={options} />
+    <NewModal doClose={toggleNewModal} options={options} createDevice={createDevice} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus}
-    />
+    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus} updateDevices={updateDevices} />
 {/if}
 
 <style>

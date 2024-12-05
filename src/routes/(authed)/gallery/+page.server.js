@@ -1,5 +1,60 @@
+import { fail, redirect } from "@sveltejs/kit";
+import { mimeToType } from "$lib/utils/fileutils";
 
-import { fail } from "@sveltejs/kit";
+const API_URL = import.meta.env.VITE_API_URL;
+
+/** @type {import("./$types").PageServerLoad} */
+export async function load({ cookies }) {
+
+    
+    const tags = await fetch(API_URL + "/api/tags", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    })
+    
+    const tagsData = await tags.json();
+    
+    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+    
+    const visualMediasData = await visualMedia.json();
+    
+    for (let i = 0; i < visualMediasData.content.length; i++) {
+        visualMediasData.content[i].src =
+        API_URL + "/files/visual_media/"
+        + visualMediasData.content[i].id
+        + mimeToType(visualMediasData.content[i].fileType);
+    }
+    
+    for (let i = 0; i < visualMediasData.content.length; i++) {
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        });
+
+        //console.log("slideshows", slideshows.status);
+        
+        const slideshowsData = await slideshows.json();
+        visualMediasData.content[i].slideshows = slideshowsData;
+    }
+    
+    //console.log(visualMediasData);
+
+    return {
+        visualMedias: visualMediasData,
+    };
+}
 
 // Actions:
 // - New VisualMedia
@@ -13,9 +68,10 @@ import { fail } from "@sveltejs/kit";
 
 /** @type {import("./$types").Actions} */
 export const actions = {
-    newVisualMedia : async ({ cookies, url, request }) => {
+    newVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
+        /* 
         // Tags are an array of objects, where each object has a text property
         // Files are blobs
         let data = {
@@ -42,26 +98,43 @@ export const actions = {
         if (!(Object.keys(requestBody).length === 4)) {
             return fail(400, { error: "All input fields are required." });
         }
+        //console.log(formData);
+        */
 
-        console.log("New Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
-        
         // Send the request to the backend
-        /* TODO */
-        
-        return { success: true };
+        const response = await fetch(API_URL + "/api/visual_medias", {
+            method: "POST",
+            headers: {
+                /* "Content-type": "multipart/form-data", */
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: formData,
+        });
+
+        const responseData = await response.json();
+
+        responseData.src = API_URL + responseData.location;
+
+        //console.log(responseData);
+
+        if (response.status !== 201) {
+            return fail(response.status, { error: "Failed to create visual media." });
+        }
+
+        return {
+            success: true,
+            responseData,
+        };
     },
 
-    editVisualMedia : async ({ cookies, url, request }) => {
+    editVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
         // Files are blobs
         let data = {
-            id : formData.get("id"),
-            name : formData.get("name"),
-            description : formData.get("description"),
-            file : formData.get("file"),
+            id: parseInt(formData.get("id")),
+            name: formData.get("name"),
+            description: formData.get("description"),
         }
 
         // Extract old data from the form data
@@ -71,7 +144,6 @@ export const actions = {
         // Find differeences, except for the file
         let diff = {};
         for (const key in data) {
-            if (key === "file") { continue; }
             if (data[key] !== oldData[key]) {
                 diff[key] = data[key];
             }
@@ -80,31 +152,56 @@ export const actions = {
         // requestBody sendt for the patch action
         let requestBody = diff;
         requestBody.id = data.id;
-        if (data.file.size) { requestBody.file = data.file; }
 
         // Check requestBody
         if (!(Object.keys(requestBody).length > 1)) {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
-        
         // Send the request to the backend
-        /* TODO */
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        })
+
+        // Get the response data and add the src and slideshows
+        const responseData = await response.json();
+
+        responseData.src = API_URL + responseData.location;
         
-        return { success: true };
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+        });
+
+        const slideshowsData = await slideshows.json();
+
+        responseData.slideshows = slideshowsData;
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update visual media." });
+        }
+
+        /* TODO, repalce file post/patch */
+
+        return { 
+            success: true,
+            responseData,
+        };
     },
 
-    deleteVisualMedia : async ({ cookies, url, request }) => {
+    deleteVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
-            name : formData.get("name"),
-            description : formData.get("description"),
-            tags : formData.get("tags")
+            id: formData.get("id"),
         }
 
         // Check feilds
@@ -121,56 +218,83 @@ export const actions = {
             return fail(400, { error: "Only the id field can be passed." });
         } */
 
-        console.log("Delete Visual Media");
+        /* console.log("Delete Visual Media");
         console.log("requestBody");
-        console.log(requestBody);        
+        console.log(requestBody); */
 
         // Send the request to the backend
-        /* TODO */
-        
-        return { success: true };
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+        });
+
+        //console.log(response.status);
+
+        if (response.status !== 204) {
+            return fail(response.status, { error: "Failed to delete visual media." });
+        }
+
+        return { 
+            success: true,
+            id: data.id,
+        };
     },
 
-    addTagToVisualMedia : async ({ cookies, url, request }) => {
+    addTagToVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
-            tag : {text: formData.get("tag")},
+            id: formData.get("id"),
+            tags: [{ text: formData.get("tag") }],
         }
 
         // Check feilds
-        if (!data.id || !data.tag) {
+        if (!data.id || !data.tags) {
             return fail(400, { error: "No id or tag provided." });
         }
 
         // requestBody sendt for the action
         let requestBody = {
-            id : data.id,
-            tags : data.tag,
+            id: data.id,
+            tags: data.tags,
         };
-        
+
         // Check requestBody
         if (!(Object.keys(requestBody).length === 2)) {
             return fail(400, { error: "Only the id and tag fields can be passed." });
         }
-        
+
         console.log("Add Tag to Visual Media");
         console.log("requestBody");
         console.log(requestBody);
 
         // Send the request to the backend
-        /* TODO */
-        
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer " + cookies.get("authToken"),
+            },
+        });
+
+        console.log(response.status);
+
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to add tag to visual media." });
+        }
+
         return { success: true };
     },
 
-    deleteTagFromVisualMedia : async ({ cookies, url, request }) => {
+    deleteTagFromVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        
+
         let data = {
-            id : formData.get("id"),
-            tag : {text: formData.get("tag")},
+            id: formData.get("id"),
+            tag: { text: formData.get("tag") },
         }
 
         // Check feilds
@@ -194,7 +318,29 @@ export const actions = {
 
         // Send the request to the backend
         /* TODO */
-        
+
         return { success: true };
-    }
+    },
+    /* allSildeshows: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+
+        let data = {
+            id: formData.get("id"),
+        };
+
+        const slideshows = await fetch(API_URL + "/api/visual_medias/" + data.id + "risk", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer " + cookies.get("authToken"),
+            },
+        });
+
+        const slideshowsData = await slideshows.json();
+
+        return {
+            success: true,
+            data: slideshowsData
+        };
+    }, */
 }

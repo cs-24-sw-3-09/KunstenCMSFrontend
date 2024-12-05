@@ -1,5 +1,5 @@
 <script>
-    let { doClose } = $props();
+    let { doClose, updateUsersData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -16,6 +16,7 @@
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
+    import HiddenTextInput from "$lib/components/modal/hiddentextinput.svelte";
 </script>
 
 <div class="modal">
@@ -23,23 +24,22 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit User" />
 
-        <form
-            method="post"
-            action="?/newUser"
-            use:enhance={({}) => {
-                return async ({ result }) => {
-                    // `result` is an `ActionResult` object
-                    if (result.type === "failure") {
+        <form method="post" action="?/newUser"
+        use:enhance={({}) => {
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object
+                switch (result.type) {
+                    case "failure":
                         // Handle the error
-                        alert(
-                            `Failed to add new user, please reload page (F5).\n${result.data?.error}`,
-                        );
-                    } else if (result.type === "success") {
+                        alert(`Failed to add new user, please reload page (F5).\n${result.data?.error}`,);
+                        break;
+                    case "success":
+                        updateUsersData(result.data.usersData.content);
                         closeModal(); // Call doClose on successful form submission
-                    }
-                };
-            }}
-        >
+                        break;
+                }
+            };
+        }}>
             <TextInput
                 title={"First Name"}
                 placeholder={"First Name Here"}
@@ -56,6 +56,17 @@
                 title={"E-mail"}
                 placeholder={"E-mail Here"}
                 name={"email"}
+                required="true"
+            />
+
+            <Separator />
+
+            <Smallheader text="Remember this:" />
+
+            <HiddenTextInput
+                title={"Password"}
+                placeholder={"Password Here"}
+                name={"password"}
                 required="true"
             />
 

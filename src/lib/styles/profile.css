@@ -191,3 +191,29 @@
 .profile-notis-pause-button input[type="submit"]:hover {
     background-color: rgb(156, 156, 156);
 }
+
+.change-password a {
+    border: none;
+    background-color: rgb(58, 58, 58);
+    color: white;
+    padding: 0px 24px;
+    cursor: pointer;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    padding-block: 1px;
+    padding-inline: 6px;
+    text-decoration: none;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    box-sizing: border-box;
+
+}
