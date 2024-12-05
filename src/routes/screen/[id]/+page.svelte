@@ -13,7 +13,7 @@
     var carouselItemsDom;
 
     onMount(() => {
-        const manager = new Manager(io, data.deviceId, data.socketUrl, clearCarouselItems, addCarouselItem, setStatus, setCurrentItem, getCarouselItemsDom, getCurrentItem);
+        const manager = new Manager(io, data.deviceId, env.PUBLIC_SOCKET_URL, clearCarouselItems, addCarouselItem, setStatus, setCurrentItem, getCarouselItemsDom, getCurrentItem);
         manager.run();
     })
 

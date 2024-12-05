@@ -5,7 +5,6 @@ export const load = async ({ params }) => {
         error(404, 'Screen id error');
     }
 	return {
-	    deviceId: params.id,
-        socketUrl: env.SOCKET_URL
+	    deviceId: params.id
 	};
 };
