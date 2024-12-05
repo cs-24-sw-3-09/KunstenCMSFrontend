@@ -11,13 +11,17 @@
 
 
     // Data for the page
-    let timeslots = $state(data.timeslotsData.content)
+    let timeslots = $state(data.timeslotsData.content);
+    let visualContent = $state(data.content);
+    let allDisplayDevices = $state(data.displayDevicesData);
     //$inspect(timeslots);
     //$inspect(timeslots[0].displayDevices);
 
     // Toggles
 
     let weekView = $state(true);
+
+    let focusTimeslot = $state(null);
     
     let showNewTimeslotModal = $state(false);
     let showEditTimeslotModal = $state(false);
@@ -25,10 +29,12 @@
     function toggleNewTimeslotModal() {
         showEditTimeslotModal = false;
         showNewTimeslotModal = !showNewTimeslotModal;
+        focusTimeslot = null;
     }
     
-    function toggleEditTimeslotModal() {
+    function toggleEditTimeslotModal(timeslot) {
         showNewTimeslotModal = false;
+        focusTimeslot = timeslot;
         showEditTimeslotModal = !showEditTimeslotModal;
     }
 
@@ -301,7 +307,7 @@
 
             <div class="schedule-week">
                 {#each weekData as row}
-                    <RowPopulatorWeek row={row} />
+                    <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
                 {/each}
             </div>
 
@@ -328,10 +334,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} />
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} />
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
 {/if}
 
 <style>

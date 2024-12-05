@@ -5,16 +5,16 @@
     import { onMount } from "svelte";
     var { data } = $props();
 
+
     var carouselItems = $state([]);
     var status = $state(true);
     var currentItemIndex = $state(0);
-    const api_url = data.apiUrl;
     var carouselItemsDom;
 
     onMount(() => {
         try {
             let deviceId = parseInt(data.deviceId);
-            const manager = new Manager(io, deviceId, data.socketUrl, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem);
+            const manager = new Manager(io, deviceId, env.PUBLIC_SOCKET_URL, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem);
             manager.run();
         } catch(e) {
 
@@ -41,11 +41,11 @@
     <div class="carousel-items" id="carousel-items" bind:this={carouselItemsDom}>
         {#each carouselItems as item, i}
             {#if item.fileType.includes("image/")}
-                <img src={api_url + item.location} alt={item.alt} class:active={i === currentItemIndex} />
+                <img src={env.PUBLIC_API_URL + item.location} alt={item.alt} class:active={i === currentItemIndex} />
             {/if}
             {#if item.fileType.includes("video/")}
                 <video muted loop class:active={i === currentItemIndex}>
-                    <source src={api_url + item.location} type={item.fileType} />
+                    <source src={env.PUBLIC_API_URL + item.location} type={item.fileType} />
                 </video>
             {/if}
         {/each}

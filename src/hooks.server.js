@@ -21,7 +21,7 @@ export async function handle({ event, resolve }) {
         }
     }
 
-    const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule"];
+    const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule-week", "/schedule-day", "/slideshow?/postNewOrder"];
     if (protectedPlannerRouteRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user || !event.locals.user.mediaPlanner) {
             //console.log("Access denied, planner");

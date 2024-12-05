@@ -2,8 +2,6 @@ import { fail, redirect } from '@sveltejs/kit';
 
 import { env } from "$env/dynamic/private";
 
-const API_URL = env.SERVER_API_URL;
-
 // Load function that clears the auth token cookie
 export const load = async ({ cookies }) => {
 	// Clear the auth token cookie
@@ -32,7 +30,7 @@ export const actions = {
         }
 
 		// Login request
-		const loginResponse = await fetch(API_URL + "/api/account/login", {
+		const loginResponse = await fetch(env.SERVER_API_URL + "/api/account/login", {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json",
@@ -59,8 +57,8 @@ export const actions = {
 			// Set the jwt token as a cookie
 			cookies.set("authToken", token, { 
 				path: '/',
-				httpOnly: false, // Prevent JavaScript access. Good practice to prevent XSS attacks
-				secure: false, // Ensures the cookie is sent only over HTTPS
+				httpOnly: false, // Would prevent JavaScript access. Good practice to prevent XSS attacks
+				secure: true, // Ensures the cookie is sent only over HTTPS
 				sameSite: 'strict', // To prevent the cookie from being sent in cross-site requests
 				maxAge: 60 * 60 * 24 * 7 // 7 days
 			}); 

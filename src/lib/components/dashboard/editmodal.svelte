@@ -1,8 +1,10 @@
 <script>
-    let { doClose, options, device, updateDevices } = $props();
+    let { doClose, device, updateDevices } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
+    import { env } from "$env/dynamic/public";
+    import { getCookie } from "$lib/utils/getcookie.js";
     
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -12,11 +14,44 @@
     import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
+    import { onMount } from "svelte";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
         doClose();
     }
+
+    let options = $state([]);
+
+    onMount(async () => {
+
+        const authToken = getCookie("authToken");
+
+        let visualMediaFetch = await fetch(
+          env.PUBLIC_API_URL + "/api/visual_medias",
+          {
+            headers: { Authorization: "Bearer " + authToken },
+          },
+        );
+
+        let visualMedias = await visualMediaFetch.json();
+        visualMedias?.content.forEach(visualMedia => {
+            options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+        });
+
+        let slideshowsFetch = await fetch(
+          env.PUBLIC_API_URL + "/api/slideshows",
+          {
+            headers: { Authorization: "Bearer " + authToken },
+          },
+        );
+
+        let slideshows = await slideshowsFetch.json();
+        slideshows?.forEach(slideshow => {
+            options.push({id: slideshow.id, name: slideshow.name, type: "slideshow"});
+        });
+
+    });
 </script>
 
 <div class="modal">

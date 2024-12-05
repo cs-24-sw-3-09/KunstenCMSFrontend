@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { io, Manager } from "socket.io-client";
+    import { env } from "$env/dynamic/public";
 
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props(); // "form" is automatically populated by SvelteKit
@@ -38,9 +39,6 @@
             devices.splice(index, 1);
         }
     }
-    
-    
-    let options = $state(data.fallbackContent);
 
     // Test data
     /* import { testDevices } from "$lib/testdata.js";
@@ -65,10 +63,10 @@
     }
 
     onMount(() => {
-        const socket = io(data.socketUrl);
+        const socket = io(env.PUBLIC_SOCKET_URL);
 
         socket.on("changeContent", ({deviceid, currenturl, type}) => {
-            let mediaUrl = data.apiUrl + currenturl;
+            let mediaUrl = env.PUBLIC_API_URL + currenturl;
             livedevicedata[deviceid] = {mediaUrl, type};
         });
     })
@@ -87,10 +85,10 @@
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} options={options} createDevice={createDevice} />
+    <NewModal doClose={toggleNewModal} createDevice={createDevice} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus} updateDevices={updateDevices} />
+    <EditModal doClose={toggleEditModal} device={deviceFocus} updateDevices={updateDevices} />
 {/if}
 
 <style>

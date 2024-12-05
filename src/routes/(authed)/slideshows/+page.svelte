@@ -1,147 +1,30 @@
 <script>
     // Export form
-    let { form } = $props(); // Is automatically populated by SvelteKit
+    let { data, form } = $props(); // Is automatically populated by SvelteKit
 
-    import Slideshow from "$lib/components/slideshow.svelte";
-    import Header from "$lib/components/slideshowHeader.svelte";
+    import Slideshow from "$lib/components/slideshow/slideshow.svelte";
+    import Header from "$lib/components/slideshow/slideshowHeader.svelte";
 
-    import { testVisualMedia } from "$lib/testdata.js";
-
-    let slideshows = [
-        {
-            content: [
-                {
-                    id: 1,
-                    name: "My Slideshow",
-                    isArchived: false,
-                    visualMediaInclusionCollection: [
-                        {
-                            id: 5,
-                            slideDuration: 5,
-                            slideshowPosition: 1,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample Media",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                        {
-                            id: 6,
-                            slideDuration: 5,
-                            slideshowPosition: 2,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample Media",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    name: "Second slideshow",
-                    isArchived: false,
-                    visualMediaInclusionCollection: [
-                        {
-                            id: 1,
-                            slideDuration: 5,
-                            slideshowPosition: 1,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                        {
-                            id: 2,
-                            slideDuration: 5,
-                            slideshowPosition: 2,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample Media",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                        {
-                            id: 3,
-                            slideDuration: 5,
-                            slideshowPosition: 3,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample Media",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                        {
-                            id: 4,
-                            slideDuration: 5,
-                            slideshowPosition: 4,
-                            visualMedia: {
-                                type: "visualMedia",
-                                id: 12,
-                                name: "Sample Media",
-                                location: "/visual_media/1.jpg",
-                                fileType: "image/jpeg",
-                                description: "A sample media file for testing.",
-                                lastDateModified: "2024-11-20",
-                            },
-                        },
-                    ],
-                },
-            ],
-            pageable: {
-                pageNumber: 0,
-                pageSize: 20,
-                sort: {
-                    unsorted: true,
-                    empty: true,
-                    sorted: false,
-                },
-                offset: 0,
-                unpaged: false,
-                paged: true,
-            },
-            last: true,
-            totalElements: 1,
-            totalPages: 1,
-            first: true,
-            numberOfElements: 1,
-            size: 20,
-            number: 0,
-            sort: {
-                unsorted: true,
-                empty: true,
-                sorted: false,
-            },
-            empty: false,
-        },
-    ];
-
-    let data = $state(testVisualMedia);
-    let allContent = slideshows.flatMap((slideshow) => slideshow.content);
-    console.log(allContent);
+    let slideshowContent = $state(data.slideshow);
+    let VMIForSS = $state(null);
+    let visualMediaContent = $state(data.visualMedia);
+    let color = data.color;
+    console.log(color);
+    function updateSlideshowContent(data) {
+        console.log("selectedId", selectedId);
+        slideshowContent = data;
+        if (selectedId != null) {
+            VMIForSS = slideshowContent
+                .find((ss) => ss.id === selectedId)
+                .visualMediaInclusionCollection.sort(
+                    (a, b) => a.slideshowPosition - b.slideshowPosition,
+                );
+            console.log(VMIForSS);
+        }
+    }
 
     let searchTerm = $state(""); // For live text search
+    let searchSlideshow = $state("");
     let searchTags = $state(""); // For tag-based filtering
 
     function filterItems(items, searchTerm, searchTags) {
@@ -163,11 +46,11 @@
     }
 
     let filteredData = $derived.by(() => {
-        return filterItems(data, searchTerm, searchTags);
+        return filterItems(visualMediaContent.content, searchTerm, searchTags);
     }); // Reactive var
 
     let filteredslideshow = $derived.by(() => {
-        return filterItems(allContent, searchTerm, searchTags);
+        return filterItems(slideshowContent, searchSlideshow, searchTags);
     }); // Reactive var
 
     function searchTermUpdate(event) {
@@ -181,9 +64,15 @@
     var selectedId = $state(null);
     var isChecked = $state(false);
     var focusedSlideshow = $state(null);
+    var archivedState = $state(false);
 
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
+        VMIForSS = slideshowContent
+            .find((ss) => ss.id === selectedId)
+            .visualMediaInclusionCollection.sort(
+                (a, b) => a.slideshowPosition - b.slideshowPosition,
+            );
     }
     function updateChecked() {
         isChecked = !isChecked;
@@ -191,37 +80,38 @@
     }
     function focusSlideshow(id) {
         focusedSlideshow = id == focusedSlideshow ? null : id;
-        console.log(focusedSlideshow);
     }
 
     function handleOrderUpdate(updatedItems) {
-      // Find the relevant slideshow
-      const slideshowToUpdate = slideshows.find(
-          (slideshow) => slideshow.id === updatedItems[0]?.parentSlideshowId
-      );
-      console.log("Here");
+        // Find the relevant slideshow
+        const slideshowToUpdate = slideshowContent.find(
+            (slideshow) =>
+                slideshowContent.id === updatedItems[0]?.parentSlideshowId,
+        );
 
-      if (slideshowToUpdate) {
-          // Update the visualMediaInclusionCollection with the reordered items
-          slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
+        if (slideshowToUpdate) {
+            // Update the visualMediaInclusionCollection with the reordered items
+            slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
 
-          // Optional: Log the updated slideshow for debugging
-          console.log("Updated slideshow:", slideshowToUpdate);
-      }
-  }
+            // Optional: Log the updated slideshow for debugging
+            console.log("Updated slideshow:", slideshowToUpdate);
+        }
+    }
 </script>
 
 <div class="main-content">
     <Header
         on:update={(event) => updateChecked(event.detail)}
-        {searchTerm}
+        {searchSlideshow}
         {searchTermUpdate}
+        {updateSlideshowContent}
     />
-
-        {#each filteredslideshow  as slideshow}
+    <div class="slideshows-list">
+        {#each filteredslideshow as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
                 <Slideshow
                     {slideshow}
+                    {VMIForSS}
                     {filteredData}
                     on:update={(event) => updateState(event.detail)}
                     on:focus={(event) => focusSlideshow(event.detail)}
@@ -229,11 +119,20 @@
                     {selectedId}
                     {searchTags}
                     {searchTerm}
+                    {archivedState}
                     {searchTagsUpdate}
                     {searchTermUpdate}
+                    {updateSlideshowContent}
+                    {form}
+                    color={color.find((row) => row.slideshowId == slideshow.id)
+                        ?.color}
+                    screens={color.find(
+                        (row) => row.slideshowId == slideshow.id,
+                    )?.displayDevices}
                 />
             {/if}
         {/each}
+    </div>
 </div>
 
 <style>

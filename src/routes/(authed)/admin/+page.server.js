@@ -1,14 +1,14 @@
 
 import { fail } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { env } from "$env/dynamic/private";
 
 // Loads:
 // - All users from db
 
 /** @type {import("./$types").PageServerLoad */
 export async function load({ locals, cookies }) {
-    const users = await fetch(API_URL + "/api/users", {
+    const users = await fetch(env.SERVER_API_URL + "/api/users", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -59,7 +59,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users", {
+        const response = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -73,7 +73,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -109,15 +109,24 @@ export const actions = {
             notificationState: formData.get("notificationState") === "on" ? true : false,
             mediaPlanner: formData.get("mediaPlanner") === "on" ? true : false,
             admin: formData.get("admin") === "on" ? true : false,
+            password: formData.get("newPassword")
         }
 
         // Find differeences
         let diff = {};
         for (const key in data) {
+            if(key == "password") {
+                if (data[key] == "") {
+                    continue;           
+                }
+            }
+
             if (data[key] !== oldData[key]) {
                 diff[key] = data[key];
             }
         }
+
+        console.log(diff);
 
         // requestBody sendt for the patch action
         let requestBody = diff;
@@ -129,7 +138,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/users/" + requestBody.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -143,7 +152,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -187,7 +196,7 @@ export const actions = {
         } */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/users/" + requestBody.id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -201,7 +210,7 @@ export const actions = {
         }
 
         // Fetch all users again
-        const users = await fetch(API_URL + "/api/users", {
+        const users = await fetch(env.SERVER_API_URL + "/api/users", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",

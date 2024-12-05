@@ -1,13 +1,13 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { mimeToType } from "$lib/utils/fileutils";
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { env } from "$env/dynamic/private";
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
     
-    const tags = await fetch(API_URL + "/api/tags", {
+    const tags = await fetch(env.SERVER_API_URL + "/api/tags", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -17,7 +17,7 @@ export async function load({ cookies }) {
     
     const tagsData = await tags.json();
     
-    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -29,13 +29,13 @@ export async function load({ cookies }) {
     
     for (let i = 0; i < visualMediasData.content.length; i++) {
         visualMediasData.content[i].src =
-        API_URL + "/files/visual_media/"
+        env.SERVER_API_URL + "/files/visual_media/"
         + visualMediasData.content[i].id
         + mimeToType(visualMediasData.content[i].fileType);
     }
     
     for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
+        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -46,6 +46,8 @@ export async function load({ cookies }) {
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
     }
+
+    //console.log(visualMediasData);
     
     return {
         visualMedias: visualMediasData,
@@ -97,7 +99,7 @@ export const actions = {
         */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
             method: "POST",
             headers: {
                 /* "Content-type": "multipart/form-data", */
@@ -108,7 +110,7 @@ export const actions = {
 
         const responseData = await response.json();
 
-        responseData.src = API_URL + responseData.location;
+        responseData.src = env.SERVER_API_URL + responseData.location;
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create visual media." });
@@ -152,7 +154,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -164,9 +166,9 @@ export const actions = {
         // Get the response data and add the src and slideshows
         const responseData = await response.json();
 
-        responseData.src = API_URL + responseData.location;
+        responseData.src = env.PUBLIC_API_URL + responseData.location;
         
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
+        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -212,7 +214,7 @@ export const actions = {
         } */
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",
@@ -235,45 +237,44 @@ export const actions = {
 
         let data = {
             id: formData.get("id"),
-            tags: [{ text: formData.get("tag") }],
+            tagText: formData.get("tag").toLowerCase(),
         }
 
         // Check feilds
-        if (!data.id || !data.tags) {
+        if (!data.id || !data.tagText) {
             return fail(400, { error: "No id or tag provided." });
         }
 
         // requestBody sendt for the action
         let requestBody = {
-            id: data.id,
-            tags: data.tags,
+            tagText: data.tagText,
         };
 
         // Check requestBody
-        if (!(Object.keys(requestBody).length === 2)) {
-            return fail(400, { error: "Only the id and tag fields can be passed." });
+        if (!(Object.keys(requestBody).length === 1)) {
+            return fail(400, { error: "Tag fields can be passed to server." });
         }
 
-        console.log("Add Tag to Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
-
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id + "/tags", {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
                 Authorization: "Bearer " + cookies.get("authToken"),
             },
+            body: JSON.stringify(requestBody),
         });
-
-        console.log(response.status);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to add tag to visual media." });
         }
 
-        return { success: true };
+        const responseData = await response.json();
+
+        return { 
+            success: true,
+            responseData,
+        };
     },
 
     deleteTagFromVisualMedia: async ({ cookies, url, request }) => {
@@ -281,53 +282,40 @@ export const actions = {
 
         let data = {
             id: formData.get("id"),
-            tag: { text: formData.get("tag") },
+            tagId: formData.get("tagid"),
         }
 
         // Check feilds
-        if (!data.id) {
-            return fail(400, { error: "No id provided." });
+        if (!data.id || !data.tagId) {
+            return fail(400, { error: "No media id or tag id provided." });
         }
 
         // requestBody sendt for the delete action
         let requestBody = {};
-        requestBody.id = data.id;
-        requestBody.tags = data.tag;
-
-        // Check requestBody
-        /* if (!(Object.keys(requestBody).length === 2)) {
-            return fail(400, { error: "Only the id and tag fields can be passed." });
-        } */
-
-        console.log("Delete Tag from Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
+        requestBody.tagId = data.tagId;
 
         // Send the request to the backend
-        /* TODO */
-
-        return { success: true };
-    },
-    /* allSildeshows: async ({ cookies, url, request }) => {
-        const formData = await request.formData();
-
-        let data = {
-            id: formData.get("id"),
-        };
-
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + data.id + "risk", {
-            method: "GET",
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + data.id + "/tags", {
+            method: "DELETE",
             headers: {
                 "Content-type": "application/json",
-                Authorization: "Bearer " + cookies.get("authToken"),
+                "Authorization": "Bearer " + cookies.get("authToken"),
             },
+            body: JSON.stringify(requestBody),
         });
 
-        const slideshowsData = await slideshows.json();
+        if (response.status !== 204) {
+            return fail(response.status, { error: "Failed to delete tag to visual media." });
+        }
 
-        return {
+        //console.log(response.status);
+        //const responseData = await response.json();
+        //console.log(responseData);
+
+        return { 
             success: true,
-            data: slideshowsData
+            //responseData,
+            tagId: data.tagId,
         };
-    }, */
-}
+    },
+};
