@@ -15,7 +15,7 @@
     import TextInput from "$lib/components/modal/textinput.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
-    import ImageInput from "$lib/components/modal/imageinput.svelte";
+    import MediaInput from "$lib/components/modal/mediainput.svelte";
 </script>
 
 <div class="modal">
@@ -47,7 +47,7 @@
 
             <Separator />
 
-            <ImageInput name={"file"} />
+            <!-- <MediaInput name={"file"} /> -->
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />

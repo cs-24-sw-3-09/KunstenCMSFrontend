@@ -4,21 +4,27 @@
   import { enhance } from "$app/forms";
 
   import Tag from "$lib/components/gallery/tag.svelte";
+
+  import video_default from "$lib/assets/default_video.png";
 </script>
 
 <div class="gallery-item">
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
-      <img src={item.src} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+      {#if item.fileType === "video/mp4"}
+        <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
+      {:else}
+        <img src={item.src} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+      {/if}
     </div>
-    <div
+    <!-- <div
       class="gallery-dot tooltippable tooltipText-Active gallery-{item.status ===
       'used'
         ? 'red'
         : item.status === 'planned'
           ? 'yellow'
           : 'green'}-dot"
-    ></div>
+    ></div> -->
     <div class="gallery-item-info">
       <div class="gallery-item-left-top">
         <div class="gallery-item-title">{item.name}</div>
