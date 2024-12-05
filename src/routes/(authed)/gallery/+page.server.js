@@ -1,7 +1,7 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { mimeToType } from "$lib/utils/fileutils";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.SERVER_API_URL;
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {

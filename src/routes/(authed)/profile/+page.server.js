@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.SERVER_API_URL;
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */

@@ -1,5 +1,5 @@
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.SERVER_API_URL;
 
 /** @type {import('@sveltejs/kit').RequestEvent} */
 export async function authenticateUser({ request, cookies }) {
