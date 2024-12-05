@@ -101,6 +101,7 @@ export const actions = {
     },
     deleteVM: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+        console.log("here");
         const visualmedia = await fetch(API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
             method: "DELETE",
             headers: {
@@ -113,7 +114,7 @@ export const actions = {
         } else if (visualmedia.status !== 204) {
             return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
-
+        console.log("here2")
         let newSlideshowData = await getSlideshows({ cookies, url, request });
         return {
             success: true,

@@ -2,9 +2,11 @@
   const API_URL = import.meta.env.VITE_API_URL;
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
+  import { getCookie } from "$lib/utils/getcookie.js";
+
   let props = $props();
   let VMI = props.VMI;
-  let slideshowId = props.slideshowId;
+  let slideshowId = props.slideshow.id;
   let test1 = props.slideshow;
 </script>
 
@@ -62,10 +64,38 @@
     <form
       method="post"
       action="?/deleteVM"
-      use:enhance={({ formData, cancel }) => {
+      use:enhance={async ({ formData, cancel }) => {
         // Causes svelte violation warning, because of holdup
-        let confirmation = confirm(`Are you sure you want to delete "${VMI}"?`);
+
+        const authToken = getCookie("authToken");
+
+        let informationData = await fetch(
+          API_URL + "/api/slideshows/" + slideshowId + "/time_slots",
+          {
+            headers: { Authorization: "Bearer " + authToken },
+          },
+        );
+
+        const riskInformation = await informationData.json();
+
+
+        let names = riskInformation.map((risk) => risk.name);
+        let riskString = "";
+        if (names.length != 0) {
+          riskString =
+            "\n\nThe visual media is part of the following timeslot(s):\n";
+          for (let name of names) {
+            riskString += name + "\n";
+          }
+        }
+
+        let confirmation = confirm(
+          `Are you sure you want to delete "${VMI.visualMedia.name}"? ${riskString}`,
+        );
         if (!confirmation) return cancel();
+
+        // let confirmation = confirm(`Are you sure you want to delete "${VMI}"?`);
+        // if (!confirmation) return cancel();
         formData.set("ContentID", VMI.id);
 
         return async ({ result }) => {
@@ -76,7 +106,9 @@
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
           } else if (result.type === "success") {
+            console.log("here123")
             props.updateSlideshowContent(result.data.newData);
+            
           }
         };
       }}

@@ -205,15 +205,10 @@
             let informationData = await fetch(API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
             });
-
-            //console.log(await informationData.json());
+            
             const riskInformation = await informationData.json();
-            console.log(riskInformation)
-
-            //let string = riskInformation.forEach((risk) => risk.name);
 
             let names = riskInformation.map((risk) => risk.name);
-            console.log(names);
             let riskString = "";
             if (names.length != 0){
               riskString = "\n\nThe slideshow i part of the following timeslot(s):\n"
@@ -221,7 +216,6 @@
                 riskString += name+"\n";
               }
             }
-            console.log(riskString)
 
             let confirmation = confirm(
               `Are you sure you want to delete "${props.slideshow.name}"? ${riskString}`,
