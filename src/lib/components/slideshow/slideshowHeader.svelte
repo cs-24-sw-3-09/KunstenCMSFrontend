@@ -1,6 +1,6 @@
 <script>
   let props = $props();
-  import Newslideshow from "$lib/components/newSlideshowModal.svelte";
+  import Newslideshow from "./newSlideshowModal.svelte";
 
   let showNewslideshowModal = $state(false);
 
@@ -23,7 +23,8 @@
 {#if showNewslideshowModal}
   <Newslideshow
     doClose={toggleNewslideshowModal}
-    doSubmit={submitNewslideshowModal}
+    allContent = {props.allContent}
+    updateSlideshowContent = {props.updateSlideshowContent}
   />
 {/if}
 
@@ -39,7 +40,7 @@
       <input
         type="text"
         placeholder="Search for slideshow"
-        value={props.searchTerm}
+        value={props.searchSlideshow}
         oninput={props.searchTermUpdate}
       />
     </div>
