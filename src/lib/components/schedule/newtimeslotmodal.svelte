@@ -1,5 +1,5 @@
 <script>
-    let { doClose } = $props();
+    let { doClose, displayDevices, visualContent } = $props();
 
     import { enhance } from '$app/forms';
 
@@ -12,23 +12,14 @@
         Sat: false,
         Sun: false,
     };
-
-    // Test data TODO: make dynamic from database
-    let display_devices = {
-        Display1: "Reception Left",
-        Display2: "Reception Right",
-        Display3: "Reception Middle"
-    }
-
-    // Test data TODO: make dynamic from database
-    let slideshows = ["slideshow_id1", "slideshow_id2", "slideshow_id3", "slideshow_id4" ];
+    console.log(days);
+    let daysArray = Object.entries(days);
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import Smallheader from "$lib/components/modal/smallheader.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
-    import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
@@ -68,22 +59,31 @@
             </div>
 
             <div class="checkbox-container">
-                {#each Object.keys(days) as day}
+                {#each daysArray as [day, checked]}
                     <div class="checkbox-item">
-                        <Smallheader text= {day}/>
-                        <Checkbox name= {day}/>
+                        <!-- Replace Smallheader and Checkbox with your components -->
+                        <Smallheader text={day} />
+                        <Checkbox name={day} {checked} />
                     </div>
                 {/each}
             </div>
 
             <Separator />
 
-            <Dropdown title={"Slideshow"} name={"dropdown1"} options={slideshows} selected={"Option 1"} />
+            <div class="modal-dropdown">
+                <label for={"content_id"}>{"Content to be displayed"}</label>
+                <select id={"content_id"} name={"fallbackContent"} required>
+                    {#each visualContent as content}
+                        <option value={`{"id": ${content.id}, "type": "${content.type}"}`}>{content.type === "visualMedia" ? "Media" : "Slideshow"}: {content.name}</option>
+                    {/each}
+                </select>
+            </div>
+            <br/>
             <div class="checkbox-container">
-                {#each Object.keys(display_devices) as display}
+                {#each displayDevices as display}
                     <div class="checkbox-item">
-                        <Smallheader text= {display}/>
-                        <Checkbox name= {display}/>
+                        <Smallheader text={display.name} />
+                        <Checkbox name={display.name} />
                     </div>
                 {/each}
             </div>

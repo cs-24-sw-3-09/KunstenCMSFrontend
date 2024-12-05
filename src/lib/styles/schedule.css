@@ -1,0 +1,207 @@
+.schedule-header {
+    border-bottom: 1px solid rgb(182, 182, 182);
+    max-width: 100%;
+    position: sticky;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    z-index: 1;
+}
+
+.schedule-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 20px 30px;
+}
+
+.schedule-header-top-left {
+    font-size: 20px;
+}
+
+.schedule-week-header-bottom {
+    display: flex;
+    background-color: rgb(236, 236, 236);
+}
+
+.schedule-week-header-day,
+.schedule-week-header-devices {
+    flex: 1;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.1s;
+    text-decoration: none;
+    color: black;
+}
+
+.schedule-week-header-day:hover {
+    background-color: rgb(224, 224, 224);
+    cursor: pointer;
+}
+
+.schedule-day-body-header {
+    display: flex;
+    border-bottom: 1px solid rgb(182, 182, 182);
+}
+
+.schedule-day-times {
+    display: flex;
+    flex: 24;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+}
+
+.schedule-day-time {
+    flex: 1;
+    padding: 4px;
+    font-size: 14px;
+    color: rgb(56, 56, 56);
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.schedule-day-time:not(:last-child) {
+    border-right: 1px solid rgb(182, 182, 182);
+    position: relative;
+}
+
+.schedule-day-time:not(:last-child):after {
+    content: "";
+    border-left: 1px dotted rgb(221, 221, 221);
+    position: absolute;
+    top: 24px;
+    right: -1px;
+    height: 388px;
+}
+
+.schedule-day-blank {
+    border-right: 1px solid rgb(182, 182, 182);
+    width: 200px;
+    box-sizing: border-box;
+    background-color: rgb(236, 236, 236);
+  }
+
+
+
+
+
+
+
+
+.arrow {
+    border: solid gray;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.color-1 {
+    background-color: #F2BAC9;
+}
+
+.color-2 {
+    background-color: #BAD7F2;
+}
+
+.color-3 {
+    background-color: #B0F2B4;
+}
+
+.color-4 {
+    background-color: #BAF2E9;
+}
+
+.color-5 {
+    background-color: #F2E2BA;
+}
+
+.color-6 {
+    background-color: #CAE7B9;
+}
+
+.color-7 {
+    background-color: #F3DE8A;
+}
+
+.color-8 {
+    background-color: #EB9486;
+}
+
+.color-9 {
+    background-color: #7E7F9A;
+}
+
+.color-10 {
+    background-color: #97A7B3;
+}
+
+.color-11 {
+    background-color: #CE2754;
+}
+
+.color-12 {
+    background-color: #277DCE;
+}
+
+.color-13 {
+    background-color: #1FC12A;
+}
+
+.color-14 {
+    background-color: #24BCA3;
+}
+
+.color-15 {
+    background-color: #BC9124;
+}
+
+.color-16 {
+    background-color: #904C77;
+}
+
+-color-17 {
+    background-color: #E49AB0;
+}
+
+.color-18 {
+    background-color: #ECB8A5;
+}
+
+.color-19 {
+    background-color: #ECCFC3;
+}
+
+.color-20 {
+    background-color: #957D95;
+}

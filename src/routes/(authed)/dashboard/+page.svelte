@@ -8,20 +8,25 @@
     import NewModal from "$lib/components/dashboard/newmodal.svelte";
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
-    let devices = $state([]);
-    
-    // Test data
-    import { testDevices } from "$lib/testdata.js";
-    devices = testDevices;
+    let devices = $state(data.displayDevices.content);
 
-    // Options for the fallback slideshow dropdown, TODO: Get this from the database
-    let options = [
-        "Event 2024",
-        "Event 2023",
-        "Event 2022",
-        "Event 2021",
-        "Event 2020",
-    ];
+    function updateDevices(updatedDevice) {
+        const index = devices.findIndex((device) => device.id === updatedDevice.id);
+        if (index !== -1) {
+            devices[index] = updatedDevice;
+        }
+    }
+
+    function createDevice(newDevice) {
+        devices = [...devices, newDevice];
+    }
+    
+    let options = $state(data.fallbackContent);
+
+    // Test data
+    /* import { testDevices } from "$lib/testdata.js";
+    devices = testDevices; */
+
 
     // Temp variable to store the device that is being edited, deleted or created
     let deviceFocus = $state({});
@@ -54,11 +59,10 @@
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} options={options} />
+    <NewModal doClose={toggleNewModal} options={options} createDevice={createDevice} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus}
-    />
+    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus} updateDevices={updateDevices} />
 {/if}
 
 <style>

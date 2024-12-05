@@ -6,22 +6,22 @@
 <div class="dashboard-card">
     <div class="dashboard-card-top">
         <div class="dashboard-card-preview">
-            <img src={device.fallbackVisualMedia.location !== "" ? device.fallbackVisualMedia.location : test_fallback} alt=""/> <!-- TODO: add dynamic html element for video-->
+            <img src={test_fallback} alt=""/> <!-- TODO: add dynamic html element for video-->
         </div>
     </div>
     <div class="dashboard-card-bottom">
         <div class="dashboard-card-title">
-            {#if device.connectedState == "active"}
+            <!-- {#if device.connectedState == "active"}
                 <div class="dashboard-card-slideshow-active tooltippable tooltipText-Active"></div>
             {:else}
                 <div class="dashboard-card-slideshow-inactive tooltippable tooltipText-Active"></div>
-            {/if}
+            {/if} -->
             <p>{device.name ? device.name : "No name"}</p>
         </div>
-        <div class="dashboard-card-slideshow-info">
-            <i class="fa-solid fa-file"></i> <!-- spacing -->
+        <!-- <div class="dashboard-card-slideshow-info">
+            <i class="fa-solid fa-file"></i>
             <div class="dashboard-card-slideshow-title">{device.visualMedia ? device.visualMedia : "No media"}</div>
-        </div>
+        </div> -->
         <div class="dashboard-card-location-title">
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
             <p>{device.location ? device.location : "No location"}</p>

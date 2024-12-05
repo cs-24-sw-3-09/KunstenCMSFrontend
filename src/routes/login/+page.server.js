@@ -1,6 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit';
 
-const API_URL = import.meta.env.VITE_API_URL
+import { env } from "$env/dynamic/private";
+
+const API_URL = env.VITE_API_URL;
 
 // Load function that clears the auth token cookie
 export const load = async ({ cookies }) => {
@@ -37,8 +39,6 @@ export const actions = {
 			},
 			body: JSON.stringify(loginRequestBody),
 		});
-
-		//console.log("loginResponsestart", loginResponse,"loginResponseend");		
 
 		if (loginResponse.status !== 200) {
 			try {
