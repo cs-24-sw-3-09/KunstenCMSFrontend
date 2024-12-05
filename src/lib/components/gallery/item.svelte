@@ -27,7 +27,6 @@
       <div class="gallery-item-left-bottom">
         <div class="gallery-item-tags">
           {#if item.tags}
-          {:else}
             {#each item.tags as tag}
               <Tag tag={tag.text} />
             {/each}

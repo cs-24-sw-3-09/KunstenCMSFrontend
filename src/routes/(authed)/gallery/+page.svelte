@@ -45,7 +45,32 @@
             visual_medias.splice(index, 1); // Directly remove the item
         }
     }
-    
+
+    function updateTags(body) {
+        const index = visual_medias.findIndex((item) => item.id === body.id);
+        if (index !== -1) {
+            visual_medias[index].tags = body.tags;
+        }
+    }
+
+    function delTag(id, tagId) {
+        let index = -1;
+        for (let i = 0; i < visual_medias.length; i++) {
+            if (visual_medias[i].id == id) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            for (let i = 0; i < visual_medias[index].tags.length; i++) {
+                if (visual_medias[index].tags[i].id == tagId) {
+                    visual_medias[index].tags.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
     // Focus item for modals and such
 
     let focusItem = $state({});
@@ -130,7 +155,7 @@
     <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} />
 {/if}
 {#if showItemModal}
-    <ItemModal item={focusItem} doClose={doToggleItemModal} />
+    <ItemModal item={focusItem} doClose={doToggleItemModal} updateTags={updateTags} delTag={delTag} />
 {/if}
 
 <style>

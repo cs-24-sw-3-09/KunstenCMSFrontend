@@ -235,28 +235,23 @@ export const actions = {
 
         let data = {
             id: formData.get("id"),
-            tags: [{ text: formData.get("tag") }],
+            tagText: formData.get("tag").toLowerCase(),
         }
 
         // Check feilds
-        if (!data.id || !data.tags) {
+        if (!data.id || !data.tagText) {
             return fail(400, { error: "No id or tag provided." });
         }
 
         // requestBody sendt for the action
         let requestBody = {
-            id: data.id,
-            tags: data.tags,
+            tagText: data.tagText,
         };
 
         // Check requestBody
-        if (!(Object.keys(requestBody).length === 2)) {
-            return fail(400, { error: "Only the id and tag fields can be passed." });
+        if (!(Object.keys(requestBody).length === 1)) {
+            return fail(400, { error: "Tag fields can be passed to server." });
         }
-
-        console.log("Add Tag to Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
 
         // Send the request to the backend
         const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
@@ -265,15 +260,19 @@ export const actions = {
                 "Content-type": "application/json",
                 Authorization: "Bearer " + cookies.get("authToken"),
             },
+            body: JSON.stringify(requestBody),
         });
-
-        console.log(response.status);
 
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to add tag to visual media." });
         }
 
-        return { success: true };
+        const responseData = await response.json();
+
+        return { 
+            success: true,
+            responseData,
+        };
     },
 
     deleteTagFromVisualMedia: async ({ cookies, url, request }) => {
@@ -281,53 +280,40 @@ export const actions = {
 
         let data = {
             id: formData.get("id"),
-            tag: { text: formData.get("tag") },
+            tagId: formData.get("tagid"),
         }
 
         // Check feilds
-        if (!data.id) {
-            return fail(400, { error: "No id provided." });
+        if (!data.id || !data.tagId) {
+            return fail(400, { error: "No media id or tag id provided." });
         }
 
         // requestBody sendt for the delete action
         let requestBody = {};
-        requestBody.id = data.id;
-        requestBody.tags = data.tag;
-
-        // Check requestBody
-        /* if (!(Object.keys(requestBody).length === 2)) {
-            return fail(400, { error: "Only the id and tag fields can be passed." });
-        } */
-
-        console.log("Delete Tag from Visual Media");
-        console.log("requestBody");
-        console.log(requestBody);
+        requestBody.tagId = data.tagId;
 
         // Send the request to the backend
-        /* TODO */
-
-        return { success: true };
-    },
-    /* allSildeshows: async ({ cookies, url, request }) => {
-        const formData = await request.formData();
-
-        let data = {
-            id: formData.get("id"),
-        };
-
-        const slideshows = await fetch(API_URL + "/api/visual_medias/" + data.id + "risk", {
-            method: "GET",
+        const response = await fetch(API_URL + "/api/visual_medias/" + data.id + "/tags", {
+            method: "DELETE",
             headers: {
                 "Content-type": "application/json",
-                Authorization: "Bearer " + cookies.get("authToken"),
+                "Authorization": "Bearer " + cookies.get("authToken"),
             },
+            body: JSON.stringify(requestBody),
         });
 
-        const slideshowsData = await slideshows.json();
+        if (response.status !== 204) {
+            return fail(response.status, { error: "Failed to delete tag to visual media." });
+        }
 
-        return {
+        //console.log(response.status);
+        //const responseData = await response.json();
+        //console.log(responseData);
+
+        return { 
             success: true,
-            data: slideshowsData
+            //responseData,
+            tagId: data.tagId,
         };
-    }, */
-}
+    },
+};
