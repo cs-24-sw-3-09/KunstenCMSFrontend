@@ -8,14 +8,17 @@
   let VMI = props.VMI;
   let slideshowId = props.slideshow.id;
   let test1 = props.slideshow;
+
+  import video_default from "$lib/assets/default_video.png";
 </script>
 
 <div draggable="true" class="slideshows-body-item">
   <div class="slideshows-body-item-preview">
-    <img
-      src={VMI.visualMedia ? `${API_URL}${VMI.visualMedia.location}` : ""}
-      alt="Media"
-    />
+    {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
+      <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+    {:else}
+      <img src={VMI.visualMedia ? `${API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
+    {/if}
   </div>
   <div class="slideshows-body-item-num">
     {VMI.slideshowPosition}

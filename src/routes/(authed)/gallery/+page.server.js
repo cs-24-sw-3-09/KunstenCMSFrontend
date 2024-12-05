@@ -46,6 +46,8 @@ export async function load({ cookies }) {
         const slideshowsData = await slideshows.json();
         visualMediasData.content[i].slideshows = slideshowsData;
     }
+
+    //console.log(visualMediasData);
     
     return {
         visualMedias: visualMediasData,
