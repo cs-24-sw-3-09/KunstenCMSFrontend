@@ -4,11 +4,8 @@
     import Tag from "$lib/components/gallery/tag.svelte";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-<<<<<<< HEAD
     const API_URL = import.meta.env.VITE_API_URL
     
-=======
->>>>>>> origin/main
 </script>
 
 <div class="gallery-item" style = "background: {selectedId == item.id ? "lightblue" : "lightgray"}" onclick={() => dispatch("update", item.id)}>
