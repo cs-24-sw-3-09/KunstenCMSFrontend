@@ -1,5 +1,5 @@
 <script>
-    let { doClose, user } = $props();
+    let { doClose, user, updateUsersData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -23,27 +23,25 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit User" />
 
-        <form
-            method="post"
-            action="?/editUser"
-            use:enhance={({ formData }) => {
-                // `formData` is its `FormData` object that's about to be submitted
-                formData.set("id", user.id);
-                formData.set("oldData", JSON.stringify(user)); // Pass previous known user data to the action
-
-                return async ({ result }) => {
-                    // `result` is an `ActionResult` object
-                    if (result.type === "failure") {
+        <form method="post" action="?/editUser"
+        use:enhance={({ formData }) => {
+            // `formData` is its `FormData` object that's about to be submitted
+            formData.set("id", user.id);
+            formData.set("oldData", JSON.stringify(user)); // Pass previous known user data to the action
+            return async ({ result }) => {
+                // `result` is an `ActionResult` object
+                switch (result.type) {
+                    case "failure":
                         // Handle the error
-                        alert(
-                            `Failed to edit user, please reload page (F5).\n${result.data?.error}`,
-                        );
-                    } else if (result.type === "success") {
+                        alert(`Failed to edit user, please reload page (F5).\n${result.data?.error}`,);
+                        break;
+                    case "success":
+                        updateUsersData(result.data.usersData.content);
                         closeModal(); // Call doClose on successful form submission
-                    }
-                };
-            }}
-        >
+                        break;
+                }
+            };
+        }}>
             <TextInput
                 title={"First Name"}
                 placeholder={"First Name Here"}

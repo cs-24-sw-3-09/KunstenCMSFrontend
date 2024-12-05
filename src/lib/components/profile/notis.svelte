@@ -1,9 +1,5 @@
-<!-- 
-    TODO: Add functionality for editing notifications 
--->
-
 <script>
-    let { profileData, onUpdateNotificationState } = $props();
+    let { profileData, updateProfileData } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -26,24 +22,22 @@
 
 <div class="profile-notis-title">Notification</div>
 
-<form
-    style="all: unset;"
-    class="profile-notis-top"
-    action="?/notificationState"
-    method="post"
-    use:enhance={({ formData }) => {
-        formData.set("id", profileData.id);
+<form style="all: unset;" class="profile-notis-top" action="?/notificationState" method="post"
+use:enhance={({ formData }) => {
+    formData.set("id", profileData.id);
 
-        return async ({ result }) => {
-            if (result.type === "failure") {
-                // Handle the error
+    return async ({ result }) => {
+        switch (result.type) {
+            case "failure":
                 alert(`Failed to update notification state, please reload page (F5).\n${result.data?.error}`);
-            } else if (result.type === "success") {
-                // Update the local state of the checkbox to match the server response
-                onUpdateNotificationState(!profileData.notificationState);
-            } 
-        };
-    }}
+                break;
+            case "success":
+            console.log("res:", result.data.responseData);
+                updateProfileData(result.data.responseData);
+                break;
+        }
+    };
+}}
 >
     <div class="profile-notis-top">
         <div class="checkboxOverride">
@@ -63,46 +57,31 @@
     </div>
 </form>
 
-<form
-    class="profile-notis-bottom notis-pause-form"
-    action="?/pauseNotifications"
-    method="post"
-    use:enhance={({ formData }) => {
-        // `formData` is its `FormData` object that's about to be submitted
-        formData.set("id", profileData.id);
+<form class="profile-notis-bottom notis-pause-form" action="?/pauseNotifications" method="post"
+use:enhance={({ formData }) => {
+    // `formData` is its `FormData` object that's about to be submitted
+    formData.set("id", profileData.id);
 
-        return async ({ result }) => {
-            // `result` is an `ActionResult` object
-            if (result.type === "failure") {
-                // Handle the error
+    return async ({ result }) => {
+        switch (result.type) {
+            case "failure":
                 alert(`Failed to update notification pause, please reload page (F5).\n${result.data?.error}`);
-            } else if (result.type === "success") {
-                doPauseNotifications(); // Call doClose on successful form submission
-            }
-        };
-    }}
->
+                break;
+            case "success":
+                updateProfileData(result.data.responseData);
+                break;
+        }
+    };
+}}>
     <div class="profile-notis-bottom-title">Pause Notifications</div>
     <div class="profile-notis-pause-inputs">
         <div class="profile-notis-pause-from">
             <label for="pauseNotificationStart">From</label>
-            <input
-                type="date"
-                name="pauseNotificationStart"
-                min={today}
-                value={tempFrom}
-                required
-            />
+            <input type="date" name="pauseNotificationStart" min={today} value={tempFrom} required>
         </div>
         <div class="profile-notis-pause-to">
             <label for="pauseNotificationEnd">To</label>
-            <input
-                type="date"
-                name="pauseNotificationEnd"
-                min={today}
-                value={tempTo}
-                required
-            />
+            <input type="date" name="pauseNotificationEnd" min={today} value={tempTo} required>
         </div>
     </div>
     <div class="profile-notis-pause-button">

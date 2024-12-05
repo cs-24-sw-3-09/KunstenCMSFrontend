@@ -1,18 +1,18 @@
 <script>
     let { doClose, profileData } = $props();
-
     import { enhance } from '$app/forms';
+    
+    import CloseX from "$lib/components/modal/closex.svelte";
+    import Header from "$lib/components/modal/header.svelte";
+    import HiddenTextInput from "$lib/components/modal/hiddentextinput.svelte";
+    import Separator from "$lib/components/modal/separator.svelte";
+    import Button from "$lib/components/modal/button.svelte";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
         doClose();
     }
 
-    import CloseX from "$lib/components/modal/closex.svelte";
-    import Header from "$lib/components/modal/header.svelte";
-    import HiddenTextInput from "$lib/components/modal/hiddentextinput.svelte";
-    import Separator from "$lib/components/modal/separator.svelte";
-    import Button from "$lib/components/modal/button.svelte";
 </script>
 
 <div class="modal">
@@ -26,16 +26,16 @@
             formData.set("id", profileData.id);
             
             return async ({ result }) => {
-                // `result` is an `ActionResult` object              
-                if (result.type === "failure") {
-                    // Handle the error
-                    alert(`Failed to update password, please reload page (F5).\n${result.data?.error}`);
-                } else if (result.type === "success") {
-                    closeModal(); // Call doClose on successful form submission
+                switch (result.type) {
+                    case "failure":
+                        alert(`Failed to update password, please reload page (F5).\n${result.data?.error}`);
+                        break;
+                    case "success":
+                        closeModal(); // Call doClose on successful form submission
+                        break;
                 }
             };
         }}>
-
             <HiddenTextInput title={"New Password"} placeholder={"New password here"} name={"password"} required="true" />
             <HiddenTextInput title={"Confirm New Password"} placeholder={"Rewrite password here"} name={"confpassword"} required="true" />
             
