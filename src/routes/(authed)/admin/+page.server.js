@@ -1,6 +1,29 @@
 
 import { fail } from "@sveltejs/kit";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+// Loads:
+// - All users from db
+
+/** @type {import("./$types").PageServerLoad */
+export async function load({ locals, cookies }) {
+    const users = await fetch(API_URL + "/api/users", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const usersData = await users.json();
+
+    return {
+        users: usersData,
+    };
+}
+
+
 // Actions:
 // - New User
 // - Edit User
@@ -16,6 +39,7 @@ export const actions = {
             firstName: formData.get("firstName"),
             lastName: formData.get("lastName"),
             email: formData.get("email"),
+            password: formData.get("password"),
             notificationState: formData.get("notificationState") === "on" ? true : false,
             mediaPlanner: formData.get("mediaPlanner") === "on" ? true : false,
             admin: formData.get("admin") === "on" ? true : false,
@@ -30,19 +54,43 @@ export const actions = {
         let requestBody = data;
 
         // Validate requestBody
-        if (!(Object.keys(requestBody).length === 6)) {
+        if (!(Object.keys(requestBody).length === 7)) {
             return fail(400, { error: "All input fields are required." });
         }
 
-        console.log("New User");
-        console.log("requestBody");
-        console.log(requestBody);
-
         // Send the request to the backend
-        /* TODO */
+        const response = await fetch(API_URL + "/api/users", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
+        if (response.status !== 201) {
+            return fail(response.status, { error: "Failed to create new user." });
+        }
 
-        return { success: true };
+        // Fetch all users again
+        const users = await fetch(API_URL + "/api/users", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        });
+
+        const usersData = await users.json();
+
+        if (users.status !== 200) {
+            return fail(users.status, { error: "Failed to fetch users." });
+        }
+
+        return {
+            success: true,
+            usersData,
+        };
     },
 
     editUser: async ({ cookies, url, request }) => {
@@ -80,14 +128,35 @@ export const actions = {
             return fail(400, { error: "At least one field needs to be changed." });
         }
 
-        console.log("Edit User");
-        console.log("requestBody");
-        console.log(requestBody);
-
         // Send the request to the backend
-        /* TODO */
+        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+            method: "PATCH",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        return { success: true };
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to edit user." });
+        }
+
+        // Fetch all users again
+        const users = await fetch(API_URL + "/api/users", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        });
+    
+        const usersData = await users.json();
+
+        return {
+            success: true,
+            usersData,
+        };
     },
 
     deleteUser: async ({ cookies, url, request }) => {
@@ -112,18 +181,40 @@ export const actions = {
         let requestBody = {};
         requestBody.id = data.id;
 
-        console.log("Delete User");
-        console.log("requestBody");
-        console.log(requestBody)
-
         // Validate requestBody
         /* if (!(Object.keys(requestBody).length === 1)) {
             return fail(400, { error: "Only the id field can be passed." });
         } */
 
         // Send the request to the backend
-        /* TODO */
+        const response = await fetch(API_URL + "/api/users/" + requestBody.id, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
 
-        return { success: true };
+        if (response.status !== 204) {
+            return fail(response.status, { error: "Failed to delete user." });
+        }
+
+        // Fetch all users again
+        const users = await fetch(API_URL + "/api/users", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            }
+        });
+    
+        const usersData = await users.json();
+
+
+        return {
+            success: true,
+            usersData,
+        };
     },
 };

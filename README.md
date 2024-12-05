@@ -10,6 +10,7 @@ npm install
 2. Add the following variables:
 ```
 VITE_API_URL="YOUR_API_URL"
+SERVER_API_URL="YOUR_SERVER_API_URL"
 SOCKET_URL="YOUR_SOCKET_URL"
 ```
 

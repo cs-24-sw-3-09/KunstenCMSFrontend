@@ -17,8 +17,6 @@ export async function authenticateUser({ request, cookies }) {
 
         const userData = await user.json();
 
-        //console.log("userData", userData);
-        
 		return userData;
     }
 

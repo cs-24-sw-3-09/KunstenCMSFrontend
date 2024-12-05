@@ -9,6 +9,7 @@
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     let devices = $state(data.displayDevices.content);
+    //$inspect(devices);
 
     function updateDevices(updatedDevice) {
         const index = devices.findIndex((device) => device.id === updatedDevice.id);
@@ -20,6 +21,20 @@
     function createDevice(newDevice) {
         devices = [...devices, newDevice];
     }
+    7
+    function deleteDevice(id) {
+        let index = -1;
+        for (let i = 0; i < devices.length; i++) {
+            if (devices[i].id == id) {
+                index = i;
+                break;
+            }
+        }
+        if (index !== -1) {
+            devices.splice(index, 1);
+        }
+    }
+    
     
     let options = $state(data.fallbackContent);
 
@@ -35,7 +50,7 @@
     let showNewModal = $state(false);
     let showEditModal = $state(false);
 
-    function toggleNewModal(device = deviceFocus) {
+    function toggleNewModal() {
         deviceFocus = {};
         showNewModal = !showNewModal;
     }
@@ -55,7 +70,7 @@
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
             {/if}
         </div>
-        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} />
+        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
     </div>
 </div>
 {#if showNewModal}

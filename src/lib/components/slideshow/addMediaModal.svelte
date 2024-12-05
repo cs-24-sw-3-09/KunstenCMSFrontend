@@ -27,8 +27,12 @@
     let selectedItem = $state({});
 
     function updateState(id) {
+<<<<<<< HEAD:src/lib/components/slideshow/addMediaModal.svelte
         selectedId = id == selectedId ? id : id;
         //console.log(selectedId);
+=======
+        selectedId = (id == selectedId ? id : id);
+>>>>>>> origin/main:src/lib/components/addMediaModal.svelte
     }
 </script>
 
