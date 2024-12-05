@@ -6,16 +6,30 @@
 
     let days = {
         Mon: true,
-        Tue: true,
+        Tue: false,
         Wed: false,
-        Thu: true,
-        Fri: true,
-        Sat: true,
-        Sun: true,
-    };
-    console.log(days);
+        Thu: false,
+        Fri: false,
+        Sat: false,
+        Sun: false,
+    };    
+
+    updateDaysFromBits();
+    function updateDaysFromBits() {
+        // Define the day order
+        const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+        // Loop through the day order and set true/false based on the bits
+        console.log(timeslot.weekdaysChosen)
+        dayOrder.forEach((day, index) => {
+            // Extract the bit at the corresponding position (from right to left)
+            days[day] =  Boolean((timeslot.weekdaysChosen >> index) & 1);
+        });
+    }
     let daysArray = Object.entries(days);
-    //console.table(timeslot);
+    console.log("here",days);
+
+
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
