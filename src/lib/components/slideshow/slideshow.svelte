@@ -1,6 +1,7 @@
 <script>
   const API_URL = import.meta.env.VITE_API_URL;
 
+
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
@@ -16,6 +17,7 @@
   import AddMedia from "./addMediaModal.svelte";
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
+  import { getCookie } from "$lib/utils/getcookie.js";
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
