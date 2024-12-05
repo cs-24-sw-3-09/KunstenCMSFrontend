@@ -45,7 +45,10 @@ export class Manager {
     this.setCurrentItemIndex(0);
 
     if(content.type == "slideshow") {
-      content.visualMediaInclusionCollection.forEach((item, i) => {
+      let items = content.visualMediaInclusionCollection;
+      items.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+
+      items.forEach((item, i) => {
         this.addCarouselItem(item.visualMedia);
         this.durations.push(item.slideDuration * 1000);
       });

@@ -12,6 +12,7 @@
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     let devices = $state(data.displayDevices.content);
+    let livedevicedata = $state({});
     //$inspect(devices);
 
     function updateDevices(updatedDevice) {
@@ -67,7 +68,8 @@
         const socket = io(data.socketUrl);
 
         socket.on("changeContent", ({deviceid, currenturl, type}) => {
-            console.log(deviceid, currenturl, type);
+            let mediaUrl = data.apiUrl + currenturl;
+            livedevicedata[deviceid] = {mediaUrl, type};
         });
     })
 
@@ -81,7 +83,7 @@
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
             {/if}
         </div>
-        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
+        <Dashboard admin={data.user.admin} devices={devices} {livedevicedata} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
     </div>
 </div>
 {#if showNewModal}

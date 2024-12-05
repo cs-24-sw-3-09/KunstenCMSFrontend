@@ -103,6 +103,7 @@ export async function load({ locals, cookies }) {
     // fallbackBontent - a collection of all visual medias and slideshows for the dropdown in the form
     return {
         socketUrl: env.SOCKET_URL,
+        apiUrl: env.VITE_API_URL,
         displayDevices: displayDevicesData,
         fallbackContent: visualMediasData.concat(slideshowsData),
     };
