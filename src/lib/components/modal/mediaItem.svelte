@@ -13,7 +13,7 @@
     <div class="gallery-item-left" onclick={toggleAddMediaModal}>
         <div class="gallery-item-preview">
             {#if item.fileType === "video/mp4"}
-                <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
+                <img src={item.location ? `${env.PUBLIC_API_URL}${item.location.replaceAll(".mp4",".png")}` : video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
             {:else}
                 <img src={env.PUBLIC_API_URL + item.location} alt="gallery-item-preview" />
             {/if}
