@@ -2,13 +2,13 @@ import { fail } from "@sveltejs/kit";
 
 import { mimeToType } from "$lib/utils/fileutils";
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { env } from "$env/dynamic/private";
 
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
 
-    const displayDevices = await fetch(API_URL + "/api/display_devices", {
+    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -18,7 +18,7 @@ export async function load({ locals, cookies }) {
 
     const displayDevicesData = await displayDevices.json();
 
-    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -33,7 +33,7 @@ export async function load({ locals, cookies }) {
     });
 
 
-    const slideshows = await fetch(API_URL + "/api/slideshows", {
+    const slideshows = await fetch(env.SERVER_API_URL + "/api/slideshows", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -51,7 +51,7 @@ export async function load({ locals, cookies }) {
     for (let i = 0; i < displayDevicesData.content.length; i++) {
         if (displayDevicesData.content[i].fallbackContent.type == "visualMedia") {
             displayDevicesData.content[i].fallbackContent.src = 
-                API_URL + "/files/visual_media/"
+                env.SERVER_API_URL + "/files/visual_media/"
                 + displayDevicesData.content[i].fallbackContent.id
                 + mimeToType(displayDevicesData.content[i].fallbackContent.fileType);
         }
@@ -62,7 +62,7 @@ export async function load({ locals, cookies }) {
         if (displayDevicesData.content[i].fallbackContent.type == "slideshow") {
             for (let j = 0; j < displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection.length; j++) {
                 displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.src = 
-                    API_URL + "/files/visual_media/"
+                    env.SERVER_API_URL + "/files/visual_media/"
                     + displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.id
                     + mimeToType(displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.fileType);
             }
@@ -74,7 +74,7 @@ export async function load({ locals, cookies }) {
         for (let j = 0; j < displayDevicesData.content[i].timeSlots.length; j++) {
             if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "visualMedia") {
                 displayDevicesData.content[i].timeSlots[j].displayContent.src = 
-                    API_URL + "/files/visual_media/"
+                    env.SERVER_API_URL + "/files/visual_media/"
                     + displayDevicesData.content[i].timeSlots[j].displayContent.id
                     + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.fileType);
             }
@@ -87,7 +87,7 @@ export async function load({ locals, cookies }) {
             if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "slideshow") {
                 for (let k = 0; k < displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection.length; k++) {
                     displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.src = 
-                        API_URL + "/files/visual_media/"
+                        env.SERVER_API_URL + "/files/visual_media/"
                         + displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.id
                         + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.fileType);
                 }
@@ -137,7 +137,7 @@ export const actions = {
         let requestBody = data;
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/display_devices", {
+        const response = await fetch(env.SERVER_API_URL + "/api/display_devices", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -192,7 +192,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/display_devices/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + requestBody.id, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -218,7 +218,7 @@ export const actions = {
         const id = formData.get("id");
 
         // Send the request to the backend
-        const response = await fetch(API_URL + "/api/display_devices/" + id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + id, {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json",

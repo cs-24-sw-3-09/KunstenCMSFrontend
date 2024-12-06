@@ -1,5 +1,5 @@
 <script>
-    const API_URL = import.meta.env.VITE_API_URL;
+    import { env } from "$env/dynamic/public";
     let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } =
         $props();
 

@@ -1,5 +1,5 @@
 <script>
-    let { item, doClose } = $props();
+    let { item, doClose, updateTags, delTag } = $props();
     import { enhance } from "$app/forms";
 </script>
 
@@ -43,7 +43,7 @@
                             use:enhance={({ formData }) => {
                                 // `formData` is its `FormData` object that's about to be submitted
                                 formData.set("id", item.id);
-                                formData.set("tag", tag);
+                                formData.set("tagid", tag.id);
 
                                 return async ({ result }) => {
                                     switch (result.type) {
@@ -51,6 +51,7 @@
                                             alert(`Failed to delete tag for visual media, please reload page (F5).\n${result.data?.error}`);
                                             break;
                                         case "success":
+                                            delTag(item.id, result.data.tagId);
                                             break;
                                     }
                                 }
@@ -69,13 +70,13 @@
                         use:enhance={({ formData }) => {
                             // `formData` is its `FormData` object that's about to be submitted
                             formData.set("id", item.id);
-                            
                             return async ({ result }) => {
                                 switch (result.type) {
                                     case "failure":
                                         alert(`Failed to add tag to visual media, please reload page (F5).\n${result.data?.error}`);
                                         break;
                                     case "success":
+                                        updateTags(result.data.responseData);
                                         break;
                                 }
                             };

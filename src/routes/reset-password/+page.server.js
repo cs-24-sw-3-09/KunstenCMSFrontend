@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { env } from "$env/dynamic/private";
 
 /** @type {import(".types").PageServerLoad} */
 export const load = async ({ cookies }) => {
@@ -28,7 +28,7 @@ export const actions = {
             return fail(400, { error: "Password not confirmed." });
         }
 
-		const response = await fetch(API_URL+"/api/account/reset-password/new", {
+		const response = await fetch(env.SERVER_API_URL+"/api/account/reset-password/new", {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json",

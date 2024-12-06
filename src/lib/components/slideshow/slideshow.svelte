@@ -1,6 +1,5 @@
 <script>
-  const API_URL = import.meta.env.VITE_API_URL;
-
+  import { env } from "$env/dynamic/public";
   //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
@@ -198,13 +197,10 @@
             const authToken = getCookie("authToken");
             console.log(authToken);
 
-            let informationData = await fetch(
-              API_URL + "/api/slideshows/" + slideshowID + "/time_slots",
-              {
-                headers: { Authorization: "Bearer " + authToken },
-              },
-            );
-
+            let informationData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
+              headers: {"Authorization": 'Bearer ' + authToken},
+            });
+            
             const riskInformation = await informationData.json();
 
             let names = riskInformation.map((risk) => risk.name);
