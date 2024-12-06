@@ -5,9 +5,6 @@
 </script>
 
 <div class="schedule-week-schema-row-day">
-    <div class="schedule-week-schema-row-item-add">
-        <i class="fa-solid fa-plus"></i>
-    </div>
 
     {#each dayfields as dayfield}
         <TimeslotTemplate dayfield={dayfield} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
