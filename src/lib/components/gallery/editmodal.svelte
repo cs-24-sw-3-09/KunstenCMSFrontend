@@ -21,7 +21,7 @@
 <div class="modal">
     <div class="modal-content">
         <CloseX doFunc={doClose} />
-        <Header text="New Visual Media" />
+        <Header text="Edit Visual Media" />
         
         <!-- enctype="multipart/form-data" is needed for the file upload -->
         <form method="post" action="?/editVisualMedia" enctype="multipart/form-data"
@@ -43,7 +43,7 @@
             };
         }}>
             <TextInput title={"Name"} placeholder={"Name here"} name={"name"} value={item.name} required="true" />
-            <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={item.description} required="true" />
+            <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={item.description} />
 
             <Separator />
 
