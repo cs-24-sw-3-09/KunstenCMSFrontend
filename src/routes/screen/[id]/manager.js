@@ -3,20 +3,21 @@ import { ConnectionHandler, DataProcessor } from "./application.js";
 import Sha256 from "./sha256.js";
 
 export class Manager {
-  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem) {
+  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getItems) {
     this.io = io;
     this.socket_url = socket_url;
     this.deviceid = deviceid;
     this.durations = [];
     this.carouselTimer = 0;
     this.contentHash = "";
+    this.contentName = "";
     this.clearCarouselItems = clearCarouselItems;
     this.addCarouselItem = addCarouselItem;
     this.setStatus = setStatus;
     this.setCurrentItemIndex = setCurrentItemIndex;
     this.getCarouselItemsDom = getCarouselItemsDom;
     this.getCurrentItemIndex = getCurrentItemIndex;
-    this.getCurrentItem = getCurrentItem;
+    this.getItems = getItems;
   }
 
   run() {
@@ -39,6 +40,7 @@ export class Manager {
     if(this.contentHash === contentHash) return;
     this.contentHash = contentHash;
     content = JSON.parse(content);
+    this.contentName = content?.name ?? "Unknown content name";
     this.#stopCarousel();
     this.clearCarouselItems();
     this.durations = [];
@@ -52,10 +54,11 @@ export class Manager {
         this.addCarouselItem(item.visualMedia);
         this.durations.push(item.slideDuration * 1000);
       });
-      this.#startCarousel();
     } else if (content.type == "visualMedia") {
       this.addCarouselItem(content);
+      this.durations.push(5000);
     }
+    this.#startCarousel();
   }
 
   clearContent() {
@@ -67,21 +70,20 @@ export class Manager {
 
   #startCarousel() {
     this.carouselTimer = setTimeout(() => {
-      console.log(this.getCurrentItemIndex(), this.durations[this.getCurrentItemIndex()]);
       const elements = this.getCarouselItemsDom().querySelectorAll("img, video");
       const currentElem = elements.item(this.getCurrentItemIndex());
       this.setCurrentItemIndex((this.getCurrentItemIndex() + 1) % elements.length);
       const nextElem = elements.item(this.getCurrentItemIndex());
-      if (currentElem?.tagName === "VIDEO") {
+      if (currentElem?.tagName === "VIDEO" && elements.length > 1) {
         currentElem.pause();
         currentElem.currentTime = 0;
       }
-      if (nextElem?.tagName === "VIDEO") nextElem.play();
-      console.log(this.getCurrentItem().location);
+      if (nextElem?.tagName === "VIDEO" && !(!nextElem?.paused && nextElem?.currenTime > 0 && !nextElem?.ended)) nextElem.play();
       this.connectionHandler.sendContentChange(
         this.deviceid,
-        this.getCurrentItem().location,
-        nextElem?.tagName === "VIDEO" ? "video" : "image"
+        this.contentName,
+        this.getItems(),
+        this.getCurrentItemIndex()
       );
       this.#startCarousel();
     }, this.durations[this.getCurrentItemIndex()]);

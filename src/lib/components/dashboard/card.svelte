@@ -4,6 +4,8 @@
     import { enhance } from "$app/forms";
     import { page } from '$app/stores';
 
+    import { env } from "$env/dynamic/public";
+
     import { onMount } from "svelte";
     import { on } from "svelte/events";
     //import Carousel from "svelte-carousel";
@@ -15,7 +17,9 @@
 <div class="dashboard-card">
     <div class="dashboard-card-top">
         <div class="dashboard-card-preview">
-            <img src={livedata?.mediaUrl ?? loading_image} loading="lazy" alt=""/> <!-- TODO: Add slideshow support -->
+            {#each livedata?.medias as media, index}
+                <img src={env.PUBLIC_API_URL + media.url.replaceAll(".mp4", ".png")} loading="lazy" alt="" class:hidden={index!=livedata?.current} />
+            {/each}
         </div>
     </div>
     <div class="dashboard-card-bottom">
@@ -25,12 +29,12 @@
             {:else}
                 <div class="dashboard-card-slideshow-inactive tooltippable tooltipText-Inactive"></div>
             {/if}
-            <p>{device?.name ?? "No name"}</p>
+            <p>{device?.name ?? "Unknown name"}</p>
         </div>
         <!-- TODO: If during timeslot, else fallbackcontent -->
         <div class="dashboard-card-slideshow-info">
             <i class="fa-solid fa-file"></i>
-            <div class="dashboard-card-slideshow-title">{"" ?? currentMedia.title}</div>
+            <div class="dashboard-card-slideshow-title">{livedata?.contentname ?? "Loading..."}</div>
         </div>
         <div class="dashboard-card-location-title">
             <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
@@ -76,3 +80,8 @@
     </div>
 </div>
 
+<style>
+    .hidden {
+        display: none;
+    }
+</style>

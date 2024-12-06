@@ -5,6 +5,8 @@
     import { onMount } from "svelte";
     var { data } = $props();
 
+    import { env } from "$env/dynamic/public";
+
 
     var carouselItems = $state([]);
     var status = $state(true);
@@ -14,7 +16,7 @@
     onMount(() => {
         try {
             let deviceId = parseInt(data.deviceId);
-            const manager = new Manager(io, deviceId, env.PUBLIC_SOCKET_URL, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getCurrentItem);
+            const manager = new Manager(io, deviceId, env.PUBLIC_SOCKET_URL, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getItems);
             manager.run();
         } catch(e) {
 
@@ -26,7 +28,7 @@
     var addCarouselItem = (item) => carouselItems.push(item);
     var setCurrentItemIndex = (item) => (currentItemIndex = item);
     var getCurrentItemIndex = () => currentItemIndex;
-    var getCurrentItem = () => carouselItems[currentItemIndex];
+    var getItems = () => carouselItems.map((item) => ({url: item.location, type: item.type}));
     var getCarouselItemsDom = () => carouselItemsDom;
 </script>
 

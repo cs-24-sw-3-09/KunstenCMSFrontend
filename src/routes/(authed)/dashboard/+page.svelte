@@ -65,9 +65,9 @@
     onMount(() => {
         const socket = io(env.PUBLIC_SOCKET_URL);
 
-        socket.on("changeContent", ({deviceid, currenturl, type}) => {
-            let mediaUrl = env.PUBLIC_API_URL + currenturl;
-            livedevicedata[deviceid] = {mediaUrl, type};
+        socket.on("changeContent", (livedata) => {
+            let { deviceid } = livedata;
+            livedevicedata[deviceid] = livedata;
         });
     })
 

@@ -93,7 +93,13 @@ export const actions = {
             /* model: formData.get("model"), */
             displayOrientation: formData.get("displayOrientation"),
             resolution: formData.get("width") + "x" + formData.get("height"),
+            fallbackContent: {
+                id: JSON.parse(formData.get("fallbackContent")).id,
+                type: JSON.parse(formData.get("fallbackContent")).type,
+            },
         };
+
+        console.log(JSON.parse(formData.get("fallbackContent")))
 
         // Find differeences
         let diff = {};

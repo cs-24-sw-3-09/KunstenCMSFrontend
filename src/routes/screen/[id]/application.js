@@ -17,11 +17,12 @@ class ConnectionHandler {
         this.socket.off(event, handler);
     }
     
-    sendContentChange(deviceId, current_url, type) {
+    sendContentChange(deviceId, contentName, medias, current) {
         this.socket.emit("changeContent", {
           "deviceid": deviceId,
-          "currenturl": current_url,
-          "type": type
+          "contentname": contentName,
+          "medias": medias,
+          "current": current
         });
       }
 }

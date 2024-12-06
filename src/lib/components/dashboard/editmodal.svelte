@@ -84,7 +84,7 @@
                 <label for={"fallback_id"}>{"Fallback"}</label>
                 <select id={"fallback_id"} name={"fallbackContent"} required>
                     {#each options as option}
-                        <option value={option}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
+                        <option value={JSON.stringify(option)}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
                     {/each}
                 </select>
             </div>
