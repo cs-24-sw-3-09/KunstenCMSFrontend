@@ -205,25 +205,24 @@ export const actions = {
 
         let requestBody = new FormData();
         requestBody.append("file", formData.get("file"));
-        console.log(requestBody);
+        /* console.log(requestBody); */
         
-        console.log(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file");
+        /* console.log(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file"); */
         
         const response = await fetch(env.SERVER_API_URL + "/api/" + formData.get("id") + "/file", {
             method: "POST",
             headers: {
-                /* "Content-type": "multipart/form-data", */
+                "Content-type": "multipart/form-data",
                 "Authorization": "Bearer " + cookies.get("authToken"),
             },
             body: requestBody,
         });
 
-        console.log(response);
+        //console.log(response.status);
 
         if (!(response.status >= 200 && response.status < 300)) {
             return fail(response.status, { error: "Failed to replace visual media." });
         }
-
 
         return { 
             success: true,
