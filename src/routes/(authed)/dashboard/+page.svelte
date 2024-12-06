@@ -1,4 +1,8 @@
 <script>
+    import { onMount } from "svelte";
+    import { io, Manager } from "socket.io-client";
+    import { env } from "$env/dynamic/public";
+
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props(); // "form" is automatically populated by SvelteKit
 
@@ -9,6 +13,7 @@
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
     let devices = $state(data.displayDevices.content);
+    let livedevicedata = $state({});
     //$inspect(devices);
 
     function updateDevices(updatedDevice) {
@@ -34,9 +39,6 @@
             devices.splice(index, 1);
         }
     }
-    
-    
-    let options = $state(data.fallbackContent);
 
     // Test data
     /* import { testDevices } from "$lib/testdata.js";
@@ -60,6 +62,15 @@
         showEditModal = !showEditModal;
     }
 
+    onMount(() => {
+        const socket = io(env.PUBLIC_SOCKET_URL);
+
+        socket.on("changeContent", (livedata) => {
+            let { deviceid } = livedata;
+            livedevicedata[deviceid] = livedata;
+        });
+    })
+
 </script>
 
 <div class="main-content">
@@ -70,14 +81,14 @@
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
             {/if}
         </div>
-        <Dashboard admin={data.user.admin} devices={devices} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
+        <Dashboard admin={data.user.admin} devices={devices} {livedevicedata} doEdit={toggleEditModal} deleteDevice={deleteDevice} />
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} options={options} createDevice={createDevice} />
+    <NewModal doClose={toggleNewModal} createDevice={createDevice} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} options={options} device={deviceFocus} updateDevices={updateDevices} />
+    <EditModal doClose={toggleEditModal} device={deviceFocus} updateDevices={updateDevices} />
 {/if}
 
 <style>

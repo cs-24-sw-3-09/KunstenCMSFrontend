@@ -16,6 +16,15 @@ class ConnectionHandler {
     unregister(event, handler) {
         this.socket.off(event, handler);
     }
+    
+    sendContentChange(deviceId, contentName, medias, current) {
+        this.socket.emit("changeContent", {
+          "deviceid": deviceId,
+          "contentname": contentName,
+          "medias": medias,
+          "current": current
+        });
+      }
 }
 
 class DataProcessor {
@@ -31,6 +40,4 @@ class DataProcessor {
         if (!content) return this.manager.clearContent();
         this.manager.setContent(content);
     }
-
-
 }
