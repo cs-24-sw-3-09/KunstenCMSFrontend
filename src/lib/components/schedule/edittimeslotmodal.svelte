@@ -42,10 +42,12 @@
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
 
-    console.log("TEST",!!timeslot.displayDevices.find((dd) => dd.id == 2))
+    console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
 
-
-    let selectedContent = JSON.stringify({ id: timeslot.displayContent.id, type: timeslot.displayContent.type});
+    let selectedContent = JSON.stringify({
+        id: timeslot.displayContent.id,
+        type: timeslot.displayContent.type,
+    });
 </script>
 
 <div class="modal">
@@ -53,21 +55,22 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit timeslot" />
         <form
+            id="edit"
             action="?/patchTimeslot"
             method="post"
-            use:enhance={({formData}) => {
+            use:enhance={({ formData }) => {
                 formData.set("timeslotID", timeslot.id);
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
-                            // Handle the error
-                            alert(
-                                `Failed to mofify timeslot, please reload page (F5).\n${result.data?.error}`,
-                            );
-                        } else if (result.type === "success") {
-                            doClose();
-                            updateTimeslots(result.data.newData);
-                        }
+                        // Handle the error
+                        alert(
+                            `Failed to mofify timeslot, please reload page (F5).\n${result.data?.error}`,
+                        );
+                    } else if (result.type === "success") {
+                        doClose();
+                        updateTimeslots(result.data.newData);
+                    }
                 };
             }}
         >
@@ -128,10 +131,18 @@
 
             <div class="modal-dropdown">
                 <label for={"content_id"}>{"Content to be displayed"}</label>
-                <select id={"content_id"} name={"displayContent"} bind:value={selectedContent} required>
+                <select
+                    id={"content_id"}
+                    name={"displayContent"}
+                    bind:value={selectedContent}
+                    required
+                >
                     {#each visualContent as content}
                         <option
-                            value={JSON.stringify({ id: content.id, type: content.type })}
+                            value={JSON.stringify({
+                                id: content.id,
+                                type: content.type,
+                            })}
                             >{content.type === "visualMedia"
                                 ? "Media"
                                 : "Slideshow"}: {content.name}</option
@@ -144,22 +155,22 @@
                 {#each displayDevices as display}
                     <div class="checkbox-item">
                         <Smallheader text={display.name} />
-                        <Checkbox name={display.id} checked = {!!timeslot.displayDevices.find((dd) => dd.id == display.id)}/>
+                        <Checkbox
+                            name={display.id}
+                            checked={!!timeslot.displayDevices.find(
+                                (dd) => dd.id == display.id,
+                            )}
+                        />
                     </div>
                 {/each}
             </div>
-            
-            <Button
-            type="submit"
-            text="Submit"
-            extra_class={"modal-button-submit"}
-        />
 
             <Separator />
         </form>
 
         <div class="modal-buttons">
             <form
+                id="delete"
                 method="POST"
                 action="?/deleteTimeslot"
                 use:enhance={async ({ formData, cancel }) => {
@@ -183,13 +194,22 @@
                         }
                     };
                 }}
-            >
-                <Button
-                    type="submit"
-                    text="Delete"
-                    extra_class={"modal-button-delete"}
-                />
-            </form>
+            ></form>
+
+            <button
+            type="submit"
+            form="edit"
+            class="modal-button modal-button-submit"
+        >
+            Submit
+        </button>
+        <button
+            type="submit"
+            form="delete"
+            class="modal-button modal-button-delete"
+        >
+            Delete
+        </button>
 
             <Button
                 type="button"
@@ -197,7 +217,6 @@
                 doFunc={doClose}
                 extra_class={"modal-button-close"}
             />
-
         </div>
     </div>
 </div>
