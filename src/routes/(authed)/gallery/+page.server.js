@@ -164,11 +164,11 @@ export const actions = {
         })
 
         // Get the response data and add the src and slideshows
-        console.log(response.status);
+        //console.log(response.status);
         const responseData = await response.json();
-        console.log(response.status);
+        //console.log(response.status);
 
-        console.log(responseData);
+        //console.log(responseData);
 
         // if video, no src as it is not iamge element compatable
         if (responseData.fileType != "video/mp4") {
@@ -198,9 +198,32 @@ export const actions = {
             responseData,
         };
     },
+    replaceVisualMedia: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
 
+        
+        const response = await fetch(env.SERVER_API_URL + "/api/" + formData.get("id") + "file", {
+            method: "POST",
+            headers: {
+                /* "Content-type": "multipart/form-data", */
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: formData,
+        });
+
+        if (!(response.status >= 200 && response.status < 300)) {
+            return fail(response.status, { error: "Failed to replace visual media." });
+        }
+
+
+        return { 
+            success: true,
+        };
+    },
     deleteVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+
+        
 
         let data = {
             id: formData.get("id"),

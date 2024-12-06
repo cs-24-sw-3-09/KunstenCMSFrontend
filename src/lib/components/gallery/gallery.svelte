@@ -1,5 +1,5 @@
 <script>
-    let { items, doToggleNewModal, doToggleEditModal, doDelete, doToggleItemModal, searchTermUpdate, searchTerm, searchTagsUpdate, searchTags, deleteVisualMedia } = $props();
+    let { items, doToggleNewModal, doToggleEditModal, doToggleReplaceModal, doDelete, doToggleItemModal, searchTermUpdate, searchTerm, searchTagsUpdate, searchTags, deleteVisualMedia } = $props();
     
     import Header from "$lib/components/gallery/header.svelte";
     import Item from "$lib/components/gallery/item.svelte";
@@ -11,7 +11,7 @@
 
     <div class="gallery-list">
         {#each items as item}
-            <Item item={item} doDelete={() => (doDelete(item))} doToggleEditModal={() => (doToggleEditModal(item))} doToggleItemModal={() => (doToggleItemModal(item))} deleteVisualMedia={deleteVisualMedia} />
+            <Item item={item} doDelete={() => (doDelete(item))} doToggleEditModal={() => (doToggleEditModal(item))} doToggleReplaceModal={() => (doToggleReplaceModal(item))} doToggleItemModal={() => (doToggleItemModal(item))} deleteVisualMedia={deleteVisualMedia} />
         {/each}
     </div>
 </div>

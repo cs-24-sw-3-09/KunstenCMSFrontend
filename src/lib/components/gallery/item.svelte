@@ -1,11 +1,22 @@
 <script>
-  let { item, doToggleEditModal, doToggleItemModal, deleteVisualMedia } = $props();
+  let { item, doToggleEditModal, doToggleItemModal, doToggleReplaceModal, deleteVisualMedia } = $props();
 
   import { enhance } from "$app/forms";
 
   import Tag from "$lib/components/gallery/tag.svelte";
 
   import video_default from "$lib/assets/default_video.png";
+
+
+  let modDate = $state(new Date(item.lastDateModified));
+  let formatModDate = $derived.by(() => modDate.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }));
+
 </script>
 
 <div class="gallery-item">
@@ -43,6 +54,20 @@
   </div>
   <div class="gallery-item-right">
     <div class="gallery-item-buttons">
+      <button
+        class="gallery-item-replace-button"
+        onclick={doToggleEditModal}
+        aria-label="Edit item"
+      >
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button
+        class="gallery-item-replace-button"
+        onclick={doToggleReplaceModal}
+        aria-label="Edit item"
+      >
+        <i class="fa-solid fa-exchange"></i>
+      </button>
       <form
         method="post"
         action="?/deleteVisualMedia"
@@ -84,14 +109,7 @@
           <i class="fa-solid fa-trash"></i>
         </button>
       </form>
-      <button
-        class="gallery-item-replace-button"
-        onclick={doToggleEditModal}
-        aria-label="Edit item"
-      >
-        <i class="fa-solid fa-exchange"></i>
-      </button>
     </div>
-    <div class="gallery-item-date">{item.date}</div>
+    <div class="gallery-item-date">{formatModDate}</div>
   </div>
 </div>
