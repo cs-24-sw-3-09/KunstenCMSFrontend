@@ -7,7 +7,8 @@
 
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
-    let visualMediaContent = $state(data.visualMedia);
+    let visualMedias = $state(data.visualMedia);
+
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
@@ -20,34 +21,47 @@
         }
     }
 
-    let searchTerm = $state(""); // For live text search
     let searchSlideshow = $state("");
-    let searchTags = $state(""); // For tag-based filtering
-
-    function filterItems(items, searchTerm, searchTags) {
+    function filterSlideshow(slideshows, searchTerm) {
         if (searchTerm) {
             // Filter by name
-            items = items.filter((item) =>
-                item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+            slideshows = slideshows.filter((slideshow) =>
+                slideshow.name.toLowerCase().includes(searchTerm.toLowerCase()),
             );
         }
-        if (searchTags && searchTags.length > 0) {
+        return slideshows;
+    }
+    let filteredslideshow = $derived.by(() => {
+        return filterSlideshow(slideshowContent, searchSlideshow);
+    }); // Reactive var
+    function searchSlideshowUpdate(event) {
+        searchSlideshow = event.target.value;
+    }
+
+    let searchTerm = $state(""); // For live text search
+    let searchTags = $state(""); // For tag-based filtering
+    function filterVisualMedia(visualMedias, searchVMTerm, searchVMTags) {
+        console.log("here", visualMedias);
+        if (searchVMTerm) {
+            // Filter by name
+            visualMedias = visualMedias.filter((VM) =>
+                VM.name.toLowerCase().includes(searchVMTerm.toLowerCase()),
+            );
+        }
+        if (searchVMTags && searchVMTags.length > 0) {
             // Filter by tags, if any/some part of the tag is included in the search
-            items = items.filter((item) =>
-                item.tags.some((tag) =>
-                    tag.text.toLowerCase().includes(searchTags.toLowerCase()),
+            visualMedias = visualMedias.filter((VM) =>
+                VM.tags?.some((tag) =>
+                    tag.text.toLowerCase().includes(searchVMTags.toLowerCase()),
                 ),
             );
         }
-        return items;
+        return visualMedias;
     }
 
-    let filteredData = $derived.by(() => {
-        return filterItems(visualMediaContent.content, searchTerm, searchTags);
-    }); // Reactive var
-
-    let filteredslideshow = $derived.by(() => {
-        return filterItems(slideshowContent, searchSlideshow, searchTags);
+    let filteredVisualMedia = $derived.by(() => {
+        console.log("here3");
+        return filterVisualMedia(visualMedias.content, searchTerm, searchTags);
     }); // Reactive var
 
     function searchTermUpdate(event) {
@@ -55,6 +69,7 @@
     }
 
     function searchTagsUpdate(event) {
+        console.log("here");
         searchTags = event.target.value;
     }
 
@@ -65,9 +80,8 @@
 
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
-        VMIForSS = slideshowContent
-            .find((ss) => ss.id === selectedId)
-            .visualMediaInclusionCollection?.sort(
+        VMIForSS = slideshowContent.find((ss) => ss.id === selectedId)
+            ?.visualMediaInclusionCollection?.sort(
                 (a, b) => a.slideshowPosition - b.slideshowPosition,
             );
     }
@@ -97,7 +111,7 @@
     <Header
         on:update={(event) => updateChecked(event.detail)}
         {searchSlideshow}
-        {searchTermUpdate}
+        {searchSlideshowUpdate}
         {updateSlideshowContent}
     />
     <div class="slideshows-list">
@@ -106,7 +120,7 @@
                 <Slideshow
                     {slideshow}
                     {VMIForSS}
-                    {filteredData}
+                    {filteredVisualMedia}
                     on:update={(event) => updateState(event.detail)}
                     on:focus={(event) => focusSlideshow(event.detail)}
                     on:updateOrder={(event) => handleOrderUpdate(event.detail)}

@@ -29,7 +29,7 @@ export async function load({ cookies }) {
     
     for (let i = 0; i < visualMediasData.content.length; i++) {
         visualMediasData.content[i].src =
-        env.SERVER_API_URL + "/files/visual_media/"
+        env.CLIENT_API_URL + "/files/visual_media/"
         + visualMediasData.content[i].id
         + mimeToType(visualMediasData.content[i].fileType);
     }
@@ -110,7 +110,7 @@ export const actions = {
 
         const responseData = await response.json();
 
-        responseData.src = env.SERVER_API_URL + responseData.location;
+        responseData.src = env.CLIENT_API_URL + responseData.location;
 
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create visual media." });
@@ -164,11 +164,18 @@ export const actions = {
         })
 
         // Get the response data and add the src and slideshows
+        console.log(response.status);
         const responseData = await response.json();
+        console.log(response.status);
 
-        responseData.src = env.PUBLIC_API_URL + responseData.location;
+        console.log(responseData);
+
+        // if video, no src as it is not iamge element compatable
+        if (responseData.fileType != "video/mp4") {
+            responseData.src = env.CLIENT_API_URL + responseData.location;
+        }
         
-        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + responseData.id + "/risk", {
+        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + responseData.id + "/slideshows", {
             method: "GET",
             headers: {
                 "Content-type": "application/json",

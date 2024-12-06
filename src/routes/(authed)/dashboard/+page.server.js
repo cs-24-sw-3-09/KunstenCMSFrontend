@@ -51,7 +51,7 @@ export async function load({ locals, cookies }) {
     for (let i = 0; i < displayDevicesData.content.length; i++) {
         if (displayDevicesData.content[i].fallbackContent.type == "visualMedia") {
             displayDevicesData.content[i].fallbackContent.src = 
-                env.SERVER_API_URL + "/files/visual_media/"
+                env.CLIENT_API_URL + "/files/visual_media/"
                 + displayDevicesData.content[i].fallbackContent.id
                 + mimeToType(displayDevicesData.content[i].fallbackContent.fileType);
         }
@@ -62,7 +62,7 @@ export async function load({ locals, cookies }) {
         if (displayDevicesData.content[i].fallbackContent.type == "slideshow") {
             for (let j = 0; j < displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection.length; j++) {
                 displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.src = 
-                    env.SERVER_API_URL + "/files/visual_media/"
+                    env.CLIENT_API_URL + "/files/visual_media/"
                     + displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.id
                     + mimeToType(displayDevicesData.content[i].fallbackContent.visualMediaInclusionCollection[j].visualMedia.fileType);
             }
@@ -74,7 +74,7 @@ export async function load({ locals, cookies }) {
         for (let j = 0; j < displayDevicesData.content[i].timeSlots.length; j++) {
             if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "visualMedia") {
                 displayDevicesData.content[i].timeSlots[j].displayContent.src = 
-                    env.SERVER_API_URL + "/files/visual_media/"
+                    env.CLIENT_API_URL + "/files/visual_media/"
                     + displayDevicesData.content[i].timeSlots[j].displayContent.id
                     + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.fileType);
             }
@@ -87,7 +87,7 @@ export async function load({ locals, cookies }) {
             if (displayDevicesData.content[i].timeSlots[j].displayContent.type == "slideshow") {
                 for (let k = 0; k < displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection.length; k++) {
                     displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.src = 
-                        env.SERVER_API_URL + "/files/visual_media/"
+                        env.CLIENT_API_URL + "/files/visual_media/"
                         + displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.id
                         + mimeToType(displayDevicesData.content[i].timeSlots[j].displayContent.visualMediaInclusionCollection[k].visualMedia.fileType);
                 }
