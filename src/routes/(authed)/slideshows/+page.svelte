@@ -10,9 +10,7 @@
     let visualMedias = $state(data.visualMedia);
 
     let color = data.color;
-    console.log(color);
     function updateSlideshowContent(data) {
-        console.log("selectedId", selectedId);
         slideshowContent = data;
         if (selectedId != null) {
             VMIForSS = slideshowContent
@@ -20,7 +18,6 @@
                 .visualMediaInclusionCollection.sort(
                     (a, b) => a.slideshowPosition - b.slideshowPosition,
                 );
-            console.log(VMIForSS);
         }
     }
 
@@ -91,9 +88,9 @@
     }
     function updateChecked() {
         isChecked = !isChecked;
-        console.log(isChecked);
     }
     function focusSlideshow(id) {
+
         focusedSlideshow = id == focusedSlideshow ? null : id;
     }
 
@@ -107,9 +104,6 @@
         if (slideshowToUpdate) {
             // Update the visualMediaInclusionCollection with the reordered items
             slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
-
-            // Optional: Log the updated slideshow for debugging
-            console.log("Updated slideshow:", slideshowToUpdate);
         }
     }
 </script>
@@ -135,6 +129,7 @@
                     {searchTags}
                     {searchTerm}
                     {archivedState}
+                    {focusedSlideshow}
                     {searchTagsUpdate}
                     {searchTermUpdate}
                     {updateSlideshowContent}

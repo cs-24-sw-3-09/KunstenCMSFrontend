@@ -85,7 +85,7 @@
         on:click={() => dispatch("update", props.slideshow.id)}
       >
         <div class="slideshows-item-header-arrow">
-          <i class="fa-soild slideshow-arrow fa-caret down" aria-hidden="true">
+          <i class="fa-solid slideshow-arrow fa-caret-{props.selectedId == props.slideshow.id ? "down" : "right"}" aria-hidden="true">
           </i>
         </div>
         <div
@@ -120,7 +120,7 @@
       <div class="slideshows-item-header-right">
         <div class="slideshows-item-header-action" aria-hidden="true">
           <i
-            class="fa-solid fa-eye"
+            class="fa-solid fa-{props.focusedSlideshow != null ? "eye-slash" : "eye"}"
             on:click={() => dispatch("focus", props.slideshow.id)}
           ></i>
         </div>
