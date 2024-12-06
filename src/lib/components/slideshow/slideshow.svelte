@@ -63,7 +63,7 @@
 {#if showAddMediaModal}
   <AddMedia
     doClose={toggleAddMediaModal}
-    Item={props.filteredData}
+    Item={props.filteredVisualMedia}
     searchTerm={props.searchTerm}
     searchTags={props.searchTags}
     searchTermUpdate={props.searchTermUpdate}

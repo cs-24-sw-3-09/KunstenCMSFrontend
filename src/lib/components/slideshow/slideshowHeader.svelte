@@ -41,7 +41,7 @@
         type="text"
         placeholder="Search for slideshow"
         value={props.searchSlideshow}
-        oninput={props.searchTermUpdate}
+        oninput={props.searchSlideshowUpdate}
       />
     </div>
     <label for="slideshows-archived-toggle"> Toggle Archived: </label>

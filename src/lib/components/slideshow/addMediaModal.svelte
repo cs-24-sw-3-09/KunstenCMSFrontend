@@ -30,6 +30,12 @@
         selectedId = id == selectedId ? id : id;
         //console.log(selectedId);
     }
+
+    function preventEnterSubmit(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+        }
+    }
 </script>
 
 <svelte:head>
@@ -76,12 +82,14 @@
                     placeholder="Search for visual media"
                     value={searchTerm}
                     oninput={searchTermUpdate}
+                    onkeydown={preventEnterSubmit}
                 />
                 <input
                     type="text"
                     placeholder="Search for tags"
                     value={searchTags}
                     oninput={searchTagsUpdate}
+                    onkeydown={preventEnterSubmit}
                 />
             </div>
             <div class="add-media-modal-list">
