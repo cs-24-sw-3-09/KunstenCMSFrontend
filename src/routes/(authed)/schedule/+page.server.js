@@ -247,7 +247,6 @@ export const actions = {
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
         });
-        console.log(requestBody)
         // Send the request to the backend        
         const response = await fetch(env.SERVER_API_URL + "/api/time_slots", {
             method: "POST",
