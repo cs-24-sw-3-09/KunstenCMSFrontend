@@ -1,5 +1,4 @@
 <script>
-    const API_URL = import.meta.env.VITE_API_URL;
     // Export form
     let { data, form } = $props(); // Is automatically populated by SvelteKit
 

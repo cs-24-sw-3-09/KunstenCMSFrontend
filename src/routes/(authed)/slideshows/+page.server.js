@@ -1,14 +1,14 @@
 
 import { fail } from "@sveltejs/kit";
 import { slide } from "svelte/transition";
-const API_URL = import.meta.env.VITE_API_URL
+import { env } from "$env/dynamic/private";
 
 
 
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
-    const slideshow = await fetch(API_URL + "/api/slideshows", {
+    const slideshow = await fetch(env.SERVER_API_URL + "/api/slideshows", {
         method: "GET",
         headers: {
             /* "Content-type": "application/json", */
@@ -19,7 +19,7 @@ export async function load({ cookies }) {
     const slideshowData = await slideshow.json();
 
 
-    const visualMedia = await fetch(API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
         method: "GET",
         headers: {
             /* "Content-type": "application/json", */
@@ -27,7 +27,7 @@ export async function load({ cookies }) {
         }
     });
 
-    const color = await fetch(API_URL + "/api/slideshows/states", {
+    const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
         method: "GET",
         headers: {
             /* "Content-type": "application/json", */
@@ -67,7 +67,7 @@ export const actions = {
 
         // Constructing the requestBody as a JSON object
         const requestBody = JSON.stringify(slideshow);
-        const returnData = await fetch(API_URL + "/api/slideshows/" + slideshow.id, {
+        const returnData = await fetch(env.SERVER_API_URL + "/api/slideshows/" + slideshow.id, {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -81,7 +81,7 @@ export const actions = {
     },
     deleteSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        const slideshow = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
+        const slideshow = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -103,7 +103,7 @@ export const actions = {
     deleteVM: async ({ cookies, url, request }) => {
         const formData = await request.formData();
         console.log("here");
-        const visualmedia = await fetch(API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
+        const visualmedia = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -131,7 +131,7 @@ export const actions = {
             isArchived: formData.get("isArchived"), // Convert formData value to JSON
         });
 
-        const slideshow = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
+        const slideshow = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("slideshowID"), {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -155,7 +155,7 @@ export const actions = {
         };
     },
     getSlideshows: async ({ cookies, url, request }) => {
-        const slideshow = await fetch(API_URL + "/api/slideshows", {
+        const slideshow = await fetch(env.SERVER_API_URL + "/api/slideshows", {
             method: "GET",
             headers: {
                 /* "Content-type": "application/json", */
@@ -190,7 +190,7 @@ export const actions = {
         });
 
         // Send the request to the backend        
-        const response = await fetch(API_URL + "/api/visual_media_inclusions", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -205,7 +205,7 @@ export const actions = {
         requestBody = JSON.stringify({
             visualMediaInclusionId: newVMIId
         });
-        const secondResponse = await fetch(API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
+        const secondResponse = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -241,7 +241,7 @@ export const actions = {
             const requestBody = "{\"name\": \"" + name + "\", \"isArchived\":0}"; // Parse back to an object
             //console.log("joson "+requestBody)
             // Send the request to the backend        
-            const response = await fetch(API_URL + "/api/slideshows", {
+            const response = await fetch(env.SERVER_API_URL + "/api/slideshows", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -275,7 +275,7 @@ export const actions = {
         const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
         console.log(requestBody)
         console.log(slideshowId)
-        const returnData = await fetch(API_URL + "/api/visual_media_inclusions/positions", {
+        const returnData = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/positions", {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -295,7 +295,7 @@ export const actions = {
         const requestBody = JSON.stringify(requestObj);
         console.log(requestBody)
 
-        const returnData = await fetch(API_URL + "/api/slideshows/" + formData.get("slideshowId"), {
+        const returnData = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("slideshowId"), {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -317,7 +317,7 @@ export const actions = {
         console.log(requestBody)
         console.log(slideshow.id)
 
-        const returnData = await fetch(API_URL + "/api/slideshows/" + slideshow.id + "/duplicate", {
+        const returnData = await fetch(env.SERVER_API_URL + "/api/slideshows/" + slideshow.id + "/duplicate", {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -353,7 +353,7 @@ export const actions = {
 
 
 async function getSlideshows({ cookies, url, request }) {
-    const slideshow = await fetch(API_URL + "/api/slideshows", {
+    const slideshow = await fetch(env.SERVER_API_URL + "/api/slideshows", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + cookies.get("authToken"),

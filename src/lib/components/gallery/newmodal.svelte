@@ -10,6 +10,7 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import ImageInput from "$lib/components/modal/imageinput.svelte";
+    import MediaInput from "$lib/components/modal/mediainput.svelte";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
@@ -46,7 +47,7 @@
 
             <Separator /> -->
 
-            <ImageInput name={"file"} />
+            <MediaInput name={"file"} />
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />

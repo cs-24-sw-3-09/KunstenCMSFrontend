@@ -13,6 +13,7 @@
     import Header from "$lib/components/modal/header.svelte";
     import Smallheader from "$lib/components/modal/smallheader.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
+    import HiddenInput from "$lib/components/modal/hiddentextinput.svelte";
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
@@ -56,12 +57,21 @@
                 required="true"
                 value={user.lastName}
             />
+
             <TextInput
                 title={"E-mail"}
                 placeholder={"E-mail Here"}
                 name={"email"}
                 required="true"
                 value={user.email}
+            />
+
+            <HiddenInput
+                title={"New password"}
+                placeholder={"New Password Here"}
+                name={"newPassword"}
+                required={false}
+                minlength=8
             />
 
             <Separator />
