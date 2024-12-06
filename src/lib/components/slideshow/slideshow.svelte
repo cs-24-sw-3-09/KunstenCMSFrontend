@@ -39,7 +39,6 @@
         });
         hiddenForm.requestSubmit();
         dispatch("updateOrder", items);
-        console.table(items);
       },
     });
   });
