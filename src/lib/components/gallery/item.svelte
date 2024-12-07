@@ -1,7 +1,10 @@
 <script>
-  let { item, doToggleEditModal, doToggleItemModal, deleteVisualMedia } = $props();
+  let { item, doToggleEditModal, doToggleItemModal, deleteVisualMedia } =
+    $props();
 
   import { enhance } from "$app/forms";
+  import { env } from "$env/dynamic/public";
+  import { getCookie } from "$lib/utils/getcookie.js";
 
   import Tag from "$lib/components/gallery/tag.svelte";
 
@@ -12,9 +15,17 @@
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
       {#if item.fileType === "video/mp4"}
-        <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
+        <img
+          src={video_default}
+          style="image-resolution: 300dpi;"
+          alt="gallery-item-preview"
+        />
       {:else}
-        <img src={item.src} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+        <img
+          src={item.src}
+          style="image-resolution: 300dpi;"
+          alt="gallery-item-preview"
+        />
       {/if}
     </div>
     <!-- <div
@@ -46,7 +57,27 @@
       <form
         method="post"
         action="?/deleteVisualMedia"
-        use:enhance={({ formData, cancel }) => {
+        use:enhance={async ({ formData, cancel }) => {
+          const authToken = getCookie("authToken");
+          console.log(authToken);
+          let informationData = await fetch(
+            env.PUBLIC_API_URL + "/api/" + item.id + "/slideshows",
+            {
+              headers: { Authorization: "Bearer " + authToken },
+            },
+          );
+
+          const riskInformation = await informationData.json();
+
+          let names = riskInformation.map((risk) => risk.name);
+          let riskString = "";
+          if (names.length != 0) {
+            riskString =
+              "\n\nThe visual media i part of the following timeslot(s) and slidehows(s):\n";
+            for (let name of names) {
+              riskString += name + "\n";
+            }
+          }
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
             `Are you sure you want to delete "${item.name}"?`,
@@ -66,7 +97,9 @@
             switch (result.type) {
               case "failure":
                 // Handle the error
-                alert(`Failed to delete visual media, please reload page (F5).\n${result.data?.error}`);
+                alert(
+                  `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
+                );
                 break;
               case "success":
                 // Handle the success
