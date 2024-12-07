@@ -1,13 +1,29 @@
 <script>
     let { item, doClose, updateTags, delTag } = $props();
     import { enhance } from "$app/forms";
+
+    import { env } from '$env/dynamic/public';
+    import { onMount } from "svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
+
+    let slideshows = $state();
+
+   onMount(async() => {
+    slideshows = fetch(env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + getCookie("authToken"),
+        }
+    }).then(data => data.json());
+   })
 </script>
 
 <div class="gallery-modal">
     <div class="gallery-modal-content">
         <div class="gallery-modal-img-container">
             <img
-                src={item.src}
+                src={env.PUBLIC_API_URL + item.location}
                 alt="Gallery Image"
                 class="gallery-modal-image"
             />
@@ -26,11 +42,16 @@
                         Included in the Slideshows:
                     </div>
                     <div class="gallery-content-mid-list">
-                        {#each item.slideshows as slideshow}
-                            <div class="gallery-content-mid-list">
-                                {slideshow.name}
-                            </div>
-                        {/each}
+                        {#await slideshows}
+                            Loading...
+                        {:then slideshows} 
+                            {#each slideshows as slideshow}
+                                <div class="gallery-content-mid-list">
+                                    {slideshow.name}
+                                </div>
+                            {/each}
+                        {/await}
+                        
                     </div>
                 </div>
             </div>

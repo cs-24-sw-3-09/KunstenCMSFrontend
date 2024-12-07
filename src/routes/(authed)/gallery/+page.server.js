@@ -26,26 +26,6 @@ export async function load({ cookies }) {
     });
     
     const visualMediasData = await visualMedia.json();
-    
-    for (let i = 0; i < visualMediasData.content.length; i++) {
-        visualMediasData.content[i].src =
-        env.CLIENT_API_URL + "/files/visual_media/"
-        + visualMediasData.content[i].id
-        + mimeToType(visualMediasData.content[i].fileType);
-    }
-    
-    for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": "Bearer " + cookies.get("authToken"),
-            }
-        });
-
-        const slideshowsData = await slideshows.json();
-        visualMediasData.content[i].slideshows = slideshowsData;
-    }
 
     const color = await fetch(env.SERVER_API_URL + "/api/visual_medias/states", {
         method: "GET",
