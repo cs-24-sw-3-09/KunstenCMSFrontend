@@ -47,10 +47,21 @@ export async function load({ cookies }) {
         visualMediasData.content[i].slideshows = slideshowsData;
     }
 
+    const color = await fetch(env.SERVER_API_URL + "/api/visual_medias/states", {
+        method: "GET",
+        headers: {
+            /* "Content-type": "application/json", */
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const colorData = await color.json();
+
     //console.log(visualMediasData);
     
     return {
         visualMedias: visualMediasData,
+        color: colorData
     };
 }
 

@@ -126,6 +126,9 @@
     background-color: rgb(206, 0, 0);
 }
 
+.gallery-grey-dot {
+    background-color: grey;
+}
 .gallery-item-info {
     display: flex;
     flex-direction: column;

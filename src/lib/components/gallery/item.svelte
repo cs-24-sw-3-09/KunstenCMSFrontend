@@ -1,5 +1,5 @@
 <script>
-  let { item, doToggleEditModal, doToggleItemModal, doToggleReplaceModal, deleteVisualMedia } = $props();
+  let { item, doToggleEditModal, doToggleItemModal, doToggleReplaceModal, deleteVisualMedia, color } = $props();
 
   import { enhance } from "$app/forms";
 
@@ -20,6 +20,8 @@
 </script>
 
 <div class="gallery-item">
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
       {#if item.fileType === "video/mp4"}
@@ -28,14 +30,10 @@
         <img src={item.src} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
       {/if}
     </div>
-    <!-- <div
-      class="gallery-dot tooltippable tooltipText-Active gallery-{item.status ===
-      'used'
-        ? 'red'
-        : item.status === 'planned'
-          ? 'yellow'
-          : 'green'}-dot"
-    ></div> -->
+
+    <div
+          class="gallery-dot tooltippable tooltipText-Active gallery-{color}-dot"
+        ></div>
     <div class="gallery-item-info">
       <div class="gallery-item-left-top">
         <div class="gallery-item-title">{item.name}</div>
