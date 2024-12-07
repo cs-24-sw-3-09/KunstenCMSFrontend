@@ -42,7 +42,7 @@
                     if (result.type === "failure") {
                             // Handle the error
                             alert(
-                                `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
+                                `Failed to post timeslot.\n${result.data?.error}`,
                             );
                         } else if (result.type === "success") {
                             doClose();
@@ -117,6 +117,11 @@
             </div>
 
             <Separator />
+            <Smallheader text={"Force changes:"} />
+            <Checkbox
+                name={"Force"}
+                checked={false}
+            />
 
             <div class="modal-buttons">
                 <Button
