@@ -209,10 +209,9 @@ export const actions = {
         
         /* console.log(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file"); */
         
-        const response = await fetch(env.SERVER_API_URL + "/api/" + formData.get("id") + "/file", {
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file", {
             method: "POST",
             headers: {
-                "Content-type": "multipart/form-data",
                 "Authorization": "Bearer " + cookies.get("authToken"),
             },
             body: requestBody,
