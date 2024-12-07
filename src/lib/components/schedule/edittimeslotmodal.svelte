@@ -65,7 +65,7 @@
                     if (result.type === "failure") {
                         // Handle the error
                         alert(
-                            `Failed to mofify timeslot, please reload page (F5).\n${result.data?.error}`,
+                            `Failed to mofify timeslot.\n${result.data?.error}`,
                         );
                     } else if (result.type === "success") {
                         doClose();
@@ -166,6 +166,11 @@
             </div>
 
             <Separator />
+            <Smallheader text={"Force changes:"} />
+            <Checkbox
+                name={"Force"}
+                checked={false}
+            />
         </form>
 
         <div class="modal-buttons">
@@ -186,7 +191,7 @@
                         if (result.type === "failure") {
                             // Handle the error
                             alert(
-                                `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
+                                `Failed to delete timeslot, please reload page(f5).\n${result.data?.error}`,
                             );
                         } else if (result.type === "success") {
                             doClose();
@@ -197,19 +202,19 @@
             ></form>
 
             <button
-            type="submit"
-            form="edit"
-            class="modal-button modal-button-submit"
-        >
-            Submit
-        </button>
-        <button
-            type="submit"
-            form="delete"
-            class="modal-button modal-button-delete"
-        >
-            Delete
-        </button>
+                type="submit"
+                form="edit"
+                class="modal-button modal-button-submit"
+            >
+                Submit
+            </button>
+            <button
+                type="submit"
+                form="delete"
+                class="modal-button modal-button-delete"
+            >
+                Delete
+            </button>
 
             <Button
                 type="button"

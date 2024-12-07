@@ -157,6 +157,7 @@ export const actions = {
                 displayDevicesObj.push({ id: Number(key) });
             }
         }
+        console.log(formData)
 
         let requestBody = JSON.stringify({
             name: formData.get("name"),
@@ -168,10 +169,9 @@ export const actions = {
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
         });
-        console.log("VM", JSON.parse(formData.get("displayContent")));
-        console.log("DD", displayDevicesObj);
+        let forcePatch = formData.get("Force") == "on" ? true : false;
         // Send the request to the backend        
-        const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID") + "?forceDimensions=" + forcePatch, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -180,8 +180,13 @@ export const actions = {
             body: requestBody,
         });
 
+
+        if (response.status == 409) {
+            const responseData = await response.text();
+            return fail(response.status, { error: "Due to dimension conflicts between screens and media.\nTo ignore conflicts check the \"Force changes\" checkbox. \n\n" + responseData });
+        }
         if (response.status !== 200) {
-            return fail(response.status, { error: "Failed to create time slot" });
+            return fail(response.status, { error: "Failed to patch time slot" });
         }
 
         let newTimeSlotData = await getTimeslots({ cookies, url, request });
@@ -259,7 +264,8 @@ export const actions = {
             displayContent: JSON.parse(formData.get("displayContent")),
         });
         // Send the request to the backend        
-        const response = await fetch(env.SERVER_API_URL + "/api/time_slots", {
+        let forcePatch = formData.get("Force") == "on" ? true : false;
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots?forceDimensions=" + forcePatch, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -267,8 +273,12 @@ export const actions = {
             },
             body: requestBody,
         });
-        console.log(response)
 
+
+        if (response.status == 409) {
+            const responseData = await response.text();
+            return fail(response.status, { error: "Due to dimension conflicts between screens and media.\nTo ignore conflicts check the \"Force changes\" checkbox. \n\n" + responseData });
+        }
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create time slot" });
         }
