@@ -1,21 +1,35 @@
 <script>
     import { env } from "$env/dynamic/public";
-    let { doClose, timeslot, displayDevices, visualContent } = $props();
+    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } =
+        $props();
 
     import { enhance } from "$app/forms";
+    import { getCookie } from "$lib/utils/getcookie.js";
+
+    console.log(timeslot);
 
     let days = {
         Mon: true,
-        Tue: true,
+        Tue: false,
         Wed: false,
-        Thu: true,
-        Fri: true,
-        Sat: true,
-        Sun: true,
+        Thu: false,
+        Fri: false,
+        Sat: false,
+        Sun: false,
     };
-    console.log(days);
+
+    updateDaysFromBits();
+    function updateDaysFromBits() {
+        // Define the day order
+        const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+        // Loop through the day order and set true/false based on the bits
+        dayOrder.forEach((day, index) => {
+            // Extract the bit at the corresponding position (from right to left)
+            days[day] = Boolean((timeslot.weekdaysChosen >> index) & 1);
+        });
+    }
     let daysArray = Object.entries(days);
-    //console.table(timeslot);
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
@@ -27,6 +41,13 @@
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
+
+    console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
+
+    let selectedContent = JSON.stringify({
+        id: timeslot.displayContent.id,
+        type: timeslot.displayContent.type,
+    });
 </script>
 
 <div class="modal">
@@ -34,16 +55,21 @@
         <CloseX doFunc={doClose} />
         <Header text="Edit timeslot" />
         <form
-            action="?/Edit timeslot"
+            id="edit"
+            action="?/patchTimeslot"
             method="post"
-            use:enhance={({}) => {
+            use:enhance={({ formData }) => {
+                formData.set("timeslotID", timeslot.id);
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
                         // Handle the error
                         alert(
-                            `Failed to add timeslot, please reload page (F5).\n${result.data?.error}`,
+                            `Failed to mofify timeslot, please reload page (F5).\n${result.data?.error}`,
                         );
+                    } else if (result.type === "success") {
+                        doClose();
+                        updateTimeslots(result.data.newData);
                     }
                 };
             }}
@@ -105,10 +131,18 @@
 
             <div class="modal-dropdown">
                 <label for={"content_id"}>{"Content to be displayed"}</label>
-                <select id={"content_id"} name={"fallbackContent"} required>
+                <select
+                    id={"content_id"}
+                    name={"displayContent"}
+                    bind:value={selectedContent}
+                    required
+                >
                     {#each visualContent as content}
                         <option
-                            value={`{"id": ${content.id}, "type": "${content.type}"}`}
+                            value={JSON.stringify({
+                                id: content.id,
+                                type: content.type,
+                            })}
                             >{content.type === "visualMedia"
                                 ? "Media"
                                 : "Slideshow"}: {content.name}</option
@@ -121,7 +155,12 @@
                 {#each displayDevices as display}
                     <div class="checkbox-item">
                         <Smallheader text={display.name} />
-                        <Checkbox name={display.name} />
+                        <Checkbox
+                            name={display.id}
+                            checked={!!timeslot.displayDevices.find(
+                                (dd) => dd.id == display.id,
+                            )}
+                        />
                     </div>
                 {/each}
             </div>
@@ -131,28 +170,16 @@
 
         <div class="modal-buttons">
             <form
-                method="post"
+                id="delete"
+                method="POST"
                 action="?/deleteTimeslot"
-                use:enhance={async ({ FormData, cancel }) => {
-                    let informationData = await fetch(
-                        env.PUBLIC_API_URL + "/api/timeslot",
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization: "Bearer " + authToken,
-                                "Content-type": "application/json",
-                            },
-                        },
-                    );
-
-                    console.log(await informationData.json());
-
+                use:enhance={async ({ formData, cancel }) => {
                     let confirmation = confirm(
-                        `Are you sure you want to delete "${props.timeslot.name}"? ${getSSPartOfTSData}`,
+                        `Are you sure you want to delete "${timeslot.name}"?`,
                     );
                     if (!confirmation) return cancel();
 
-                    formData.set("timeslotID", props.timeslot.id);
+                    formData.set("timeslotID", timeslot.id);
 
                     return async ({ result }) => {
                         // `result` is an `ActionResult` object
@@ -162,28 +189,33 @@
                                 `Failed to delete timeslot, please reload page (F5).\n${result.data?.error}`,
                             );
                         } else if (result.type === "success") {
-                            props.updateSlideshowContent(result.data.newData);
+                            doClose();
+                            updateTimeslots(result.data.newData);
                         }
                     };
                 }}
-            >
-                <Button
-                    type="submit"
-                    text="Delete"
-                    extra_class={"modal-button-delete"}
-                />
-            </form>
+            ></form>
+
+            <button
+            type="submit"
+            form="edit"
+            class="modal-button modal-button-submit"
+        >
+            Submit
+        </button>
+        <button
+            type="submit"
+            form="delete"
+            class="modal-button modal-button-delete"
+        >
+            Delete
+        </button>
 
             <Button
                 type="button"
                 text="Cancel"
                 doFunc={doClose}
                 extra_class={"modal-button-close"}
-            />
-            <Button
-                type="submit"
-                text="Submit"
-                extra_class={"modal-button-submit"}
             />
         </div>
     </div>

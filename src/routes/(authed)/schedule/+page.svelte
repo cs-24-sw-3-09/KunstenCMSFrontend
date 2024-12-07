@@ -12,10 +12,14 @@
 
     // Data for the page
     let timeslots = $state(data.timeslotsData.content);
+
+    function updateTimeslots(data) {
+        console.log("data",data.content);
+        timeslots = data.content;
+    }
+
     let visualContent = $state(data.content);
     let allDisplayDevices = $state(data.displayDevicesData);
-    //$inspect(timeslots);
-    //$inspect(timeslots[0].displayDevices);
 
     // Toggles
 
@@ -32,10 +36,10 @@
         focusTimeslot = null;
     }
     
-    function toggleEditTimeslotModal(timeslot) {
+    function toggleEditTimeslotModal(timeslot=null) {
         showNewTimeslotModal = false;
-        focusTimeslot = timeslot;
         showEditTimeslotModal = !showEditTimeslotModal;
+        focusTimeslot = timeslot;
     }
 
     let focusDate = $state();
@@ -323,7 +327,7 @@
 
             <div class="schedule-day">
                 {#each dayData as row}
-                    <RowPopulatorDay row={row} />
+                    <RowPopulatorDay row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
                 {/each}
             </div>
 
@@ -334,10 +338,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} />
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>
 {/if}
 
 <style>

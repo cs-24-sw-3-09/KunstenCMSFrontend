@@ -227,7 +227,7 @@
   }
   
   .slideshows-body-item-duration-input::after {
-    content: "s";
+    content: "";
   }
   
   .slideshows-body-item-actions {

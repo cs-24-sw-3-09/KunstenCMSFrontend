@@ -4,6 +4,7 @@ import { slide } from "svelte/transition";
 import { env } from "$env/dynamic/private";
 
 
+
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ cookies }) {
 
@@ -101,20 +102,17 @@ export const actions = {
     },
     deleteVM: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log("here");
         const visualmedia = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
             }
         })
-        console.log(visualmedia)
         if (visualmedia.status == 404) {
             return fail(visualmedia.status, { error: "Could not find the visual media." });
         } else if (visualmedia.status !== 204) {
             return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
-        console.log("here2")
         let newSlideshowData = await getSlideshows({ cookies, url, request });
         return {
             success: true,
