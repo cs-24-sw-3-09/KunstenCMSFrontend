@@ -1,17 +1,42 @@
 <script>
-    let { items, doToggleNewModal, doToggleEditModal, doDelete, doToggleItemModal, searchTermUpdate, searchTerm, searchTagsUpdate, searchTags, deleteVisualMedia } = $props();
-    
+    let {
+        visualMedias,
+        doToggleNewModal,
+        doToggleEditModal,
+        doDelete,
+        doToggleItemModal,
+        searchTermUpdate,
+        searchTerm,
+        searchTagsUpdate,
+        searchTags,
+        deleteVisualMedia,
+        color,
+    } = $props();
+
     import Header from "$lib/components/gallery/header.svelte";
     import Item from "$lib/components/gallery/item.svelte";
 </script>
 
 <div class="gallery">
-    
-    <Header doToggleNewModal={doToggleNewModal} searchTermUpdate={searchTermUpdate} searchTerm={searchTerm} searchTagsUpdate={searchTagsUpdate} searchTags={searchTags} />
+    <Header
+        {doToggleNewModal}
+        {searchTermUpdate}
+        {searchTerm}
+        {searchTagsUpdate}
+        {searchTags}
+    />
 
     <div class="gallery-list">
-        {#each items as item}
-            <Item item={item} doDelete={() => (doDelete(item))} doToggleEditModal={() => (doToggleEditModal(item))} doToggleItemModal={() => (doToggleItemModal(item))} deleteVisualMedia={deleteVisualMedia} />
+        {#each visualMedias as VM}
+            <Item
+                item={VM}
+                doDelete={() => doDelete(VM)}
+                doToggleEditModal={() => doToggleEditModal(VM)}
+                doToggleItemModal={() => doToggleItemModal(VM)}
+                {deleteVisualMedia}
+                color = {color.find((row) => row.visualMediaId == VM.id)
+                    ?.color}
+            />
         {/each}
     </div>
 </div>

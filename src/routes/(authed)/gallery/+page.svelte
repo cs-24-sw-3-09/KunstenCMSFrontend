@@ -12,6 +12,7 @@
 
     // Data
     let visual_medias = $state(data.visualMedias.content);
+    let color = data.color;
     //$inspect(visual_medias);
 
     function updateVisualMedia(updatedItem) {
@@ -133,7 +134,7 @@
 <div class="main-content">
     <div class="page">
         <Gallery
-            items={filteredData}
+            visualMedias={filteredData}
             doToggleNewModal={doToggleNewModal}
             doToggleEditModal={doToggleEditModal}
             doToggleItemModal={doToggleItemModal}
@@ -142,6 +143,7 @@
             searchTagsUpdate={searchTagsUpdate}
             searchTags={searchTags}
             deleteVisualMedia={deleteVisualMedia}
+            color = {color}
         />
     </div>
 </div>
