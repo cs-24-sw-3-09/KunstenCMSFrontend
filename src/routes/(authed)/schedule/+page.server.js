@@ -19,7 +19,7 @@ export async function load({ locals, cookies }) {
 
     const timeslotsData = await timeslots.json();
 
-    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices", {
+    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -27,7 +27,7 @@ export async function load({ locals, cookies }) {
         }
     });
 
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -37,7 +37,7 @@ export async function load({ locals, cookies }) {
 
     let visualMediasData = await visualMedia.json();
 
-    visualMediasData = visualMediasData.content.map(visualMedia => {
+    visualMediasData = visualMediasData.map(visualMedia => {
         return { ...visualMedia, type: "visualMedia" }
     });
 
@@ -55,7 +55,7 @@ export async function load({ locals, cookies }) {
     slideshowsData = slideshowsData.map(slideshow => {
         return { ...slideshow, type: "slideshow" }
     });
-    const displayDevicesData = (await displayDevices.json()).content;
+    const displayDevicesData = (await displayDevices.json());
     return {
         timeslotsData,
         displayDevicesData,
@@ -76,16 +76,8 @@ export async function load({ locals, cookies }) {
 export const actions = {
 
     deleteTimeslot: async ({ cookies, url, request }) => {
-        /*const formData = await request.formData();
-        console.log("in here")
-        console.log(formData);
-
-        return fail(400, { error: "Not implemented" });
-
-        return { success: true };*/
-        ///---------------------------
         const formData = await request.formData();
-        const timeslot = await fetch(API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
+        const timeslot = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
             method: "DELETE",
             headers: {
                 "Authorization": "Bearer " + cookies.get("authToken"),
@@ -162,13 +154,13 @@ export const actions = {
             startTime: (/^\d{2}:\d{2}$/.test(formData.get("timeFrom")))?formData.get("timeFrom") + ":00": formData.get("timeFrom"), // Needs to be in format dd:dd:dd, so makeing sure
             endTime: (/^\d{2}:\d{2}$/.test(formData.get("timeTo")))?formData.get("timeTo") + ":00": formData.get("timeTo"),
             weekdaysChosen: weekdaysChosen,
-            //displayDevices: displayDevicesObj,
-            //displayContent: JSON.parse(formData.get("displayContent")),
+            displayDevices: displayDevicesObj,
+            displayContent: JSON.parse(formData.get("displayContent")),
         });
         console.log("VM", JSON.parse(formData.get("displayContent")));
         console.log("DD", displayDevicesObj);
         // Send the request to the backend        
-        const response = await fetch(API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -255,9 +247,8 @@ export const actions = {
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
         });
-
         // Send the request to the backend        
-        const response = await fetch(API_URL + "/api/time_slots", {
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -281,7 +272,7 @@ export const actions = {
 
 
 async function getTimeslot({ cookies, url, request }) {
-    const slideshow = await fetch(API_URL + "/api/time_slots", {
+    const slideshow = await fetch(env.SERVER_API_URL + "/api/time_slots", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + cookies.get("authToken"),

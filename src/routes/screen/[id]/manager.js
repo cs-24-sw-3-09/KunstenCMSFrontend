@@ -3,28 +3,30 @@ import { ConnectionHandler, DataProcessor } from "./application.js";
 import Sha256 from "./sha256.js";
 
 export class Manager {
-  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItem, getCarouselItemsDom, getCurrentItem) {
+  constructor(io, deviceid, socket_url, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getItems) {
     this.io = io;
     this.socket_url = socket_url;
     this.deviceid = deviceid;
     this.durations = [];
     this.carouselTimer = 0;
     this.contentHash = "";
+    this.contentName = "";
     this.clearCarouselItems = clearCarouselItems;
     this.addCarouselItem = addCarouselItem;
     this.setStatus = setStatus;
-    this.setCurrentItem = setCurrentItem;
+    this.setCurrentItemIndex = setCurrentItemIndex;
     this.getCarouselItemsDom = getCarouselItemsDom;
-    this.getCurrentItem = getCurrentItem;
+    this.getCurrentItemIndex = getCurrentItemIndex;
+    this.getItems = getItems;
   }
 
   run() {
-    const connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
+    this.connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
     const dataProcessor = new DataProcessor(this);
-    connectionHandler.register("connect", () =>
+    this.connectionHandler.register("connect", () =>
       dataProcessor.statusHandler(),
     );
-    connectionHandler.register("content", (content) =>
+    this.connectionHandler.register("content", (content) =>
       dataProcessor.contentHandler(content),
     );
   }
@@ -38,43 +40,53 @@ export class Manager {
     if(this.contentHash === contentHash) return;
     this.contentHash = contentHash;
     content = JSON.parse(content);
+    this.contentName = content?.name ?? "Unknown content name";
     this.#stopCarousel();
     this.clearCarouselItems();
     this.durations = [];
-    this.setCurrentItem(0);
+    this.setCurrentItemIndex(0);
 
     if(content.type == "slideshow") {
-      content.visualMediaInclusionCollection.forEach((item, i) => {
+      let items = content.visualMediaInclusionCollection;
+      items.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+
+      items.forEach((item, i) => {
         this.addCarouselItem(item.visualMedia);
         this.durations.push(item.slideDuration * 1000);
       });
-      this.#startCarousel();
     } else if (content.type == "visualMedia") {
       this.addCarouselItem(content);
+      this.durations.push(5000);
     }
+    this.#startCarousel();
   }
 
   clearContent() {
     this.#stopCarousel();
     this.durations = [];
     this.clearCarouselItems();
-    this.setCurrentItem(0);
+    this.setCurrentItemIndex(0);
   }
 
   #startCarousel() {
     this.carouselTimer = setTimeout(() => {
-      console.log(this.getCurrentItem(), this.durations[this.getCurrentItem()]);
       const elements = this.getCarouselItemsDom().querySelectorAll("img, video");
-      const currentElem = elements.item(this.getCurrentItem());
-      this.setCurrentItem((this.getCurrentItem() + 1) % elements.length);
-      const nextElem = elements.item(this.getCurrentItem());
-      if (currentElem?.tagName === "VIDEO") {
+      const currentElem = elements.item(this.getCurrentItemIndex());
+      this.setCurrentItemIndex((this.getCurrentItemIndex() + 1) % elements.length);
+      const nextElem = elements.item(this.getCurrentItemIndex());
+      if (currentElem?.tagName === "VIDEO" && elements.length > 1) {
         currentElem.pause();
         currentElem.currentTime = 0;
       }
-      if (nextElem?.tagName === "VIDEO") nextElem.play();
+      if (nextElem?.tagName === "VIDEO" && !(!nextElem?.paused && nextElem?.currenTime > 0 && !nextElem?.ended)) nextElem.play();
+      this.connectionHandler.sendContentChange(
+        this.deviceid,
+        this.contentName,
+        this.getItems(),
+        this.getCurrentItemIndex()
+      );
       this.#startCarousel();
-    }, this.durations[this.getCurrentItem()]);
+    }, this.durations[this.getCurrentItemIndex()]);
   }
 
   #stopCarousel() {

@@ -2,8 +2,6 @@ import { fail, redirect } from '@sveltejs/kit';
 
 import { env } from "$env/dynamic/private";
 
-const API_URL = env.SERVER_API_URL;
-
 // Load function that clears the auth token cookie
 export const load = async ({ cookies }) => {
 	// Clear the auth token cookie
@@ -32,7 +30,7 @@ export const actions = {
         }
 
 		// Login request
-		const loginResponse = await fetch(API_URL + "/api/account/login", {
+		const loginResponse = await fetch(env.SERVER_API_URL + "/api/account/login", {
 			method: "POST",
 			headers: {
 				"Content-type": "application/json",
