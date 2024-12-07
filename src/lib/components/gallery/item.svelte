@@ -6,7 +6,6 @@
   import Tag from "$lib/components/gallery/tag.svelte";
 
   import video_default from "$lib/assets/default_video.png";
-  console.log(color)
 </script>
 
 <div class="gallery-item">
