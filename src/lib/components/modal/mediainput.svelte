@@ -4,4 +4,4 @@
 </script>
 
 <label for="image">Choose an image</label>
-<input type="file" id="image" name={name} accept={supportedTypes} />
+<input type="file" id="image" name={name} accept={supportedTypes}  required="true"/>

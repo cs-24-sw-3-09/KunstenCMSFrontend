@@ -5,6 +5,7 @@
         doToggleEditModal,
         doDelete,
         doToggleItemModal,
+        doToggleReplaceModal,
         searchTermUpdate,
         searchTerm,
         searchTagsUpdate,
@@ -32,6 +33,7 @@
                 item={VM}
                 doDelete={() => doDelete(VM)}
                 doToggleEditModal={() => doToggleEditModal(VM)}
+                doToggleReplaceModal={() => (doToggleReplaceModal(item))}
                 doToggleItemModal={() => doToggleItemModal(VM)}
                 {deleteVisualMedia}
                 color = {color.find((row) => row.visualMediaId == VM.id)

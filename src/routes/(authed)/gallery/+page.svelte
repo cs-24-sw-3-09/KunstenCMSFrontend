@@ -6,11 +6,8 @@
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";
     import NewModal from "$lib/components/gallery/newmodal.svelte";
     import EditModal from "$lib/components/gallery/editmodal.svelte";
+    import ReplaceModal from "$lib/components/gallery/replacemodal.svelte";
     
-    // mock data
-    // import { testVisualMedia } from "$lib/testdata.js";
-
-    // Data
     let visual_medias = $state(data.visualMedias.content);
     let color = data.color;
     //$inspect(visual_medias);
@@ -108,11 +105,13 @@
     let showItemModal = $state(false);
     let showNewModal = $state(false);
     let showEditModal = $state(false);
+    let showReplaceModal = $state(false);
 
     function doToggleItemModal(item=focusItem) {
         focusItem = item;
         showEditModal = false;
         showNewModal = false;
+        showReplaceModal = false;
         showItemModal = !showItemModal;
     }
 
@@ -120,6 +119,7 @@
         focusItem = {};
         showEditModal = false;
         showItemModal = false;
+        showReplaceModal = false;
         showNewModal = !showNewModal;
     }
 
@@ -127,7 +127,16 @@
         focusItem = item;
         showItemModal = false;
         showNewModal = false;
+        showReplaceModal = false;
         showEditModal = !showEditModal;
+    }
+
+    function doToggleReplaceModal(item) {
+        focusItem = item;
+        showItemModal = false;
+        showNewModal = false;
+        showEditModal = false;
+        showReplaceModal = !showReplaceModal;
     }
 </script>
 
@@ -138,6 +147,7 @@
             doToggleNewModal={doToggleNewModal}
             doToggleEditModal={doToggleEditModal}
             doToggleItemModal={doToggleItemModal}
+            doToggleReplaceModal={doToggleReplaceModal}
             searchTermUpdate={searchTermUpdate}
             searchTerm={searchTerm}
             searchTagsUpdate={searchTagsUpdate}
@@ -153,6 +163,9 @@
 {/if}
 {#if showEditModal}
     <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} />
+{/if}
+{#if showReplaceModal}
+    <ReplaceModal item={focusItem} doClose={doToggleReplaceModal} updateVisualMedia={updateVisualMedia} />
 {/if}
 {#if showItemModal}
     <ItemModal item={focusItem} doClose={doToggleItemModal} updateTags={updateTags} delTag={delTag} />
