@@ -174,7 +174,7 @@
                             && dayDate <= slotEnd 
                             && isRelevantForDay(slot.weekdaysChosen, dayIndex)) {
                             deviceEntry.dayfields[dayIndex].push({
-                                color: `color-${slot.id}`, // Unique color based on timeslot ID
+                                color: `color-${slot.color}`,
                                 size: "schedule-size-3",
                                 timeslot: slot,
                             });
