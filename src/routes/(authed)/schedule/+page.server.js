@@ -19,6 +19,17 @@ export async function load({ locals, cookies }) {
 
     const timeslotsData = await timeslots.json();
 
+    const timeslotColors = await fetch(env.SERVER_API_URL + "/api/time_slots/overlapping_time_slots", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const timeslotColorsData = await timeslotColors.json();
+    timeslotsData.content = combineObjects(timeslotColorsData, timeslotsData.content)
+
     const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
         method: "GET",
         headers: {
@@ -90,7 +101,7 @@ export const actions = {
             return fail(timeslot.status, { error: "Failed to delete time slot." });
         }
 
-        let newTimeslotData = await getTimeslot({ cookies, url, request });
+        let newTimeslotData = await getTimeslots({ cookies, url, request });
         return {
             success: true,
             newData: newTimeslotData,
@@ -146,6 +157,7 @@ export const actions = {
                 displayDevicesObj.push({ id: Number(key) });
             }
         }
+        console.log(formData)
 
         let requestBody = JSON.stringify({
             name: formData.get("name"),
@@ -157,10 +169,9 @@ export const actions = {
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
         });
-        console.log("VM", JSON.parse(formData.get("displayContent")));
-        console.log("DD", displayDevicesObj);
+        let forcePatch = formData.get("Force") == "on" ? true : false;
         // Send the request to the backend        
-        const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID"), {
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID") + "?forceDimensions=" + forcePatch, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -169,11 +180,16 @@ export const actions = {
             body: requestBody,
         });
 
+
+        if (response.status == 409) {
+            const responseData = await response.text();
+            return fail(response.status, { error: "Due to dimension conflicts between screens and media.\nTo ignore conflicts check the \"Force changes\" checkbox. \n\n" + responseData });
+        }
         if (response.status !== 200) {
-            return fail(response.status, { error: "Failed to create time slot" });
+            return fail(response.status, { error: "Failed to patch time slot" });
         }
 
-        let newTimeSlotData = await getTimeslot({ cookies, url, request });
+        let newTimeSlotData = await getTimeslots({ cookies, url, request });
         return {
             success: true,
             newData: newTimeSlotData,
@@ -248,7 +264,8 @@ export const actions = {
             displayContent: JSON.parse(formData.get("displayContent")),
         });
         // Send the request to the backend        
-        const response = await fetch(env.SERVER_API_URL + "/api/time_slots", {
+        let forcePatch = formData.get("Force") == "on" ? true : false;
+        const response = await fetch(env.SERVER_API_URL + "/api/time_slots?forceDimensions=" + forcePatch, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -256,13 +273,17 @@ export const actions = {
             },
             body: requestBody,
         });
-        console.log(response)
 
+
+        if (response.status == 409) {
+            const responseData = await response.text();
+            return fail(response.status, { error: "Due to dimension conflicts between screens and media.\nTo ignore conflicts check the \"Force changes\" checkbox. \n\n" + responseData });
+        }
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create time slot" });
         }
 
-        let newTimeSlotData = await getTimeslot({ cookies, url, request });
+        let newTimeSlotData = await getTimeslots({ cookies, url, request });
         return {
             success: true,
             newData: newTimeSlotData,
@@ -271,14 +292,33 @@ export const actions = {
 }
 
 
-async function getTimeslot({ cookies, url, request }) {
-    const slideshow = await fetch(env.SERVER_API_URL + "/api/time_slots", {
+async function getTimeslots({ cookies, url, request }) {
+    const timeslots = await fetch(env.SERVER_API_URL + "/api/time_slots", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
     })
 
-    let slideshowData = await slideshow.json();
-    return slideshowData;
+    let timeslotsData = await timeslots.json();
+
+    const timeslotColors = await fetch(env.SERVER_API_URL + "/api/time_slots/overlapping_time_slots", {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+
+    const timeslotColorsData = await timeslotColors.json();
+    timeslotsData.content = combineObjects(timeslotColorsData, timeslotsData.content)
+
+    return timeslotsData;
 }
+
+function combineObjects(arr1, arr2) {
+    return arr1.map(item1 => {
+      const item2 = arr2.find(item => item.id === item1.id);
+      return item2 ? { ...item1, ...item2 } : item1;
+    });
+  }

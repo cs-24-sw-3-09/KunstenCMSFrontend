@@ -126,82 +126,10 @@
     -webkit-transform: rotate(45deg);
 }
 
-.color-1 {
-    background-color: #F2BAC9;
+.color-neutral {
+    background-color: rgba(150, 173, 221, 0.596);
 }
 
-.color-2 {
-    background-color: #BAD7F2;
-}
-
-.color-3 {
-    background-color: #B0F2B4;
-}
-
-.color-4 {
-    background-color: #BAF2E9;
-}
-
-.color-5 {
-    background-color: #F2E2BA;
-}
-
-.color-6 {
-    background-color: #CAE7B9;
-}
-
-.color-7 {
-    background-color: #F3DE8A;
-}
-
-.color-8 {
-    background-color: #EB9486;
-}
-
-.color-9 {
-    background-color: #7E7F9A;
-}
-
-.color-10 {
-    background-color: #97A7B3;
-}
-
-.color-11 {
-    background-color: #CE2754;
-}
-
-.color-12 {
-    background-color: #277DCE;
-}
-
-.color-13 {
-    background-color: #1FC12A;
-}
-
-.color-14 {
-    background-color: #24BCA3;
-}
-
-.color-15 {
-    background-color: #BC9124;
-}
-
-.color-16 {
-    background-color: #904C77;
-}
-
--color-17 {
-    background-color: #E49AB0;
-}
-
-.color-18 {
-    background-color: #ECB8A5;
-}
-
-.color-19 {
-    background-color: #ECCFC3;
-}
-
-.color-20 {
-    background-color: #957D95;
+.color-red {
+    background-color: rgb(255, 118, 118);
 }

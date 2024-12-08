@@ -6,12 +6,25 @@
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";
     import NewModal from "$lib/components/gallery/newmodal.svelte";
     import EditModal from "$lib/components/gallery/editmodal.svelte";
-    
-    // mock data
-    // import { testVisualMedia } from "$lib/testdata.js";
+    import ReplaceModal from "$lib/components/gallery/replacemodal.svelte";
+    import { onMount } from "svelte";
 
-    // Data
+    import { env } from "$env/dynamic/public";
+    import { getCookie } from "$lib/utils/getcookie.js";
+    
     let visual_medias = $state(data.visualMedias.content);
+    let color = $state([]);
+
+    onMount(async () => {
+        const colorData = await fetch(env.PUBLIC_API_URL + "/api/visual_medias/states", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+        color = await colorData.json();
+    })
+
     //$inspect(visual_medias);
 
     function updateVisualMedia(updatedItem) {
@@ -107,11 +120,13 @@
     let showItemModal = $state(false);
     let showNewModal = $state(false);
     let showEditModal = $state(false);
+    let showReplaceModal = $state(false);
 
     function doToggleItemModal(item=focusItem) {
         focusItem = item;
         showEditModal = false;
         showNewModal = false;
+        showReplaceModal = false;
         showItemModal = !showItemModal;
     }
 
@@ -119,6 +134,7 @@
         focusItem = {};
         showEditModal = false;
         showItemModal = false;
+        showReplaceModal = false;
         showNewModal = !showNewModal;
     }
 
@@ -126,22 +142,33 @@
         focusItem = item;
         showItemModal = false;
         showNewModal = false;
+        showReplaceModal = false;
         showEditModal = !showEditModal;
+    }
+
+    function doToggleReplaceModal(item) {
+        focusItem = item;
+        showItemModal = false;
+        showNewModal = false;
+        showEditModal = false;
+        showReplaceModal = !showReplaceModal;
     }
 </script>
 
 <div class="main-content">
     <div class="page">
         <Gallery
-            items={filteredData}
+            visualMedias={filteredData}
             doToggleNewModal={doToggleNewModal}
             doToggleEditModal={doToggleEditModal}
             doToggleItemModal={doToggleItemModal}
+            doToggleReplaceModal={doToggleReplaceModal}
             searchTermUpdate={searchTermUpdate}
             searchTerm={searchTerm}
             searchTagsUpdate={searchTagsUpdate}
             searchTags={searchTags}
             deleteVisualMedia={deleteVisualMedia}
+            color = {color}
         />
     </div>
 </div>
@@ -151,6 +178,9 @@
 {/if}
 {#if showEditModal}
     <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} />
+{/if}
+{#if showReplaceModal}
+    <ReplaceModal item={focusItem} doClose={doToggleReplaceModal} updateVisualMedia={updateVisualMedia} />
 {/if}
 {#if showItemModal}
     <ItemModal item={focusItem} doClose={doToggleItemModal} updateTags={updateTags} delTag={delTag} />

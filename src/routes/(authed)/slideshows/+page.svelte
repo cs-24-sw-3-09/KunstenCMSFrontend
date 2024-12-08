@@ -41,11 +41,10 @@
     let searchTerm = $state(""); // For live text search
     let searchTags = $state(""); // For tag-based filtering
     function filterVisualMedia(visualMedias, searchVMTerm, searchVMTags) {
-        console.log("here", visualMedias);
         if (searchVMTerm) {
             // Filter by name
-            visualMedias = visualMedias.filter((VM) =>
-                VM.name.toLowerCase().includes(searchVMTerm.toLowerCase()),
+            visualMedias = visualMedias?.filter((VM) =>
+                VM.name?.toLowerCase().includes(searchVMTerm?.toLowerCase()),
             );
         }
         if (searchVMTags && searchVMTags.length > 0) {
@@ -60,7 +59,6 @@
     }
 
     let filteredVisualMedia = $derived.by(() => {
-        console.log("here3");
         return filterVisualMedia(visualMedias.content, searchTerm, searchTags);
     }); // Reactive var
 
@@ -69,7 +67,6 @@
     }
 
     function searchTagsUpdate(event) {
-        console.log("here");
         searchTags = event.target.value;
     }
 

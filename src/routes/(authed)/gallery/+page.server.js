@@ -26,26 +26,6 @@ export async function load({ cookies }) {
     });
     
     const visualMediasData = await visualMedia.json();
-    
-    for (let i = 0; i < visualMediasData.content.length; i++) {
-        visualMediasData.content[i].src =
-        env.CLIENT_API_URL + "/files/visual_media/"
-        + visualMediasData.content[i].id
-        + mimeToType(visualMediasData.content[i].fileType);
-    }
-    
-    for (let i = 0; i < visualMediasData.content.length; i++) {
-        const slideshows = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + visualMediasData.content[i].id + "/slideshows", {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": "Bearer " + cookies.get("authToken"),
-            }
-        });
-
-        const slideshowsData = await slideshows.json();
-        visualMediasData.content[i].slideshows = slideshowsData;
-    }
 
     //console.log(visualMediasData);
     
@@ -108,6 +88,8 @@ export const actions = {
             body: formData,
         });
 
+        /* console.log(formData); */
+
         const responseData = await response.json();
 
         responseData.src = env.CLIENT_API_URL + responseData.location;
@@ -164,11 +146,11 @@ export const actions = {
         })
 
         // Get the response data and add the src and slideshows
-        console.log(response.status);
+        //console.log(response.status);
         const responseData = await response.json();
-        console.log(response.status);
+        //console.log(response.status);
 
-        console.log(responseData);
+        //console.log(responseData);
 
         // if video, no src as it is not iamge element compatable
         if (responseData.fileType != "video/mp4") {
@@ -198,9 +180,37 @@ export const actions = {
             responseData,
         };
     },
+    replaceVisualMedia: async ({ cookies, url, request }) => {
+        const formData = await request.formData();
 
+        let requestBody = new FormData();
+        requestBody.append("file", formData.get("file"));
+        /* console.log(requestBody); */
+        
+        /* console.log(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file"); */
+        
+        const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: requestBody,
+        });
+
+        //console.log(response.status);
+
+        if (!(response.status >= 200 && response.status < 300)) {
+            return fail(response.status, { error: "Failed to replace visual media." });
+        }
+
+        return { 
+            success: true,
+        };
+    },
     deleteVisualMedia: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+
+        
 
         let data = {
             id: formData.get("id"),
