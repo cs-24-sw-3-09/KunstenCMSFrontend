@@ -18,6 +18,7 @@
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
+  import { Tooltip } from "@svelte-plugins/tooltips";
 
   let items = $state(
     props.slideshow.visualMediaInclusionCollection.sort(
@@ -57,6 +58,23 @@
     console.log(form.get(""));
   }
   let slideshowID = $state(props.slideshow.id);
+
+  function getActivity(color) {
+    switch (color) {
+      case "green":
+        return "Active"
+        break;
+      case "red":
+        return "Inactive"
+        break
+      case "yellow":
+        return "Scheduled"
+        break;
+      default:
+        return ""
+        break;
+    }
+  }
 </script>
 
 {#if showAddMediaModal}
@@ -87,10 +105,16 @@
           <i class="fa-solid slideshow-arrow fa-caret-{props.selectedId == props.slideshow.id ? "down" : "right"}" aria-hidden="true">
           </i>
         </div>
+        <Tooltip
+        content={getActivity(color)}
+        position="bottom"
+        animation= 'slide'
+        >
         <div
           class="slideshows-item-header-activity tooltippable tooltipText-Active"
           style={"background-color: " + color}
         ></div>
+      </Tooltip>
         <form
           method="post"
           action="?/patchSSName"
@@ -118,10 +142,12 @@
 
       <div class="slideshows-item-header-right">
         <div class="slideshows-item-header-action" aria-hidden="true">
+          <Tooltip content="Focus mode" animation="slide",  position="top">
           <i
             class="fa-solid fa-{props.focusedSlideshow != null ? "eye-slash" : "eye"}"
             on:click={() => dispatch("focus", props.slideshow.id)}
           ></i>
+          </Tooltip>
         </div>
         <form
           method="post"
@@ -150,7 +176,9 @@
               style="all: unset; display: inline-block; cursor: pointer;"
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
-              <i class="fa-solid fa-box-archive" />
+              <Tooltip content="Archive" animation="slide",  position="top">
+                <i class="fa-solid fa-box-archive" />
+              </Tooltip>
             </button>
           </div>
         </form>
@@ -181,7 +209,9 @@
               style="all: unset; display: inline-block; cursor: pointer;"
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
-              <i class="fa-solid fa-copy" />
+              <Tooltip content="Duplicate" animation="slide",  position="top">
+                <i class="fa-solid fa-copy" />
+              </Tooltip>
             </button>
           </div>
         </form>
@@ -239,7 +269,9 @@
               style="all: unset; display: inline-block; cursor: pointer;"
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
-              <i class="fa-solid fa-trash" />
+              <Tooltip content="Delete" animation="slide",  position="top">
+                <i class="fa-solid fa-trash" />
+              </Tooltip>
             </button>
           </div>
         </form>
@@ -247,7 +279,13 @@
     </div>
     <!-- For show the display devies -->
     <div class="slideshows-item-header-bottom">
-      <i class="fa-solid fa-tower-cell"></i>
+      <Tooltip
+        content="Live Devices"
+        position="top"
+        animation="slide"
+      >
+        <i class="fa-solid fa-tower-cell"></i>
+      </Tooltip>
       <div class="slideshows-item-live-list">
         {#each props.screens as screenName}
           <div class="slideshows-item-live-screen">{screenName.name}</div>

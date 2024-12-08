@@ -1,4 +1,6 @@
 <script>
+  import { Tooltip } from "@svelte-plugins/tooltips";
+
     let { profileData } = $props();
 </script>
 
@@ -8,17 +10,21 @@
     </div>
     <div class="profile-main-info">
         <div class="profile-main-name">{profileData.firstName}</div>
-        <div class="profile-main-role">
-            {#if profileData.mediaPlanner === true && profileData.admin === true}
-                Admin & Media Planner
-            {:else if profileData.admin === true}
-                Admin
-            {:else if profileData.mediaPlanner === true}
-                Media Planner
-            {:else}
-                User
-            {/if}
-        </div>
+        <Tooltip
+        content="Your roles"
+        animation= 'slide'>
+            <div class="profile-main-role">
+                {#if profileData.mediaPlanner === true && profileData.admin === true}
+                    Admin & Media Planner
+                {:else if profileData.admin === true}
+                    Admin
+                {:else if profileData.mediaPlanner === true}
+                    Media Planner
+                {:else}
+                    User
+                {/if}
+            </div>
+        </Tooltip>
         {#if profileData.admin === true && profileData.mediaPlanner === true}
             <div class="profile-main-role-text">
                 You have access to edit media, create new media, manage users

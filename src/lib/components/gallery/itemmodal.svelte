@@ -5,6 +5,7 @@
     import { env } from '$env/dynamic/public';
     import { onMount } from "svelte";
     import { getCookie } from "$lib/utils/getcookie.js";
+  import { Tooltip } from "@svelte-plugins/tooltips";
 
     let slideshows = $state();
 
