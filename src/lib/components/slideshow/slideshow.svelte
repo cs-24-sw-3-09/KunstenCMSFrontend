@@ -17,16 +17,15 @@
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
-  import { Tooltip } from "@svelte-plugins/tooltips";
 
-  // Assuming props.slideshow is passed as a prop to this component
-  //let items;
+  let items = $state(
+    props.slideshow.visualMediaInclusionCollection.sort(
+      (a, b) => a.slideshowPosition - b.slideshowPosition,
+    ),
+  );
+  console.log(items)
   let listElement;
 
-  // Reactive statement to update items whenever props.slideshow changes
-  let items = $state( props.slideshow.visualMediaInclusionCollection.sort(
-    (a, b) => a.slideshowPosition - b.slideshowPosition
-  ));
 
   onMount(async () => {
     // Initialize the Sortable instance when the component is mounted
