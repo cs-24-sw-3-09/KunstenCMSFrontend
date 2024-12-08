@@ -19,10 +19,9 @@ export async function load({ cookies }) {
     const slideshowData = await slideshow.json();
 
 
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
         method: "GET",
         headers: {
-            /* "Content-type": "application/json", */
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
     });
@@ -30,13 +29,11 @@ export async function load({ cookies }) {
     const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
         method: "GET",
         headers: {
-            /* "Content-type": "application/json", */
             "Authorization": "Bearer " + cookies.get("authToken"),
         }
     });
 
     const colorData = await color.json();
-
     const visualMediaData = await visualMedia.json();
     return {
         slideshow: slideshowData,
@@ -114,6 +111,7 @@ export const actions = {
             return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
         let newSlideshowData = await getSlideshows({ cookies, url, request });
+        //console.log(newSlideshowData[newSlideshowData.length - 1])
         return {
             success: true,
             newData: newSlideshowData,
@@ -168,14 +166,10 @@ export const actions = {
     },
     newMediaToSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        //console.log("formdata123", formData)
-
         // Check feilds
         if (!formData.get("name")) {
             return fail(400, { error: "did not pick an Visual Media" });
         }
-        //console.log("sspos", formData.get("ssPos"));
-
         // requestBody sendt for the patch action
         let requestBody = JSON.stringify({
             slideDuration: 25,

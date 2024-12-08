@@ -1,6 +1,5 @@
 <script>
   import { env } from "$env/dynamic/public";
-  //on:click={() => dispatch("archived", props.slideshow.isArchived)}
   let props = $props();
   let hiddenForm;
   let getSSPartOfTSData;
@@ -24,6 +23,7 @@
       (a, b) => a.slideshowPosition - b.slideshowPosition,
     ),
   );
+  console.log(items)
   let listElement;
 
   onMount(async () => {

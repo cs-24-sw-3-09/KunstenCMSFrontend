@@ -9,19 +9,32 @@
     let VMIForSS = $state(null);
     let visualMedias = $state(data.visualMedia);
 
+    var selectedId = $state(null);
+    var isChecked = $state(false);
+    var focusedSlideshow = $state(null);
+    var archivedState = $state(false);
+
+    let searchSlideshow = $state("");
+
+    let searchTerm = $state(""); // For live text search
+    let searchTags = $state(""); // For tag-based filtering
+    
+
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
+        console.log(selectedId)
         if (selectedId != null) {
-            VMIForSS = slideshowContent
-                .find((ss) => ss.id === selectedId)
-                .visualMediaInclusionCollection.sort(
-                    (a, b) => a.slideshowPosition - b.slideshowPosition,
-                );
+            console.log("here")
+            VMIForSS = data
+            .find((ss) => ss.id === selectedId)
+            ?.visualMediaInclusionCollection?.sort(
+                (a, b) => a.slideshowPosition - b.slideshowPosition,
+            );
         }
+        console.log(VMIForSS)
     }
 
-    let searchSlideshow = $state("");
     function filterSlideshow(slideshows, searchTerm) {
         if (searchTerm) {
             // Filter by name
@@ -38,8 +51,7 @@
         searchSlideshow = event.target.value;
     }
 
-    let searchTerm = $state(""); // For live text search
-    let searchTags = $state(""); // For tag-based filtering
+
     function filterVisualMedia(visualMedias, searchVMTerm, searchVMTags) {
         if (searchVMTerm) {
             // Filter by name
@@ -59,7 +71,7 @@
     }
 
     let filteredVisualMedia = $derived.by(() => {
-        return filterVisualMedia(visualMedias.content, searchTerm, searchTags);
+        return filterVisualMedia(visualMedias, searchTerm, searchTags);
     }); // Reactive var
 
     function searchTermUpdate(event) {
@@ -70,14 +82,10 @@
         searchTags = event.target.value;
     }
 
-    var selectedId = $state(null);
-    var isChecked = $state(false);
-    var focusedSlideshow = $state(null);
-    var archivedState = $state(false);
-
     function updateState(id) {
         selectedId = id == selectedId ? null : id;
-        VMIForSS = slideshowContent.find((ss) => ss.id === selectedId)
+        VMIForSS = slideshowContent
+            .find((ss) => ss.id === selectedId)
             ?.visualMediaInclusionCollection?.sort(
                 (a, b) => a.slideshowPosition - b.slideshowPosition,
             );
@@ -86,7 +94,6 @@
         isChecked = !isChecked;
     }
     function focusSlideshow(id) {
-
         focusedSlideshow = id == focusedSlideshow ? null : id;
     }
 
