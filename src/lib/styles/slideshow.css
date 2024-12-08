@@ -99,13 +99,16 @@
     align-items: center;
     padding-left: 12px;
   }
+
+  .slideshows-item-header-arrow {
+    margin-right: 20px;
+  }
   
   .slideshows-item-header-activity {
     background-color: gray;
     width: 8px;
     height: 8px;
     border-radius: 222px;
-    margin-left: 20px;
   }
   
   .slideshows-item-header-activity.notplanned {

@@ -11,6 +11,7 @@
     //import Carousel from "svelte-carousel";
     
     import loading_image from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
+  import { Tooltip } from "@svelte-plugins/tooltips";
    
 </script>
 
@@ -25,30 +26,43 @@
     <div class="dashboard-card-bottom">
         <div class="dashboard-card-title">
             {#if livedata}
+            <Tooltip content="Active" animation="slide",  position="top">
                 <div class="dashboard-card-slideshow-active tooltippable tooltipText-Active"></div>
+            </Tooltip>
             {:else}
+            <Tooltip content="Inactive" animation="slide",  position="top">
                 <div class="dashboard-card-slideshow-inactive tooltippable tooltipText-Inactive"></div>
+            </Tooltip>
             {/if}
             <p>{device?.name ?? "Unknown name"}</p>
         </div>
         <!-- TODO: If during timeslot, else fallbackcontent -->
+         
+            <div class="dashboard-card-slideshow-info">
+                <Tooltip content="Content" animation="slide",  position="top">
+                    <i class="fa-solid fa-file"></i>
+                </Tooltip>
+                <div class="dashboard-card-slideshow-title">{livedata?.contentname ?? "Loading..."}</div>
+            </div>
+            <div class="dashboard-card-location-title">
+                <Tooltip content="Location" animation="slide",  position="top">
+                    <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
+                </Tooltip>
+                <p>{device.location ? device.location : "No location"}</p>
+            </div>
         <div class="dashboard-card-slideshow-info">
-            <i class="fa-solid fa-file"></i>
-            <div class="dashboard-card-slideshow-title">{livedata?.contentname ?? "Loading..."}</div>
-        </div>
-        <div class="dashboard-card-location-title">
-            <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
-            <p>{device.location ? device.location : "No location"}</p>
-        </div>
-        <div class="dashboard-card-slideshow-info">
-            <i class="fa-solid fa-external-link-square"></i>
+                <Tooltip content="Screen Path" animation="slide",  position="top">
+                    <i class="fa-solid fa-external-link-square"></i>
+                </Tooltip>
             <div class="dashboard-card-slideshow-title">{"/screen/"+device.id}</div>
         </div>
         
 
         {#if admin}
             <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
+                <Tooltip content="Edit" animation="slide",  position="top">
                 <i class="fa-solid fa-pen-to-square"></i>
+                </Tooltip>
             </div>
 
             <form method="POST" action="?/deleteDevice"
@@ -73,8 +87,10 @@
                     const form = event.target.closest('form');
                     if (form) form.requestSubmit();
                 }}>
+                <Tooltip content="Delete" animation="slide",  position="top">
                     <i class="fa-solid fa-trash"></i>
-                </div>
+                </Tooltip>
+            </div>
             </form>
         {/if}
     </div>

@@ -9,6 +9,7 @@
   let slideshowId = props.slideshow.id;
 
   import video_default from "$lib/assets/default_video.png";
+  import { Tooltip } from "@svelte-plugins/tooltips";
 </script>
 
 <div draggable="true" class="slideshows-body-item">
@@ -20,7 +21,9 @@
     {/if}
   </div>
   <div class="slideshows-body-item-num">
+    <Tooltip content="Position" animation="slide",  position="top">
     {VMI.slideshowPosition}
+    </Tooltip>
   </div>
   <div class="slideshows-body-item-title">
     {VMI.visualMedia ? VMI.visualMedia.name : "No name"}
@@ -119,12 +122,16 @@
           style="all: unset; display: inline-block; cursor: pointer;"
         >
           <!-- svelte-ignore element_invalid_self_closing_tag -->
-          <i class="fa-solid fa-trash" />
+          <Tooltip content="Delete" animation="slide",  position="top">
+            <i class="fa-solid fa-trash" />
+          </Tooltip>  
         </button>
       </div>
     </form>
     <div class="slideshows-body-item-action-hand">
-      <i class="fa-solid fa-hand"></i>
+      <Tooltip content="Drag" animation="slide",  position="top">
+        <i class="fa-solid fa-hand"></i>
+      </Tooltip>  
     </div>
   </div>
 </div>
