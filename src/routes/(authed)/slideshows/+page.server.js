@@ -202,7 +202,8 @@ export const actions = {
         requestBody = JSON.stringify({
             visualMediaInclusionId: newVMIId
         });
-        const secondResponse = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
+        let forcePatch = formData.get("Force") == "on" ? true : false;
+        const secondResponse = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions?forceDimensions=" + forcePatch, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -211,8 +212,11 @@ export const actions = {
             body: requestBody,
         });
 
-        responseData = await secondResponse.json();
+        responseData = await secondResponse.text();
         console.log("status", response.status, secondResponse.status)
+        if (secondResponse.status == 409) {
+            return fail(response.status, { error: "\n" + responseData });
+        }
         if (response.status !== 201 || secondResponse.status !== 200) {
             return fail(response.status, { error: "Failed to add visual media to slideshow." });
         }
@@ -337,8 +341,6 @@ export const actions = {
     },
     getSSPartOfTS: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log("here123");
-        console.log(formData.get("slideshowId"));
         return {
             success: true,
             newData: 123,

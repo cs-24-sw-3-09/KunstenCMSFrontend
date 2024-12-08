@@ -22,6 +22,11 @@
     import Header from "$lib/components/modal/header.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import MediaItem from "$lib/components/modal/mediaItem.svelte";
+    import Checkbox from "$lib/components/modal/checkbox.svelte";
+    import Separator from "$lib/components/modal/separator.svelte";
+    import Smallheader from "$lib/components/modal/smallheader.svelte";
+
+
 
     var selectedId = $state(null);
     let selectedItem = $state({});
@@ -67,7 +72,7 @@
                     if (result.type === "failure") {
                         // Handle the error
                         alert(
-                            `Failed to add new visual media to slideshow, please reload page (F5).\n${result.data?.error}`,
+                            `Failed to add new visual media to slideshow.\n${result.data?.error}`,
                         );
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
@@ -92,6 +97,12 @@
                     onkeydown={preventEnterSubmit}
                 />
             </div>
+            <Smallheader text={"Force changes:"} />
+            <Checkbox
+                name={"Force"}
+                checked={false}
+            />
+
             <div class="add-media-modal-list">
                 {#each Item as item}
                     <MediaItem
