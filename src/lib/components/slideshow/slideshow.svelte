@@ -18,10 +18,7 @@
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
 
-  let items = $state(
-    props.slideshow.visualMediaInclusionCollection.sort(
-      (a, b) => a.slideshowPosition - b.slideshowPosition,
-    ),
+  let items = $state(props.VMIForSS
   );
   let listElement;
 

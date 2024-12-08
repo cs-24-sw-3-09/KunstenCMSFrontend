@@ -23,8 +23,8 @@
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
-        console.log(selectedId)
-        if (selectedId != null) {
+        updateState(selectedId);
+        /*if (selectedId != null) {
             console.log("here")
             VMIForSS = data
             .find((ss) => ss.id === selectedId)
@@ -32,7 +32,7 @@
                 (a, b) => a.slideshowPosition - b.slideshowPosition,
             );
         }
-        console.log(VMIForSS)
+        console.log(VMIForSS)*/
     }
 
     function filterSlideshow(slideshows, searchTerm) {
