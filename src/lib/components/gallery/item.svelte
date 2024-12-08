@@ -8,6 +8,7 @@
   import { env } from '$env/dynamic/public';
 
   import video_default from "$lib/assets/default_video.png";
+  import { Tooltip } from "@svelte-plugins/tooltips";
 
 
   let modDate = $state(new Date(item.lastDateModified));
@@ -18,6 +19,23 @@
     hour: 'numeric',
     minute: 'numeric',
   }));
+
+  function getActivity(color) {
+    switch (color) {
+      case "green":
+        return "Active"
+        break;
+      case "red":
+        return "Inactive"
+        break
+      case "yellow":
+        return "Scheduled"
+        break;
+      default:
+        return "Not in use"
+        break;
+    }
+  }
 
 </script>
 
@@ -33,22 +51,27 @@
       {/if}
     </div>
 
-    <div
-          class="gallery-dot tooltippable tooltipText-Active gallery-{color}-dot"
-        ></div>
+    <Tooltip
+    content={getActivity(color)}
+    position="top"
+    animation= 'slide'>
+      <div class="gallery-dot tooltippable tooltipText-Active gallery-{color}-dot"></div>
+    </Tooltip>
     <div class="gallery-item-info">
       <div class="gallery-item-left-top">
         <div class="gallery-item-title">{item.name}</div>
         <div class="gallery-item-description">{item.description}</div>
       </div>
       <div class="gallery-item-left-bottom">
-        <div class="gallery-item-tags">
-          {#if item.tags}
-            {#each item.tags as tag}
-              <Tag tag={tag.text} />
-            {/each}
-          {/if}
-        </div>
+        <Tooltip content="Tags" animation="slide",  position="left">
+          <div class="gallery-item-tags">
+            {#if item.tags}
+              {#each item.tags as tag}
+                <Tag tag={tag.text} />
+              {/each}
+            {/if}
+          </div>
+        </Tooltip>
       </div>
     </div>
   </div>
@@ -59,15 +82,20 @@
         onclick={doToggleEditModal}
         aria-label="Edit item"
       >
+      <Tooltip content="Edit" animation="slide",  position="top">
         <i class="fa-solid fa-pen-to-square"></i>
-      </button>
+      </Tooltip>
+    </button>
       <button
         class="gallery-item-replace-button"
         onclick={doToggleReplaceModal}
         aria-label="Edit item"
       >
+      <Tooltip content="Replace" animation="slide",  position="top">
         <i class="fa-solid fa-exchange"></i>
+      </Tooltip>
       </button>
+      
       <form
         method="post"
         action="?/deleteVisualMedia"
@@ -106,10 +134,14 @@
           type="submit"
           aria-label="Delete item"
         >
-          <i class="fa-solid fa-trash"></i>
+          <Tooltip content="Delete" animation="slide",  position="top">
+            <i class="fa-solid fa-trash"></i>
+          </Tooltip>
         </button>
       </form>
     </div>
+    <Tooltip content="Last Modified" animation="slide",  position="top">
     <div class="gallery-item-date">{formatModDate}</div>
+  </Tooltip>
   </div>
 </div>
