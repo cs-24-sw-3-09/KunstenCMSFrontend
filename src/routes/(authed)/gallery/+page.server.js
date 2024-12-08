@@ -17,7 +17,7 @@ export async function load({ cookies }) {
     
     const tagsData = await tags.json();
     
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",

@@ -12,7 +12,7 @@
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
     
-    let visual_medias = $state(data.visualMedias.content);
+    let visual_medias = $state(data.visualMedias);
     let color = $state([]);
 
     onMount(async () => {
