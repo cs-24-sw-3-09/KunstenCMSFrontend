@@ -43,6 +43,7 @@
         let slideshowsFetch = await fetch(
           env.PUBLIC_API_URL + "/api/slideshows",
           {
+            mode: 'no-cors',
             headers: { Authorization: "Bearer " + authToken },
           },
         );
