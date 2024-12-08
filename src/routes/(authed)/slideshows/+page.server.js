@@ -98,6 +98,7 @@ export const actions = {
     },
     deleteVM: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+        console.log(formData.get("ContentID"))
         const visualmedia = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/" + formData.get("ContentID"), {
             method: "DELETE",
             headers: {
@@ -111,6 +112,7 @@ export const actions = {
         }
         let newSlideshowData = await getSlideshows({ cookies, url, request });
         //console.log(newSlideshowData[newSlideshowData.length - 1])
+        //console.log(newSlideshowData)
         return {
             success: true,
             newData: newSlideshowData,
@@ -264,6 +266,7 @@ export const actions = {
         }));
 
         const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
+        console.log(requestBody)
         const returnData = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/positions", {
             method: "PATCH",
             headers: {
@@ -276,6 +279,7 @@ export const actions = {
             success: true,
         };
     },
+
     patchSSName: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 

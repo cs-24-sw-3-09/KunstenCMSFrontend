@@ -12,7 +12,7 @@
   import { Tooltip } from "@svelte-plugins/tooltips";
 </script>
 
-<div draggable="true" class="slideshows-body-item">
+<div class="slideshows-body-item">
   <div class="slideshows-body-item-preview">
     {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
       <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location.replaceAll(".mp4",".png")}` : video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
@@ -26,7 +26,7 @@
     </Tooltip>
   </div>
   <div class="slideshows-body-item-title">
-    {VMI.visualMedia ? VMI.visualMedia.name : "No name"}
+    {VMI.visualMedia ? VMI.id : "No name"}
   </div>
   <div class="slideshows-body-item-settings">
     <div class="slideshows-body-item-duration">
@@ -111,6 +111,7 @@
             );
           } else if (result.type === "success") {
             props.updateSlideshowContent(result.data.newData);
+            props.updateState(null);
           }
         };
       }}

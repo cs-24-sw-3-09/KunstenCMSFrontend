@@ -22,16 +22,14 @@
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
-        updateState(selectedId);
-        /*if (selectedId != null) {
-            console.log("here");
-            VMIForSS = data
-                .find((ss) => ss.id === selectedId)
-                ?.visualMediaInclusionCollection?.sort(
-                    (a, b) => a.slideshowPosition - b.slideshowPosition,
-                );
-        }
-        console.log(VMIForSS);*/
+        let VMIForSSClone = data
+            .find((ss) => ss.id === selectedId)
+            ?.visualMediaInclusionCollection?.sort(
+                (a, b) => a.slideshowPosition - b.slideshowPosition,
+            );
+        VMIForSS = VMIForSSClone
+            console.log(VMIForSS)
+            console.log(selectedId)
     }
 
     function filterSlideshow(slideshows, searchTerm) {
@@ -134,6 +132,7 @@
                     {searchTagsUpdate}
                     {searchTermUpdate}
                     {updateSlideshowContent}
+                    {updateState}
                     {form}
                     color={color.find((row) => row.slideshowId == slideshow.id)
                         ?.color}

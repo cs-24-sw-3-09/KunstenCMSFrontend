@@ -16,35 +16,7 @@
   import { getCookie } from "$lib/utils/getcookie.js";
 
   import { onMount } from "svelte";
-  import Sortable from "sortablejs";
   import { Tooltip } from "@svelte-plugins/tooltips";
-
-  // Assuming props.slideshow is passed as a prop to this component
-  //let items;
-  let listElement;
-
-  // Reactive statement to update items whenever props.slideshow changes
-  let items = $state( props.slideshow.visualMediaInclusionCollection.sort(
-    (a, b) => a.slideshowPosition - b.slideshowPosition
-  ));
-
-  onMount(async () => {
-    // Initialize the Sortable instance when the component is mounted
-    new Sortable(listElement, {
-      animation: 150,
-      filter: ".non-draggable",
-      preventOnFilter: false,
-      onEnd: (event) => {
-        const [movedItem] = items.splice(event.oldIndex, 1);
-        items.splice(event.newIndex, 0, movedItem);
-        items.forEach((item, i) => {
-          item.slideshowPosition = i + 1;
-        });
-        hiddenForm.requestSubmit();
-        dispatch("updateOrder", items);
-      },
-    });
-  });
 
   // svelte-ignore non_reactive_update
   let showAddMediaModal = $state(false);
@@ -53,12 +25,6 @@
     showAddMediaModal = !showAddMediaModal;
   }
 
-  function submitAddMediaModal(event) {
-    console.log(event.target);
-    event.preventDefault();
-    let form = new FormData(event.target);
-    console.log(form.get(""));
-  }
   let slideshowID = $state(props.slideshow.id);
 
   function getActivity(color) {
@@ -301,17 +267,18 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
-      <div bind:this={listElement}>
-        {#each props.VMIForSS as VMI}
+      <div>
+        {#each props.slideshow.visualMediaInclusionCollection as VMI}
           <Slideshowcontent
             {VMI}
+            updateState = {props.updateState}
             {slideshowID}
             slideshow={props.slideshow}
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
           />
         {/each}
-        <form
+        <!--<form
           method="post"
           action="?/patchNewVMIOrder"
           use:enhance={({ formData }) => {
@@ -333,7 +300,7 @@
           style="display: none;"
         >
           <input type="hidden" name="updatedOrder" />
-        </form>
+        </form>-->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore event_directive_deprecated -->
