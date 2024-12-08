@@ -41,6 +41,7 @@
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
+  import { Tooltip } from "@svelte-plugins/tooltips";
 
     console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
 
@@ -83,47 +84,36 @@
             />
 
             <Separator />
+ <div class="newTimeslot-modal-dates">
 
-            <Smallheader text={"Date from and to"} />
-            <div class="modal-inline">
+            <div class="newTimeslot-modal-dates-row">
                 <Dateinput
                     title={"Date from"}
                     name={"dateFrom"}
-                    required="true"
                     value={timeslot.startDate}
-                />
-                <Dateinput
-                    title={"Date to"}
-                    name={"dateTo"}
                     required="true"
-                    value={timeslot.endDate}
                 />
+                <Dateinput title={"Date to"} name={"dateTo"} required="true" value={timeslot.endDate} />
             </div>
 
-            <Smallheader text={"Time of day from and to"} />
-
-            <div class="modal-inline">
+            <div class="newTimeslot-modal-dates-row">
                 <InputTime
                     title={"Time from"}
                     name={"timeFrom"}
                     required="true"
                     value={timeslot.startTime}
                 />
-                <InputTime
-                    title={"Time to"}
-                    name={"timeTo"}
-                    required="true"
-                    value={timeslot.endTime}
-                />
+                <InputTime title={"Time to"} name={"timeTo"} required="true" value={timeslot.endTime} />
             </div>
+        </div>
 
             <div class="checkbox-container">
                 {#each daysArray as [day, checked]}
-                    <div class="checkbox-item">
-                        <!-- Replace Smallheader and Checkbox with your components -->
-                        <Smallheader text={day} />
-                        <Checkbox name={day} {checked} />
-                    </div>
+                <div class="checkbox-item">
+                    <!-- Replace Smallheader and Checkbox with your components -->
+                     <label class="checkbox-day-label" for="{day + "_id"}">{day[0]+day[1]}</label>
+                    <Checkbox name={day} {checked} />
+                </div>
                 {/each}
             </div>
 
@@ -150,30 +140,31 @@
                     {/each}
                 </select>
             </div>
-            <br />
-            <div class="checkbox-container">
+                <div class="newTimeslot-modal-display-devices-title">Display Devices</div>
+                <div class="newTimeslot-modal-display-devices">
                 {#each displayDevices as display}
-                    <div class="checkbox-item">
-                        <Smallheader text={display.name} />
-                        <Checkbox
-                            name={display.id}
-                            checked={!!timeslot.displayDevices.find(
-                                (dd) => dd.id == display.id,
-                            )}
-                        />
+
+                    <div class="newTimeslot-modal-display-device">
+                        <label for="{display.id}"> <input checked={!!timeslot.displayDevices.find(
+                            (dd) => dd.id == display.id,
+                        )} type="checkbox" name="{display.id}" id="{display.id}">{display.name}</label>
                     </div>
-                {/each}
-            </div>
+                    {/each}
+                </div>
 
             <Separator />
-            <Smallheader text={"Force changes:"} />
-            <Checkbox
-                name={"Force"}
-                checked={false}
-            />
+            <div class="newTimeslot-force">
+                <div class="newTimeslot-force-title">
+                    <Tooltip content="If dimensions don't fit, you can force" position="top">
+                        <div class="newTimeslot-force-title-icon">?</div>
+                    </Tooltip>
+                    <label for="force" class="newTimeslot-force-title-text">Force</label>
+                </div>
+                <input type="checkbox" id="force" name="force">
+            </div>
         </form>
 
-        <div class="modal-buttons">
+        <div class="modal-buttons edit-timeslot-modal-buttons">
             <form
                 id="delete"
                 method="POST"

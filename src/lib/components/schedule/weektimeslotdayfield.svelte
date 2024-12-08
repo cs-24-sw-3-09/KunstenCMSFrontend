@@ -1,6 +1,5 @@
 <script>
     let { dayfield, toggleEditTimeslotModal } = $props();
-
 </script>
 
 <div class="schedule-container"
