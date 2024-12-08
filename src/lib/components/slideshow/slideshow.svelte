@@ -18,11 +18,17 @@
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
 
-  let items = $state(props.VMIForSS
-  );
+  // Assuming props.slideshow is passed as a prop to this component
+  //let items;
   let listElement;
 
+  // Reactive statement to update items whenever props.slideshow changes
+  let items = $state( props.slideshow.visualMediaInclusionCollection.sort(
+    (a, b) => a.slideshowPosition - b.slideshowPosition
+  ));
+
   onMount(async () => {
+    // Initialize the Sortable instance when the component is mounted
     new Sortable(listElement, {
       animation: 150,
       filter: ".non-draggable",

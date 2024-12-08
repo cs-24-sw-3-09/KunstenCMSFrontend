@@ -18,21 +18,20 @@
 
     let searchTerm = $state(""); // For live text search
     let searchTags = $state(""); // For tag-based filtering
-    
 
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
         updateState(selectedId);
         /*if (selectedId != null) {
-            console.log("here")
+            console.log("here");
             VMIForSS = data
-            .find((ss) => ss.id === selectedId)
-            ?.visualMediaInclusionCollection?.sort(
-                (a, b) => a.slideshowPosition - b.slideshowPosition,
-            );
+                .find((ss) => ss.id === selectedId)
+                ?.visualMediaInclusionCollection?.sort(
+                    (a, b) => a.slideshowPosition - b.slideshowPosition,
+                );
         }
-        console.log(VMIForSS)*/
+        console.log(VMIForSS);*/
     }
 
     function filterSlideshow(slideshows, searchTerm) {
@@ -50,7 +49,6 @@
     function searchSlideshowUpdate(event) {
         searchSlideshow = event.target.value;
     }
-
 
     function filterVisualMedia(visualMedias, searchVMTerm, searchVMTags) {
         if (searchVMTerm) {
