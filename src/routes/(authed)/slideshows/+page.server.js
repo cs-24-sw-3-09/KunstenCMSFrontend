@@ -19,7 +19,7 @@ export async function load({ cookies }) {
     const slideshowData = await slideshow.json();
 
 
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias", {
+    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
         method: "GET",
         headers: {
             /* "Content-type": "application/json", */
@@ -168,14 +168,10 @@ export const actions = {
     },
     newMediaToSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        //console.log("formdata123", formData)
-
         // Check feilds
         if (!formData.get("name")) {
             return fail(400, { error: "did not pick an Visual Media" });
         }
-        //console.log("sspos", formData.get("ssPos"));
-
         // requestBody sendt for the patch action
         let requestBody = JSON.stringify({
             slideDuration: 25,
@@ -202,7 +198,8 @@ export const actions = {
         requestBody = JSON.stringify({
             visualMediaInclusionId: newVMIId
         });
-        const secondResponse = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions", {
+        let forcePatch = formData.get("Force") == "on" ? true : false;
+        const secondResponse = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("ssId") + "/visual_media_inclusions?forceDimensions=" + forcePatch, {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
@@ -211,8 +208,10 @@ export const actions = {
             body: requestBody,
         });
 
-        responseData = await secondResponse.json();
-        console.log("status", response.status, secondResponse.status)
+        responseData = await secondResponse.text();
+        if (secondResponse.status == 409) {
+            return fail(response.status, { error: "\n" + responseData });
+        }
         if (response.status !== 201 || secondResponse.status !== 200) {
             return fail(response.status, { error: "Failed to add visual media to slideshow." });
         }
