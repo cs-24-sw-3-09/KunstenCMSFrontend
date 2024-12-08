@@ -23,7 +23,6 @@
       (a, b) => a.slideshowPosition - b.slideshowPosition,
     ),
   );
-  console.log(items)
   let listElement;
 
   onMount(async () => {
