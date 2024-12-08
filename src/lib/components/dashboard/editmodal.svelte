@@ -28,14 +28,14 @@
         const authToken = getCookie("authToken");
 
         let visualMediaFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/visual_medias",
+          env.PUBLIC_API_URL + "/api/visual_medias/all",
           {
             headers: { Authorization: "Bearer " + authToken },
           },
         );
 
         let visualMedias = await visualMediaFetch.json();
-        visualMedias?.content.forEach(visualMedia => {
+        visualMedias?.forEach(visualMedia => {
             options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
         });
 
