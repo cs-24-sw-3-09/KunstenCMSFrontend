@@ -12,6 +12,7 @@
     gap: 12px;
     background-color: white;
     z-index: 1;
+    display: flex;
   }
   
   .slideshows-header-input[type="text"] {

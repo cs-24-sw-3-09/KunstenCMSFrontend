@@ -23,6 +23,16 @@
     font-size: 20px;
 }
 
+.schedule-header-top-right {
+    display: flex;
+    gap: 44px;
+}
+
+.schedule-header-top-right-nav {
+    display: flex;
+    gap: 6px;
+}
+
 .schedule-week-header-bottom {
     display: flex;
     background-color: rgb(236, 236, 236);
@@ -132,4 +142,94 @@
 
 .color-red {
     background-color: rgb(255, 118, 118);
+}
+
+.newTimeslot-modal-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.newTimeslot-modal-dates-row {
+    display: flex;  
+    gap: 28px; 
+}
+
+.newTimeslot-modal-dates-row div {
+    width: 100%;
+}
+
+.checkbox-day-label {
+    font-size: 12px;
+    color: rgb(58, 58, 58);
+    user-select: none;
+
+}
+
+.newTimeslot-modal-display-devices-title {
+    font-size: 12px;
+    color: rgb(56, 56, 56);
+    margin-bottom: -9px;
+    margin-top: 10px;
+}
+
+.newTimeslot-modal-display-devices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style-type: none;
+    list-style-position: outside;
+    float: left;
+}
+
+.newTimeslot-modal-display-device {
+    display: flex;
+}
+
+.newTimeslot-modal-display-device label {
+    width: 100%;
+    border: 1px solid rgb(197, 197, 197);
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 4px 6px;
+    font-size: 14px;
+}
+
+.newTimeslot-modal-display-device label:hover {
+    background-color: rgb(247, 247, 247);
+}
+
+.newTimeslot-force-title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.newTimeslot-force-title-text {
+    font-size: 12px;
+    color: rgb(58, 58, 58);
+    user-select: none;
+}
+
+.newTimeslot-force-title-icon {
+    font-size: 12px;
+    border: 1px solid black;
+    width: 14px;
+    height: 14px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.newTimeslot-force {
+    display: flex;
+    gap: 12px;
+}
+
+.edit-timeslot-modal-buttons {
+    margin-right: 12px;
 }

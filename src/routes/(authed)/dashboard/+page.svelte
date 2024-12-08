@@ -75,7 +75,7 @@
 
 <div class="main-content">
     <div class="page">
-        <div class="page-header">
+        <div class="dashboard-header">
             <h1>Dashboard</h1>
             {#if data.user.admin}
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
