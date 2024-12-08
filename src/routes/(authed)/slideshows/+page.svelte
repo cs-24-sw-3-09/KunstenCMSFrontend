@@ -59,7 +59,7 @@
     }
 
     let filteredVisualMedia = $derived.by(() => {
-        return filterVisualMedia(visualMedias.content, searchTerm, searchTags);
+        return filterVisualMedia(visualMedias, searchTerm, searchTags);
     }); // Reactive var
 
     function searchTermUpdate(event) {
