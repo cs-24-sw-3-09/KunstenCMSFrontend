@@ -4,19 +4,7 @@ import { mimeToType } from "$lib/utils/fileutils";
 import { env } from "$env/dynamic/private";
 
 /** @type {import("./$types").PageServerLoad} */
-export async function load({ cookies }) {
-
-    
-    const tags = await fetch(env.SERVER_API_URL + "/api/tags", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    })
-    
-    const tagsData = await tags.json();
-    
+export async function load({ cookies }) {    
     const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
         method: "GET",
         headers: {
@@ -27,8 +15,6 @@ export async function load({ cookies }) {
     
     const visualMediasData = await visualMedia.json();
 
-    //console.log(visualMediasData);
-    
     return {
         visualMedias: visualMediasData,
     };
