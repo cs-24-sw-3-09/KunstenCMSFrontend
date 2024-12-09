@@ -89,6 +89,5 @@
 </div>
 
 <style>
-    @import "$lib/styles/tooltip.css";
     @import "$lib/styles/sidebar.css";
 </style>
