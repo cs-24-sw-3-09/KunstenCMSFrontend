@@ -158,7 +158,6 @@ export const actions = {
                 displayDevicesObj.push({ id: Number(key) });
             }
         }
-        console.log(formData)
 
         let requestBody = JSON.stringify({
             name: formData.get("name"),
@@ -170,7 +169,7 @@ export const actions = {
             displayDevices: displayDevicesObj,
             displayContent: JSON.parse(formData.get("displayContent")),
         });
-        let forcePatch = formData.get("Force") == "on" ? true : false;
+        let forcePatch = formData.get("force") == "on" ? true : false;
         // Send the request to the backend        
         const response = await fetch(env.SERVER_API_URL + "/api/time_slots/" + formData.get("timeslotID") + "?forceDimensions=" + forcePatch, {
             method: "PATCH",
@@ -199,8 +198,6 @@ export const actions = {
     },
     newTimeslot: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        //console.log("formdata123", formData)
-        //console.log(formData)
 
         // requestBody sendt for the patch action
         let startDate = new Date(formData.get("dateFrom"));
@@ -265,7 +262,7 @@ export const actions = {
             displayContent: JSON.parse(formData.get("displayContent")),
         });
         // Send the request to the backend        
-        let forcePatch = formData.get("Force") == "on" ? true : false;
+        let forcePatch = formData.get("force") == "on" ? true : false;
         const response = await fetch(env.SERVER_API_URL + "/api/time_slots?forceDimensions=" + forcePatch, {
             method: "POST",
             headers: {
