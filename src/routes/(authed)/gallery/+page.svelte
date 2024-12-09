@@ -7,9 +7,24 @@
     import NewModal from "$lib/components/gallery/newmodal.svelte";
     import EditModal from "$lib/components/gallery/editmodal.svelte";
     import ReplaceModal from "$lib/components/gallery/replacemodal.svelte";
+    import { onMount } from "svelte";
+
+    import { env } from "$env/dynamic/public";
+    import { getCookie } from "$lib/utils/getcookie.js";
     
-    let visual_medias = $state(data.visualMedias.content);
-    let color = data.color;
+    let visual_medias = $state(data.visualMedias);
+    let color = $state([]);
+
+    onMount(async () => {
+        const colorData = await fetch(env.PUBLIC_API_URL + "/api/visual_medias/states", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+        color = await colorData.json();
+    })
+
     //$inspect(visual_medias);
 
     function updateVisualMedia(updatedItem) {

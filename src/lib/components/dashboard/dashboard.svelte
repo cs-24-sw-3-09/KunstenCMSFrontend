@@ -9,7 +9,6 @@
     <div class="dashboard-grid">
         <!-- For each device in the deviceStore, render a Card component -->
         {#each devices as device}
-            <!-- {console.log(livedevicedata[device.id])} -->
             <Card admin={admin} livedata={livedevicedata[device.id]} device={device} doEdit={() => (doEdit(device))} deleteDevice={deleteDevice} />
         {/each}
     </div>
