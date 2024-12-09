@@ -272,28 +272,32 @@
                     {:else}
                         {formatFocusDate}
                     {/if}
-                    <Button text={"New Timeslot"} clickFunction={() => {showNewTimeslotModal = true}} />
                 </div>
+                <div class="schedule-header-top-right">
+                    <Button text={"New Timeslot"} clickFunction={() => {showNewTimeslotModal = true}} />
 
-                <div>
+                    <div>
                     {#if weekView}
                         <Button text={"Change to Day View"} clickFunction={() => (weekView = false)} />
                     {:else}
                         <Button text={"Change to Week View"} clickFunction={() => (weekView = true)} />
                     {/if}
-                </div>
+                    </div>
                 
-                <div>
-                    <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
-                    
-                    {#if weekView}
-                        <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7))}}><i class="arrow left"></i></button>
-                        <button aria-label="Next Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 7))}}><i class="arrow right"></i></button>
-                    {:else}
-                        <button aria-label="Previous Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 1))}}><i class="arrow left"></i></button>
-                        <button aria-label="Next Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 1))}}><i class="arrow right"></i></button>
-                    {/if}
+                    <div class="schedule-header-top-right-nav">
+                        <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
+                        
+                        {#if weekView}
+                            <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7))}}><i class="arrow left"></i></button>
+                            <button aria-label="Next Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 7))}}><i class="arrow right"></i></button>
+                        {:else}
+                            <button aria-label="Previous Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 1))}}><i class="arrow left"></i></button>
+                            <button aria-label="Next Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 1))}}><i class="arrow right"></i></button>
+                        {/if}
+                    </div>
                 </div>
+
+                
             </div>
         </div>
         
@@ -348,4 +352,5 @@
     @import "$lib/styles/schedule.css";
     @import "$lib/styles/schedule_day.css";
     @import "$lib/styles/schedule_week.css";
+
 </style>
