@@ -58,7 +58,7 @@ export const actions = {
         let requestBody = data;
 
         // Send the request to the backend
-        const response = await fetch(env.SERVER_API_URL + "/api/display_devices", {
+        const response = await fetch(env.SERVER_API_URL + "/api/display_devices?forceDimensions=true", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -119,7 +119,7 @@ export const actions = {
         }
 
         // Send the request to the backend
-        const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + requestBody.id, {
+        const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + requestBody.id + "?forceDimensions=true", {
             method: "PATCH",
             headers: {
                 "Content-type": "application/json",
