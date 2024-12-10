@@ -8,12 +8,10 @@ import { redirect } from '@sveltejs/kit';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-    
     // Get test user and set to locals
     event.locals.user = await authenticateUser(event);
 
     const protectedUserRoutes = ["/dashboard", "/profile"];
-    //if (event.url.pathname.startsWith("/(authed)")) {
     if (protectedUserRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user) {
             //console.log("Access denied, user");
@@ -21,7 +19,7 @@ export async function handle({ event, resolve }) {
         }
     }
 
-    const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule-week", "/schedule-day", "/slideshow?/postNewOrder"];
+    const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule", "/slideshow?/postNewOrder"];
     if (protectedPlannerRouteRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user || !event.locals.user.mediaPlanner) {
             //console.log("Access denied, planner");
