@@ -67,11 +67,12 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        const responseData = await response.json();
-
+        
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create new device." });
         }
+        
+        const responseData = await response.json();
 
         return {
             success: true,
@@ -128,11 +129,12 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        const responseData = await response.json();
-
+        
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to edit device." });
         }
+
+        const responseData = await response.json();
 
         return {
             success: true,
