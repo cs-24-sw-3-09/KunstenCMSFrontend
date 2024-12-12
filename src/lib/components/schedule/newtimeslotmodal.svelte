@@ -25,8 +25,8 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import Dateinput from "$lib/components/modal/InputDate.svelte";
-  import { Tooltip } from "@svelte-plugins/tooltips";
-  import InputTime from "$lib/components/modal/InputTime.svelte";
+    import { Tooltip } from "@svelte-plugins/tooltips";
+    import InputTime from "$lib/components/modal/InputTime.svelte";
 </script>
 
 <div class="modal">

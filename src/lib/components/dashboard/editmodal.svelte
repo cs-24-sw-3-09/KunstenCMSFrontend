@@ -14,6 +14,7 @@
     import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
+    import InputTime from "$lib/components/modal/InputTime.svelte";
     import { onMount } from "svelte";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
@@ -106,10 +107,106 @@
             </div>
 
             <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} value={device.displayOrientation} required="true" />
-
-            
-
             <Separator />
+
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Monday start"}
+                    name={"monday_start"}
+                    required={false}
+                    value={device.monday_start}
+                />
+                <InputTime
+                    title={"Monday end"}
+                    name={"monday_end"}
+                    required={false}
+                    value={device.monday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Tuesday start"}
+                    name={"tuesday_start"}
+                    required={false}
+                    value={device.tuesday_start}
+                />
+                <InputTime
+                    title={"Tuesday end"}
+                    name={"tuesday_end"}
+                    required={false}
+                    value={device.tuesday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Wednesday start"}
+                    name={"wednesday_start"}
+                    required={false}
+                    value={device.wednesday_start}
+                />
+                <InputTime
+                    title={"Wednesday end"}
+                    name={"wednesday_end"}
+                    required={false}
+                    value={device.wednesday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Thursday start"}
+                    name={"thursday_start"}
+                    required={false}
+                    value={device.thursday_start}
+                />
+                <InputTime
+                    title={"Thursday end"}
+                    name={"thursday_end"}
+                    required={false}
+                    value={device.thursday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Friday start"}
+                    name={"friday_start"}
+                    required={false}
+                    value={device.friday_start}
+                />
+                <InputTime
+                    title={"Friday end"}
+                    name={"friday_end"}
+                    required={false}
+                    value={device.friday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Saturday start"}
+                    name={"saturday_start"}
+                    required={false}
+                    value={device.saturday_start}
+                />
+                <InputTime
+                    title={"Saturday end"}
+                    name={"saturday_end"}
+                    required={false}
+                    value={device.saturday_end}
+                />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Sunday start"}
+                    name={"sunday_start"}
+                    required={false}
+                    value={device.sunday_start}
+                />
+                <InputTime
+                    title={"Sunday end"}
+                    name={"sunday_end"}
+                    required={false}
+                    value={device.sunday_end}
+                />
+            </div>
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />

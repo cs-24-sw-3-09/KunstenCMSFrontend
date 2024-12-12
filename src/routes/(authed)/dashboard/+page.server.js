@@ -35,6 +35,15 @@ export const actions = {
     newDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
 
+        // Makes obj that only contaions the start and end times
+        const formDataObject = {};
+        for (const [key, value] of formData.entries()) {
+            if (/^\d{2}:\d{2}$/.test(value)) {
+                // If it matches, convert it to dd:dd:00
+                formDataObject[key] = `${value}:00`;
+            }
+        }
+
         // Resolution is a string of the form "WIDTHxHEIGHT"
         // Hacky way to get id and type from formdata
         let data = {
@@ -55,8 +64,10 @@ export const actions = {
         }
 
         // requestBody sendt for the post action
-        let requestBody = data;
-
+        let requestBody = {
+            ...formDataObject,
+            ...data,
+        };
         // Send the request to the backend
         const response = await fetch(env.SERVER_API_URL + "/api/display_devices?forceDimensions=true", {
             method: "POST",
@@ -66,13 +77,10 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
         const responseData = await response.json();
-
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create new device." });
         }
-
         return {
             success: true,
             responseData
@@ -80,6 +88,15 @@ export const actions = {
     },
     editDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+
+        // Makes obj that only contaions the start and end times
+        const formDataObject = {};
+        for (const [key, value] of formData.entries()) {
+            if (/^\d{2}:\d{2}$/.test(value)) {
+                // If it matches, convert it to dd:dd:00
+                formDataObject[key] = `${value}:00`;
+            }
+        }
 
         // Extract old data from the form data
         const oldDataJson = formData.get("oldData"); // Get serialized JSON
@@ -110,14 +127,13 @@ export const actions = {
         }
 
         // requestBody sendt for the patch action
-        let requestBody = diff;
+        let requestBody = { ...diff, ...formDataObject };
         requestBody.id = data.id;
 
         // Check requestBody
         if (!(Object.keys(requestBody).length > 1)) {
             return fail(400, { error: "At least one field needs to be changed." });
         }
-
         // Send the request to the backend
         const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + requestBody.id + "?forceDimensions=true", {
             method: "PATCH",
