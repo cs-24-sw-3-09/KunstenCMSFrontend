@@ -12,7 +12,7 @@
     import NewModal from "$lib/components/dashboard/newmodal.svelte";
     import EditModal from "$lib/components/dashboard/editmodal.svelte";
 
-    let devices = $state(data.displayDevices.content);
+    let devices = $state(data.displayDevices);
     let livedevicedata = $state({});
     //$inspect(devices);
 
