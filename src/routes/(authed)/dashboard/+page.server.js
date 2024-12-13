@@ -8,7 +8,7 @@ import { env } from "$env/dynamic/private";
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
 
-    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices", {
+    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
