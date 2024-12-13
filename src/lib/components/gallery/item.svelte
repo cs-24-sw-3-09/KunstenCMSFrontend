@@ -105,7 +105,7 @@
         action="?/deleteVisualMedia"
         use:enhance={async ({ formData, cancel }) => {
           const authToken = getCookie("authToken");
-          console.log(authToken);
+          //console.log(authToken);
           let informationData = await fetch(
             env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows",
             {

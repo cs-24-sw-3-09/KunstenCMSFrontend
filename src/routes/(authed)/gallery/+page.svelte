@@ -1,6 +1,6 @@
 <script>
     // Export form
-    let { data, form } = $props(); // Is automatically populated by SvelteKit
+    let { data } = $props(); // Is automatically populated by SvelteKit
 
     import Gallery from "$lib/components/gallery/gallery.svelte";
     import ItemModal from "$lib/components/gallery/itemmodal.svelte";
