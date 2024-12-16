@@ -8,7 +8,7 @@ import { env } from "$env/dynamic/private";
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
 
-    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices", {
+    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -77,10 +77,14 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-        const responseData = await response.json();
+
+        
         if (response.status !== 201) {
             return fail(response.status, { error: "Failed to create new device." });
         }
+        
+        const responseData = await response.json();
+
         return {
             success: true,
             responseData
@@ -144,11 +148,12 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        const responseData = await response.json();
-
+        
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to edit device." });
         }
+
+        const responseData = await response.json();
 
         return {
             success: true,
