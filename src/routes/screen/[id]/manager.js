@@ -78,7 +78,7 @@ export class Manager {
         currentElem.pause();
         currentElem.currentTime = 0;
       }
-      if (nextElem?.tagName === "VIDEO" && !(!nextElem?.paused && nextElem?.currenTime > 0 && !nextElem?.ended)) nextElem.play();
+      if (nextElem?.tagName === "VIDEO" && !(!nextElem?.paused && nextElem?.currentTime > 0 && !nextElem?.ended)) nextElem.play();
       this.connectionHandler.sendContentChange(
         this.deviceid,
         this.contentName,
