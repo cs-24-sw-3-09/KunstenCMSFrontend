@@ -14,7 +14,8 @@
     import Numberinput from "$lib/components/modal/numberinput.svelte";
     import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Button from "$lib/components/modal/button.svelte";
-    import Separator from "$lib/components/modal/separator.svelte";    
+    import Separator from "$lib/components/modal/separator.svelte";  
+    import InputTime from "$lib/components/modal/InputTime.svelte";
     import { onMount } from "svelte";
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
@@ -102,6 +103,63 @@
             <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} required="true" />
 
             <Separator />
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Monday start"}
+                    name={"monday_start"}
+                    required={false}
+                />
+                <InputTime title={"Monday end"} name={"monday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Tuesday start"}
+                    name={"tuesday_start"}
+                    required={false}
+                />
+                <InputTime title={"Tuesday end"} name={"tuesday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Wednesday start"}
+                    name={"wednesday_start"}
+                    required={false}
+                />
+                <InputTime title={"Wednesday end"} name={"wednesday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Thursday start"}
+                    name={"thursday_start"}
+                    required={false}
+                />
+                <InputTime title={"Thursday end"} name={"thursday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Friday start"}
+                    name={"friday_start"}
+                    required={false}
+                />
+                <InputTime title={"Friday end"} name={"friday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Saturday start"}
+                    name={"saturday_start"}
+                    required={false}
+                />
+                <InputTime title={"Saturday end"} name={"saturday_end"} required={false} />
+            </div>
+            <div class="newTimeslot-modal-dates-row">
+                <InputTime
+                    title={"Sunday start"}
+                    name={"sunday_start"}
+                    required={false}
+                />
+                <InputTime title={"Sunday end"} name={"sunday_end"} required={false} />
+            </div>
+
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
