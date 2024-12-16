@@ -34,7 +34,7 @@
                         break;
                     case "success":
                         updateVisualMedia(result.data.responseData);
-                        closeModal(); // Call doClose on successful form submission
+                        doClose(); // Call doClose on successful form submission
                         break;
                 }
             };
