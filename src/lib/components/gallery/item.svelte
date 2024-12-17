@@ -92,7 +92,7 @@
     </button>
       <button
         class="gallery-item-replace-button"
-        onclick={doToggleReplaceModal}
+        onclick={() => {doToggleReplaceModal(item)}}
         aria-label="Edit item"
       >
       <Tooltip content="Replace" animation="slide",  position="top">

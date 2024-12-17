@@ -184,6 +184,7 @@ export const actions = {
         });
 
         //console.log(response.status);
+        const responseData = await response.json();
 
         if (!(response.status >= 200 && response.status < 300)) {
             return fail(response.status, { error: "Failed to replace visual media." });
@@ -191,6 +192,7 @@ export const actions = {
 
         return { 
             success: true,
+            responseData
         };
     },
     deleteVisualMedia: async ({ cookies, url, request }) => {

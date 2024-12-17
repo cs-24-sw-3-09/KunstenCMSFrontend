@@ -12,6 +12,7 @@
         searchTags,
         deleteVisualMedia,
         color,
+        item,
     } = $props();
 
     import Header from "$lib/components/gallery/header.svelte";
@@ -33,7 +34,7 @@
                 item={VM}
                 doDelete={() => doDelete(VM)}
                 doToggleEditModal={() => doToggleEditModal(VM)}
-                doToggleReplaceModal={() => (doToggleReplaceModal(item))}
+                doToggleReplaceModal={() => (doToggleReplaceModal(VM))}
                 doToggleItemModal={() => doToggleItemModal(VM)}
                 {deleteVisualMedia}
                 color = {color.find((row) => row.visualMediaId == VM.id)
