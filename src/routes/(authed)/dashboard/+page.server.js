@@ -92,7 +92,6 @@ export const actions = {
     },
     editDevice: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-
         // Makes obj that only contaions the start and end times
         const formDataObject = {};
         for (const [key, value] of formData.entries()) {
@@ -114,13 +113,12 @@ export const actions = {
             /* model: formData.get("model"), */
             displayOrientation: formData.get("displayOrientation"),
             resolution: formData.get("width") + "x" + formData.get("height"),
-            fallbackContent: {
+            fallbackContent: formData.get("fallbackContent") != '' ? {
                 id: JSON.parse(formData.get("fallbackContent")).id,
                 type: JSON.parse(formData.get("fallbackContent")).type,
-            },
+            } : null,
         };
 
-        console.log(JSON.parse(formData.get("fallbackContent")))
 
         // Find differeences
         let diff = {};
@@ -130,14 +128,12 @@ export const actions = {
             }
         }
 
+
         // requestBody sendt for the patch action
         let requestBody = { ...diff, ...formDataObject };
         requestBody.id = data.id;
 
-        // Check requestBody
-        if (!(Object.keys(requestBody).length > 1)) {
-            return fail(400, { error: "At least one field needs to be changed." });
-        }
+
         // Send the request to the backend
         const response = await fetch(env.SERVER_API_URL + "/api/display_devices/" + requestBody.id + "?forceDimensions=true", {
             method: "PATCH",
