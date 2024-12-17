@@ -54,7 +54,6 @@
 
     });
 
-    console.log(device.fallbackContent.name);
 </script>
 
 <div class="modal">
@@ -85,9 +84,15 @@
 
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
-                <select id={"fallback_id"} name={"fallbackContent"} required>
+                <select id={"fallback_id"} name={"fallbackContent"}>
+                        {#if device.fallbackContent == null}
+                            <option selected value={null}>No fallback</option>  
+                        {:else}
+                            <option value={null}>No fallback</option>  
+
+                        {/if}
                     {#each options as option}
-                        {#if device.fallbackContent.id == option.id}
+                        {#if device.fallbackContent !== null && device.fallbackContent.id == option.id}
                             <option selected value={JSON.stringify(option)}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>   
                         {:else}
                             <option value={JSON.stringify(option)}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
