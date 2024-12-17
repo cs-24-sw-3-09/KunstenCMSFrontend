@@ -34,7 +34,7 @@
                         alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
-                        /* updateVisualMedia(result.data.responseData); */
+                        updateVisualMedia(result.data.responseData);
                         closeModal(); // Call doClose on successful form submission
                         break;
                 }
