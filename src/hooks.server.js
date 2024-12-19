@@ -11,17 +11,14 @@ export async function handle({ event, resolve }) {
     // Get test user and set to locals
     event.locals.user = await authenticateUser(event);
 
-    const protectedUserRoutes = ["/dashboard", "/profile"];
-    if (protectedUserRoutes.some(route => event.url.pathname.startsWith(route))) {
-        if (!event.locals.user) {
-            //console.log("Access denied, user");
-            throw redirect(303, "/login");
-        }
+    if (!event.locals.user) {
+        //console.log("Access denied, user");
+        throw redirect(303, "/login");
     }
 
     const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule", "/slideshow?/postNewOrder"];
     if (protectedPlannerRouteRoutes.some(route => event.url.pathname.startsWith(route))) {
-        if (!event.locals.user || !event.locals.user.mediaPlanner) {
+        if (!event.locals.user.mediaPlanner) {
             //console.log("Access denied, planner");
             throw redirect(303, "/dashboard");
         }
@@ -29,7 +26,7 @@ export async function handle({ event, resolve }) {
 
     const protectedAdminRoutes = ["/admin"];
     if (protectedAdminRoutes.some(route => event.url.pathname.startsWith(route))) {
-        if (!event.locals.user || !event.locals.user.admin) {
+        if (!event.locals.user.admin) {
             //console.log("Access denied, admin");
             throw redirect(303, "/dashboard");
         }
