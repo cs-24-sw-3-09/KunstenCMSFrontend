@@ -93,5 +93,6 @@
 
 <style>
     @import "$lib/styles/dashboard.css";
+    @import "$lib/styles/editDeviceModal.css";
     
 </style>
