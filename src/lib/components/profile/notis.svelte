@@ -8,16 +8,28 @@
     let todayDate = new Date(today);
 
     // Get the date from the profileData and split it into a date object
-    let tempFromDate = new Date(profileData.pauseNotificationStart);
-    let tempToDate = new Date(profileData.pauseNotificationEnd);
+    let tempFromDate =  $derived.by(() => {return new Date(profileData.pauseNotificationStart === null ? "" : profileData.pauseNotificationStart);})
+    let tempToDate = $derived.by(() => { return new Date(profileData.pauseNotificationEnd === null ? "" : profileData.pauseNotificationEnd);})
 
     // Checks if the date from the profileData is greater than today's date, if so, it sets the date to today
-    let tempFrom =
-        tempFromDate > todayDate
-            ? tempFromDate.toISOString().split("T")[0]
-            : today;
-    let tempTo =
-        tempToDate > todayDate ? tempToDate.toISOString().split("T")[0] : today;
+    let tempFrom = $derived.by(() => {
+        if (tempFromDate >= todayDate) {
+            return tempFromDate.toISOString().split("T")[0]
+        } else {
+            return "";
+        }
+    });
+
+    let tempTo = $derived.by(() => {
+        if (tempToDate > todayDate) {
+            return tempToDate.toISOString().split("T")[0]
+        } else {
+            return "";
+        }
+    });
+
+    /* let tempTo = 
+        tempToDate > todayDate ? tempToDate.toISOString().split("T")[0] : ""; */
 </script>
 
 <div class="profile-notis-title">Notification</div>
@@ -31,7 +43,7 @@ use:enhance={({ formData }) => {
             case "failure":
                 alert(`Failed to update notification state, please reload page (F5).\n${result.data?.error}`);
                 break;
-            case "success":
+            case "success":                
                 updateProfileData(result.data.responseData);
                 break;
         }
@@ -86,5 +98,34 @@ use:enhance={({ formData }) => {
     </div>
     <div class="profile-notis-pause-button">
         <input type="submit" value="Pause" />
+    </div>
+</form>
+
+<label for="checkboxInputOverride"></label>
+
+<form class="profile-notis-bottom notis-pause-form" action="?/unpauseNotifications" method="post"
+use:enhance={({ formData }) => {
+    // `formData` is its `FormData` object that's about to be submitted
+    formData.set("id", profileData.id);
+    formData.set("pauseNotificationStart", "2000-01-01");
+    formData.set("pauseNotificationEnd", "2000-01-01");
+
+    return async ({ result }) => {
+        switch (result.type) {
+            case "failure":
+                alert(`Failed to update notification unpause, please reload page (F5).\n${result.data?.error}`);
+                break;
+            case "success":
+                console.log("res:",result.data.responseData);
+                updateProfileData(result.data.responseData);
+                console.log("res2:",result.data.responseData);
+                break;
+        }
+    };
+}}>
+    <div class="profile-notis-bottom-title"></div>
+    <div class="profile-notis-bottom-title">Unpause Notifications</div>
+    <div class="profile-notis-pause-button">
+        <input type="submit" value="Unpause" />
     </div>
 </form>

@@ -68,12 +68,12 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
-        const responseData = await response.json();
-
+        
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
+
+        const responseData = await response.json();
 
         // If email is changed, delete the authToken
         if (requestBody.email) {
@@ -155,13 +155,12 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
-        const responseData = await response.json();
-
-
+        
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
+
+        const responseData = await response.json();
 
         return { 
             success: true,
@@ -200,15 +199,50 @@ export const actions = {
             body: JSON.stringify(requestBody),
         });
 
-        const responseData = await response.json();
-
+        
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
+        
+        const responseData = await response.json();
 
         return { 
             success: true,
             responseData,
         };
-    }
+    },
+    unpauseNotifications : async ({ cookies, url, request }) => {
+        const formData = await request.formData();
+        console.log(formData);
+
+        let requestBody = {
+            id: formData.get("id"),
+            pauseNotificationStart: formData.get("pauseNotificationStart"),
+            pauseNotificationEnd: formData.get("pauseNotificationEnd"),
+        } 
+
+        const response = await fetch(env.SERVER_API_URL+"/api/account", {
+            method: "PATCH",
+            headers: { 
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + cookies.get("authToken"),
+            },
+            body: JSON.stringify(requestBody),
+        });
+
+        console.log(response);
+        
+        if (response.status !== 200) {
+            return fail(response.status, { error: "Failed to update profile." });
+        }
+
+        const responseData = await response.json();
+
+        console.log()
+
+        return { 
+            success: true,
+            responseData,
+        };
+    },
 }
