@@ -15,6 +15,11 @@ export async function authenticateUser({ request, cookies }) {
             },
         });
 
+        // if bad token, or no user, return null
+        if (user.status !== 200) {
+            return null;
+        }
+
         const userData = await user.json();
 
 		return userData;
