@@ -20,10 +20,10 @@
   import Sortable from "sortablejs";
   import { Tooltip } from "@svelte-plugins/tooltips";
 
-  let items = $state(
+  let items = $derived.by(() => {
     props.slideshow.visualMediaInclusionCollection.sort(
       (a, b) => a.slideshowPosition - b.slideshowPosition,
-    ),
+    )}
   );
   let listElement;
 

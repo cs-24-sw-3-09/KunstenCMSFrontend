@@ -12,6 +12,7 @@
     let color = data.color;
     function updateSlideshowContent(data) {
         slideshowContent = data;
+        console.log(data);
         if (selectedId != null) {
             VMIForSS = slideshowContent
                 .find((ss) => ss.id === selectedId)
@@ -115,7 +116,7 @@
         {#each filteredslideshow as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
                 <Slideshow
-                    {slideshow}
+                    {slideshow} 
                     {VMIForSS}
                     {filteredVisualMedia}
                     on:update={(event) => updateState(event.detail)}
