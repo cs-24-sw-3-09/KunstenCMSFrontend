@@ -27,7 +27,6 @@ export async function load({ locals, cookies }) {
     });
     return {
         timeslots,
-        pageHeight: 100,
     };
 }
 
