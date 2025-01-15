@@ -29,6 +29,18 @@
 
         const authToken = getCookie("authToken");
 
+        let slideshowsFetch = await fetch(
+          env.PUBLIC_API_URL + "/api/slideshows",
+          {
+            headers: { Authorization: "Bearer " + authToken },
+          },
+        );
+
+        let slideshows = await slideshowsFetch.json();
+        slideshows?.forEach(slideshow => {
+            options.push({id: slideshow.id, name: slideshow.name, type: "slideshow"});
+        });
+
         let visualMediaFetch = await fetch(
           env.PUBLIC_API_URL + "/api/visual_medias/all",
           {
@@ -43,17 +55,7 @@
             }
         });
 
-        let slideshowsFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/slideshows",
-          {
-            headers: { Authorization: "Bearer " + authToken },
-          },
-        );
-
-        let slideshows = await slideshowsFetch.json();
-        slideshows?.forEach(slideshow => {
-            options.push({id: slideshow.id, name: slideshow.name, type: "slideshow"});
-        });
+        
 
     });
 </script>

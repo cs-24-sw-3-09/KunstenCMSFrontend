@@ -70,7 +70,7 @@ export async function load({ locals, cookies }) {
     return {
         timeslotsData,
         displayDevicesData,
-        content: visualMediasData.concat(slideshowsData),
+        content: slideshowsData.concat(visualMediasData),
         pageHeight: 100,
     };
 }
