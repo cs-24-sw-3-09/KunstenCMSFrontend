@@ -44,6 +44,7 @@ use:enhance={({ formData }) => {
             <input
                 type="checkbox"
                 name="notificationState"
+                class="profileCheckbox"
                 id="checkboxInputOverride"
                 checked={profileData.notificationState}
                 onchange={(event) => {

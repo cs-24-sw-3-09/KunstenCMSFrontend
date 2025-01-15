@@ -71,7 +71,7 @@
 
             <!-- Nativly redirects to logout route, that removes login token from cookies, no need for form -->
             <!-- data-sveltekit-reload allow the browser to handle full-page navigation -->
-            <a href="/logout" class="sidebar-item tooltippable tooltipText-Logout" data-sveltekit-reload>
+            <a href="/logout" class="sidebar-item tooltippable tooltipText-Logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 {#if largeSidebar}
                     <p class="sidebar-item-text">Logout</p>
