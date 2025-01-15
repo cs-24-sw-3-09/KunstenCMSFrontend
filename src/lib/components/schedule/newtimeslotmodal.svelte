@@ -1,6 +1,8 @@
 <script>
     let { doClose, displayDevices, visualContent, updateTimeslots } = $props();
 
+    visualContent = visualContent.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
+
     import { enhance } from "$app/forms";
 
     let days = $state({

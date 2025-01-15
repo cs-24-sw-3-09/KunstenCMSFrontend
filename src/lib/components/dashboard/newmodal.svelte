@@ -38,7 +38,9 @@
 
         let visualMedias = await visualMediaFetch.json();
         visualMedias?.forEach(visualMedia => {
-            options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+            if(visualMedia.fileType !== "video/mp4"){
+                options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+            }
         });
 
         let slideshowsFetch = await fetch(
