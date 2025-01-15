@@ -8,6 +8,7 @@ import { env } from "$env/dynamic/private";
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
+    console.time("loadtime");
 
     const timeslots = await fetch(env.SERVER_API_URL + "/api/time_slots", {
         method: "GET",
@@ -19,7 +20,7 @@ export async function load({ locals, cookies }) {
 
     const timeslotsData = await timeslots.json();
 
-    const timeslotColors = await fetch(env.SERVER_API_URL + "/api/time_slots/overlapping_time_slots", {
+    /*const timeslotColors = await fetch(env.SERVER_API_URL + "/api/time_slots/overlapping_time_slots", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -28,49 +29,13 @@ export async function load({ locals, cookies }) {
     });
 
     const timeslotColorsData = await timeslotColors.json();
-    timeslotsData.content = combineObjects(timeslotColorsData, timeslotsData.content)
+    console.log(timeslotColorsData)
+    timeslotsData.content = combineObjects(timeslotColorsData, timeslotsData.content)*/
 
-    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    let visualMediasData = await visualMedia.json();
-
-    visualMediasData = visualMediasData.map(visualMedia => {
-        return { ...visualMedia, type: "visualMedia" }
-    });
-
-
-    const slideshows = await fetch(env.SERVER_API_URL + "/api/slideshows", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    let slideshowsData = await slideshows.json();
-
-    slideshowsData = slideshowsData.map(slideshow => {
-        return { ...slideshow, type: "slideshow" }
-    });
-    const displayDevicesData = (await displayDevices.json());
+    
+    console.timeEnd("loadtime");
     return {
         timeslotsData,
-        displayDevicesData,
-        content: visualMediasData.concat(slideshowsData),
         pageHeight: 100,
     };
 }

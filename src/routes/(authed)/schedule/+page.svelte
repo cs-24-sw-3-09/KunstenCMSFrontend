@@ -18,7 +18,6 @@
         timeslots = data.content;
     }
 
-    let visualContent = $state(data.content);
     let allDisplayDevices = $state(data.displayDevicesData);
 
     // Toggles
@@ -342,10 +341,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} updateTimeslots = {updateTimeslots}/>
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} visualContent = {visualContent} updateTimeslots = {updateTimeslots}/>
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} updateTimeslots = {updateTimeslots}/>
 {/if}
 
 <style>
