@@ -24,13 +24,12 @@
       (a, b) => a.slideshowPosition - b.slideshowPosition
     ),
   );
-  let listElement;
-
+  
   let status = $derived.by(() => (props.status.find((row) => row.slideshowId == slideshowID)));
-
   let color = $derived.by(() => status?.color);
   let screens = $derived.by(() => status?.displayDevices);
 
+  let listElement;
   onMount(async () => {
     new Sortable(listElement, {
       animation: 150,
