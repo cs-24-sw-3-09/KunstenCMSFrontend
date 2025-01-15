@@ -26,7 +26,10 @@ export async function load({ locals, cookies }) {
         }
     });
     return {
-        timeslots,
+        timeslotsData,
+        displayDevicesData,
+        content: slideshowsData.concat(visualMediasData),
+        pageHeight: 100,
     };
 }
 
