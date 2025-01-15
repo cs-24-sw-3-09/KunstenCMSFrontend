@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 import { env } from "$env/dynamic/private";
 
@@ -8,9 +8,7 @@ import { env } from "$env/dynamic/private";
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
-    console.time("loadtime");
-
-    const timeslotsData = await fetch(env.SERVER_API_URL + "/api/time_slots/all ", {
+    const timeslotsData = await fetch(env.SERVER_API_URL + "/api/time_slots/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -22,13 +20,11 @@ export async function load({ locals, cookies }) {
 
     timeslots.forEach(timeslot => {
         if (timeslots.some(timeslotcomp => timeslotcomp.id !== timeslot.id && timeslotOverlapCheck(timeslot, timeslotcomp))) {
-            console.log("id:", timeslot.id, "color: red")
+            timeslot.color = "red";
         } else {
-            console.log("id:", timeslot.id, "color: neutral")
+            timeslot.color = "neutral";
         }
     });
-    
-    console.timeEnd("loadtime");
     return {
         timeslots,
         pageHeight: 100,
