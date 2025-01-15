@@ -33,7 +33,7 @@
 </script>
 
 <div class="main-content">
-    <div class="page">
+    <div class="admin-page">
         <div class="page-header">
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
