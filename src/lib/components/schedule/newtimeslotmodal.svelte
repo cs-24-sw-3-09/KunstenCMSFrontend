@@ -14,6 +14,7 @@
     });
     console.log(days);
     let daysArray = Object.entries(days);
+    let sumbitButtonDisabled = $state(false);
 
 
     // Function to log checked days
@@ -37,7 +38,7 @@
             action="?/newTimeslot"
             method="post"
             use:enhance={({}) => {
-
+                sumbitButtonDisabled = true; 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
@@ -145,6 +146,7 @@
                     extra_class={"modal-button-close"}
                 />
                 <Button
+                    disabled = {sumbitButtonDisabled}
                     type="submit"
                     text="Submit"
                     extra_class={"modal-button-submit"}
