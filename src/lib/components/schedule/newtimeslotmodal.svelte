@@ -1,7 +1,9 @@
 <script>
     let { doClose, displayDevices, visualContent, updateTimeslots } = $props();
 
-    visualContent = visualContent?.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
+    visualContent = visualContent?.filter(displayContentElement => 
+        displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4"
+    );
 
     import { enhance } from "$app/forms";
 
@@ -14,7 +16,6 @@
         Sat: false,
         Sun: false,
     });
-    console.log(days);
     let daysArray = Object.entries(days);
 
 
@@ -102,8 +103,9 @@
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {content.name}</option
-                        >
+                                : "Slideshow"
+                            }: {content.name}
+                        </option>
                     {/each}
                 </select>
             </div>

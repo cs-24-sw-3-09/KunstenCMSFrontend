@@ -4,7 +4,6 @@
   let props = $props();
   let hiddenForm;
   let getSSPartOfTSData;
-  let color = props.color;
 
   import { createEventDispatcher } from "svelte";
 
@@ -22,10 +21,15 @@
 
   let items = $state(
     props.slideshow.visualMediaInclusionCollection.sort(
-      (a, b) => a.slideshowPosition - b.slideshowPosition,
+      (a, b) => a.slideshowPosition - b.slideshowPosition
     ),
   );
   let listElement;
+
+  let status = $derived.by(() => (props.status.find((row) => row.slideshowId == slideshowID)));
+
+  let color = $derived.by(() => status?.color);
+  let screens = $derived.by(() => status?.displayDevices);
 
   onMount(async () => {
     new Sortable(listElement, {
@@ -62,17 +66,13 @@
   function getActivity(color) {
     switch (color) {
       case "green":
-        return "Active"
-        break;
+        return "Active";
       case "red":
-        return "Inactive"
-        break
+        return "Inactive";
       case "yellow":
-        return "Scheduled"
-        break;
+        return "Scheduled";
       default:
-        return ""
-        break;
+        return "";
     }
   }
 </script>
@@ -107,12 +107,11 @@
         </div>
         <Tooltip
         content={getActivity(color)}
-        position="bottom"
-        animation= 'slide'
+        position="top"
+        animation= "slide"
         >
         <div
-          class="slideshows-item-header-activity tooltippable tooltipText-Active"
-          style={"background-color: " + color}
+          class="slideshows-item-header-activity tooltippable tooltipText-Active slideshows-{color}-dot"
         ></div>
       </Tooltip>
         <form
@@ -287,8 +286,8 @@
         <i class="fa-solid fa-tower-cell"></i>
       </Tooltip>
       <div class="slideshows-item-live-list">
-        {#each props.screens as screenName}
-          <div class="slideshows-item-live-screen">{screenName.name}</div>
+        {#each screens as screen}
+          <div class="slideshows-item-live-screen">{screen.name}</div>
         {/each}
       </div>
     </div>
