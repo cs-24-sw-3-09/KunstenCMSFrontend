@@ -62,7 +62,7 @@
                 </a>
             {/if}
             
-            <a href="/profile" class="sidebar-item tooltippable tooltipText-User-profile">
+            <a href="/profile" class="sidebar-item tooltippable tooltipText-User-profile" data-sveltekit-reload>
                 <i class="fa-solid fa-user"></i>
                 {#if largeSidebar}
                     <p class="sidebar-item-text">User Profile</p>
