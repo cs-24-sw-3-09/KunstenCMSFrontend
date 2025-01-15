@@ -29,7 +29,7 @@
         return "Inactive"
         break
       case "yellow":
-        return "Scheduled"
+        return "In use"
         break;
       default:
         return "Not in use"
