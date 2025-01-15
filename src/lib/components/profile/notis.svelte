@@ -11,9 +11,9 @@
     let tempFromDate =  $derived.by(() => {return new Date(profileData.pauseNotificationStart === null ? "" : profileData.pauseNotificationStart);})
     let tempToDate = $derived.by(() => { return new Date(profileData.pauseNotificationEnd === null ? "" : profileData.pauseNotificationEnd);})
 
-    // Checks if the date from the profileData is greater than today's date, if so, it sets the date to today
+    // Checks if the date from the profileData is greater than today's date
     let tempFrom = $derived.by(() => {
-        if (tempFromDate >= todayDate) {
+        if (tempToDate >= todayDate) {
             return tempFromDate.toISOString().split("T")[0]
         } else {
             return "";
@@ -21,7 +21,7 @@
     });
 
     let tempTo = $derived.by(() => {
-        if (tempToDate > todayDate) {
+        if (tempToDate >= todayDate) {
             return tempToDate.toISOString().split("T")[0]
         } else {
             return "";
