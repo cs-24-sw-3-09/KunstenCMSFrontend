@@ -28,7 +28,7 @@
 
   let status = $derived.by(() => (props.status.find((row) => row.slideshowId == slideshowID)));
 
-  let color = $derived.by(()=> status?.color);
+  let color = $derived.by(() => status?.color);
   let screens = $derived.by(() => status?.displayDevices);
 
   onMount(async () => {
