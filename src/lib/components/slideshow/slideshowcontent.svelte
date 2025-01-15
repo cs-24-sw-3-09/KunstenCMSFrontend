@@ -16,7 +16,7 @@
 <div draggable="true" class="slideshows-body-item">
   <div class="slideshows-body-item-preview">
     {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
-      <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location.replaceAll(".mp4",".png")}` : video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+      <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
     {:else}
       <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
     {/if}
