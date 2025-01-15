@@ -300,7 +300,7 @@
       ? 'block'
       : 'none'}">
       <div bind:this={listElement}>
-        {#each props.VMIForSS as VMI}
+        {#each props.slideshow.visualMediaInclusionCollection as VMI}
           <Slideshowcontent
             {VMI}
             {slideshowID}
