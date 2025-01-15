@@ -1,6 +1,7 @@
 <script>
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props();
+    import { env } from "$env/dynamic/public";
 
     import Button from "$lib/components/button.svelte";
     import NewTimeslotModal from "$lib/components/schedule/newtimeslotmodal.svelte";
@@ -11,14 +12,12 @@
 
 
     // Data for the page
-    let timeslots = $state(data.timeslotsData.content);
+    let timeslots = $state(data.timeslots);
 
     function updateTimeslots(data) {
         console.log("data",data.content);
         timeslots = data.content;
     }
-
-    let allDisplayDevices = $state(data.displayDevicesData);
 
     // Toggles
 
@@ -258,6 +257,60 @@
     });
     //$inspect(dayData);
 
+    import { onMount } from "svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
+
+    let visualContent = $state([]);
+    let displayDevices = $state([]);
+
+    onMount(async () => {
+
+        const visualMedia = await fetch(env.PUBLIC_API_URL + "/api/visual_medias/all", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+
+        let visualMediasData = await visualMedia.json();
+
+        visualMediasData = visualMediasData.map(visualMedia => {
+            return { ...visualMedia, type: "visualMedia" }
+        });
+
+
+        const slideshows = await fetch(env.PUBLIC_API_URL + "/api/slideshows", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+
+        let slideshowsData = await slideshows.json();
+
+        slideshowsData = slideshowsData.map(slideshow => {
+            return { ...slideshow, type: "slideshow" }
+        });
+
+        visualContent = slideshowsData?.concat(visualMediasData);
+
+        visualContent = visualContent?.filter(displayContentElement => 
+            displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4"
+        );
+
+        const displayDevicesData = await fetch(env.PUBLIC_API_URL + "/api/display_devices/all", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+
+        displayDevices = await displayDevicesData.json();
+    });
+
 </script>
 
 <div class="main-content">
@@ -341,10 +394,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {allDisplayDevices} updateTimeslots = {updateTimeslots}/>
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots}/>
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {allDisplayDevices} updateTimeslots = {updateTimeslots}/>
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots}/>
 {/if}
 
 <style>
