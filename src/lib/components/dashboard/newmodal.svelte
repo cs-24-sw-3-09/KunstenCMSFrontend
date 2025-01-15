@@ -56,8 +56,8 @@
     });
 </script>
 
-<div class="modal">
-    <div class="modal-content">
+<div class="new-device-modal">
+    <div class="new-device-modal-content">
         <CloseX doFunc={doClose} />
         <Header text="New Device" />
 
@@ -76,7 +76,9 @@
                 }
             };
         }}>
-            <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" />
+        <div class="new-device-modal-top">
+            <div class="new-device-modal-left">
+                <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" />
             <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" />
 
             <!-- <Dropdown title={"Fallback"} name={"fallback"} {options} /> -->
@@ -102,8 +104,8 @@
 
             <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} required="true" />
 
-            <Separator />
-            <div class="newTimeslot-modal-dates-row">
+            </div>
+            <div class="new-device-modal-right"><div class="newTimeslot-modal-dates-row">
                 <InputTime
                     title={"Monday start"}
                     name={"monday_start"}
@@ -159,16 +161,19 @@
                 />
                 <InputTime title={"Sunday end"} name={"sunday_end"} required={false} />
             </div>
-
-
-            <div class="modal-buttons">
+        </div>
+            <div class="new-device-modal-buttons">
+                <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
                 <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
+        </div>
+        </div>
         </form>
     </div>
 </div>
 
 <style>
     @import "$lib/styles/modal.css";
+    @import "$lib/styles/newDeviceModal.css";
 </style>

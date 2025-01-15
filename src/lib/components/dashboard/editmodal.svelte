@@ -56,8 +56,8 @@
 
 </script>
 
-<div class="modal">
-    <div class="modal-content">
+<div class="edit-device-modal">
+    <div class="edit-device-modal-content">
         <CloseX doFunc={doClose} />
         <Header text="Edit Device" />
 
@@ -79,6 +79,8 @@
                 }
             };
         }}>
+        <div class="edit-device-modal-top">
+        <div class="edit-device-modal-left">
             <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" value={device.name} />
             <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" value={device.location} />
 
@@ -103,7 +105,6 @@
 
             <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" value={device.model} /> -->
 
-            <SmallHeader text={"Horizontal resolution"} />
 
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
@@ -112,8 +113,8 @@
             </div>
 
             <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} value={device.displayOrientation} required="true" />
-            <Separator />
-
+        </div>
+        <div class="edit-device-modal-right">
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
                     title={"Monday start"}
@@ -212,11 +213,17 @@
                     value={device.sunday_end}
                 />
             </div>
-
-            <div class="modal-buttons">
+        </div>
+    </div>
+        <div class="edit-device-modal-buttons">
+             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
                 <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
+        </div>
+            
+
+           
         </form>
     </div>
 </div>
