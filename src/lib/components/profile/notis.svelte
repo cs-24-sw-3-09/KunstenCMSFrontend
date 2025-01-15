@@ -3,6 +3,8 @@
 
     import { enhance } from "$app/forms";
 
+    let currentlyPaused = $state(false);
+
     // Gets today's date and splits it into a date object
     let today = new Date().toISOString().split("T")[0];
     let todayDate = new Date(today);
@@ -28,11 +30,13 @@
         }
     });
 
-    /* let tempTo = 
-        tempToDate > todayDate ? tempToDate.toISOString().split("T")[0] : ""; */
+    if (tempToDate >= todayDate) {
+        currentlyPaused = true;
+    }
+
 </script>
 
-<div class="profile-notis-title">Notification</div>
+<div class="profile-notis-title">Notifications</div>
 
 <form style="all: unset;" class="profile-notis-top" action="?/notificationState" method="post"
 use:enhance={({ formData }) => {
@@ -69,6 +73,16 @@ use:enhance={({ formData }) => {
     </div>
 </form>
 
+
+<div class="profile-notis-title">Pause on notifications</div>
+
+<div class="profile-notis-bottom-title"></div>
+{#if currentlyPaused}
+    <div class="profile-notis-bottom-title" style="color: green;">Notifications are currently paused<br>from {tempFrom} to {tempTo}</div>
+{:else}
+    <div class="profile-notis-bottom-title">Notifications are currently not paused</div>
+{/if}
+
 <form class="profile-notis-bottom notis-pause-form" action="?/pauseNotifications" method="post"
 use:enhance={({ formData }) => {
     // `formData` is its `FormData` object that's about to be submitted
@@ -80,6 +94,7 @@ use:enhance={({ formData }) => {
                 alert(`Failed to update notification pause, please reload page (F5).\n${result.data?.error}`);
                 break;
             case "success":
+                currentlyPaused = true;
                 updateProfileData(result.data.responseData);
                 break;
         }
@@ -116,9 +131,8 @@ use:enhance={({ formData }) => {
                 alert(`Failed to update notification unpause, please reload page (F5).\n${result.data?.error}`);
                 break;
             case "success":
-                console.log("res:",result.data.responseData);
+                currentlyPaused = false;
                 updateProfileData(result.data.responseData);
-                console.log("res2:",result.data.responseData);
                 break;
         }
     };
