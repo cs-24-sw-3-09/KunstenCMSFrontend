@@ -25,8 +25,10 @@
       (a, b) => a.slideshowPosition - b.slideshowPosition,
     )}
   );
+  let VMIList = $derived.by(()=> (props.VMIForSS));
   let listElement;
 
+  /*
   onMount(async () => {
     new Sortable(listElement, {
       animation: 150,
@@ -43,6 +45,7 @@
       },
     });
   });
+*/
 
   // svelte-ignore non_reactive_update
   let showAddMediaModal = $state(false);
@@ -299,8 +302,8 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
-      <div bind:this={listElement}>
-        {#each props.slideshow.visualMediaInclusionCollection as VMI}
+      <div>
+        {#each VMIList as VMI}
           <Slideshowcontent
             {VMI}
             {slideshowID}

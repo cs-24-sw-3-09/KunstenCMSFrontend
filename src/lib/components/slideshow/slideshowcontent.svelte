@@ -75,7 +75,7 @@
     </div>
   </div>
   <div class="slideshows-body-item-actions">
-    {console.log(VMI.id)}
+    
     <form
       method="post"
       action="?/deleteVM"
@@ -120,7 +120,7 @@
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
           } else if (result.type === "success") {
-            props.updateSlideshowContent(result.data.newData);
+            props.updateSlideshowContent(result.data.newData, true);
           }
         };
       }}

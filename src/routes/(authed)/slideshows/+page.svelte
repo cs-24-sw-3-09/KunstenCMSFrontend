@@ -10,15 +10,17 @@
     let visualMedias = $state(data.visualMedia);
 
     let color = data.color;
-    function updateSlideshowContent(data) {
+    function updateSlideshowContent(data, closeSS = false) {
         slideshowContent = data;
-        console.log(data);
-        if (selectedId != null) {
-            VMIForSS = slideshowContent
+        if(closeSS == true) {
+            updateState(null)
+        } else if (selectedId != null) {
+            let newVMI = slideshowContent
                 .find((ss) => ss.id === selectedId)
                 .visualMediaInclusionCollection.sort(
                     (a, b) => a.slideshowPosition - b.slideshowPosition,
                 );
+            VMIForSS = newVMI;
         }
     }
 
