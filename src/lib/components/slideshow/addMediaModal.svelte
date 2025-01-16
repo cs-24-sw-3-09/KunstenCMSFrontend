@@ -11,6 +11,8 @@
         updateSlideshowContent,
     } = $props();
 
+    let sumbitButtonDisabled = $state(false);
+
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
 
@@ -65,6 +67,8 @@
                 formData.set("description", selectedItem.description);
                 formData.set("ssId", slideshowID);
                 formData.set("ssPos", VMIForSS.length + 1);
+                    
+                sumbitButtonDisabled = true;
 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
@@ -73,6 +77,7 @@
                         alert(
                             `Failed to add new visual media to slideshow.\n${result.data?.error}`,
                         );
+                        sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
                         updateSlideshowContent(result.data.newData);
@@ -131,6 +136,7 @@
                     extra_class={"modal-button-close"}
                 />
                 <Button
+                    disabled={sumbitButtonDisabled}
                     type="submit"
                     text="Submit"
                     extra_class={"modal-button-submit"}

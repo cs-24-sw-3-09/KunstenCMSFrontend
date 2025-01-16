@@ -8,6 +8,8 @@
         doClose();
     }
 
+    let sumbitButtonDisabled = $state(false);
+
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import TextInput from "$lib/components/modal/textinput.svelte";
@@ -22,6 +24,7 @@
 
         <form action="?/editProfile" id="modal-form" method="post" 
         use:enhance={({ formData }) => {
+            sumbitButtonDisabled = true;
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", profileData.id);
             formData.set("oldData", JSON.stringify(profileData)); // Pass previous known user data to the action
@@ -32,6 +35,7 @@
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
                         break;
                     case "success":
+                        sumbitButtonDisabled = false;
                         updateProfileData(result.data.responseData);
                         closeModal(); 
                         break;
@@ -46,7 +50,7 @@
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button disabled = {sumbitButtonDisabled} type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>
