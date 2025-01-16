@@ -168,8 +168,9 @@ export const actions = {
     },
     newMediaToSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+
         // Check feilds
-        if (!formData.get("name")) {
+        if (formData.get("id") === "undefined") {
             return fail(400, { error: "did not pick an Visual Media" });
         }
         // requestBody sendt for the patch action

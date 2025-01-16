@@ -67,6 +67,7 @@
                 formData.set("description", selectedItem.description);
                 formData.set("ssId", slideshowID);
                 formData.set("ssPos", VMIForSS.length + 1);
+                    
                 sumbitButtonDisabled = true;
 
                 return async ({ result }) => {
@@ -76,6 +77,7 @@
                         alert(
                             `Failed to add new visual media to slideshow.\n${result.data?.error}`,
                         );
+                        sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
                         updateSlideshowContent(result.data.newData);

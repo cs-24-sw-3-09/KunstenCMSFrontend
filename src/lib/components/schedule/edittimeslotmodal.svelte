@@ -71,6 +71,7 @@
                         alert(
                             `Failed to mofify timeslot.\n${result.data?.error}`,
                         );
+                        sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         doClose();
                         updateTimeslots(result.data.newData);
@@ -184,6 +185,7 @@
                         // `result` is an `ActionResult` object
                         if (result.type === "failure") {
                             // Handle the error
+                            sumbitButtonDisabled = false;
                             alert(
                                 `Failed to delete timeslot, please reload page(f5).\n${result.data?.error}`,
                             );
@@ -195,28 +197,28 @@
                 }}
             ></form>
 
-            <button
-                type="submit"
-                form="edit"
-                class="modal-button modal-button-submit"
-            >
-                Submit
-            </button>
-            <button
-                disabled = {sumbitButtonDisabled}
-                type="submit"
-                form="delete"
-                class="modal-button modal-button-delete"
-            >
-                Delete
-            </button>
-
-            <Button
-                type="button"
-                text="Cancel"
-                doFunc={doClose}
-                extra_class={"modal-button-close"}
-            />
+            <div class="modal-buttons">
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    type="submit"
+                    text="Delete"
+                    formID="delete"
+                    disabled = {sumbitButtonDisabled}
+                    extra_class={"modal-button-delete"}
+                />
+                <Button
+                    disabled = {sumbitButtonDisabled}
+                    type="submit"
+                    text="Submit"
+                    formID="edit"
+                    extra_class={"modal-button-submit"}
+                />
+            </div>
         </div>
     </div>
 </div>
