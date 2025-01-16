@@ -20,15 +20,15 @@
   import Sortable from "sortablejs";
   import { Tooltip } from "@svelte-plugins/tooltips";
 
-  let items = $derived.by(() => {
+  let items = $state(
     props.slideshow.visualMediaInclusionCollection.sort(
       (a, b) => a.slideshowPosition - b.slideshowPosition,
-    )}
+    ),
   );
   let VMIList = $derived.by(()=> (props.VMIForSS));
   let listElement;
 
-  /*
+  
   onMount(async () => {
     new Sortable(listElement, {
       animation: 150,
@@ -45,7 +45,7 @@
       },
     });
   });
-*/
+
 
   // svelte-ignore non_reactive_update
   let showAddMediaModal = $state(false);
@@ -302,8 +302,9 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
-      <div>
-        {#each VMIList as VMI}
+      <div bind:this={listElement}>
+        {#each props.slideshow.visualMediaInclusionCollection as VMI}
+          {#if props.selectedId === props.slideshow.id}
           <Slideshowcontent
             {VMI}
             {slideshowID}
@@ -311,6 +312,7 @@
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
           />
+          {/if}
         {/each}
         <form
           method="post"
