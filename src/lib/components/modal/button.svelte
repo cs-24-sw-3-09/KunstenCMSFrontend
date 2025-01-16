@@ -4,9 +4,9 @@
 
 
 {#if formID != undefined }
-    <button form={formID} type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text+"123"}</button>
+    <button form={formID} type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text}</button>
 {:else}
-    <button type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text+"ABC"}</button>
+    <button type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text}</button>
 {/if}
 
 
