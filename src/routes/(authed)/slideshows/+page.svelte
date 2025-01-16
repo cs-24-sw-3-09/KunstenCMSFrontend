@@ -4,12 +4,25 @@
 
     import Slideshow from "$lib/components/slideshow/slideshow.svelte";
     import Header from "$lib/components/slideshow/slideshowHeader.svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
+    import { onMount } from "svelte";
+    import { env } from "$env/dynamic/public";
 
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
     let visualMedias = $state(data.visualMedia);
 
-    let color = data.color;
+    let status = $state([]);
+    onMount(async () => {
+        const statusData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/states", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+        status = await statusData.json();
+    });
+
     function updateSlideshowContent(data, closeSS = false) {
         slideshowContent = data;
         if(closeSS == true) {
@@ -133,11 +146,7 @@
                     {searchTermUpdate}
                     {updateSlideshowContent}
                     {form}
-                    color={color.find((row) => row.slideshowId == slideshow.id)
-                        ?.color}
-                    screens={color.find(
-                        (row) => row.slideshowId == slideshow.id,
-                    )?.displayDevices}
+                    status={status}
                 />
             {/if}
         {/each}

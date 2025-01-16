@@ -69,7 +69,7 @@
             use:enhance={ ( { formData }) => {
                 formData.set("id", device.id);
                 let confirmation = confirm(
-                        `Are you sure you want to delete this screen?`,
+                        `Are you sure you want to delete "${device.name}" screen?`,
                     );
                     if (!confirmation) return cancel();
 

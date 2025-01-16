@@ -1,5 +1,6 @@
 <script>
     let { doClose, updateUsersData } = $props();
+    let submitButtonDisabled = $state(false);
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -26,6 +27,7 @@
 
         <form method="post" action="?/newUser"
         use:enhance={({}) => {
+submitButtonDisabled = true;
             return async ({ result }) => {
                 // `result` is an `ActionResult` object
                 switch (result.type) {
@@ -97,6 +99,7 @@
                     extra_class={"modal-button-close"}
                 />
                 <Button
+                disabled = {submitButtonDisabled}
                     type="submit"
                     text="Submit"
                     extra_class={"modal-button-submit"}

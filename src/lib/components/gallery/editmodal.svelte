@@ -1,5 +1,6 @@
 <script>
     let { doClose, item, updateVisualMedia } = $props();
+    let sumbitButtonDisabled = $state(false);
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
@@ -23,6 +24,7 @@
         
         <form method="post" action="?/editVisualMedia"
         use:enhance={({ formData }) => {
+            sumbitButtonDisabled = true;
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", item.id);
             formData.set("oldData", JSON.stringify(item)); // Pass previous known user data to the action
@@ -46,7 +48,7 @@
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button disabled = {sumbitButtonDisabled} type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>

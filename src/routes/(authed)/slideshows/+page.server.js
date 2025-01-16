@@ -27,21 +27,21 @@ export async function load({ cookies }) {
         }
     });
 
-    const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
-        method: "GET",
-        headers: {
-            /* "Content-type": "application/json", */
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
+    // const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
+    //     method: "GET",
+    //     headers: {
+    //         /* "Content-type": "application/json", */
+    //         "Authorization": "Bearer " + cookies.get("authToken"),
+    //     }
+    // });
 
-    const colorData = await color.json();
+    //const colorData = await color.json();
 
     const visualMediaData = await visualMedia.json();
     return {
         slideshow: slideshowData,
         visualMedia: visualMediaData,
-        color: colorData,
+        //color: colorData,
     };
 }
 // Actions:

@@ -1,5 +1,6 @@
 <script>
     let { doClose, allContent, updateSlideshowContent } = $props();
+    let sumbitButtonDisabled = $state(false);
 
     import { enhance } from "$app/forms";
 
@@ -22,6 +23,7 @@
         <Header text="New Slideshow" />
         
         <form method="POST" action="?/postNewSlideshow" use:enhance={({}) => {
+            sumbitButtonDisabled = true;
             return async ({ result }) => {
                 console.log("Result "+result)
                 // `result` is an `ActionResult` object
@@ -41,7 +43,7 @@
             
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button disabled = {sumbitButtonDisabled} type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>
