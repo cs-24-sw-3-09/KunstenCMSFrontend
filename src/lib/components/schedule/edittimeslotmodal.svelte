@@ -48,8 +48,8 @@
     console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
 
     let selectedContent = JSON.stringify({
-        id: timeslot.displayContent.id,
-        type: timeslot.displayContent.type,
+        id: timeslot.displayContent?.id,
+        type: timeslot.displayContent?.type,
     });
 </script>
 
