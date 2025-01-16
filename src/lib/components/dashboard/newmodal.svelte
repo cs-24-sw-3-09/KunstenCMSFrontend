@@ -119,7 +119,6 @@
 
             <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" /> -->
 
-            <SmallHeader text={"Horizontal resolution"} />
 
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
