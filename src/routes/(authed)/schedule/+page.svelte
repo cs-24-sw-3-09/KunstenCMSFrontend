@@ -9,15 +9,17 @@
 
     import RowPopulatorWeek from "$lib/components/schedule/weekrowpopulator.svelte";
     import RowPopulatorDay from "$lib/components/schedule/dayrowpopulator.svelte";   
+    import { onMount } from "svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
 
 
     // Data for the page
-    let timeslots = $state(data.timeslots);
+    let timeslots = $state();
 
-    function updateTimeslots(data) {
+    /*function updateTimeslots(data) {
         console.log("data",data.content);
         timeslots = data.content;
-    }
+    }*/
 
     // Toggles
 
@@ -138,7 +140,7 @@
         // Create a map of devices to their timeslots
         const deviceTimeslotMap = {};
 
-        timeslots.forEach(slot => {
+        timeslots?.forEach(slot => {
             let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
             let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
             const devices = slot.displayDevices;
@@ -220,7 +222,7 @@
         // Create a map of devices to their timeslots
         const deviceTimeslotMap = {};
 
-        timeslots.forEach(slot => {
+        timeslots?.forEach(slot => {
             let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
             let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
             const devices = slot.displayDevices;
@@ -257,13 +259,30 @@
     });
     //$inspect(dayData);
 
-    import { onMount } from "svelte";
-    import { getCookie } from "$lib/utils/getcookie.js";
-
     let visualContent = $state([]);
     let displayDevices = $state([]);
 
     onMount(async () => {
+
+        const formatDate = (date) => date.toISOString().split('T')[0]; //Formats to: YYYY-MM-DD.
+
+        timeslots = fetch(env.PUBLIC_API_URL + "/api/time_slots?start=" + formatDate(focusWeek.start) + "&end=" + formatDate(focusWeek.end), {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        }).then((data) => data.json()).then((json) => {
+            const timeslotsdata = json?.content;
+            timeslotsdata?.forEach(timeslot => {
+                if (timeslotsdata.some(timeslotcomp => timeslotcomp.id !== timeslot.id && timeslotOverlapCheck(timeslot, timeslotcomp))) {
+                    timeslot.color = "red";
+                } else {
+                    timeslot.color = "neutral";
+                }
+            });
+            return timeslotsdata;
+        });
 
         const visualMedia = await fetch(env.PUBLIC_API_URL + "/api/visual_medias/all", {
             method: "GET",
@@ -310,6 +329,20 @@
 
         displayDevices = await displayDevicesData.json();
     });
+
+function timeslotOverlapCheck(timeslot1, timeslot2) {
+    if ((timeslot1.weekdaysChosen & timeslot2.weekdaysChosen) === 0) return false;
+
+    // Check if dates overlap
+    if (timeslot1.endDate < timeslot2.startDate || timeslot1.startDate > timeslot2.endDate) return false;
+
+    // Check if time overlaps
+    if (timeslot1.endTime < timeslot2.startTime || timeslot1.endTime === timeslot2.startTime ||
+        timeslot1.startTime === timeslot2.endTime || timeslot1.startTime > timeslot2.endTime) return false;
+
+    // Time Slots overlap
+    return true;
+}
 
 </script>
 
@@ -366,9 +399,13 @@
             </div>
 
             <div class="schedule-week">
-                {#each weekData as row}
-                    <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
-                {/each}
+                {#await timeslots}
+                    Loading...
+                {:then timeslots}
+                    {#each weekData as row}
+                        <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
+                    {/each}
+                {/await}
             </div>
 
         {:else}
