@@ -70,15 +70,14 @@ export const actions = {
         });
 
         const responseData = await response.json();
-
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
         // If email is changed, delete the authToken
-        if (requestBody.email) {
+        if (requestBody.email !== oldData.email) {
             cookies.delete('authToken', { path: '/' });
-            throw redirect("/login");
+            //throw redirect("/login");
         }
 
         return { 

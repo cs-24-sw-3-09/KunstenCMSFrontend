@@ -1,8 +1,14 @@
 <script>
-    let { type, text, doFunc, extra_class, disabled = false } = $props();
+    let { type, text, doFunc, extra_class, disabled = false, formID = undefined } = $props();
 </script>
 
-<button type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text}</button>
+
+{#if formID != undefined }
+    <button form={formID} type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text+"123"}</button>
+{:else}
+    <button type={type} class="modal-button {extra_class} {disabled ? 'disabled' : ''}" onclick={doFunc} disabled={disabled}>{text+"ABC"}</button>
+{/if}
+
 
 <style>
     .disabled {

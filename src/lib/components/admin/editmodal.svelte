@@ -38,6 +38,7 @@
                     case "failure":
                         // Handle the error
                         alert(`Failed to edit user, please reload page (F5).\n${result.data?.error}`,);
+                        submitButtonDisabled = false;
                         break;
                     case "success":
                         updateUsersData(result.data.usersData.content);
