@@ -114,6 +114,7 @@ export const actions = {
             return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
         let newSlideshowData = await getSlideshows({ cookies, url, request });
+
         return {
             success: true,
             newData: newSlideshowData,
