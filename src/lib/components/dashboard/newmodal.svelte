@@ -105,10 +105,10 @@
 
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
-                <select id={"fallback_id"} name={"fallbackContent"} required>
+                <select id={"fallback_id"} name={"fallbackContent"}>
+                    <option selected value={null}>No fallback</option>
                     {#each options as option}
-                        <option
-                            value={`{"id": ${option.id}, "type": "${option.type}"}`}
+                        <option value={JSON.stringify(option)}
                             >{option.type === "visualMedia"
                                 ? "Media"
                                 : "Slideshow"}: {option.name}</option
@@ -116,7 +116,6 @@
                     {/each}
                 </select>
             </div>
-
             <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" /> -->
 
             <SmallHeader text={"Horizontal resolution"} />
