@@ -52,12 +52,27 @@
   justify-content: flex-end;
   padding-right: 12px;
 }
-
-.new-device-modal-left,
 .new-device-modal-right {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  flex: 1;
+  align-items: center;
+}
+
+.new-device-modal-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 50%;
+}
+
+.new-device-modal-left select {
+  text-overflow: ellipsis;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .newTimeslot-modal-dates-row {
@@ -150,12 +165,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-.subscript {
-  position: absolute;
-  top: -12px;
-  right: -100px;
 }
 
 .modal-separator {
