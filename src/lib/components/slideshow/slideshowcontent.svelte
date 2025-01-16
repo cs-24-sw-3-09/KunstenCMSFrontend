@@ -3,6 +3,7 @@
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
   import { getCookie } from "$lib/utils/getcookie.js";
+  import SavedPopup from "../savedpopup.svelte";
 
   let props = $props();
   let VMI = props.VMI;
@@ -11,6 +12,16 @@
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
+
+  let popup;
+
+function saveData(success) {
+  if (success) {
+    popup.show("Your changes have been saved!", "success");
+  } else {
+    popup.show("Failed to save changes!", "error");
+  }
+}
 </script>
 
 <div draggable="true" class="slideshows-body-item">
@@ -35,6 +46,7 @@
         <i class="fa-regular fa-clock"></i>
       </div>
       <div class="slideshows-body-item-duration-title">Duration (s):</div>
+      <SavedPopup bind:this={popup} />
       <div class="slideshows-body-item-duration-input non-draggable">
         {#if VMI.visualMedia && (VMI.visualMedia.fileType == "image/jpeg" || VMI.visualMedia.fileType == "image/png")}
           <form
@@ -45,7 +57,14 @@
               formData.set("newDuration", VMI.slideDuration);
               formData.set("VMI", JSON.stringify(VMI));
 
-              return async ({ result }) => {};
+              return async ({ result }) => {
+                if (result.type === "failure") {
+                {saveData(false);}
+                // Handle the error
+              } else if (result.type === "success") {
+                {saveData(true);}
+              }
+              };
               return true;
             }}
           >

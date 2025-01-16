@@ -14,6 +14,7 @@
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
   import { getCookie } from "$lib/utils/getcookie.js";
+  import SavedPopup from "../savedpopup.svelte";
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -72,6 +73,16 @@
         return "Scheduled";
       default:
         return "";
+    }
+  }
+
+  let popup;
+
+  function saveData(success) {
+    if (success) {
+      popup.show("Your changes have been saved!", "success");
+    } else {
+      popup.show("Failed to save changes!", "error");
     }
   }
 </script>
@@ -297,6 +308,7 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
+      <SavedPopup bind:this={popup} />
       <div bind:this={listElement}>
         {#each props.VMIForSS as VMI}
           <Slideshowcontent
@@ -317,11 +329,10 @@
             return async ({ result }) => {
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
+                {saveData(false);}
                 // Handle the error
-                /*alert(
-            `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
-          );*/
               } else if (result.type === "success") {
+                {saveData(true);}
               }
             };
           }}
