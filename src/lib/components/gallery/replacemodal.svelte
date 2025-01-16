@@ -1,6 +1,6 @@
 <script>
     let { doClose, item, updateVisualMedia } = $props();
-
+    let submitButtonDisabled = $state(false);
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
 
@@ -24,6 +24,7 @@
         <!-- enctype="multipart/form-data" is needed for the file upload -->
         <form method="post" action="?/replaceVisualMedia" enctype="multipart/form-data"
         use:enhance={({ formData }) => {
+            submitButtonDisabled = true;
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", item.id);
             /* formData.set("oldData", JSON.stringify(item)); */ // Pass previous known user data to the action
@@ -46,7 +47,7 @@
 
             <div class="modal-buttons">
                 <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+                <Button disabled = {submitButtonDisabled} type="submit" text="Submit" extra_class={"modal-button-submit"} />
             </div>
         </form>
     </div>

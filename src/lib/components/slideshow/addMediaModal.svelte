@@ -11,6 +11,8 @@
         updateSlideshowContent,
     } = $props();
 
+    let sumbitButtonDisabled = $state(false);
+
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
 
@@ -65,6 +67,7 @@
                 formData.set("description", selectedItem.description);
                 formData.set("ssId", slideshowID);
                 formData.set("ssPos", VMIForSS.length + 1);
+                sumbitButtonDisabled = true;
 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
@@ -131,6 +134,7 @@
                     extra_class={"modal-button-close"}
                 />
                 <Button
+                    disabled={sumbitButtonDisabled}
                     type="submit"
                     text="Submit"
                     extra_class={"modal-button-submit"}

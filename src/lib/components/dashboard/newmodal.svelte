@@ -14,7 +14,7 @@
     import Numberinput from "$lib/components/modal/numberinput.svelte";
     import Dropdown from "$lib/components/modal/dropdown.svelte";
     import Button from "$lib/components/modal/button.svelte";
-    import Separator from "$lib/components/modal/separator.svelte";  
+    import Separator from "$lib/components/modal/separator.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
     import { onMount } from "svelte";
 
@@ -24,16 +24,16 @@
     }
 
     let options = $state([]);
+    let sumbitButtonDisabled = $state(false);
 
     onMount(async () => {
-
         const authToken = getCookie("authToken");
 
         let visualMediaFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/visual_medias/all",
-          {
-            headers: { Authorization: "Bearer " + authToken },
-          },
+            env.PUBLIC_API_URL + "/api/visual_medias/all",
+            {
+                headers: { Authorization: "Bearer " + authToken },
+            },
         );
 
         let visualMedias = await visualMediaFetch.json();
@@ -44,17 +44,20 @@
         });
 
         let slideshowsFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/slideshows",
-          {
-            headers: { Authorization: "Bearer " + authToken },
-          },
+            env.PUBLIC_API_URL + "/api/slideshows",
+            {
+                headers: { Authorization: "Bearer " + authToken },
+            },
         );
 
         let slideshows = await slideshowsFetch.json();
-        slideshows?.forEach(slideshow => {
-            options.push({id: slideshow.id, name: slideshow.name, type: "slideshow"});
+        slideshows?.forEach((slideshow) => {
+            options.push({
+                id: slideshow.id,
+                name: slideshow.name,
+                type: "slideshow",
+            });
         });
-
     });
 </script>
 
@@ -63,33 +66,53 @@
         <CloseX doFunc={doClose} />
         <Header text="New Device" />
 
-        <form method="post" action="?/newDevice"
-        use:enhance={({ formData }) => {
-
-            return async ({ result }) => {
-                switch (result.type) {
-                    case "failure":
-                        alert(`Failed to add display device, please reload page (F5).\n${result.data?.error}`);
-                        break;
-                    case "success":
-                        createDevice(result.data.responseData);
-                        closeModal(); // Call doClose on successful form submission
-                        break;
-                }
-            };
-        }}>
+        <form
+            method="post"
+            action="?/newDevice"
+            use:enhance={({ formData }) => {
+                sumbitButtonDisabled = true;
+                return async ({ result }) => {
+                    switch (result.type) {
+                        case "failure":
+                            alert(
+                                `Failed to add display device, please reload page (F5).\n${result.data?.error}`,
+                            );
+                            break;
+                        case "success":
+                            createDevice(result.data.responseData);
+                            closeModal(); // Call doClose on successful form submission
+                            break;
+                    }
+                };
+            }}
+        >
         <div class="new-device-modal-top">
             <div class="new-device-modal-left">
-                <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" />
-            <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" />
+                <TextInput
+                title={"Name"}
+                placeholder={"Name of device here"}
+                name={"name"}
+                required="true"
+            />
+            <TextInput
+                title={"Location"}
+                placeholder={"Location of device here"}
+                name={"location"}
+                required="true"
+            />
 
             <!-- <Dropdown title={"Fallback"} name={"fallback"} {options} /> -->
-            
+
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
                 <select id={"fallback_id"} name={"fallbackContent"} required>
                     {#each options as option}
-                        <option value={`{"id": ${option.id}, "type": "${option.type}"}`}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
+                        <option
+                            value={`{"id": ${option.id}, "type": "${option.type}"}`}
+                            >{option.type === "visualMedia"
+                                ? "Media"
+                                : "Slideshow"}: {option.name}</option
+                        >
                     {/each}
                 </select>
             </div>
@@ -100,11 +123,34 @@
 
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
-                <Numberinput title={"Width"} placeholder={"x"} name={"width"} min={1} max={122880} step={1} required={true} subscript={"px"} />
-                <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} />
+                <Numberinput
+                    title={"Width"}
+                    placeholder={"x"}
+                    name={"width"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                />
+                <Numberinput
+                    title={"Height"}
+                    placeholder={"y"}
+                    name={"height"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                />
             </div>
 
-            <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} required="true" />
+            <Dropdown
+                title={"Display Orientation"}
+                name={"displayOrientation"}
+                options={["horizontal", "vertical"]}
+                required="true"
+            />
 
             </div>
             <div class="new-device-modal-right"><div class="newTimeslot-modal-dates-row">
@@ -113,7 +159,11 @@
                     name={"monday_start"}
                     required={false}
                 />
-                <InputTime title={"Monday end"} name={"monday_end"} required={false} />
+                <InputTime
+                    title={"Monday end"}
+                    name={"monday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -121,7 +171,11 @@
                     name={"tuesday_start"}
                     required={false}
                 />
-                <InputTime title={"Tuesday end"} name={"tuesday_end"} required={false} />
+                <InputTime
+                    title={"Tuesday end"}
+                    name={"tuesday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -129,7 +183,11 @@
                     name={"wednesday_start"}
                     required={false}
                 />
-                <InputTime title={"Wednesday end"} name={"wednesday_end"} required={false} />
+                <InputTime
+                    title={"Wednesday end"}
+                    name={"wednesday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -137,7 +195,11 @@
                     name={"thursday_start"}
                     required={false}
                 />
-                <InputTime title={"Thursday end"} name={"thursday_end"} required={false} />
+                <InputTime
+                    title={"Thursday end"}
+                    name={"thursday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -145,7 +207,11 @@
                     name={"friday_start"}
                     required={false}
                 />
-                <InputTime title={"Friday end"} name={"friday_end"} required={false} />
+                <InputTime
+                    title={"Friday end"}
+                    name={"friday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -153,7 +219,11 @@
                     name={"saturday_start"}
                     required={false}
                 />
-                <InputTime title={"Saturday end"} name={"saturday_end"} required={false} />
+                <InputTime
+                    title={"Saturday end"}
+                    name={"saturday_end"}
+                    required={false}
+                />
             </div>
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
@@ -161,16 +231,28 @@
                     name={"sunday_start"}
                     required={false}
                 />
-                <InputTime title={"Sunday end"} name={"sunday_end"} required={false} />
+                <InputTime
+                    title={"Sunday end"}
+                    name={"sunday_end"}
+                    required={false}
+                />
             </div>
         </div>
             <div class="new-device-modal-buttons">
-                <div class="modal-buttons">
-                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+            <div class="modal-buttons">
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    disabled={sumbitButtonDisabled}
+                    type="submit"
+                    text="Submit"
+                    extra_class={"modal-button-submit"}
+                />
             </div>
-        </div>
-        </div>
         </form>
     </div>
 </div>

@@ -31,6 +31,7 @@
         });
     }
     let daysArray = Object.entries(days);
+    let sumbitButtonDisabled = $state(false);
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
@@ -61,6 +62,7 @@
             action="?/patchTimeslot"
             method="post"
             use:enhance={({ formData }) => {
+                sumbitButtonDisabled = true;
                 formData.set("timeslotID", timeslot.id);
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
@@ -201,6 +203,7 @@
                 Submit
             </button>
             <button
+                disabled = {sumbitButtonDisabled}
                 type="submit"
                 form="delete"
                 class="modal-button modal-button-delete"
