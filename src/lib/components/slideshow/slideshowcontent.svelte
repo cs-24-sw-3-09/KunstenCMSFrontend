@@ -4,19 +4,40 @@
   import { slide } from "svelte/transition";
   import { getCookie } from "$lib/utils/getcookie.js";
 
+  import SavedPopup from "../savedpopup.svelte";
+  import { onMount } from "svelte";
+
+
   let props = $props();
   let VMI = props.VMI;
   let slideshowId = props.slideshow.id;
   let test1 = props.slideshow;
+  let  currentVMIId;
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
+
+
+  let popup;
+
+function saveData(success) {
+  if (success) {
+    popup.show("Your changes have been saved!", "success");
+  } else {
+    popup.show("Failed to save changes!", "error");
+  }
+}
+
+  onMount(() => {
+    // Save the initial value when the component is mounted
+    currentVMIId = props.VMI.id;
+  });
 </script>
 
 <div draggable="true" class="slideshows-body-item">
   <div class="slideshows-body-item-preview">
     {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
-      <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location.replaceAll(".mp4",".png")}` : video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+      <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
     {:else}
       <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
     {/if}
@@ -35,6 +56,7 @@
         <i class="fa-regular fa-clock"></i>
       </div>
       <div class="slideshows-body-item-duration-title">Duration (s):</div>
+      <SavedPopup bind:this={popup} />
       <div class="slideshows-body-item-duration-input non-draggable">
         {#if VMI.visualMedia && (VMI.visualMedia.fileType == "image/jpeg" || VMI.visualMedia.fileType == "image/png")}
           <form
@@ -45,7 +67,14 @@
               formData.set("newDuration", VMI.slideDuration);
               formData.set("VMI", JSON.stringify(VMI));
 
-              return async ({ result }) => {};
+              return async ({ result }) => {
+                if (result.type === "failure") {
+                {saveData(false);}
+                // Handle the error
+              } else if (result.type === "success") {
+                {saveData(true);}
+              }
+              };
               return true;
             }}
           >
@@ -67,6 +96,7 @@
     </div>
   </div>
   <div class="slideshows-body-item-actions">
+    
     <form
       method="post"
       action="?/deleteVM"
@@ -101,7 +131,7 @@
 
         // let confirmation = confirm(`Are you sure you want to delete "${VMI}"?`);
         // if (!confirmation) return cancel();
-        formData.set("ContentID", VMI.id);
+        formData.set("ContentID", currentVMIId);
 
         return async ({ result }) => {
           // `result` is an `ActionResult` object
@@ -111,8 +141,7 @@
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
           } else if (result.type === "success") {
-            console.log("here123");
-            props.updateSlideshowContent(result.data.newData);
+            props.updateSlideshowContent(result.data.newData, true);
           }
         };
       }}

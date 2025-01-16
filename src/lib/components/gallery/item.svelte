@@ -23,17 +23,13 @@
   function getActivity(color) {
     switch (color) {
       case "green":
-        return "Active"
-        break;
+        return "Active";
       case "red":
-        return "Inactive"
-        break
+        return "Inactive";
       case "yellow":
-        return "Scheduled"
-        break;
+        return "In use";
       default:
-        return "Not in use"
-        break;
+        return "Not in use";
     }
   }
 

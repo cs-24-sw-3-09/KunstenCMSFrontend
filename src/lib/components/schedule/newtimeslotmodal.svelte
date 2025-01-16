@@ -1,5 +1,5 @@
 <script>
-    let { doClose, displayDevices, visualContent, updateTimeslots } = $props();
+    let { doClose, updateTimeslots, displayDevices, visualContent } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -12,9 +12,8 @@
         Sat: false,
         Sun: false,
     });
-    console.log(days);
     let daysArray = Object.entries(days);
-
+    let sumbitButtonDisabled = $state(false);
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";
@@ -37,7 +36,7 @@
             action="?/newTimeslot"
             method="post"
             use:enhance={({}) => {
-
+                sumbitButtonDisabled = true; 
                 return async ({ result }) => {
                     // `result` is an `ActionResult` object
                     if (result.type === "failure") {
@@ -45,6 +44,7 @@
                             alert(
                                 `Failed to post timeslot.\n${result.data?.error}`,
                             );
+                            sumbitButtonDisabled = false;
                         } else if (result.type === "success") {
                             doClose();
                             updateTimeslots(result.data.newData);
@@ -100,8 +100,9 @@
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {content.name}</option
-                        >
+                                : "Slideshow"
+                            }: {content.name}
+                        </option>
                     {/each}
                 </select>
             </div>
@@ -145,6 +146,7 @@
                     extra_class={"modal-button-close"}
                 />
                 <Button
+                    disabled = {sumbitButtonDisabled}
                     type="submit"
                     text="Submit"
                     extra_class={"modal-button-submit"}

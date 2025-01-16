@@ -4,7 +4,6 @@
   let props = $props();
   let hiddenForm;
   let getSSPartOfTSData;
-  let color = props.color;
 
   import { createEventDispatcher } from "svelte";
 
@@ -15,6 +14,7 @@
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
   import { getCookie } from "$lib/utils/getcookie.js";
+  import SavedPopup from "../savedpopup.svelte";
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -22,9 +22,14 @@
 
   let items = $state(
     props.slideshow.visualMediaInclusionCollection.sort(
-      (a, b) => a.slideshowPosition - b.slideshowPosition,
+      (a, b) => a.slideshowPosition - b.slideshowPosition
     ),
   );
+  
+  let status = $derived.by(() => (props.status.find((row) => row.slideshowId == slideshowID)));
+  let color = $derived.by(() => status?.color);
+  let screens = $derived.by(() => status?.displayDevices);
+
   let listElement;
 
   onMount(async () => {
@@ -44,6 +49,7 @@
     });
   });
 
+
   // svelte-ignore non_reactive_update
   let showAddMediaModal = $state(false);
 
@@ -62,17 +68,23 @@
   function getActivity(color) {
     switch (color) {
       case "green":
-        return "Active"
-        break;
+        return "Active";
       case "red":
-        return "Inactive"
-        break
+        return "Inactive";
       case "yellow":
-        return "Scheduled"
-        break;
+        return "Scheduled";
       default:
-        return ""
-        break;
+        return "";
+    }
+  }
+
+  let popup;
+
+  function saveData(success) {
+    if (success) {
+      popup.show("Your changes have been saved!", "success");
+    } else {
+      popup.show("Failed to save changes!", "error");
     }
   }
 </script>
@@ -107,12 +119,11 @@
         </div>
         <Tooltip
         content={getActivity(color)}
-        position="bottom"
-        animation= 'slide'
+        position="top"
+        animation= "slide"
         >
         <div
-          class="slideshows-item-header-activity tooltippable tooltipText-Active"
-          style={"background-color: " + color}
+          class="slideshows-item-header-activity tooltippable tooltipText-Active slideshows-{color}-dot"
         ></div>
       </Tooltip>
         <form
@@ -287,8 +298,8 @@
         <i class="fa-solid fa-tower-cell"></i>
       </Tooltip>
       <div class="slideshows-item-live-list">
-        {#each props.screens as screenName}
-          <div class="slideshows-item-live-screen">{screenName.name}</div>
+        {#each screens as screen}
+          <div class="slideshows-item-live-screen">{screen.name}</div>
         {/each}
       </div>
     </div>
@@ -299,8 +310,10 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
+      <SavedPopup bind:this={popup} />
       <div bind:this={listElement}>
-        {#each props.VMIForSS as VMI}
+        {#each props.slideshow.visualMediaInclusionCollection as VMI}
+          {#if props.selectedId === props.slideshow.id}
           <Slideshowcontent
             {VMI}
             {slideshowID}
@@ -308,6 +321,7 @@
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
           />
+          {/if}
         {/each}
         <form
           method="post"
@@ -319,11 +333,10 @@
             return async ({ result }) => {
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
+                {saveData(false);}
                 // Handle the error
-                /*alert(
-            `Failed to change slide order, please reload page (F5).\n${result.data?.error}`,
-          );*/
               } else if (result.type === "success") {
+                {saveData(true);}
               }
             };
           }}

@@ -27,21 +27,21 @@ export async function load({ cookies }) {
         }
     });
 
-    const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
-        method: "GET",
-        headers: {
-            /* "Content-type": "application/json", */
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
+    // const color = await fetch(env.SERVER_API_URL + "/api/slideshows/states", {
+    //     method: "GET",
+    //     headers: {
+    //         /* "Content-type": "application/json", */
+    //         "Authorization": "Bearer " + cookies.get("authToken"),
+    //     }
+    // });
 
-    const colorData = await color.json();
+    //const colorData = await color.json();
 
     const visualMediaData = await visualMedia.json();
     return {
         slideshow: slideshowData,
         visualMedia: visualMediaData,
-        color: colorData,
+        //color: colorData,
     };
 }
 // Actions:
@@ -114,6 +114,7 @@ export const actions = {
             return fail(visualmedia.status, { error: "Failed to delete visual media." });
         }
         let newSlideshowData = await getSlideshows({ cookies, url, request });
+
         return {
             success: true,
             newData: newSlideshowData,
@@ -139,7 +140,6 @@ export const actions = {
 
         const slideshowData = await slideshow.json();
         if (slideshow.status == 404) {
-            console.log("herer1234")
             return fail(slideshow.status, { error: "Could not find the slideshow." });
         } else if (slideshow.status != 200) {
             return fail(slideshow.status, { error: "Failed to change archived state for slideshow." });
@@ -168,8 +168,9 @@ export const actions = {
     },
     newMediaToSlideshow: async ({ cookies, url, request }) => {
         const formData = await request.formData();
+
         // Check feilds
-        if (!formData.get("name")) {
+        if (formData.get("id") === "undefined") {
             return fail(400, { error: "did not pick an Visual Media" });
         }
         // requestBody sendt for the patch action
@@ -210,9 +211,11 @@ export const actions = {
 
         responseData = await secondResponse.text();
         if (secondResponse.status == 409) {
+            await deleteVMI({ cookies, url, request, newVMIId });
             return fail(response.status, { error: "\n" + responseData });
         }
         if (response.status !== 201 || secondResponse.status !== 200) {
+            await deleteVMI({ cookies, url, request, newVMIId });
             return fail(response.status, { error: "Failed to add visual media to slideshow." });
         }
 
@@ -359,4 +362,15 @@ async function getSlideshows({ cookies, url, request }) {
     let slideshowData = await slideshow.json();
     return slideshowData;
 }
+
+async function deleteVMI({ cookies, url, request, newVMIId }) {
+    const response = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/" + newVMIId, {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + cookies.get("authToken"),
+        }
+    });
+    return response.status;
+}
+
 

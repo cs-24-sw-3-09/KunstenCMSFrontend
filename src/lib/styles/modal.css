@@ -113,8 +113,10 @@
 
 .subscript {
     position: absolute;
-    top: -12px;
-    right: -100px;
+    bottom: 14px;
+    right: -95px;
+    font-size: 10px;
+    color: rgb(56, 56, 56);
 }
 
 .modal-separator {

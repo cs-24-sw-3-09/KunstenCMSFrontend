@@ -105,12 +105,26 @@
     margin-right: 20px;
   }
   
-  .slideshows-item-header-activity {
-    background-color: gray;
+    .slideshows-item-header-activity {
     width: 8px;
     height: 8px;
     border-radius: 222px;
   }
+    .slideshows-green-dot {
+      background-color: green;
+    }
+  
+    .slideshows-yellow-dot {
+      background-color: rgb(255, 187, 0);
+    }
+  
+    .slideshows-red-dot {
+      background-color: rgb(206, 0, 0);
+    }
+  
+    .slideshows-grey-dot {
+      background-color: grey;
+    }
   
   .slideshows-item-header-activity.notplanned {
     background-color: red;

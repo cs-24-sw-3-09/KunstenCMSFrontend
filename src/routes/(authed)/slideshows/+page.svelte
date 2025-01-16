@@ -4,20 +4,36 @@
 
     import Slideshow from "$lib/components/slideshow/slideshow.svelte";
     import Header from "$lib/components/slideshow/slideshowHeader.svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
+    import { onMount } from "svelte";
+    import { env } from "$env/dynamic/public";
 
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
     let visualMedias = $state(data.visualMedia);
 
-    let color = data.color;
-    function updateSlideshowContent(data) {
+    let status = $state([]);
+    onMount(async () => {
+        const statusData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/states", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        });
+        status = await statusData.json();
+    });
+
+    function updateSlideshowContent(data, closeSS = false) {
         slideshowContent = data;
-        if (selectedId != null) {
-            VMIForSS = slideshowContent
+        if(closeSS == true) {
+            updateState(null)
+        } else if (selectedId != null) {
+            let newVMI = slideshowContent
                 .find((ss) => ss.id === selectedId)
                 .visualMediaInclusionCollection.sort(
                     (a, b) => a.slideshowPosition - b.slideshowPosition,
                 );
+            VMIForSS = newVMI;
         }
     }
 
@@ -115,7 +131,7 @@
         {#each filteredslideshow as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
                 <Slideshow
-                    {slideshow}
+                    {slideshow} 
                     {VMIForSS}
                     {filteredVisualMedia}
                     on:update={(event) => updateState(event.detail)}
@@ -130,11 +146,7 @@
                     {searchTermUpdate}
                     {updateSlideshowContent}
                     {form}
-                    color={color.find((row) => row.slideshowId == slideshow.id)
-                        ?.color}
-                    screens={color.find(
-                        (row) => row.slideshowId == slideshow.id,
-                    )?.displayDevices}
+                    status={status}
                 />
             {/if}
         {/each}

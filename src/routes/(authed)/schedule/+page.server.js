@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 import { env } from "$env/dynamic/private";
 
@@ -8,8 +8,7 @@ import { env } from "$env/dynamic/private";
 // load user from locals for modifieing the page
 /** @type {import("./$types").PageServerLoad} */
 export async function load({ locals, cookies }) {
-
-    const timeslots = await fetch(env.SERVER_API_URL + "/api/time_slots", {
+    const timeslotsData = await fetch(env.SERVER_API_URL + "/api/time_slots/all", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -17,62 +16,32 @@ export async function load({ locals, cookies }) {
         }
     });
 
-    const timeslotsData = await timeslots.json();
+    const timeslots = await timeslotsData.json();
 
-    const timeslotColors = await fetch(env.SERVER_API_URL + "/api/time_slots/overlapping_time_slots", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
+    timeslots.forEach(timeslot => {
+        if (timeslots.some(timeslotcomp => timeslotcomp.id !== timeslot.id && timeslotOverlapCheck(timeslot, timeslotcomp))) {
+            timeslot.color = "red";
+        } else {
+            timeslot.color = "neutral";
         }
     });
-
-    const timeslotColorsData = await timeslotColors.json();
-    timeslotsData.content = combineObjects(timeslotColorsData, timeslotsData.content)
-
-    const displayDevices = await fetch(env.SERVER_API_URL + "/api/display_devices/all", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    const visualMedia = await fetch(env.SERVER_API_URL + "/api/visual_medias/all", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    let visualMediasData = await visualMedia.json();
-
-    visualMediasData = visualMediasData.map(visualMedia => {
-        return { ...visualMedia, type: "visualMedia" }
-    });
-
-
-    const slideshows = await fetch(env.SERVER_API_URL + "/api/slideshows", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    let slideshowsData = await slideshows.json();
-
-    slideshowsData = slideshowsData.map(slideshow => {
-        return { ...slideshow, type: "slideshow" }
-    });
-    const displayDevicesData = (await displayDevices.json());
     return {
-        timeslotsData,
-        displayDevicesData,
-        content: visualMediasData.concat(slideshowsData),
-        pageHeight: 100,
+        timeslots,
     };
+}
+
+function timeslotOverlapCheck(timeslot1, timeslot2) {
+    if ((timeslot1.weekdaysChosen & timeslot2.weekdaysChosen) === 0) return false;
+
+    // Check if dates overlap
+    if (timeslot1.endDate < timeslot2.startDate || timeslot1.startDate > timeslot2.endDate) return false;
+
+    // Check if time overlaps
+    if (timeslot1.endTime < timeslot2.startTime || timeslot1.endTime === timeslot2.startTime ||
+        timeslot1.startTime === timeslot2.endTime || timeslot1.startTime > timeslot2.endTime) return false;
+
+    // Time Slots overlap
+    return true;
 }
 
 // Actions:
@@ -240,16 +209,14 @@ export const actions = {
         if (formData.get("Sun") == "on") {
             weekdaysChosen += 64;
         }
-        if (weekdaysChosen == 0) {
+        if (weekdaysChosen === 0) {
             return fail(400, { error: "Please pick one or multiple weekdays" });
         }
 
-        let displayDevicesObj = [];
-        for (let key of formData.keys()) {
-            if (!isNaN(key)) {
-                displayDevicesObj.push({ id: Number(key) });
-            }
-        }
+        const displayDevicesObj = [...formData.keys()].filter(key => !isNaN(key)).map(key => ({ id: Number(key) }));
+        if (displayDevicesObj.length === 0) return fail(400, { error: "Please pick one or multiple screens" });
+
+
 
         let requestBody = JSON.stringify({
             name: formData.get("name"),

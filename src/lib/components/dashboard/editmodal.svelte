@@ -5,7 +5,7 @@
     import { enhance } from "$app/forms";
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
-    
+
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
     import SmallHeader from "$lib/components/modal/smallheader.svelte";
@@ -23,79 +23,110 @@
     }
 
     let options = $state([]);
+    let sumbitButtonDisabled = $state(false);
 
     onMount(async () => {
-
         const authToken = getCookie("authToken");
 
         let visualMediaFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/visual_medias/all",
-          {
-            headers: { Authorization: "Bearer " + authToken },
-          },
+            env.PUBLIC_API_URL + "/api/visual_medias/all",
+            {
+                headers: { Authorization: "Bearer " + authToken },
+            },
         );
 
         let visualMedias = await visualMediaFetch.json();
         visualMedias?.forEach(visualMedia => {
-            options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+            if(visualMedia.fileType !== "video/mp4"){
+                options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+            }
         });
 
         let slideshowsFetch = await fetch(
-          env.PUBLIC_API_URL + "/api/slideshows",
-          {
-            headers: { Authorization: "Bearer " + authToken },
-          },
+            env.PUBLIC_API_URL + "/api/slideshows",
+            {
+                headers: { Authorization: "Bearer " + authToken },
+            },
         );
 
         let slideshows = await slideshowsFetch.json();
-        slideshows?.forEach(slideshow => {
-            options.push({id: slideshow.id, name: slideshow.name, type: "slideshow"});
+        slideshows?.forEach((slideshow) => {
+            options.push({
+                id: slideshow.id,
+                name: slideshow.name,
+                type: "slideshow",
+            });
         });
-
     });
-
 </script>
 
-<div class="modal">
-    <div class="modal-content">
+<div class="edit-device-modal">
+    <div class="edit-device-modal-content">
         <CloseX doFunc={doClose} />
         <Header text="Edit Device" />
 
-        <form method="post" action="?/editDevice"
-        use:enhance={({ formData }) => {
-            // `formData` is its `FormData` object that's about to be submitted
-            formData.set("id", device.id);
-            formData.set("oldData", JSON.stringify(device)); // Pass previous known user data to the action
-            return async ({ result }) => {
-                // `result` is an `ActionResult` object
-                switch (result.type) {
-                    case "failure":
-                        alert(`Failed to edit display device, please reload page (F5).\n${result.data?.error}`);
-                        break;
-                    case "success":
-                        updateDevices(result.data.responseData);
-                        closeModal(); // Call doClose on successful form submission
-                        break;
-                }
-            };
-        }}>
-            <TextInput title={"Name"} placeholder={"Name of device here"} name={"name"} required="true" value={device.name} />
-            <TextInput title={"Location"} placeholder={"Location of device here"} name={"location"} required="true" value={device.location} />
+        <form
+            method="post"
+            action="?/editDevice"
+            use:enhance={({ formData }) => {
+                sumbitButtonDisabled = true;
+                // `formData` is its `FormData` object that's about to be submitted
+                formData.set("id", device.id);
+                formData.set("oldData", JSON.stringify(device)); // Pass previous known user data to the action
+                return async ({ result }) => {
+                    // `result` is an `ActionResult` object
+                    switch (result.type) {
+                        case "failure":
+                            alert(
+                                `Failed to edit display device, please reload page (F5).\n${result.data?.error}`,
+                            );
+                            break;
+                        case "success":
+                            updateDevices(result.data.responseData);
+                            closeModal(); // Call doClose on successful form submission
+                            break;
+                    }
+                };
+            }}
+        >
+        <div class="edit-device-modal-top">
+        <div class="edit-device-modal-left">
+            <TextInput
+                title={"Name"}
+                placeholder={"Name of device here"}
+                name={"name"}
+                required="true"
+                value={device.name}
+            />
+            <TextInput
+                title={"Location"}
+                placeholder={"Location of device here"}
+                name={"location"}
+                required="true"
+                value={device.location}
+            />
 
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
                 <select id={"fallback_id"} name={"fallbackContent"}>
-                        {#if device.fallbackContent == null}
-                            <option selected value={null}>No fallback</option>  
-                        {:else}
-                            <option value={null}>No fallback</option>  
-
-                        {/if}
+                    {#if device.fallbackContent == null}
+                        <option selected value={null}>No fallback</option>
+                    {:else}
+                        <option value={null}>No fallback</option>
+                    {/if}
                     {#each options as option}
                         {#if device.fallbackContent !== null && device.fallbackContent.id == option.id}
-                            <option selected value={JSON.stringify(option)}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>   
+                            <option selected value={JSON.stringify(option)}
+                                >{option.type === "visualMedia"
+                                    ? "Media"
+                                    : "Slideshow"}: {option.name}</option
+                            >
                         {:else}
-                            <option value={JSON.stringify(option)}>{option.type === "visualMedia" ? "Media" : "Slideshow"}: {option.name}</option>
+                            <option value={JSON.stringify(option)}
+                                >{option.type === "visualMedia"
+                                    ? "Media"
+                                    : "Slideshow"}: {option.name}</option
+                            >
                         {/if}
                     {/each}
                 </select>
@@ -103,17 +134,36 @@
 
             <!-- <TextInput title={"Model"} placeholder={"Model of device here"} name={"model"} required="true" value={device.model} /> -->
 
-            <SmallHeader text={"Horizontal resolution"} />
 
             <div class="modal-inline">
                 <!-- MAX values are overtly large -->
-                <Numberinput title={"Width"} placeholder={"x"} name={"width"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[0]} />
-                <Numberinput title={"Height"} placeholder={"y"} name={"height"} min={1} max={122880} step={1} required={true} subscript={"px"} value={device.resolution.split("x")[1]} />
+                <Numberinput
+                    title={"Width"}
+                    placeholder={"x"}
+                    name={"width"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                    value={device.resolution.split("x")[0]}
+                />
+                <Numberinput
+                    title={"Height"}
+                    placeholder={"y"}
+                    name={"height"}
+                    min={1}
+                    max={122880}
+                    step={1}
+                    required={true}
+                    subscript={"px"}
+                    value={device.resolution.split("x")[1]}
+                />
             </div>
 
             <Dropdown title={"Display Orientation"} name={"displayOrientation"} options={["horizontal", "vertical"]} value={device.displayOrientation} required="true" />
-            <Separator />
-
+        </div>
+        <div class="edit-device-modal-right">
             <div class="newTimeslot-modal-dates-row">
                 <InputTime
                     title={"Monday start"}
@@ -212,11 +262,27 @@
                     value={device.sunday_end}
                 />
             </div>
-
-            <div class="modal-buttons">
-                <Button type="button" text="Cancel" doFunc={doClose} extra_class={"modal-button-close"} />
-                <Button type="submit" text="Submit" extra_class={"modal-button-submit"} />
+        </div>
+    </div>
+        <div class="edit-device-modal-buttons">
+             <div class="modal-buttons">
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    disabled={sumbitButtonDisabled}
+                    type="submit"
+                    text="Submit"
+                    extra_class={"modal-button-submit"}
+                />
             </div>
+        </div>
+            
+
+           
         </form>
     </div>
 </div>
