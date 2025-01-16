@@ -37,12 +37,10 @@
         );
 
         let visualMedias = await visualMediaFetch.json();
-        visualMedias?.forEach((visualMedia) => {
-            options.push({
-                id: visualMedia.id,
-                name: visualMedia.name,
-                type: "visualMedia",
-            });
+        visualMedias?.forEach(visualMedia => {
+            if(visualMedia.fileType !== "video/mp4"){
+                options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
+            }
         });
 
         let slideshowsFetch = await fetch(
@@ -63,8 +61,8 @@
     });
 </script>
 
-<div class="modal">
-    <div class="modal-content">
+<div class="new-device-modal">
+    <div class="new-device-modal-content">
         <CloseX doFunc={doClose} />
         <Header text="New Device" />
 
@@ -88,7 +86,9 @@
                 };
             }}
         >
-            <TextInput
+        <div class="new-device-modal-top">
+            <div class="new-device-modal-left">
+                <TextInput
                 title={"Name"}
                 placeholder={"Name of device here"}
                 name={"name"}
@@ -152,8 +152,8 @@
                 required="true"
             />
 
-            <Separator />
-            <div class="newTimeslot-modal-dates-row">
+            </div>
+            <div class="new-device-modal-right"><div class="newTimeslot-modal-dates-row">
                 <InputTime
                     title={"Monday start"}
                     name={"monday_start"}
@@ -237,7 +237,8 @@
                     required={false}
                 />
             </div>
-
+        </div>
+            <div class="new-device-modal-buttons">
             <div class="modal-buttons">
                 <Button
                     type="button"
@@ -258,4 +259,5 @@
 
 <style>
     @import "$lib/styles/modal.css";
+    @import "$lib/styles/newDeviceModal.css";
 </style>

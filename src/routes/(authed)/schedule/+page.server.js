@@ -240,16 +240,14 @@ export const actions = {
         if (formData.get("Sun") == "on") {
             weekdaysChosen += 64;
         }
-        if (weekdaysChosen == 0) {
+        if (weekdaysChosen === 0) {
             return fail(400, { error: "Please pick one or multiple weekdays" });
         }
 
-        let displayDevicesObj = [];
-        for (let key of formData.keys()) {
-            if (!isNaN(key)) {
-                displayDevicesObj.push({ id: Number(key) });
-            }
-        }
+        const displayDevicesObj = [...formData.keys()].filter(key => !isNaN(key)).map(key => ({ id: Number(key) }));
+        if (displayDevicesObj.length === 0) return fail(400, { error: "Please pick one or multiple screens" });
+
+
 
         let requestBody = JSON.stringify({
             name: formData.get("name"),

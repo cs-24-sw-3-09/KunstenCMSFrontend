@@ -1,0 +1,177 @@
+.edit-device-modal {
+  position: fixed;
+  /* Stay in place */
+  z-index: 2;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+.edit-device-modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  /* 15% from the top and centered */
+  width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+.edit-device-modal-content form {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  position: relative;
+  gap: 12px;
+  padding-bottom: 64px;
+}
+
+.edit-device-modal-top {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.edit-device-modal-buttons {
+    position: absolute;
+    bottom: 0;
+    height: 64px;
+    right: 0;
+    left: 0;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 12px;
+}
+
+.edit-device-modal-left, .edit-device-modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.newTimeslot-modal-dates-row {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.modal-dropdown,
+.modal-textinput {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-dropdown label,
+.modal-textinput label {
+  font-size: 12px;
+  color: rgb(54, 54, 54);
+}
+
+.modal-dropdown select,
+.modal-textinput input {
+  border: 1px solid black;
+  padding: 8px 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modal-content form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-button {
+  padding: 8px 20px;
+  background-color: black;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-button-submit {
+  background-color: rgb(10, 105, 10);
+}
+
+.modal-button-close {
+  background-color: rgb(77, 77, 77);
+}
+
+.modal-inline {
+  font-size: 12px;
+  color: rgb(54, 54, 54);
+  display: flex;
+  justify-content: space-evenly;
+  gap: 12px;
+}
+
+.modal-inline input {
+  border: 1px solid black;
+  padding: 8px 12px;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.modal-inline div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.subscript {
+  position: absolute;
+  top: -12px;
+  right: -100px;
+}
+
+.modal-separator {
+  border-top: 1px solid black;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: space-between; /* Distributes items evenly in a row */
+}
+
+.checkbox-item {
+  display: flex;
+  flex-direction: column; /* Stacks the text and checkbox vertically */
+  align-items: center; /* Centers text and checkbox horizontally */
+  gap: 1px; /* Adds spacing between text and checkbox */
+}
+.modal-button-delete {
+  background-color: rgb(196, 26, 26);
+}

@@ -27,6 +27,7 @@
     import Checkbox from "$lib/components/modal/checkbox.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import Smallheader from "$lib/components/modal/smallheader.svelte";
+    import { Tooltip } from "@svelte-plugins/tooltips";
 
     var selectedId = $state(null);
     let selectedItem = $state({});
@@ -98,8 +99,20 @@
                     onkeydown={preventEnterSubmit}
                 />
             </div>
-            <Smallheader text={"Force changes:"} />
-            <Checkbox name={"Force"} checked={false} />
+            <!-- <Smallheader text={"Force changes:"} />
+            <Checkbox
+                name={"Force"}
+                checked={false}
+            /> -->
+            <div class="newTimeslot-force">
+                <div class="newTimeslot-force-title">
+                    <Tooltip content="If dimensions don't fit, you can force" position="top">
+                        <div class="newTimeslot-force-title-icon">?</div>
+                    </Tooltip>
+                    <label for="Force" class="newTimeslot-force-title-text">Force</label>
+                </div>
+                <input type="checkbox" id="Force" name="Force">
+            </div>
             <div class="add-media-modal-list">
                 {#each Item as item}
                     <MediaItem
@@ -132,5 +145,6 @@
 </div>
 
 <style>
+    @import "$lib/styles/schedule.css";
     @import "$lib/styles/modal.css";
 </style>
