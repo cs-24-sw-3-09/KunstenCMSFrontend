@@ -180,6 +180,7 @@
                     if (!confirmation) return cancel();
 
                     formData.set("timeslotID", timeslot.id);
+                    sumbitButtonDisabled = true;
 
                     return async ({ result }) => {
                         // `result` is an `ActionResult` object

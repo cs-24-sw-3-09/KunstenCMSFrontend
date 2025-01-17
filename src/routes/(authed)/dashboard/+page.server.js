@@ -52,10 +52,10 @@ export const actions = {
             /* model: formData.get("model"), */
             displayOrientation: formData.get("displayOrientation").toLowerCase(),
             resolution: formData.get("width") + "x" + formData.get("height"),
-            fallbackContent: {
+            fallbackContent: formData.get("fallbackContent") != '' ? {
                 id: JSON.parse(formData.get("fallbackContent")).id,
                 type: JSON.parse(formData.get("fallbackContent")).type,
-            },
+            } : null,
         };
 
         // Check feilds
@@ -104,7 +104,6 @@ export const actions = {
         // Extract old data from the form data
         const oldDataJson = formData.get("oldData"); // Get serialized JSON
         const oldData = oldDataJson ? JSON.parse(oldDataJson) : null; // Parse back to an object
-
         // Resolution is a string of the form "WIDTHxHEIGHT"
         let data = {
             id: formData.get("id"),
@@ -116,7 +115,7 @@ export const actions = {
             fallbackContent: formData.get("fallbackContent") != '' ? {
                 id: JSON.parse(formData.get("fallbackContent")).id,
                 type: JSON.parse(formData.get("fallbackContent")).type,
-            } : null,
+            } : {id: 0, type: "slideshow"},
         };
 
 
@@ -127,7 +126,6 @@ export const actions = {
                 diff[key] = data[key];
             }
         }
-
 
         // requestBody sendt for the patch action
         let requestBody = { ...diff, ...formDataObject };
