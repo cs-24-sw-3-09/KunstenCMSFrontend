@@ -43,10 +43,11 @@ function saveData(success) {
     {/if}
   </div>
   <div class="slideshows-body-item-num">
+    <div>
     <Tooltip content="Position" animation="slide",  position="top">
     {VMI.slideshowPosition}
     </Tooltip>
-  </div>
+  </div></div>
   <div class="slideshows-body-item-title">
     {VMI.visualMedia ? VMI.visualMedia.name : "No name"}
   </div>
