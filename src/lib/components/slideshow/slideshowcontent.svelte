@@ -13,6 +13,7 @@
   let slideshowId = props.slideshow.id;
   let test1 = props.slideshow;
   let  currentVMIId;
+  let ButtonDisabled = $state(false);
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
@@ -101,6 +102,7 @@ function saveData(success) {
       method="post"
       action="?/deleteVM"
       use:enhance={async ({ formData, cancel }) => {
+        ButtonDisabled = true;
         // Causes svelte violation warning, because of holdup
 
         const authToken = getCookie("authToken");
@@ -127,7 +129,11 @@ function saveData(success) {
         let confirmation = confirm(
           `Are you sure you want to delete "${VMI.visualMedia.name}"? ${riskString}`,
         );
-        if (!confirmation) return cancel();
+        if (!confirmation){
+          ButtonDisabled = false;
+          return cancel();
+        }
+         
 
         // let confirmation = confirm(`Are you sure you want to delete "${VMI}"?`);
         // if (!confirmation) return cancel();
@@ -140,8 +146,10 @@ function saveData(success) {
             alert(
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
+            ButtonDisabled = false;
           } else if (result.type === "success") {
             props.updateSlideshowContent(result.data.newData, true);
+            ButtonDisabled = false;
           }
         };
       }}
@@ -151,10 +159,11 @@ function saveData(success) {
         <button
           type="submit"
           style="all: unset; display: inline-block; cursor: pointer;"
+          disabled = {ButtonDisabled}
         >
           <!-- svelte-ignore element_invalid_self_closing_tag -->
           <Tooltip content="Delete" animation="slide",  position="top">
-            <i class="fa-solid fa-trash" />
+            <i class="fa-solid fa-trash {ButtonDisabled === true ? 'disabled' : ''}"/>
           </Tooltip>  
         </button>
       </div>
@@ -166,3 +175,11 @@ function saveData(success) {
     </div>
   </div>
 </div>
+
+
+<style>
+    .disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+  }
+</style>
