@@ -110,7 +110,7 @@
     height: 8px;
     border-radius: 88px;
     position: absolute;
-    left: 172px;
+    left: 165px;
     top: 4px;
 }
 
@@ -194,6 +194,7 @@
     font-size: 12px;
     color: rgb(158, 158, 158);
     text-align: end;
+    white-space: nowrap;
 }
 
 /* Gallery modal*/
@@ -378,3 +379,4 @@
 .gallery-add-tag-button input::placeholder {
     color: rgb(198, 198, 198);
 }
+

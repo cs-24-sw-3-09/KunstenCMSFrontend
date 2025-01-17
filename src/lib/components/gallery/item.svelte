@@ -55,7 +55,7 @@
     content={getActivity(color)}
     position="top"
     animation= 'slide'>
-      <div class="gallery-dot tooltippable tooltipText-Active gallery-{color}-dot"></div>
+      <div class="gallery-dot gallery-{color}-dot"></div>
     </Tooltip>
     <div class="gallery-item-info">
       <div class="gallery-item-left-top">
@@ -162,8 +162,10 @@
         </button>
       </form>
     </div>
-    <Tooltip content="Last Modified" animation="slide",  position="top">
-    <div class="gallery-item-date">{formatModDate}</div>
-  </Tooltip>
+    <div class="gallery-item-date-parent">
+      <Tooltip content="Last Modified" animation="slide",  position="top">
+      <div class="gallery-item-date">{formatModDate}</div>
+    </Tooltip>
+    </div>
   </div>
 </div>
