@@ -71,6 +71,7 @@
                         alert(
                             `Failed to mofify timeslot.\n${result.data?.error}`,
                         );
+                        sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         doClose();
                         updateTimeslots(result.data.newData);

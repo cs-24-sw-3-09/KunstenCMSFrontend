@@ -80,6 +80,7 @@
                             alert(
                                 `Failed to edit display device, please reload page (F5).\n${result.data?.error}`,
                             );
+                            sumbitButtonDisabled = false;
                             break;
                         case "success":
                             updateDevices(result.data.responseData);

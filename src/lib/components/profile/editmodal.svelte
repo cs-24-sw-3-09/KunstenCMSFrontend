@@ -33,6 +33,7 @@
                 switch (result.type) {
                     case "failure":
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
+                        sumbitButtonDisabled = false;
                         break;
                     case "success":
                         updateProfileData(result.data.responseData);
