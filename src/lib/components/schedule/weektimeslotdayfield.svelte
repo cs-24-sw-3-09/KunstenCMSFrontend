@@ -5,7 +5,7 @@
 <div class="schedule-container"
 onclick = {() => toggleEditTimeslotModal(dayfield.timeslot)}>
     <div
-        class={`schedule-week-schema-row-item ${colorClass} ${dayfield.size}`}
+        class={`schedule-week-schema-row-item ${colorClass} schedule-size-3`}
     >
         <div class="schedule-week-schema-row-item-title">
             {dayfield.timeslot.name}
