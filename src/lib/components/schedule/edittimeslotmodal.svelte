@@ -7,8 +7,6 @@
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
 
-    console.log(timeslot);
-
     let days = {
         Mon: true,
         Tue: false,
@@ -44,8 +42,6 @@
     import Dateinput from "$lib/components/modal/InputDate.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
   import { Tooltip } from "@svelte-plugins/tooltips";
-
-    console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
 
     let selectedContent = JSON.stringify({
         id: timeslot.displayContent?.id,
