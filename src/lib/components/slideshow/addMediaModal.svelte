@@ -106,7 +106,7 @@
                 name={"Force"}
                 checked={false}
             /> -->
-            <div class="newTimeslot-force">
+            <div class="add-media-force">
                 <div class="newTimeslot-force-title">
                     <Tooltip content="If dimensions don't fit, you can force" position="top">
                         <div class="newTimeslot-force-title-icon">?</div>
@@ -128,7 +128,7 @@
                 {/each}
             </div>
 
-            <div class="modal-buttons">
+            <div class="add-media-modal-buttons">
                 <Button
                     type="button"
                     text="Cancel"
