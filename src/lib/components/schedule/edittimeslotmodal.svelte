@@ -74,7 +74,7 @@
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         doClose();
-                        updateTimeslots(result.data.newData);
+                        updateTimeslots();
                     }
                 };
             }}
@@ -191,7 +191,7 @@
                             );
                         } else if (result.type === "success") {
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                     };
                 }}

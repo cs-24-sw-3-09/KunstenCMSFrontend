@@ -47,7 +47,7 @@
                             sumbitButtonDisabled = false;
                         } else if (result.type === "success") {
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                 };
             }}
