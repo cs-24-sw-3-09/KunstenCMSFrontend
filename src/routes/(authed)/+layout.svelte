@@ -90,4 +90,5 @@
 
 <style>
     @import "$lib/styles/sidebar.css";
+    @import "$lib/styles/tooltip.css";
 </style>

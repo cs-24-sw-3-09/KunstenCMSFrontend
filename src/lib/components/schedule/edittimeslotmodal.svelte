@@ -159,7 +159,7 @@
             <Separator />
             <div class="newTimeslot-force">
                 <div class="newTimeslot-force-title">
-                    <Tooltip content="If dimensions don't fit, you can force" position="top">
+                    <Tooltip content="If dimensions don't fit, you can force" position="top" animation="slide">
                         <div class="newTimeslot-force-title-icon">?</div>
                     </Tooltip>
                     <label for="force" class="newTimeslot-force-title-text">Force</label>
