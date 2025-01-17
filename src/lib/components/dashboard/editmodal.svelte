@@ -41,10 +41,10 @@
         });
 
         let visualMediaFetch = await fetch(
-            env.PUBLIC_API_URL + "/api/visual_medias/all",
-            {
-                headers: { Authorization: "Bearer " + authToken },
-            },
+          env.PUBLIC_API_URL + "/api/visual_medias/all",
+          {
+            headers: { Authorization: "Bearer " + authToken },
+          },
         );
 
         let visualMedias = await visualMediaFetch.json();
@@ -52,9 +52,9 @@
             if(visualMedia.fileType !== "video/mp4"){
                 options.push({id: visualMedia.id, name: visualMedia.name, type: "visualMedia"});
             }
-        });
+        });        
 
-        
+
 
     });
 </script>
