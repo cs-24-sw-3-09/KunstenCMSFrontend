@@ -33,6 +33,45 @@
     }
   }
 
+  async function fetchRiskInformation(itemId, authToken) {
+    const endpoints = [
+    `/api/visual_medias/${itemId}/slideshows`,
+    `/api/visual_medias/${itemId}/timeslots`,
+    `/api/visual_medias/${itemId}/display_devices`,
+    ];
+
+    //fetch all data in parallel
+    const [slideshowsRes, timeslotsRes, displayDevicesRes] = await Promise.all(
+      endpoints.map((endpoint) =>
+        fetch(env.PUBLIC_API_URL + endpoint, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        })
+      )
+    );
+
+    const [slideshows, timeslots, displayDevices] = await Promise.all([
+      slideshowsRes.json(),
+      timeslotsRes.json(),
+      displayDevicesRes.json(),
+    ]);
+    
+    let riskString = "";
+
+    if(slideshows.length > 0) {
+      riskString +=
+       "\n\nThe visual media i part of the following slidehows(s):\n"+ slideshows.map((slideshow) => slideshow.name).join("\n");
+    }
+
+    if(displayDevices.length > 0) {
+      riskString += "\n\nThe visual media is used as fallback for the following devices:\n" + displayDevices.map((displayDevice) => displayDevice.name).join("\n");
+    }
+
+    if(timeslots.length > 0){
+      riskString += "\n\nThe visual media is part of the following timeslot(s):\n" + timeslots.map((timeSlot) => timeSlot.name).join("\n")
+      riskString += "\n\nNOTE: If the visual media is used as individual content for timeslots, then these timeslots will also be deleted";
+    }
+    return riskString;
+  }
 </script>
 
 <div class="gallery-item">
@@ -101,61 +140,8 @@
         action="?/deleteVisualMedia"
         use:enhance={async ({ formData, cancel }) => {
           const authToken = getCookie("authToken");
-          console.log(authToken);
-          let informationDataSlideshow = await fetch(
-            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows",
-            {
-              headers: { Authorization: "Bearer " + authToken },
-            },
-          );
-          let informationDataTimeSlot = await fetch(
-            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/timeslots",
-            {
-              headers: { Authorization: "Bearer " + authToken },
-            },
-          );
-          let informationDataFallback = await fetch(
-            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/display_devices",
-            {
-              headers: { Authorization: "Bearer " + authToken },
-            },
-          );
-
-          const riskInformationSlideshow = await informationDataSlideshow.json();
-          let slideshowNames = riskInformationSlideshow.map((risk) => risk.name);
-          let riskString = "";
-          if (slideshowNames.length != 0) {
-            riskString =
-              "\n\nThe visual media i part of the following slidehows(s):\n";
-            for (let name of slideshowNames) {
-              riskString += name + "\n";
-            }
-          }
-
-          const riskInformationFallback = await informationDataFallback.json();
-          let displayDeviceNames = riskInformationFallback.map((risk) => risk.name);
-          if (displayDeviceNames.length != 0) {
-            riskString +=
-              "\n\nThe visual media is used as fallback for the following devices:\n";
-            for (let name of displayDeviceNames) {
-              riskString += name + "\n";
-            }
-          }
-
-          const riskInformationTimeSlot = await informationDataTimeSlot.json();
-          let timeSlotNames = riskInformationTimeSlot.map((risk) => risk.name);
-          if(timeSlotNames.length != 0) {
-            riskString +=
-              "\nThe visual media is part of the following timeslot(s):\n";
-            for (let name of timeSlotNames) {
-              riskString += name + "\n";
-            }
-          }
-          riskString += "\n\nNOTE: If the visual media is used as individual content for timeslots, then these timeslots will also be deleted";
           
-
-
-
+          let riskString = await fetchRiskInformation(item.id, authToken);
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
             `Are you sure you want to delete "${item.name}"? ${riskString}`,
