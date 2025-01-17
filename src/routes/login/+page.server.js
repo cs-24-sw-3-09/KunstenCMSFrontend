@@ -5,7 +5,7 @@ import { env } from "$env/dynamic/private";
 // Load function that clears the auth token cookie
 export const load = async ({ cookies }) => {
 	// Clear the auth token cookie
-	cookies.delete('authToken', { path: '/' });
+	//cookies.delete('authToken', { path: '/' });
 };
 
 // Actions:
