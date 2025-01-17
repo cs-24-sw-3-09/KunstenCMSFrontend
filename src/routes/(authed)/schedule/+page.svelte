@@ -294,7 +294,7 @@
             return { ...slideshow, type: "slideshow" }
         });
 
-        visualContent = slideshowsData?.concat(visualMediasData);
+        visualContent = visualMediasData?.concat(slideshowsData);
 
         visualContent = visualContent?.filter(displayContentElement => 
             displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4"
