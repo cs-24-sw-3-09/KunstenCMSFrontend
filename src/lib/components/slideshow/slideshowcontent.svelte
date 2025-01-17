@@ -6,6 +6,7 @@
 
   import SavedPopup from "../savedpopup.svelte";
   import { onMount } from "svelte";
+  import { lazyLoad } from "$lib/utils/lazyload.js";
 
 
   let props = $props();
@@ -37,9 +38,9 @@ function saveData(success) {
 <div draggable="true" class="slideshows-body-item">
   <div class="slideshows-body-item-preview">
     {#if VMI.visualMedia && VMI.visualMedia.fileType === "video/mp4"}
-      <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+      <img use:lazyLoad={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
     {:else}
-      <img src={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
+      <img use:lazyLoad={VMI.visualMedia ? `${env.PUBLIC_API_URL}${VMI.visualMedia.location}` : ""} alt="gallery-item-preview" />
     {/if}
   </div>
   <div class="slideshows-body-item-num">

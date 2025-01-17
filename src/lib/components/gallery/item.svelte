@@ -4,6 +4,7 @@
   import { enhance } from "$app/forms";
   import { env } from "$env/dynamic/public";
   import { getCookie } from "$lib/utils/getcookie.js";
+  import { lazyLoad } from "$lib/utils/lazyload.js";
 
   import Tag from "$lib/components/gallery/tag.svelte";
 
@@ -47,7 +48,7 @@
           alt="gallery-item-preview"
         />
       {:else}
-        <img src={env.PUBLIC_API_URL + item.location} fetchpriority="high" loading="eager" style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+        <img use:lazyLoad={env.PUBLIC_API_URL + item.location} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
       {/if}
     </div>
 
@@ -126,12 +127,6 @@
           );
           if (!confirmation) return cancel();
 
-          // `formData` is its `FormData` object that's about to be submitted
-          // for (const key in item) {
-          //   formData.set(key, item[key]);
-          // }
-
-          // `formData` is its `FormData` object that's about to be submitted
           formData.set("id", item.id);
 
           return async ({ result }) => {
