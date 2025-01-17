@@ -76,9 +76,9 @@ export const actions = {
         const responseData = await response.json();
 
         // If email is changed, delete the authToken
-        if (requestBody.email !== oldData.email) {
+        if (responseData.email !== oldData.email) {
             cookies.delete('authToken', { path: '/' });
-            //throw redirect("/login");
+            //throw redirect(303, "/login");
         }
 
         return { 

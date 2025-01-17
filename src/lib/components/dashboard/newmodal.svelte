@@ -77,6 +77,7 @@
                             alert(
                                 `Failed to add display device, please reload page (F5).\n${result.data?.error}`,
                             );
+                            sumbitButtonDisabled = false;
                             break;
                         case "success":
                             createDevice(result.data.responseData);

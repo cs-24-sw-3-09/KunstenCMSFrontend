@@ -33,6 +33,7 @@
                 switch (result.type) {
                     case "failure":
                         alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
+                        sumbitButtonDisabled = false;
                         break;
                     case "success":
                         updateVisualMedia(result.data.responseData);
