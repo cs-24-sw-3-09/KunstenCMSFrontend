@@ -11,6 +11,7 @@
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
 
+  let ButtonDisabled = $state(false);
 
   let modDate = $state(new Date(item.lastDateModified));
   let formatModDate = $derived.by(() => modDate.toLocaleDateString('en-GB', {
@@ -82,18 +83,20 @@
         class="gallery-item-replace-button"
         onclick={doToggleEditModal}
         aria-label="Edit item"
+        disabled = {ButtonDisabled}
       >
       <Tooltip content="Edit" animation="slide",  position="top">
-        <i class="fa-solid fa-pen-to-square"></i>
+        <i class="fa-solid fa-pen-to-square {ButtonDisabled === true ? 'disabled' : ''}"></i>
       </Tooltip>
     </button>
       <button
         class="gallery-item-replace-button"
         onclick={() => {doToggleReplaceModal(item)}}
         aria-label="Edit item"
+        disabled = {ButtonDisabled}
       >
       <Tooltip content="Replace" animation="slide",  position="top">
-        <i class="fa-solid fa-exchange"></i>
+        <i class="fa-solid fa-exchange {ButtonDisabled === true ? 'disabled' : ''}"></i>
       </Tooltip>
       </button>
       
@@ -101,6 +104,7 @@
         method="post"
         action="?/deleteVisualMedia"
         use:enhance={async ({ formData, cancel }) => {
+          ButtonDisabled = true;
           const authToken = getCookie("authToken");
           console.log(authToken);
           let informationData = await fetch(
@@ -125,7 +129,11 @@
           let confirmation = confirm(
             `Are you sure you want to delete "${item.name}"?${riskString}`,
           );
-          if (!confirmation) return cancel();
+          if (!confirmation) {
+            ButtonDisabled = false;
+            return cancel();
+          }
+          
 
           formData.set("id", item.id);
 
@@ -137,10 +145,12 @@
                 alert(
                   `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
                 );
+                ButtonDisabled = false;
                 break;
               case "success":
                 // Handle the success
                 deleteVisualMedia(result.data.id);
+                ButtonDisabled = false;
                 break;
             }
           };
@@ -150,9 +160,10 @@
           class="gallery-item-delete-button"
           type="submit"
           aria-label="Delete item"
+          disabled = {ButtonDisabled}
         >
           <Tooltip content="Delete" animation="slide",  position="top">
-            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-trash {ButtonDisabled === true ? 'disabled' : ''}"></i>
           </Tooltip>
         </button>
       </form>
@@ -164,3 +175,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>
