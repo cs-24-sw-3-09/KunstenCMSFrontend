@@ -237,21 +237,31 @@
             const authToken = getCookie("authToken");
             console.log(authToken);
 
-            let informationData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
+            let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
             });
-            
-            const riskInformation = await informationData.json();
+            let informationDataFallback = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/fallbackContent",{headers: {"Authorization": 'Bearer ' + authToken},
+            });
 
-            let names = riskInformation.map((risk) => risk.name);
+            const riskInformationFallback = await informationDataFallback.json();
+            let displayDeviceNames = riskInformationFallback.map((risk) => risk.name)
             let riskString = "";
-            if (names.length != 0) {
-              riskString =
-                "\n\nThe slideshow i part of the following timeslot(s):\n";
-              for (let name of names) {
+            if(displayDeviceNames.length != 0){
+              riskString += "\n\nThe slideshow is used as fallback for the following display device(s):\n"
+              for (let name of displayDeviceNames){
                 riskString += name + "\n";
               }
-              riskString +="\n\n NOTE: If the slideshow is deleted, all associated timeslots will also be deleted";
+            }
+
+            const riskInformationTimeSlot = await informationDataTimeSlot.json();
+            let timeSlotnames = riskInformationTimeSlot.map((risk) => risk.name);
+            if (timeSlotnames.length != 0) {
+              riskString +=
+                "\n\nThe slideshow is part of the following timeslot(s):\n";
+              for (let name of timeSlotnames) {
+                riskString += name + "\n";
+              }
+              riskString +="\n NOTE: If the slideshow is deleted, all associated timeslots will also be deleted";
             }
 
             let confirmation = confirm(
