@@ -1,5 +1,5 @@
 <script>
-  let { dayfield, toggleEditTimeslotModal } = $props();
+  let { dayfield, toggleEditTimeslotModal, colorClass } = $props();
 
   function timeToPercentage(time) {
     const parts = time ? time.split(":") : [0, 0];
@@ -28,8 +28,10 @@
   class="schedule-day-body-row-schema-row"
   
 >
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
-    class="schedule-day timeslot color-{dayfield.timeslot.color}"
+    class="schedule-day timeslot {colorClass}"
     style="--theme-left: {start};--theme-right: {end}"
     onclick={() => toggleEditTimeslotModal(dayfield.timeslot)}
   >

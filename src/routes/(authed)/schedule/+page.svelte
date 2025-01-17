@@ -511,7 +511,13 @@
                     </div>
                 
                     <div class="schedule-header-top-right-nav">
-                        <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
+                        <Button text={"Today"} clickFunction={() => {focusDate = new Date();
+                            if (weekView) {
+                                fetchTimeSlots(focusWeek.start, focusWeek.end);
+                            } else {
+                                fetchTimeSlots(focusDate, focusDate);
+                            }
+                        }} />
                         
                         {#if weekView}
                             <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7)); fetchTimeSlots(focusWeek.start, focusWeek.end)}}><i class="arrow left"></i></button>
