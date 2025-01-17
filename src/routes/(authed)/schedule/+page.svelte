@@ -405,15 +405,15 @@
                 "Authorization": "Bearer " + getCookie("authToken"),
             }
         }).then((data) => data.json()).then((json) => {
-            const timeslotsdata = json?.content;
+            /*const timeslotsdata = json?.content;
             timeslotsdata?.forEach(timeslot => {
                 if (timeslotsdata.some(timeslotcomp => timeslotcomp.id !== timeslot.id && timeslotOverlapCheck(timeslot, timeslotcomp))) {
                     timeslot.color = "red";
                 } else {
                     timeslot.color = "neutral";
                 }
-            });
-            return timeslotsdata;
+            });*/
+            return json?.content;
         });
     }
 
@@ -467,7 +467,7 @@
         displayDevices = await displayDevicesData.json();
     });
 
-function timeslotOverlapCheck(timeslot1, timeslot2) {
+/*function timeslotOverlapCheck(timeslot1, timeslot2) {
     if ((timeslot1.weekdaysChosen & timeslot2.weekdaysChosen) === 0) return false;
 
     // Check if dates overlap
@@ -477,9 +477,13 @@ function timeslotOverlapCheck(timeslot1, timeslot2) {
     if (timeslot1.endTime < timeslot2.startTime || timeslot1.endTime === timeslot2.startTime ||
         timeslot1.startTime === timeslot2.endTime || timeslot1.startTime > timeslot2.endTime) return false;
 
+    if (!timeslot1.displayDevices.some(dd1 => {
+        timeslot2.displayDevices.some(dd2 => dd1.id === dd2.id)
+    })) return false; 
+
     // Time Slots overlap
     return true;
-}
+}*/
 
 </script>
 
