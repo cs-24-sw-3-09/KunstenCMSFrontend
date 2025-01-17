@@ -108,9 +108,14 @@
               headers: { Authorization: "Bearer " + authToken },
             },
           );
-
           let informationDataTimeSlot = await fetch(
             env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/timeslots",
+            {
+              headers: { Authorization: "Bearer " + authToken },
+            },
+          );
+          let informationDataFallback = await fetch(
+            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/display_devices",
             {
               headers: { Authorization: "Bearer " + authToken },
             },
@@ -127,17 +132,30 @@
             }
           }
 
+          const riskInformationFallback = await informationDataFallback.json();
+          let displayDeviceNames = riskInformationFallback.map((risk) => risk.name);
+          if (displayDeviceNames.length != 0) {
+            riskString +=
+              "\n\nThe visual media is used as fallback for the following devices:\n";
+            for (let name of displayDeviceNames) {
+              riskString += name + "\n";
+            }
+          }
+
           const riskInformationTimeSlot = await informationDataTimeSlot.json();
           let timeSlotNames = riskInformationTimeSlot.map((risk) => risk.name);
           if(timeSlotNames.length != 0) {
             riskString +=
-              "\n\nThe visual media i part of the following timeslot(s):\n";
+              "\nThe visual media is part of the following timeslot(s):\n";
             for (let name of timeSlotNames) {
               riskString += name + "\n";
             }
           }
           riskString += "\n\nNOTE: If the visual media is used as individual content for timeslots, then these timeslots will also be deleted";
           
+
+
+
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
             `Are you sure you want to delete "${item.name}"? ${riskString}`,
