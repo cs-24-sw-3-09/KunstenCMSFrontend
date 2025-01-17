@@ -127,9 +127,9 @@
           if (!confirmation) return cancel();
 
           // `formData` is its `FormData` object that's about to be submitted
-          for (const key in item) {
-            formData.set(key, item[key]);
-          }
+          // for (const key in item) {
+          //   formData.set(key, item[key]);
+          // }
 
           // `formData` is its `FormData` object that's about to be submitted
           formData.set("id", item.id);
