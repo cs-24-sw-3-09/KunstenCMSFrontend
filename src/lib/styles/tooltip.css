@@ -1,0 +1,16 @@
+.tooltip {
+  top: 0 !important;
+}
+
+
+button:has(>.tooltip), div:has(>.tooltip) {
+    position: relative !important;
+}
+
+.newTimeslot-force .tooltip, .editTimeslot-force .tooltip, .add-media-force .tooltip {
+    left:6px !important;
+}
+
+.gallery-item-date-parent .tooltip {
+    
+}

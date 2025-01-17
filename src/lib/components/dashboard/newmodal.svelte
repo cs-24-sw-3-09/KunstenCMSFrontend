@@ -6,6 +6,7 @@
 
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
+    import { limitString } from "$lib/utils/stringutils.js";
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -112,7 +113,7 @@
                         <option value={JSON.stringify(option)}
                             >{option.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {option.name}</option
+                                : "Slideshow"}: {limitString(option.name, 40)}</option
                         >
                     {/each}
                 </select>

@@ -28,8 +28,8 @@
   
   let status = $derived.by(() => (props.status.find((row) => row.slideshowId == props.slideshow.id)));
   let color = $derived.by(() => status?.color);
+  let activity = $derived.by(() => {getActivity(color)})
   let screens = $derived.by(() => status?.displayDevices);
-
   let listElement;
   let ButtonDisabled = $state(false);
 
@@ -118,7 +118,7 @@
           </i>
         </div>
         <Tooltip
-        content={getActivity(color)}
+        content={activity}
         position="top"
         animation= "slide"
         >

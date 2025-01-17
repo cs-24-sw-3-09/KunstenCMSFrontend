@@ -6,9 +6,8 @@
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
-
-    console.log(timeslot);
-
+    import { limitString } from "$lib/utils/stringutils.js";
+  
     let days = {
         Mon: true,
         Tue: false,
@@ -45,8 +44,6 @@
     import InputTime from "$lib/components/modal/InputTime.svelte";
   import { Tooltip } from "@svelte-plugins/tooltips";
 
-    console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
-
     let selectedContent = JSON.stringify({
         id: timeslot.displayContent?.id,
         type: timeslot.displayContent?.type,
@@ -74,7 +71,7 @@
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         doClose();
-                        updateTimeslots(result.data.newData);
+                        updateTimeslots();
                     }
                 };
             }}
@@ -139,7 +136,8 @@
                             })}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {content.name}</option
+                                : "Slideshow"}: {limitString(content.name, 40)}
+                        </option
                         >
                     {/each}
                 </select>
@@ -159,7 +157,7 @@
             <Separator />
             <div class="newTimeslot-force">
                 <div class="newTimeslot-force-title">
-                    <Tooltip content="If dimensions don't fit, you can force" position="top">
+                    <Tooltip content="If dimensions don't fit, you can force" position="top" animation="slide">
                         <div class="newTimeslot-force-title-icon">?</div>
                     </Tooltip>
                     <label for="force" class="newTimeslot-force-title-text">Force</label>
@@ -192,7 +190,7 @@
                             );
                         } else if (result.type === "success") {
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                     };
                 }}

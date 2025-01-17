@@ -3,6 +3,8 @@
 
     import { enhance } from "$app/forms";
 
+    import { limitString } from "$lib/utils/stringutils.js";
+
     let days = $state({
         Mon: false,
         Tue: false,
@@ -47,7 +49,7 @@
                             sumbitButtonDisabled = false;
                         } else if (result.type === "success") {
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                 };
             }}
@@ -100,8 +102,7 @@
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"
-                            }: {content.name}
+                                : "Slideshow"}: {limitString(content.name, 40)}
                         </option>
                     {/each}
                 </select>
@@ -129,7 +130,7 @@
 
             <div class="newTimeslot-force">
                 <div class="newTimeslot-force-title">
-                    <Tooltip content="If dimensions don't fit, you can force" position="top">
+                    <Tooltip content="If dimensions don't fit, you can force" position="top" animation="slide">
                         <div class="newTimeslot-force-title-icon">?</div>
                     </Tooltip>
                     <label for="force" class="newTimeslot-force-title-text">Force</label>

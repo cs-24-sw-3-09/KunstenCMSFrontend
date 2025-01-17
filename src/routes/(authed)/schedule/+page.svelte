@@ -1,6 +1,5 @@
 <script>
     /** @type {{ data: import('./$types').PageData }} */
-    let { data, form } = $props();
     import { env } from "$env/dynamic/public";
 
     import Button from "$lib/components/button.svelte";
@@ -9,14 +8,18 @@
 
     import RowPopulatorWeek from "$lib/components/schedule/weekrowpopulator.svelte";
     import RowPopulatorDay from "$lib/components/schedule/dayrowpopulator.svelte";   
-
+    import { onMount } from "svelte";
+    import { getCookie } from "$lib/utils/getcookie.js";
 
     // Data for the page
-    let timeslots = $state(data.timeslots);
+    let timeslots = $state();
 
-    function updateTimeslots(data) {
-        console.log("data",data.content);
-        timeslots = data.content;
+    function updateTimeslots() {
+        if( weekView ){
+            fetchTimeSlots(focusWeek.start, focusWeek.end);
+        } else {
+            fetchTimeSlots(focusDate, focusDate);
+        }
     }
 
     // Toggles
@@ -42,7 +45,6 @@
 
     let focusDate = $state();
     focusDate = new Date();
-    //$inspect(focusDate);
 
     let formatFocusDate = $derived.by(() => {
         const options = {
@@ -116,11 +118,7 @@
 
     let time = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 
-
-    // Derive visual data for the week
-    // I hate date calculations, and compiling fields for each day is a bit of a pain
-
-    let weekData = $derived.by(() => {
+    function weekDataFunc(timeslotsLocal){
         // Helper function to check if two date ranges overlap
         const isOverlapping = (slotStart, slotEnd, rangeStart, rangeEnd) => {
             return (
@@ -138,7 +136,7 @@
         // Create a map of devices to their timeslots
         const deviceTimeslotMap = {};
 
-        timeslots.forEach(slot => {
+        timeslotsLocal?.forEach(slot => {
             let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
             let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
             const devices = slot.displayDevices;
@@ -172,8 +170,6 @@
                             && dayDate <= slotEnd 
                             && isRelevantForDay(slot.weekdaysChosen, dayIndex)) {
                             deviceEntry.dayfields[dayIndex].push({
-                                color: `color-${slot.color}`,
-                                size: "schedule-size-3",
                                 timeslot: slot,
                             });
                         }
@@ -184,14 +180,9 @@
 
         // Convert the map to an array
         return Object.values(deviceTimeslotMap);
-    });
-    //$inspect(weekData);
+    }
 
-
-    // Derive visual data for the day
-    // I hate date calculations, and compiling fields for each day is a bit of a pain
-
-    let dayData = $derived.by(() => {
+    function dayDataFunc(timeslotsLocal){
         const dayStart = new Date(focusDate);
         dayStart.setHours(0, 0, 0, 0); // Start of the day
         const dayEnd = new Date(focusDate);
@@ -220,7 +211,7 @@
         // Create a map of devices to their timeslots
         const deviceTimeslotMap = {};
 
-        timeslots.forEach(slot => {
+        timeslotsLocal?.forEach(slot => {
             let slotStart = new Date(slot.startDate); /* new Date(`${slot.startDate}T${slot.startTime}`); */
             let slotEnd = new Date(slot.endDate); /* new Date(`${slot.endDate}T${slot.endTime}`); */
             const devices = slot.displayDevices;
@@ -245,7 +236,6 @@
 
                     // Add to dayfields
                     deviceEntry.dayfields.push({
-                        color: `color-${slot.id}`, // Unique color for the timeslot
                         timeslot: slot,
                     });
                 });
@@ -254,16 +244,28 @@
 
         // Convert the map to an array
         return Object.values(deviceTimeslotMap);
-    });
-    //$inspect(dayData);
-
-    import { onMount } from "svelte";
-    import { getCookie } from "$lib/utils/getcookie.js";
+    }
 
     let visualContent = $state([]);
     let displayDevices = $state([]);
 
+    function fetchTimeSlots(start, end) {
+        const formatDate = (date) => date.toISOString().split('T')[0]; //Formats to: YYYY-MM-DD.
+
+        timeslots = fetch(env.PUBLIC_API_URL + "/api/time_slots?start=" + formatDate(start) + "&end=" + formatDate(end), {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + getCookie("authToken"),
+            }
+        }).then((data) => data.json()).then((json) => {
+            return json?.content;
+        });
+    }
+
     onMount(async () => {
+
+        fetchTimeSlots(focusWeek.start, focusWeek.end)
 
         const visualMedia = await fetch(env.PUBLIC_API_URL + "/api/visual_medias/all", {
             method: "GET",
@@ -330,21 +332,27 @@
 
                     <div>
                     {#if weekView}
-                        <Button text={"Change to Day View"} clickFunction={() => (weekView = false)} />
+                        <Button text={"Change to Day View"} clickFunction={() => { (weekView = false); fetchTimeSlots(focusDate, focusDate) }} />
                     {:else}
-                        <Button text={"Change to Week View"} clickFunction={() => (weekView = true)} />
+                        <Button text={"Change to Week View"} clickFunction={() => { (weekView = true); fetchTimeSlots(focusWeek.start, focusWeek.end)}} />
                     {/if}
                     </div>
                 
                     <div class="schedule-header-top-right-nav">
-                        <Button text={"Today"} clickFunction={() => {focusDate = new Date()}} />
+                        <Button text={"Today"} clickFunction={() => {focusDate = new Date();
+                            if (weekView) {
+                                fetchTimeSlots(focusWeek.start, focusWeek.end);
+                            } else {
+                                fetchTimeSlots(focusDate, focusDate);
+                            }
+                        }} />
                         
                         {#if weekView}
-                            <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7))}}><i class="arrow left"></i></button>
-                            <button aria-label="Next Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 7))}}><i class="arrow right"></i></button>
+                            <button aria-label="Previous Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 7)); fetchTimeSlots(focusWeek.start, focusWeek.end)}}><i class="arrow left"></i></button>
+                            <button aria-label="Next Week" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 7)); fetchTimeSlots(focusWeek.start, focusWeek.end)}}><i class="arrow right"></i></button>
                         {:else}
-                            <button aria-label="Previous Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 1))}}><i class="arrow left"></i></button>
-                            <button aria-label="Next Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 1))}}><i class="arrow right"></i></button>
+                            <button aria-label="Previous Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() - 1)); fetchTimeSlots(focusDate, focusDate)}}><i class="arrow left"></i></button>
+                            <button aria-label="Next Day" onclick={() => {focusDate = new Date(focusDate.setDate(focusDate.getDate() + 1)); fetchTimeSlots(focusDate, focusDate)}}><i class="arrow right"></i></button>
                         {/if}
                     </div>
                 </div>
@@ -366,9 +374,13 @@
             </div>
 
             <div class="schedule-week">
-                {#each weekData as row}
-                    <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
-                {/each}
+                {#await timeslots}
+                    Loading...
+                {:then timeslotsData}
+                    {#each weekDataFunc(timeslotsData) as row}
+                        <RowPopulatorWeek row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal}  />
+                    {/each}
+                {/await}
             </div>
 
         {:else}
@@ -382,9 +394,13 @@
             </div>
 
             <div class="schedule-day">
-                {#each dayData as row}
-                    <RowPopulatorDay row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
-                {/each}
+                {#await timeslots}
+                    Loading...
+                {:then timeslotsData}
+                    {#each dayDataFunc(timeslotsData) as row}
+                        <RowPopulatorDay row={row} toggleEditTimeslotModal = {toggleEditTimeslotModal} />
+                    {/each}
+                {/await}
             </div>
 
         {/if}

@@ -60,9 +60,11 @@
 
         {#if admin}
             <div class="dashboard-card-edit tooltippable tooltipText-Edit" onclick={doEdit}>
+                <div>
                 <Tooltip content="Edit" animation="slide",  position="top">
                 <i class="fa-solid fa-pen-to-square"></i>
                 </Tooltip>
+            </div>
             </div>
 
             <form method="POST" action="?/deleteDevice"
@@ -91,9 +93,10 @@
                     const form = event.target.closest('form');
                     if (form) form.requestSubmit();
                 }}>
+                <div>
                 <Tooltip content="Delete" animation="slide",  position="top">
                     <i class="fa-solid fa-trash"></i>
-                </Tooltip>
+                </Tooltip></div>
             </div>
             </form>
         {/if}

@@ -42,14 +42,14 @@
     display: flex;
     gap: 12px;
     justify-content: center;
-    align-items: center;
-    padding: 0 8px;
+    padding: 6px 12px;
   }
   
   .add-media-modal-search input {
     border: 1px solid black;
     padding: 6px 10px;
     box-sizing: border-box;
+    flex: 1;
   }
   
   .add-media-modal-list {
@@ -167,6 +167,7 @@
     padding: 12px;
     display: flex;
     gap: 12px;
+    justify-content: flex-end;
   }
   
   .add-media-modal-add-button {
@@ -193,4 +194,11 @@
     padding: 0 8px;
     height: 32px;
     border: 1px solid black;
+}
+
+.add-media-force {
+  display: flex;
+  gap: 12px;
+  padding-left: 12px;
+  margin-bottom: 8px;
 }
