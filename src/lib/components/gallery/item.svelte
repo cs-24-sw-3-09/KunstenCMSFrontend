@@ -102,27 +102,45 @@
         use:enhance={async ({ formData, cancel }) => {
           const authToken = getCookie("authToken");
           console.log(authToken);
-          let informationData = await fetch(
+          let informationDataSlideshow = await fetch(
             env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows",
             {
               headers: { Authorization: "Bearer " + authToken },
             },
           );
 
-          const riskInformation = await informationData.json();
+          let informationDataTimeSlot = await fetch(
+            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/timeslots",
+            {
+              headers: { Authorization: "Bearer " + authToken },
+            },
+          );
 
-          let names = riskInformation.map((risk) => risk.name);
+          const riskInformationSlideshow = await informationDataSlideshow.json();
+          let slideshowNames = riskInformationSlideshow.map((risk) => risk.name);
           let riskString = "";
-          if (names.length != 0) {
+          if (slideshowNames.length != 0) {
             riskString =
-              "\n\nThe visual media i part of the following timeslot(s) and slidehows(s):\n";
-            for (let name of names) {
+              "\n\nThe visual media i part of the following slidehows(s):\n";
+            for (let name of slideshowNames) {
               riskString += name + "\n";
             }
           }
+
+          const riskInformationTimeSlot = await informationDataTimeSlot.json();
+          let timeSlotNames = riskInformationTimeSlot.map((risk) => risk.name);
+          if(timeSlotNames.length != 0) {
+            riskString +=
+              "\n\nThe visual media i part of the following timeslot(s):\n";
+            for (let name of timeSlotNames) {
+              riskString += name + "\n";
+            }
+          }
+          riskString += "\n\nNOTE: If the visual media is used as individual content for timeslots, then these timeslots will also be deleted";
+          
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
-            `Are you sure you want to delete "${item.name}"?`,
+            `Are you sure you want to delete "${item.name}"? ${riskString}`,
           );
           if (!confirmation) return cancel();
 
