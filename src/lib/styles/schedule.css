@@ -180,6 +180,8 @@
     list-style-type: none;
     list-style-position: outside;
     float: left;
+    max-height: 160px;
+    overflow-y: auto;
 }
 
 .newTimeslot-modal-display-device {

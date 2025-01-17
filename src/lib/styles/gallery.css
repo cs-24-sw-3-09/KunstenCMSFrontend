@@ -110,7 +110,7 @@
     height: 8px;
     border-radius: 88px;
     position: absolute;
-    left: 172px;
+    left: 165px;
     top: 4px;
 }
 
@@ -140,6 +140,10 @@
     font-weight: 600;
     font-size: 18px;
     margin-bottom: 2px;
+    white-space: nowrap;
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .gallery-item-description {
@@ -149,6 +153,10 @@
 .gallery-item-tags {
     display: flex;
     gap: 12px;
+    white-space: nowrap;
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .gallery-item-tag {
@@ -194,6 +202,7 @@
     font-size: 12px;
     color: rgb(158, 158, 158);
     text-align: end;
+    white-space: nowrap;
 }
 
 /* Gallery modal*/
@@ -266,6 +275,10 @@
     font-size: 20px;
     flex: 1;
     margin-bottom: 4px;
+    white-space: nowrap;
+    width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .gallery-modal-description {
@@ -378,3 +391,4 @@
 .gallery-add-tag-button input::placeholder {
     color: rgb(198, 198, 198);
 }
+

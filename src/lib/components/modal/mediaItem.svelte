@@ -9,7 +9,7 @@
     import video_default from "$lib/assets/default_video.png";
 </script>
 
-<div class="gallery-item" style = "background: {selectedId == item.id ? "lightblue" : "lightgray"}" onclick={() => dispatch("update", item.id)}>
+<div class="gallery-item" style = "background: {selectedId == item.id ? "lightblue" : ""}" onclick={() => dispatch("update", item.id)}>
     <div class="gallery-item-left" onclick={toggleAddMediaModal}>
         <div class="gallery-item-preview">
             {#if item.fileType === "video/mp4"}

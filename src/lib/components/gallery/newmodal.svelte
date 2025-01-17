@@ -32,6 +32,7 @@
                 switch (result.type) {
                     case "failure":
                         alert(`Failed to add new visual media, please reload page (F5).\n${result.data?.error}`);
+                        sumbitButtonDisabled = false;
                         break;
                     case "success":
                         closeModal(); // Call doClose on successful form submission

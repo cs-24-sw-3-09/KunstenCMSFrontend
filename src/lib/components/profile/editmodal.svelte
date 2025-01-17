@@ -28,14 +28,14 @@
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", profileData.id);
             formData.set("oldData", JSON.stringify(profileData)); // Pass previous known user data to the action
-            
+       
             return async ({ result }) => {
                 switch (result.type) {
                     case "failure":
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
+                        sumbitButtonDisabled = false;
                         break;
                     case "success":
-                        sumbitButtonDisabled = false;
                         updateProfileData(result.data.responseData);
                         closeModal(); 
                         break;

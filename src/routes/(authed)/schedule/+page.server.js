@@ -2,48 +2,6 @@ import { fail, redirect } from "@sveltejs/kit";
 
 import { env } from "$env/dynamic/private";
 
-// Loads:
-// - Timeslots
-
-// load user from locals for modifieing the page
-/** @type {import("./$types").PageServerLoad} */
-export async function load({ locals, cookies }) {
-    const timeslotsData = await fetch(env.SERVER_API_URL + "/api/time_slots/all", {
-        method: "GET",
-        headers: {
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + cookies.get("authToken"),
-        }
-    });
-
-    const timeslots = await timeslotsData.json();
-
-    timeslots.forEach(timeslot => {
-        if (timeslots.some(timeslotcomp => timeslotcomp.id !== timeslot.id && timeslotOverlapCheck(timeslot, timeslotcomp))) {
-            timeslot.color = "red";
-        } else {
-            timeslot.color = "neutral";
-        }
-    });
-    return {
-        timeslots,
-    };
-}
-
-function timeslotOverlapCheck(timeslot1, timeslot2) {
-    if ((timeslot1.weekdaysChosen & timeslot2.weekdaysChosen) === 0) return false;
-
-    // Check if dates overlap
-    if (timeslot1.endDate < timeslot2.startDate || timeslot1.startDate > timeslot2.endDate) return false;
-
-    // Check if time overlaps
-    if (timeslot1.endTime < timeslot2.startTime || timeslot1.endTime === timeslot2.startTime ||
-        timeslot1.startTime === timeslot2.endTime || timeslot1.startTime > timeslot2.endTime) return false;
-
-    // Time Slots overlap
-    return true;
-}
-
 // Actions:
 // - Add Timeslot
 // - Delete Timeslot

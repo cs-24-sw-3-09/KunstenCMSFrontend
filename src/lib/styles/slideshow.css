@@ -206,7 +206,10 @@
     align-items: center;
     font-weight: 600;
     color: rgb(0, 0, 0);
+    white-space: nowrap;
     width: 300px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   
   .slideshows-body-item-settings {
@@ -290,3 +293,4 @@
     font-size: 12px;
     cursor: pointer;
   }
+
