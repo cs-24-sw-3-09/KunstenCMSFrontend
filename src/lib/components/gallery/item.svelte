@@ -115,14 +115,14 @@
           let riskString = "";
           if (names.length != 0) {
             riskString =
-              "\n\nThe visual media i part of the following timeslot(s) and slidehows(s):\n";
+              "\n\nThe visual media i part of the following slidehows(s):\n";
             for (let name of names) {
               riskString += name + "\n";
             }
           }
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
-            `Are you sure you want to delete "${item.name}"?`,
+            `Are you sure you want to delete "${item.name}"?${riskString}`,
           );
           if (!confirmation) return cancel();
 
