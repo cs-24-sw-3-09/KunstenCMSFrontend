@@ -15,6 +15,9 @@ export async function handle({ event, resolve }) {
     if (protectedUserRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user) {
             //console.log("Access denied, user");
+            // Clear the auth token cookie
+            event.cookies.delete("authToken", { path: "/" });
+            // Redirect to login page
             throw redirect(303, "/login");
         }
     }

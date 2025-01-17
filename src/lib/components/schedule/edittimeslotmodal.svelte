@@ -2,7 +2,7 @@
     import { env } from "$env/dynamic/public";
     let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
 
-    visualContent = visualContent.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
+    visualContent = visualContent?.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
@@ -48,8 +48,8 @@
     console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
 
     let selectedContent = JSON.stringify({
-        id: timeslot.displayContent.id,
-        type: timeslot.displayContent.type,
+        id: timeslot.displayContent?.id,
+        type: timeslot.displayContent?.type,
     });
 </script>
 
@@ -180,11 +180,13 @@
                     if (!confirmation) return cancel();
 
                     formData.set("timeslotID", timeslot.id);
+                    sumbitButtonDisabled = true;
 
                     return async ({ result }) => {
                         // `result` is an `ActionResult` object
                         if (result.type === "failure") {
                             // Handle the error
+                            sumbitButtonDisabled = false;
                             alert(
                                 `Failed to delete timeslot, please reload page(f5).\n${result.data?.error}`,
                             );
@@ -196,28 +198,28 @@
                 }}
             ></form>
 
-            <button
-                type="submit"
-                form="edit"
-                class="modal-button modal-button-submit"
-            >
-                Submit
-            </button>
-            <button
-                disabled = {sumbitButtonDisabled}
-                type="submit"
-                form="delete"
-                class="modal-button modal-button-delete"
-            >
-                Delete
-            </button>
-
-            <Button
-                type="button"
-                text="Cancel"
-                doFunc={doClose}
-                extra_class={"modal-button-close"}
-            />
+            <div class="modal-buttons">
+                <Button
+                    type="button"
+                    text="Cancel"
+                    doFunc={doClose}
+                    extra_class={"modal-button-close"}
+                />
+                <Button
+                    type="submit"
+                    text="Delete"
+                    formID="delete"
+                    disabled = {sumbitButtonDisabled}
+                    extra_class={"modal-button-delete"}
+                />
+                <Button
+                    disabled = {sumbitButtonDisabled}
+                    type="submit"
+                    text="Submit"
+                    formID="edit"
+                    extra_class={"modal-button-submit"}
+                />
+            </div>
         </div>
     </div>
 </div>

@@ -1,9 +1,5 @@
 <script>
-    let { doClose, displayDevices, visualContent, updateTimeslots } = $props();
-
-    visualContent = visualContent.filter(displayContentElement => 
-        displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4"
-    );
+    let { doClose, updateTimeslots, displayDevices, visualContent } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -18,7 +14,6 @@
     });
     let daysArray = Object.entries(days);
     let sumbitButtonDisabled = $state(false);
-
 
     // Function to log checked days
     import CloseX from "$lib/components/modal/closex.svelte";

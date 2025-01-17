@@ -36,6 +36,7 @@
                         sumbitButtonDisabled = false;
                         break;
                     case "success":
+                        sumbitButtonDisabled = false;
                         updateProfileData(result.data.responseData);
                         closeModal(); 
                         break;

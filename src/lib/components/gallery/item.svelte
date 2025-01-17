@@ -25,9 +25,9 @@
       case "green":
         return "Active";
       case "red":
-        return "Inactive";
+        return "Not in use";
       case "yellow":
-        return "In use";
+        return "Scheduled";
       default:
         return "Not in use";
     }

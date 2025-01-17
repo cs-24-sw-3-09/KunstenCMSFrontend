@@ -27,13 +27,14 @@
 
         <form method="post" action="?/newUser"
         use:enhance={({}) => {
-submitButtonDisabled = true;
+        submitButtonDisabled = true;
             return async ({ result }) => {
                 // `result` is an `ActionResult` object
                 switch (result.type) {
                     case "failure":
                         // Handle the error
                         alert(`Failed to add new user, please reload page (F5).\n${result.data?.error}`,);
+                        submitButtonDisabled = false;
                         break;
                     case "success":
                         updateUsersData(result.data.usersData.content);

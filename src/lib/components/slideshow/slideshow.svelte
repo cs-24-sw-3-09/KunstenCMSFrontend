@@ -31,6 +31,7 @@
   let screens = $derived.by(() => status?.displayDevices);
 
   let listElement;
+
   onMount(async () => {
     new Sortable(listElement, {
       animation: 150,
@@ -47,6 +48,7 @@
       },
     });
   });
+
 
   // svelte-ignore non_reactive_update
   let showAddMediaModal = $state(false);
@@ -310,7 +312,8 @@
       : 'none'}">
       <SavedPopup bind:this={popup} />
       <div bind:this={listElement}>
-        {#each props.VMIForSS as VMI}
+        {#each props.slideshow.visualMediaInclusionCollection as VMI}
+          {#if props.selectedId === props.slideshow.id}
           <Slideshowcontent
             {VMI}
             {slideshowID}
@@ -318,6 +321,7 @@
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
           />
+          {/if}
         {/each}
         <form
           method="post"

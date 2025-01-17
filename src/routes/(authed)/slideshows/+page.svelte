@@ -23,14 +23,17 @@
         status = await statusData.json();
     });
 
-    function updateSlideshowContent(data) {
+    function updateSlideshowContent(data, closeSS = false) {
         slideshowContent = data;
-        if (selectedId != null) {
-            VMIForSS = slideshowContent
+        if(closeSS == true) {
+            updateState(null)
+        } else if (selectedId != null) {
+            let newVMI = slideshowContent
                 .find((ss) => ss.id === selectedId)
                 .visualMediaInclusionCollection.sort(
                     (a, b) => a.slideshowPosition - b.slideshowPosition,
                 );
+            VMIForSS = newVMI;
         }
     }
 
@@ -128,7 +131,7 @@
         {#each filteredslideshow as slideshow}
             {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
                 <Slideshow
-                    {slideshow}
+                    {slideshow} 
                     {VMIForSS}
                     {filteredVisualMedia}
                     on:update={(event) => updateState(event.detail)}

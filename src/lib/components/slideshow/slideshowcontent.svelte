@@ -3,15 +3,20 @@
   import { enhance } from "$app/forms";
   import { slide } from "svelte/transition";
   import { getCookie } from "$lib/utils/getcookie.js";
+
   import SavedPopup from "../savedpopup.svelte";
+  import { onMount } from "svelte";
+
 
   let props = $props();
   let VMI = props.VMI;
   let slideshowId = props.slideshow.id;
   let test1 = props.slideshow;
+  let  currentVMIId;
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
+
 
   let popup;
 
@@ -22,6 +27,11 @@ function saveData(success) {
     popup.show("Failed to save changes!", "error");
   }
 }
+
+  onMount(() => {
+    // Save the initial value when the component is mounted
+    currentVMIId = props.VMI.id;
+  });
 </script>
 
 <div draggable="true" class="slideshows-body-item">
@@ -86,6 +96,7 @@ function saveData(success) {
     </div>
   </div>
   <div class="slideshows-body-item-actions">
+    
     <form
       method="post"
       action="?/deleteVM"
@@ -120,7 +131,7 @@ function saveData(success) {
 
         // let confirmation = confirm(`Are you sure you want to delete "${VMI}"?`);
         // if (!confirmation) return cancel();
-        formData.set("ContentID", VMI.id);
+        formData.set("ContentID", currentVMIId);
 
         return async ({ result }) => {
           // `result` is an `ActionResult` object
@@ -130,8 +141,7 @@ function saveData(success) {
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
           } else if (result.type === "success") {
-            console.log("here123");
-            props.updateSlideshowContent(result.data.newData);
+            props.updateSlideshowContent(result.data.newData, true);
           }
         };
       }}
