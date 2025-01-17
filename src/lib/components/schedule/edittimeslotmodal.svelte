@@ -6,7 +6,8 @@
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
-
+    import { limitString } from "$lib/utils/stringutils.js";
+  
     let days = {
         Mon: true,
         Tue: false,
@@ -135,7 +136,8 @@
                             })}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {content.name}</option
+                                : "Slideshow"}: {limitString(content.name, 40)}
+                        </option
                         >
                     {/each}
                 </select>

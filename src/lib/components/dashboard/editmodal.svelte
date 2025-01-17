@@ -5,6 +5,7 @@
     import { enhance } from "$app/forms";
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
+    import { limitString } from "$lib/utils/stringutils.js";
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -15,7 +16,7 @@
     import Button from "$lib/components/modal/button.svelte";
     import Separator from "$lib/components/modal/separator.svelte";
     import InputTime from "$lib/components/modal/InputTime.svelte";
-    import { onMount } from "svelte";
+    import { onMount } from "svelte";   
 
     // Hacky way call doClose() to close the modal because of progressive enhancement "enhance" context window
     function closeModal() {
@@ -110,7 +111,7 @@
             <div class="modal-dropdown">
                 <label for={"fallback_id"}>{"Fallback"}</label>
                 <select id={"fallback_id"} name={"fallbackContent"}>
-                    {#if device.fallbackContent == null}
+                    {#if device.fallbackContent === null}
                         <option selected value={null}>No fallback</option>
                     {:else}
                         <option value={null}>No fallback</option>
@@ -120,13 +121,13 @@
                             <option selected value={JSON.stringify(option)}
                                 >{option.type === "visualMedia"
                                     ? "Media"
-                                    : "Slideshow"}: {option.name}</option
+                                    : "Slideshow"}: {limitString(option.name, 40)}</option
                             >
                         {:else}
                             <option value={JSON.stringify(option)}
                                 >{option.type === "visualMedia"
                                     ? "Media"
-                                    : "Slideshow"}: {option.name}</option
+                                    : "Slideshow"}: {limitString(option.name, 40)}</option
                             >
                         {/if}
                     {/each}

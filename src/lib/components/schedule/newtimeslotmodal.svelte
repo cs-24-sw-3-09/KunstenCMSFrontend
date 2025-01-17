@@ -3,6 +3,8 @@
 
     import { enhance } from "$app/forms";
 
+    import { limitString } from "$lib/utils/stringutils.js";
+
     let days = $state({
         Mon: false,
         Tue: false,
@@ -100,8 +102,7 @@
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"
-                            }: {content.name}
+                                : "Slideshow"}: {limitString(content.name, 40)}
                         </option>
                     {/each}
                 </select>
