@@ -11,7 +11,6 @@
   let props = $props();
   let VMI = props.VMI;
   let slideshowId = props.slideshow.id;
-  let test1 = props.slideshow;
   let  currentVMIId;
 
   import video_default from "$lib/assets/default_video.png";
