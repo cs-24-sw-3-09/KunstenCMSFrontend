@@ -41,7 +41,6 @@ export class Manager {
       contentjson.visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
     }
     let contentHash = Sha256.hash(JSON.stringify(contentjson));
-    console.log(this.contentHash, ", ", contentHash, this.contentHash === contentHash);
     if(this.contentHash === contentHash) return;
     content = contentjson;
     this.contentHash = contentHash;

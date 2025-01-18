@@ -37,7 +37,6 @@ class DataProcessor {
     }
 
     contentHandler(content) {
-        console.log(content)
         if (!content) return this.manager.clearContent();
         this.manager.setContent(content);
     }
