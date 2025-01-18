@@ -111,15 +111,15 @@
 
     function handleOrderUpdate(updatedItems) {
         // Find the relevant slideshow
-        // const slideshowToUpdate = slideshowContent.find(
-        //     (slideshow) =>
-        //         slideshowContent.id === updatedItems[0]?.parentSlideshowId,
-        // );
+        const slideshowToUpdate = slideshowContent.find(
+            (slideshow) =>
+                slideshowContent.id === updatedItems[0]?.parentSlideshowId,
+        );
 
-        // if (slideshowToUpdate) {
-        //     // Update the visualMediaInclusionCollection with the reordered items
-        //     slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
-        // }
+        if (slideshowToUpdate) {
+            // Update the visualMediaInclusionCollection with the reordered items
+            slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
+        }
     }
 </script>
 
