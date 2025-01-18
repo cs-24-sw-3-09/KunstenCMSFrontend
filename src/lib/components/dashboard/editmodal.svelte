@@ -38,11 +38,13 @@
 
         let slideshows = await slideshowsFetch.json();
         slideshows?.forEach((slideshow) => {
-            options.push({
-                id: slideshow.id,
-                name: slideshow.name,
-                type: "slideshow",
-            });
+            if (!slideshow.isArchived){
+                options.push({
+                    id: slideshow.id,
+                    name: slideshow.name,
+                    type: "slideshow",
+                });
+            }
         });
 
         let visualMediaFetch = await fetch(
