@@ -23,11 +23,14 @@
         status = await statusData.json();
     });
 
+    let forceComponentUpdate = $state(true);
     function updateSlideshowContent(data, closeSS = false) {
         slideshowContent = data;
-        if(closeSS == true) {
-            updateState(null)
-        } else if (selectedId != null) {
+        if (closeSS == true){
+            forceComponentUpdate = !forceComponentUpdate;
+        }
+
+        if (selectedId != null) {
             let newVMI = slideshowContent
                 .find((ss) => ss.id === selectedId)
                 .visualMediaInclusionCollection.sort(
@@ -128,28 +131,30 @@
         {updateSlideshowContent}
     />
     <div class="slideshows-list">
-        {#each filteredslideshow as slideshow}
-            {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
-                <Slideshow
-                    {slideshow} 
-                    {VMIForSS}
-                    {filteredVisualMedia}
-                    on:update={(event) => updateState(event.detail)}
-                    on:focus={(event) => focusSlideshow(event.detail)}
-                    on:updateOrder={(event) => handleOrderUpdate(event.detail)}
-                    {selectedId}
-                    {searchTags}
-                    {searchTerm}
-                    {archivedState}
-                    {focusedSlideshow}
-                    {searchTagsUpdate}
-                    {searchTermUpdate}
-                    {updateSlideshowContent}
-                    {form}
-                    status={status}
-                />
-            {/if}
-        {/each}
+        {#key forceComponentUpdate}
+            {#each filteredslideshow as slideshow}
+                {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
+                    <Slideshow
+                        {slideshow} 
+                        {VMIForSS}
+                        {filteredVisualMedia}
+                        on:update={(event) => updateState(event.detail)}
+                        on:focus={(event) => focusSlideshow(event.detail)}
+                        on:updateOrder={(event) => handleOrderUpdate(event.detail)}
+                        {selectedId}
+                        {searchTags}
+                        {searchTerm}
+                        {archivedState}
+                        {focusedSlideshow}
+                        {searchTagsUpdate}
+                        {searchTermUpdate}
+                        {updateSlideshowContent}
+                        {form}
+                        status={status}
+                    />
+                {/if}
+            {/each}
+        {/key}
     </div>
 </div>
 
