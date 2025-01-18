@@ -2,8 +2,6 @@
     import { env } from "$env/dynamic/public";
     let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
 
-    visualContent = visualContent?.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
-
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
     import { limitString } from "$lib/utils/stringutils.js";
