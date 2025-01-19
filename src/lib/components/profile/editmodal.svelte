@@ -1,5 +1,5 @@
 <script>
-    let { doClose, profileData, updateProfileData } = $props();
+    let { doClose, profileData, updateProfileData, saveData } = $props();
 
     import { enhance } from '$app/forms';
 
@@ -34,10 +34,12 @@
                     case "failure":
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
                         sumbitButtonDisabled = false;
+                        saveData(false)
                         break;
                     case "success":
                         updateProfileData(result.data.responseData);
                         closeModal(); 
+                        saveData(true);
                         break;
                     case "redirect":
                         window.location.href = "/login"; // Redirect to login page, it is not pretty, as it dose it manually, but it works

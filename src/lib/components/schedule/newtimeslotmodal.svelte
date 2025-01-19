@@ -1,5 +1,5 @@
 <script>
-    let { doClose, updateTimeslots, displayDevices, visualContent } = $props();
+    let { doClose, updateTimeslots, displayDevices, visualContent, saveData } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -46,8 +46,10 @@
                             alert(
                                 `Failed to post timeslot.\n${result.data?.error}`,
                             );
+                            saveData(false);
                             sumbitButtonDisabled = false;
                         } else if (result.type === "success") {
+                            saveData(true);
                             doClose();
                             updateTimeslots();
                         }

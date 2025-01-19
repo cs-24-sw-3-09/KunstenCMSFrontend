@@ -10,6 +10,7 @@
     import RowPopulatorDay from "$lib/components/schedule/dayrowpopulator.svelte";   
     import { onMount } from "svelte";
     import { getCookie } from "$lib/utils/getcookie.js";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
 
     // Data for the page
     let timeslots = $state();
@@ -313,6 +314,16 @@
         displayDevices = await displayDevicesData.json();
     });
 
+    let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
+
 </script>
 
 <div class="main-content">
@@ -329,6 +340,7 @@
                 </div>
                 <div class="schedule-header-top-right">
                     <Button text={"New Timeslot"} clickFunction={() => {showNewTimeslotModal = true}} />
+                    <SavedPopup bind:this={popup} />
 
                     <div>
                     {#if weekView}
@@ -410,10 +422,10 @@
 </div>
 
 {#if showNewTimeslotModal}
-    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots}/>
+    <NewTimeslotModal doClose={toggleNewTimeslotModal} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots} saveData={saveData}/>
 {/if}
 {#if showEditTimeslotModal}
-    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots}/>
+    <EditTimeslotModal doClose={toggleEditTimeslotModal} timeslot = {focusTimeslot} displayDevices = {displayDevices} visualContent = { visualContent } updateTimeslots = {updateTimeslots} saveData={saveData}/>
 {/if}
 
 <style>

@@ -9,6 +9,7 @@
         slideshowID,
         VMIForSS,
         updateSlideshowContent,
+        saveData
     } = $props();
 
     let sumbitButtonDisabled = $state(false);
@@ -77,10 +78,12 @@
                         alert(
                             `Failed to add new visual media to slideshow.\n${result.data?.error}`,
                         );
+                        saveData(false);
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
                         updateSlideshowContent(result.data.newData);
+                        saveData(true);
                     }
                 };
             }}

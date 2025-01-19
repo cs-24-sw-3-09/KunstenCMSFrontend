@@ -1,5 +1,5 @@
 <script>
-    let { doClose, item, updateVisualMedia } = $props();
+    let { doClose, item, updateVisualMedia, saveData } = $props();
     let submitButtonDisabled = $state(false);
     // Import the "enhance" function from the "form" module.
     import { enhance } from '$app/forms';
@@ -34,8 +34,10 @@
                     case "failure":
                         alert(`Failed to update visual media, please reload page (F5).\n${result.data?.error}`);
                         sumbitButtonDisabled = false;
+                        saveData(false);
                         break;
                     case "success":
+                        saveData(true);
                         updateVisualMedia(result.data.responseData);
                         closeModal(); // Call doClose on successful form submission
                         break;

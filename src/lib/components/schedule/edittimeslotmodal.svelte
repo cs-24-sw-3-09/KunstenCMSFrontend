@@ -1,6 +1,6 @@
 <script>
     import { env } from "$env/dynamic/public";
-    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
+    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots, saveData } = $props();
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
@@ -66,8 +66,10 @@
                         alert(
                             `Failed to mofify timeslot.\n${result.data?.error}`,
                         );
+                        saveData(false);
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
+                        saveData(true);
                         doClose();
                         updateTimeslots();
                     }
@@ -186,7 +188,9 @@
                             alert(
                                 `Failed to delete timeslot, please reload page(f5).\n${result.data?.error}`,
                             );
+                            saveData(false);
                         } else if (result.type === "success") {
+                            saveData(true);
                             doClose();
                             updateTimeslots();
                         }

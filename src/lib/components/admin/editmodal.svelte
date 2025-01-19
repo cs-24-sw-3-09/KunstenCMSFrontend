@@ -1,5 +1,5 @@
 <script>
-    let { doClose, user, updateUsersData } = $props();
+    let { doClose, user, updateUsersData, saveData } = $props();
     let submitButtonDisabled = $state(false);
 
     // Import the "enhance" function from the "form" module.
@@ -39,10 +39,12 @@
                         // Handle the error
                         alert(`Failed to edit user, please reload page (F5).\n${result.data?.error}`,);
                         submitButtonDisabled = false;
+                        saveData(false);
                         break;
                     case "success":
                         updateUsersData(result.data.usersData.content);
                         closeModal(); // Call doClose on successful form submission
+                        saveData(true);
                         break;
                 }
             };
