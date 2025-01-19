@@ -1,5 +1,5 @@
 <script>
-    let { profileData, updateProfileData } = $props();
+    let { profileData, updateProfileData, saveData } = $props();
 
     import { enhance } from "$app/forms";
 
@@ -46,9 +46,11 @@ use:enhance={({ formData }) => {
         switch (result.type) {
             case "failure":
                 alert(`Failed to update notification state, please reload page (F5).\n${result.data?.error}`);
+                saveData(false);
                 break;
             case "success":                
                 updateProfileData(result.data.responseData);
+                saveData(true);
                 break;
         }
     };
@@ -92,10 +94,12 @@ use:enhance={({ formData }) => {
         switch (result.type) {
             case "failure":
                 alert(`Failed to update notification pause, please reload page (F5).\n${result.data?.error}`);
+                saveData(false);
                 break;
             case "success":
                 currentlyPaused = true;
                 updateProfileData(result.data.responseData);
+                saveData(true);
                 break;
         }
     };
@@ -129,10 +133,12 @@ use:enhance={({ formData }) => {
         switch (result.type) {
             case "failure":
                 alert(`Failed to update notification unpause, please reload page (F5).\n${result.data?.error}`);
+                saveData(false);
                 break;
             case "success":
                 currentlyPaused = false;
                 updateProfileData(result.data.responseData);
+                saveData(true);
                 break;
         }
     };

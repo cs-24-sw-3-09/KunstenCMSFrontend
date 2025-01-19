@@ -1,5 +1,5 @@
 <script>
-    let { doClose, allContent, updateSlideshowContent } = $props();
+    let { doClose, allContent, updateSlideshowContent, saveData } = $props();
     let sumbitButtonDisabled = $state(false);
 
     import { enhance } from "$app/forms";
@@ -32,9 +32,11 @@
                     alert(
                         `Failed to create new slideshow, please reload page (F5).\n${result.data?.error}`,
                     );
+                    saveData(false);
                 } else if (result.type === "success") {
                     doClose();
                     updateSlideshowContent(result.data.newData);
+                    saveData(true);
                 }
             };
         }}>

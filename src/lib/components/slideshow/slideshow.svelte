@@ -14,7 +14,7 @@
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
   import { getCookie } from "$lib/utils/getcookie.js";
-  import SavedPopup from "../savedpopup.svelte";
+ 
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -78,15 +78,6 @@
     }
   }
 
-  let popup;
-
-  function saveData(success) {
-    if (success) {
-      popup.show("Your changes have been saved!", "success");
-    } else {
-      popup.show("Failed to save changes!", "error");
-    }
-  }
 </script>
 
 {#if showAddMediaModal}
@@ -100,6 +91,7 @@
     slideshowID = {props.slideshow.id}
     VMIForSS={props.VMIForSS}
     updateSlideshowContent={props.updateSlideshowContent}
+    saveData={props.saveData}
   />
 {/if}
 
@@ -175,10 +167,12 @@
                 alert(
                   `Failed to change slideshow to archived status, please reload page (F5).\n${result.data?.error}`,
                 );
+                props.saveData(false);
                 ButtonDisabled = false;
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
                 ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -214,9 +208,11 @@
                   `Failed to clone slideshow, please reload page (F5).\n${result.data?.error}`,
                 );
                 ButtonDisabled = false;
+                props.saveData(false);
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
                 ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -280,9 +276,11 @@
                   `Failed to delete slideshow, please reload page (F5).\n${result.data?.error}`,
                 );
                 ButtonDisabled = false;
+                props.saveData(false);
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
                 ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -325,7 +323,6 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
-      <SavedPopup bind:this={popup} />
       <div bind:this={listElement}>
         {#each props.slideshow.visualMediaInclusionCollection as VMI}
           {#if props.selectedId === props.slideshow.id}
@@ -335,6 +332,7 @@
             slideshow={props.slideshow}
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
+            saveData = {props.saveData}
           />
           {/if}
         {/each}
@@ -348,10 +346,10 @@
             return async ({ result }) => {
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
-                {saveData(false);}
+                props.saveData(false);
                 // Handle the error
               } else if (result.type === "success") {
-                {saveData(true);}
+                props.saveData(true);
               }
             };
           }}

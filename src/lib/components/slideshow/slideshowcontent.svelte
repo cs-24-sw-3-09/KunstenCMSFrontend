@@ -4,7 +4,6 @@
   import { slide } from "svelte/transition";
   import { getCookie } from "$lib/utils/getcookie.js";
 
-  import SavedPopup from "../savedpopup.svelte";
   import { onMount } from "svelte";
   import { lazyLoad } from "$lib/utils/lazyload.js";
 
@@ -20,15 +19,7 @@
   import { Tooltip } from "@svelte-plugins/tooltips";
 
 
-  let popup;
 
-function saveData(success) {
-  if (success) {
-    popup.show("Your changes have been saved!", "success");
-  } else {
-    popup.show("Failed to save changes!", "error");
-  }
-}
 
   onMount(() => {
     // Save the initial value when the component is mounted
@@ -58,7 +49,6 @@ function saveData(success) {
         <i class="fa-regular fa-clock"></i>
       </div>
       <div class="slideshows-body-item-duration-title">Duration (s):</div>
-      <SavedPopup bind:this={popup} />
       <div class="slideshows-body-item-duration-input non-draggable">
         {#if VMI.visualMedia && (VMI.visualMedia.fileType == "image/jpeg" || VMI.visualMedia.fileType == "image/png")}
           <form
@@ -71,10 +61,10 @@ function saveData(success) {
 
               return async ({ result }) => {
                 if (result.type === "failure") {
-                {saveData(false);}
+                props.saveData(false);
                 // Handle the error
               } else if (result.type === "success") {
-                {saveData(true);}
+                props.saveData(true);
               }
               };
               return true;
@@ -148,9 +138,11 @@ function saveData(success) {
               `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
             );
             ButtonDisabled = false;
+            props.saveData(false);
           } else if (result.type === "success") {
             props.updateSlideshowContent(result.data.newData, true);
             ButtonDisabled = false;
+            props.saveData(true);
           }
         };
       }}

@@ -7,6 +7,7 @@
     import { getCookie } from "$lib/utils/getcookie.js";
     import { onMount } from "svelte";
     import { env } from "$env/dynamic/public";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
 
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
@@ -118,6 +119,15 @@
             slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
         }
     }
+    let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
 </script>
 
 <div class="main-content">
@@ -126,6 +136,7 @@
         {searchSlideshow}
         {searchSlideshowUpdate}
         {updateSlideshowContent}
+        saveData={saveData}
     />
     <div class="slideshows-list">
         {#each filteredslideshow as slideshow}
@@ -147,9 +158,11 @@
                     {updateSlideshowContent}
                     {form}
                     status={status}
+                    saveData={saveData}
                 />
             {/if}
         {/each}
+        <SavedPopup bind:this={popup} />
     </div>
 </div>
 

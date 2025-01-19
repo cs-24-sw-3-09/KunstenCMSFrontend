@@ -11,6 +11,7 @@
 
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
     
     let visual_medias = $state(data.visualMedias);
     let color = $state([]);
@@ -153,6 +154,17 @@
         showEditModal = false;
         showReplaceModal = !showReplaceModal;
     }
+
+    let popup;
+
+function saveData(success) {
+if (success) {
+popup.show("Your changes have been saved!", "success");
+console.log("here1");
+} else {
+popup.show("Failed to save changes!", "error");
+}
+}
 </script>
 
 <div class="main-content">
@@ -170,20 +182,21 @@
             deleteVisualMedia={deleteVisualMedia}
             color = {color}
         />
+        <SavedPopup bind:this={popup} />
     </div>
 </div>
 
 {#if showNewModal}
-    <NewModal doClose={doToggleNewModal} createVisualMedia={createVisualMedia} />
+    <NewModal doClose={doToggleNewModal} createVisualMedia={createVisualMedia} saveData={saveData} />
 {/if}
 {#if showEditModal}
-    <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} />
+    <EditModal item={focusItem} doClose={doToggleEditModal} updateVisualMedia={updateVisualMedia} saveData={saveData} />
 {/if}
 {#if showReplaceModal}
-    <ReplaceModal item={focusItem} doClose={doToggleReplaceModal} updateVisualMedia={updateVisualMedia} />
+    <ReplaceModal item={focusItem} doClose={doToggleReplaceModal} updateVisualMedia={updateVisualMedia} saveData={saveData} />
 {/if}
 {#if showItemModal}
-    <ItemModal item={focusItem} doClose={doToggleItemModal} updateTags={updateTags} delTag={delTag} />
+    <ItemModal item={focusItem} doClose={doToggleItemModal} updateTags={updateTags} delTag={delTag} saveData={saveData} />
 {/if}
 
 <style>
