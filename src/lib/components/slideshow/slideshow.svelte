@@ -235,7 +235,6 @@
             // Causes svelte violation warning, because of holdup
 
             const authToken = getCookie("authToken");
-            console.log(authToken);
 
             let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
@@ -244,24 +243,17 @@
             });
 
             const riskInformationFallback = await informationDataFallback.json();
-            let displayDeviceNames = riskInformationFallback.map((risk) => risk.name)
             let riskString = "";
-            if(displayDeviceNames.length != 0){
-              riskString += "\n\nThe slideshow is used as fallback for the following display device(s):\n"
-              for (let name of displayDeviceNames){
-                riskString += name + "\n";
-              }
+            if(riskInformationFallback != 0){
+              riskString += 
+              "\n\nThe slideshow is used as fallback for the following display device(s):\n" + riskInformationFallback.map((risk) => risk.name).join("\n");
             }
 
             const riskInformationTimeSlot = await informationDataTimeSlot.json();
-            let timeSlotnames = riskInformationTimeSlot.map((risk) => risk.name);
-            if (timeSlotnames.length != 0) {
+            if (riskInformationTimeSlot.length != 0) {
               riskString +=
-                "\n\nThe slideshow is part of the following timeslot(s):\n";
-              for (let name of timeSlotnames) {
-                riskString += name + "\n";
-              }
-              riskString +="\n NOTE: If the slideshow is deleted, all associated timeslots will also be deleted";
+                "\n\nThe slideshow is part of the following timeslot(s):\n"+riskInformationTimeSlot.map((risk) => risk.name).join("\n")
+                  + "\n \nNOTE: If the slideshow is deleted, all associated timeslots will also be deleted";
             }
 
             let confirmation = confirm(
