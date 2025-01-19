@@ -4,12 +4,15 @@
   import { enhance } from "$app/forms";
   import { env } from "$env/dynamic/public";
   import { getCookie } from "$lib/utils/getcookie.js";
+  import { lazyLoad } from "$lib/utils/lazyload.js";
 
   import Tag from "$lib/components/gallery/tag.svelte";
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
+  import SavedPopup from "../savedpopup.svelte";
 
+  let ButtonDisabled = $state(false);
 
   let modDate = $state(new Date(item.lastDateModified));
   let formatModDate = $derived.by(() => modDate.toLocaleDateString('en-GB', {
@@ -31,6 +34,16 @@
       default:
         return "Not in use";
     }
+  }
+
+  let popup;
+
+  function saveData(success) {
+  if (success) {
+  popup.show("Your changes have been saved!", "success");
+  } else {
+  popup.show("Failed to save changes!", "error");
+  }
   }
 
   async function fetchRiskInformation(itemId, authToken) {
@@ -79,6 +92,7 @@
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
+      <SavedPopup bind:this={popup} />
       {#if item.fileType === "video/mp4"}
         <img
           src={video_default}
@@ -86,7 +100,7 @@
           alt="gallery-item-preview"
         />
       {:else}
-        <img src={env.PUBLIC_API_URL + item.location} fetchpriority="high" loading="eager" style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+        <img use:lazyLoad={env.PUBLIC_API_URL + item.location} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
       {/if}
     </div>
 
@@ -120,25 +134,29 @@
         class="gallery-item-replace-button"
         onclick={doToggleEditModal}
         aria-label="Edit item"
+        disabled = {ButtonDisabled}
       >
       <Tooltip content="Edit" animation="slide",  position="top">
-        <i class="fa-solid fa-pen-to-square"></i>
+        <i class="fa-solid fa-pen-to-square {ButtonDisabled === true ? 'disabled' : ''}"></i>
       </Tooltip>
     </button>
       <button
         class="gallery-item-replace-button"
         onclick={() => {doToggleReplaceModal(item)}}
         aria-label="Edit item"
+        disabled = {ButtonDisabled}
       >
       <Tooltip content="Replace" animation="slide",  position="top">
-        <i class="fa-solid fa-exchange"></i>
+        <i class="fa-solid fa-exchange {ButtonDisabled === true ? 'disabled' : ''}"></i>
       </Tooltip>
       </button>
+      
       
       <form
         method="post"
         action="?/deleteVisualMedia"
         use:enhance={async ({ formData, cancel }) => {
+          ButtonDisabled = true;
           const authToken = getCookie("authToken");
           
           let riskString = await fetchRiskInformation(item.id, authToken);
@@ -146,14 +164,12 @@
           let confirmation = confirm(
             `Are you sure you want to delete "${item.name}"? ${riskString}`,
           );
-          if (!confirmation) return cancel();
-
-          // `formData` is its `FormData` object that's about to be submitted
-          for (const key in item) {
-            formData.set(key, item[key]);
+          if (!confirmation) {
+            ButtonDisabled = false;
+            return cancel();
           }
+          
 
-          // `formData` is its `FormData` object that's about to be submitted
           formData.set("id", item.id);
 
           return async ({ result }) => {
@@ -164,10 +180,14 @@
                 alert(
                   `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
                 );
+                ButtonDisabled = false;
+                saveData(false);
                 break;
               case "success":
                 // Handle the success
+                saveData(true);
                 deleteVisualMedia(result.data.id);
+                ButtonDisabled = false;
                 break;
             }
           };
@@ -177,9 +197,10 @@
           class="gallery-item-delete-button"
           type="submit"
           aria-label="Delete item"
+          disabled = {ButtonDisabled}
         >
           <Tooltip content="Delete" animation="slide",  position="top">
-            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-trash {ButtonDisabled === true ? 'disabled' : ''}"></i>
           </Tooltip>
         </button>
       </form>
@@ -191,3 +212,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+</style>

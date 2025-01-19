@@ -7,6 +7,7 @@
     import { getCookie } from "$lib/utils/getcookie.js";
     import { onMount } from "svelte";
     import { env } from "$env/dynamic/public";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
 
     let slideshowContent = $state(data.slideshow);
     let VMIForSS = $state(null);
@@ -23,11 +24,14 @@
         status = await statusData.json();
     });
 
-    function updateSlideshowContent(data, closeSS = false) {
+    let forceComponentUpdate = $state(true);
+    function updateSlideshowContent(data, reloadSS = false) {
         slideshowContent = data;
-        if(closeSS == true) {
-            updateState(null)
-        } else if (selectedId != null) {
+        if (reloadSS == true){
+            forceComponentUpdate = !forceComponentUpdate;
+        }
+
+        if (selectedId != null) {
             let newVMI = slideshowContent
                 .find((ss) => ss.id === selectedId)
                 .visualMediaInclusionCollection.sort(
@@ -118,6 +122,15 @@
             slideshowToUpdate.visualMediaInclusionCollection = updatedItems;
         }
     }
+    let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
 </script>
 
 <div class="main-content">
@@ -126,30 +139,35 @@
         {searchSlideshow}
         {searchSlideshowUpdate}
         {updateSlideshowContent}
+        saveData={saveData}
     />
     <div class="slideshows-list">
-        {#each filteredslideshow as slideshow}
-            {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
-                <Slideshow
-                    {slideshow} 
-                    {VMIForSS}
-                    {filteredVisualMedia}
-                    on:update={(event) => updateState(event.detail)}
-                    on:focus={(event) => focusSlideshow(event.detail)}
-                    on:updateOrder={(event) => handleOrderUpdate(event.detail)}
-                    {selectedId}
-                    {searchTags}
-                    {searchTerm}
-                    {archivedState}
-                    {focusedSlideshow}
-                    {searchTagsUpdate}
-                    {searchTermUpdate}
-                    {updateSlideshowContent}
-                    {form}
-                    status={status}
+        {#key forceComponentUpdate}
+            {#each filteredslideshow as slideshow}
+                {#if (!focusedSlideshow && slideshow.isArchived === isChecked) || (focusedSlideshow && slideshow.id === focusedSlideshow)}
+                    <Slideshow
+                        {slideshow} 
+                        {VMIForSS}
+                        {filteredVisualMedia}
+                        on:update={(event) => updateState(event.detail)}
+                        on:focus={(event) => focusSlideshow(event.detail)}
+                        on:updateOrder={(event) => handleOrderUpdate(event.detail)}
+                        {selectedId}
+                        {searchTags}
+                        {searchTerm}
+                        {archivedState}
+                        {focusedSlideshow}
+                        {searchTagsUpdate}
+                        {searchTermUpdate}
+                        {updateSlideshowContent}
+                        {form}
+                        status={status}
+                        saveData={saveData}
                 />
-            {/if}
-        {/each}
+                {/if}
+            {/each}
+        {/key}
+        <SavedPopup bind:this={popup} />
     </div>
 </div>
 

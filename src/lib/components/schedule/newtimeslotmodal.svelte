@@ -1,7 +1,9 @@
 <script>
-    let { doClose, updateTimeslots, displayDevices, visualContent } = $props();
+    let { doClose, updateTimeslots, displayDevices, visualContent, saveData } = $props();
 
     import { enhance } from "$app/forms";
+
+    import { limitString } from "$lib/utils/stringutils.js";
 
     let days = $state({
         Mon: false,
@@ -44,10 +46,12 @@
                             alert(
                                 `Failed to post timeslot.\n${result.data?.error}`,
                             );
+                            saveData(false);
                             sumbitButtonDisabled = false;
                         } else if (result.type === "success") {
+                            saveData(true);
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                 };
             }}
@@ -100,8 +104,7 @@
                             value={`{"id": ${content.id}, "type": "${content.type}"}`}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"
-                            }: {content.name}
+                                : "Slideshow"}: {limitString(content.name, 40)}
                         </option>
                     {/each}
                 </select>

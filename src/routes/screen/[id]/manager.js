@@ -36,10 +36,14 @@ export class Manager {
   }
 
   setContent(content) {
-    let contentHash = Sha256.hash(content);
+    let contentjson = JSON.parse(content);
+    if(contentjson.type == "slideshow") {
+      contentjson.visualMediaInclusionCollection.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
+    }
+    let contentHash = Sha256.hash(JSON.stringify(contentjson));
     if(this.contentHash === contentHash) return;
+    content = contentjson;
     this.contentHash = contentHash;
-    content = JSON.parse(content);
     this.contentName = content?.name ?? "Unknown content name";
     this.#stopCarousel();
     this.clearCarouselItems();
@@ -48,7 +52,6 @@ export class Manager {
 
     if(content.type == "slideshow") {
       let items = content.visualMediaInclusionCollection;
-      items.sort((a, b) => a.slideshowPosition - b.slideshowPosition);
 
       items.forEach((item, i) => {
         this.addCarouselItem(item.visualMedia);

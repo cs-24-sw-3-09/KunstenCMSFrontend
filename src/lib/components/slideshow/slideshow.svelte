@@ -14,7 +14,7 @@
   import Button from "$lib/components/modal/button.svelte";
   import { enhance } from "$app/forms";
   import { getCookie } from "$lib/utils/getcookie.js";
-  import SavedPopup from "../savedpopup.svelte";
+ 
 
   import { onMount } from "svelte";
   import Sortable from "sortablejs";
@@ -26,11 +26,12 @@
     ),
   );
   
-  let status = $derived.by(() => (props.status.find((row) => row.slideshowId == slideshowID)));
+  let status = $derived.by(() => (props.status.find((row) => row.slideshowId == props.slideshow.id)));
   let color = $derived.by(() => status?.color);
   let screens = $derived.by(() => status?.displayDevices);
 
   let listElement;
+  let ButtonDisabled = $state(false);
 
   onMount(async () => {
     new Sortable(listElement, {
@@ -58,12 +59,9 @@
   }
 
   function submitAddMediaModal(event) {
-    console.log(event.target);
     event.preventDefault();
     let form = new FormData(event.target);
-    console.log(form.get(""));
   }
-  let slideshowID = $state(props.slideshow.id);
 
   function getActivity(color) {
     switch (color) {
@@ -78,15 +76,6 @@
     }
   }
 
-  let popup;
-
-  function saveData(success) {
-    if (success) {
-      popup.show("Your changes have been saved!", "success");
-    } else {
-      popup.show("Failed to save changes!", "error");
-    }
-  }
 </script>
 
 {#if showAddMediaModal}
@@ -97,9 +86,10 @@
     searchTags={props.searchTags}
     searchTermUpdate={props.searchTermUpdate}
     searchTagsUpdate={props.searchTagsUpdate}
-    {slideshowID}
+    slideshowID = {props.slideshow.id}
     VMIForSS={props.VMIForSS}
     updateSlideshowContent={props.updateSlideshowContent}
+    saveData={props.saveData}
   />
 {/if}
 
@@ -164,6 +154,7 @@
           method="post"
           action="?/changeArchviedState"
           use:enhance={({ formData }) => {
+            ButtonDisabled = true;
             formData.set("isArchived", !props.slideshow.isArchived);
             formData.set("slideshowID", props.slideshow.id);
 
@@ -174,8 +165,12 @@
                 alert(
                   `Failed to change slideshow to archived status, please reload page (F5).\n${result.data?.error}`,
                 );
+                props.saveData(false);
+                ButtonDisabled = false;
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
+                ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -185,10 +180,12 @@
             <button
               type="submit"
               style="all: unset; display: inline-block; cursor: pointer;"
+              disabled = {ButtonDisabled}
+              
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
               <Tooltip content="Archive" animation="slide",  position="top">
-                <i class="fa-solid fa-box-archive" />
+                <i class="fa-solid fa-box-archive {ButtonDisabled === true ? 'disabled' : ''}" />
               </Tooltip>
             </button>
           </div>
@@ -198,6 +195,7 @@
           method="post"
           action="?/cloneSS"
           use:enhance={({ formData }) => {
+            ButtonDisabled = true;
             formData.set("slideshow", JSON.stringify(props.slideshow));
 
             return async ({ result }) => {
@@ -207,8 +205,12 @@
                 alert(
                   `Failed to clone slideshow, please reload page (F5).\n${result.data?.error}`,
                 );
+                ButtonDisabled = false;
+                props.saveData(false);
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
+                ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -218,10 +220,11 @@
             <button
               type="submit"
               style="all: unset; display: inline-block; cursor: pointer;"
+              disabled = {ButtonDisabled}
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
               <Tooltip content="Duplicate" animation="slide",  position="top">
-                <i class="fa-solid fa-copy" />
+                <i class="fa-solid fa-copy {ButtonDisabled === true ? 'disabled' : ''}" />
               </Tooltip>
             </button>
           </div>
@@ -232,6 +235,7 @@
           method="post"
           action="?/deleteSlideshow"
           use:enhance={async ({ formData, cancel }) => {
+            ButtonDisabled = true;
             // Causes svelte violation warning, because of holdup
 
             const authToken = getCookie("authToken");
@@ -259,7 +263,10 @@
             let confirmation = confirm(
               `Are you sure you want to delete "${props.slideshow.name}"? ${riskString}`,
             );
-            if (!confirmation) return cancel();
+            if (!confirmation) {
+              ButtonDisabled = false;
+              return cancel()
+            };
 
             formData.set("slideshowID", props.slideshow.id);
 
@@ -270,8 +277,12 @@
                 alert(
                   `Failed to delete slideshow, please reload page (F5).\n${result.data?.error}`,
                 );
+                ButtonDisabled = false;
+                props.saveData(false);
               } else if (result.type === "success") {
                 props.updateSlideshowContent(result.data.newData);
+                ButtonDisabled = false;
+                props.saveData(true);
               }
             };
           }}
@@ -281,10 +292,11 @@
             <button
               type="submit"
               style="all: unset; display: inline-block; cursor: pointer;"
+              disabled = {ButtonDisabled}
             >
               <!-- svelte-ignore element_invalid_self_closing_tag -->
               <Tooltip content="Delete" animation="slide",  position="top">
-                <i class="fa-solid fa-trash" />
+                <i class="fa-solid fa-trash {ButtonDisabled === true ? 'disabled' : ''}" />
               </Tooltip>
             </button>
           </div>
@@ -298,7 +310,7 @@
         position="top"
         animation="slide"
       >
-        <i class="fa-solid fa-tower-cell"></i>
+        <i class="fa-solid fa-tower-cell {ButtonDisabled === true ? 'disabled' : ''}"></i>
       </Tooltip>
       <div class="slideshows-item-live-list">
         {#each screens as screen}
@@ -313,16 +325,16 @@
     <div class="slideshows-body-list" style="display: {props.selectedId == props.slideshow.id
       ? 'block'
       : 'none'}">
-      <SavedPopup bind:this={popup} />
       <div bind:this={listElement}>
         {#each props.slideshow.visualMediaInclusionCollection as VMI}
           {#if props.selectedId === props.slideshow.id}
           <Slideshowcontent
             {VMI}
-            {slideshowID}
+            slideshowID = {props.slideshow.id}
             slideshow={props.slideshow}
             form={props.form}
             updateSlideshowContent={props.updateSlideshowContent}
+            saveData = {props.saveData}
           />
           {/if}
         {/each}
@@ -336,10 +348,10 @@
             return async ({ result }) => {
               // `result` is an `ActionResult` object
               if (result.type === "failure") {
-                {saveData(false);}
+                props.saveData(false);
                 // Handle the error
               } else if (result.type === "success") {
-                {saveData(true);}
+                props.saveData(true);
               }
             };
           }}
@@ -377,4 +389,10 @@
     background-color: darkgray;
     cursor: text;
   }
+  .disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+  }
 </style>
+
+

@@ -12,6 +12,17 @@
     import { getCookie } from "$lib/utils/getcookie.js";
     import loading_image from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
   import { Tooltip } from "@svelte-plugins/tooltips";
+  import SavedPopup from "$lib/components/savedpopup.svelte";
+
+  let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
    
 </script>
 
@@ -48,6 +59,7 @@
                 <Tooltip content="Location" animation="slide",  position="top">
                     <i class="fa-solid fa-location-dot"></i> <!-- spacing -->
                 </Tooltip>
+                <SavedPopup bind:this={popup} />
                 <p>{device.location ? device.location : "No location"}</p>
             </div>
         <div class="dashboard-card-slideshow-info">
@@ -93,8 +105,10 @@
                     switch (result.type) {
                         case "failure":
                             alert(`Failed to delete display device, please reload page (F5).\n${result.data?.error}`);
+                            saveData(false);
                             break;
                         case "success":
+                            saveData(true);
                             deleteDevice(device.id);
                             break;
                     }

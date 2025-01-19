@@ -1,5 +1,5 @@
 <script>
-    let { doClose, profileData, updateProfileData } = $props();
+    let { doClose, profileData, updateProfileData, saveData } = $props();
 
     import { enhance } from '$app/forms';
 
@@ -28,17 +28,23 @@
             // `formData` is its `FormData` object that's about to be submitted
             formData.set("id", profileData.id);
             formData.set("oldData", JSON.stringify(profileData)); // Pass previous known user data to the action
-            
+       
             return async ({ result }) => {
                 switch (result.type) {
                     case "failure":
                         alert(`Failed to update profile, please reload page (F5).\n${result.data?.error}`);
+                        sumbitButtonDisabled = false;
+                        saveData(false)
                         break;
                     case "success":
-                        sumbitButtonDisabled = false;
                         updateProfileData(result.data.responseData);
                         closeModal(); 
+                        saveData(true);
                         break;
+                    case "redirect":
+                        window.location.href = "/login"; // Redirect to login page, it is not pretty, as it dose it manually, but it works
+                        break;
+
                 }
             };
         }}>

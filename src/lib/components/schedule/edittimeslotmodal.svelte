@@ -1,14 +1,11 @@
 <script>
     import { env } from "$env/dynamic/public";
-    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots } = $props();
-
-    visualContent = visualContent?.filter(displayContentElement => displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4");
+    let { doClose, timeslot, displayDevices, visualContent, updateTimeslots, saveData } = $props();
 
     import { enhance } from "$app/forms";
     import { getCookie } from "$lib/utils/getcookie.js";
-
-    console.log(timeslot);
-
+    import { limitString } from "$lib/utils/stringutils.js";
+  
     let days = {
         Mon: true,
         Tue: false,
@@ -45,8 +42,6 @@
     import InputTime from "$lib/components/modal/InputTime.svelte";
   import { Tooltip } from "@svelte-plugins/tooltips";
 
-    console.log("TEST", !!timeslot.displayDevices.find((dd) => dd.id == 2));
-
     let selectedContent = JSON.stringify({
         id: timeslot.displayContent?.id,
         type: timeslot.displayContent?.type,
@@ -71,10 +66,12 @@
                         alert(
                             `Failed to mofify timeslot.\n${result.data?.error}`,
                         );
+                        saveData(false);
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
+                        saveData(true);
                         doClose();
-                        updateTimeslots(result.data.newData);
+                        updateTimeslots();
                     }
                 };
             }}
@@ -139,7 +136,8 @@
                             })}
                             >{content.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {content.name}</option
+                                : "Slideshow"}: {limitString(content.name, 40)}
+                        </option
                         >
                     {/each}
                 </select>
@@ -190,9 +188,11 @@
                             alert(
                                 `Failed to delete timeslot, please reload page(f5).\n${result.data?.error}`,
                             );
+                            saveData(false);
                         } else if (result.type === "success") {
+                            saveData(true);
                             doClose();
-                            updateTimeslots(result.data.newData);
+                            updateTimeslots();
                         }
                     };
                 }}

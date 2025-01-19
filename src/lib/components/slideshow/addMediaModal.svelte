@@ -9,6 +9,7 @@
         slideshowID,
         VMIForSS,
         updateSlideshowContent,
+        saveData
     } = $props();
 
     let sumbitButtonDisabled = $state(false);
@@ -77,10 +78,12 @@
                         alert(
                             `Failed to add new visual media to slideshow.\n${result.data?.error}`,
                         );
+                        saveData(false);
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
-                        updateSlideshowContent(result.data.newData);
+                        updateSlideshowContent(result.data.newData, true);
+                        saveData(true);
                     }
                 };
             }}
@@ -106,7 +109,7 @@
                 name={"Force"}
                 checked={false}
             /> -->
-            <div class="newTimeslot-force">
+            <div class="add-media-force">
                 <div class="newTimeslot-force-title">
                     <Tooltip content="If dimensions don't fit, you can force" position="top">
                         <div class="newTimeslot-force-title-icon">?</div>
@@ -128,7 +131,7 @@
                 {/each}
             </div>
 
-            <div class="modal-buttons">
+            <div class="add-media-modal-buttons">
                 <Button
                     type="button"
                     text="Cancel"

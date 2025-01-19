@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { io, Manager } from "socket.io-client";
     import { env } from "$env/dynamic/public";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
 
     /** @type {{ data: import('./$types').PageData }} */
     let { data, form } = $props(); // "form" is automatically populated by SvelteKit
@@ -71,12 +72,24 @@
         });
     })
 
+    let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    console.log("here1");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
+
 </script>
 
 <div class="main-content">
     <div class="page">
         <div class="dashboard-header">
             <h1>Dashboard</h1>
+            <SavedPopup bind:this={popup} />
             {#if data.user.admin}
                 <Button text={"New Device"} clickFunction={toggleNewModal} />
             {/if}
@@ -85,10 +98,10 @@
     </div>
 </div>
 {#if showNewModal}
-    <NewModal doClose={toggleNewModal} createDevice={createDevice} />
+    <NewModal doClose={toggleNewModal} createDevice={createDevice} saveData={saveData} />
 {/if}
 {#if showEditModal}
-    <EditModal doClose={toggleEditModal} device={deviceFocus} updateDevices={updateDevices} />
+    <EditModal doClose={toggleEditModal} device={deviceFocus} updateDevices={updateDevices} saveData={saveData} />
 {/if}
 
 <style>

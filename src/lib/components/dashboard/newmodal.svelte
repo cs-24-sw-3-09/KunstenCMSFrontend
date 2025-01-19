@@ -1,11 +1,12 @@
 <script>
-    let { doClose, createDevice } = $props();
+    let { doClose, createDevice, saveData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
 
     import { env } from "$env/dynamic/public";
     import { getCookie } from "$lib/utils/getcookie.js";
+    import { limitString } from "$lib/utils/stringutils.js";
 
     import CloseX from "$lib/components/modal/closex.svelte";
     import Header from "$lib/components/modal/header.svelte";
@@ -38,11 +39,13 @@
 
         let slideshows = await slideshowsFetch.json();
         slideshows?.forEach((slideshow) => {
-            options.push({
-                id: slideshow.id,
-                name: slideshow.name,
-                type: "slideshow",
-            });
+            if (!slideshow.isArchived){
+                options.push({
+                    id: slideshow.id,
+                    name: slideshow.name,
+                    type: "slideshow",
+                });
+            }
         });
 
         let visualMediaFetch = await fetch(
@@ -77,8 +80,11 @@
                             alert(
                                 `Failed to add display device, please reload page (F5).\n${result.data?.error}`,
                             );
+                            saveData(false);
+                            sumbitButtonDisabled = false;
                             break;
                         case "success":
+                            saveData(true);
                             createDevice(result.data.responseData);
                             closeModal(); // Call doClose on successful form submission
                             break;
@@ -111,7 +117,7 @@
                         <option value={JSON.stringify(option)}
                             >{option.type === "visualMedia"
                                 ? "Media"
-                                : "Slideshow"}: {option.name}</option
+                                : "Slideshow"}: {limitString(option.name, 40)}</option
                         >
                     {/each}
                 </select>

@@ -1,6 +1,6 @@
 <script>
   export let message = "Saved!";
-  export let type = "success";
+  export let type = "";
   export let duration = 3000;
 
   let visible = false;

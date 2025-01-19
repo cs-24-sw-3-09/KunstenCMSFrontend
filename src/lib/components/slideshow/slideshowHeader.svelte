@@ -25,6 +25,7 @@
     doClose={toggleNewslideshowModal}
     allContent = {props.allContent}
     updateSlideshowContent = {props.updateSlideshowContent}
+    saveData={props.saveData}
   />
 {/if}
 
