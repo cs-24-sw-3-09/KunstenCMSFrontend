@@ -271,7 +271,7 @@
   .slideshows-body-item-num {
     position: absolute;
     top: 2px;
-    left: 116px;
+    left: -11px;
     font-size: 12px;
     color: rgb(78, 78, 78);
   }
