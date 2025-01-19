@@ -30,7 +30,7 @@
       case "red":
         return "Not in use";
       case "yellow":
-        return "Scheduled";
+        return "In use";
       default:
         return "Not in use";
     }
