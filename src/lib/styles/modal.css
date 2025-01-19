@@ -60,6 +60,17 @@
     box-sizing: border-box;
 }
 
+.modal-textinput textarea {
+    border: 1px solid black;
+    padding: 8px 12px;
+    outline: none;
+    box-sizing: border-box;
+    resize: none;
+    font-family: sans-serif;
+    font-size: 14px;
+    
+}
+
 .modal-content form {
     padding: 20px;
     display: flex;
