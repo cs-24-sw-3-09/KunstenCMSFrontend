@@ -80,7 +80,7 @@
                         sumbitButtonDisabled = false;
                     } else if (result.type === "success") {
                         closeModal(); // Call doClose on successful form submission
-                        updateSlideshowContent(result.data.newData);
+                        updateSlideshowContent(result.data.newData, true);
                     }
                 };
             }}

@@ -24,9 +24,9 @@
     });
 
     let forceComponentUpdate = $state(true);
-    function updateSlideshowContent(data, closeSS = false) {
+    function updateSlideshowContent(data, reloadSS = false) {
         slideshowContent = data;
-        if (closeSS == true){
+        if (reloadSS == true){
             forceComponentUpdate = !forceComponentUpdate;
         }
 
