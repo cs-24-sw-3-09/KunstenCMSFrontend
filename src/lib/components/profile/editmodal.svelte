@@ -41,6 +41,10 @@
                         closeModal(); 
                         saveData(true);
                         break;
+                    case "redirect":
+                        window.location.href = "/login"; // Redirect to login page, it is not pretty, as it dose it manually, but it works
+                        break;
+
                 }
             };
         }}>

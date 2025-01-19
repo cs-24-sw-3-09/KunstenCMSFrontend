@@ -297,10 +297,10 @@
             return { ...slideshow, type: "slideshow" }
         });
 
-        visualContent = visualMediasData?.concat(slideshowsData);
+        visualContent = slideshowsData?.concat(visualMediasData);
 
         visualContent = visualContent?.filter(displayContentElement => 
-            displayContentElement.type === "slideshow" || displayContentElement.fileType !== "video/mp4"
+            ( displayContentElement.type === "slideshow" && !displayContentElement.isArchived ) || (displayContentElement.type !== "slideshow" && displayContentElement.fileType !== "video/mp4" )
         );
 
         const displayDevicesData = await fetch(env.PUBLIC_API_URL + "/api/display_devices/all", {
