@@ -5,6 +5,7 @@
     import Table from "$lib/components/admin/table.svelte";
     import EditModal from "$lib/components/admin/editmodal.svelte";
     import NewModal from "$lib/components/admin/newmodal.svelte";
+    import SavedPopup from "$lib/components/savedpopup.svelte";
 
     // Subscribe to the usersStore to get the users data
     let usersData = $state(data.users.content);
@@ -30,6 +31,16 @@
         userFocus = user;
         showEditUserModal = !showEditUserModal;
     }
+
+    let popup;
+
+    function saveData(success) {
+    if (success) {
+    popup.show("Your changes have been saved!", "success");
+    } else {
+    popup.show("Failed to save changes!", "error");
+    }
+    }
 </script>
 
 <div class="main-content">
@@ -38,15 +49,17 @@
             <h2>Users:</h2>
             <Button text={"New User"} clickFunction={toggleNewUserModal} />
         </div>
-        <Table {usersData} onEdit={toggleEditUserModal} updateUsersData={updateUsersData} {form} />
+        <Table {usersData} onEdit={toggleEditUserModal} updateUsersData={updateUsersData} {form} saveData={saveData} />
     </div>
 </div>
 {#if showNewUserModal}
-    <NewModal doClose={toggleNewUserModal} updateUsersData={updateUsersData} />
+    <NewModal doClose={toggleNewUserModal} updateUsersData={updateUsersData} saveData={saveData}/>
 {/if}
 {#if showEditUserModal}
-    <EditModal doClose={toggleEditUserModal} user={userFocus} updateUsersData={updateUsersData} />
+    <EditModal doClose={toggleEditUserModal} user={userFocus} updateUsersData={updateUsersData} saveData={saveData} />
 {/if}
+
+<SavedPopup bind:this={popup} />
 
 <style>
     @import "$lib/styles/button.css";

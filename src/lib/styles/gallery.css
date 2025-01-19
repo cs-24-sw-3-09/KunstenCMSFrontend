@@ -86,7 +86,10 @@
 .gallery-item-left {
     position: relative;
     display: flex;
+    white-space: nowrap;
     width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .gallery-item-preview {
@@ -276,7 +279,7 @@
     flex: 1;
     margin-bottom: 4px;
     white-space: nowrap;
-    width: 500px;
+    width: 900px;
     text-overflow: ellipsis;
     overflow: hidden;
 }

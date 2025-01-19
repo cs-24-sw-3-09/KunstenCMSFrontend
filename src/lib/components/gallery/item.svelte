@@ -10,6 +10,7 @@
 
   import video_default from "$lib/assets/default_video.png";
   import { Tooltip } from "@svelte-plugins/tooltips";
+  import SavedPopup from "../savedpopup.svelte";
 
   let ButtonDisabled = $state(false);
 
@@ -35,6 +36,16 @@
     }
   }
 
+  let popup;
+
+  function saveData(success) {
+  if (success) {
+  popup.show("Your changes have been saved!", "success");
+  } else {
+  popup.show("Failed to save changes!", "error");
+  }
+  }
+
 </script>
 
 <div class="gallery-item">
@@ -42,6 +53,7 @@
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="gallery-item-left" onclick={doToggleItemModal}>
     <div class="gallery-item-preview">
+      <SavedPopup bind:this={popup} />
       {#if item.fileType === "video/mp4"}
         <img
           src={video_default}
@@ -100,13 +112,14 @@
       </Tooltip>
       </button>
       
+      
       <form
         method="post"
         action="?/deleteVisualMedia"
         use:enhance={async ({ formData, cancel }) => {
           ButtonDisabled = true;
           const authToken = getCookie("authToken");
-          console.log(authToken);
+          //console.log(authToken);
           let informationData = await fetch(
             env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows",
             {
@@ -146,9 +159,11 @@
                   `Failed to delete visual media, please reload page (F5).\n${result.data?.error}`,
                 );
                 ButtonDisabled = false;
+                saveData(false);
                 break;
               case "success":
                 // Handle the success
+                saveData(true);
                 deleteVisualMedia(result.data.id);
                 ButtonDisabled = false;
                 break;

@@ -1,5 +1,5 @@
 <script>
-    let { doClose, device, updateDevices } = $props();
+    let { doClose, device, updateDevices, saveData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -38,11 +38,13 @@
 
         let slideshows = await slideshowsFetch.json();
         slideshows?.forEach((slideshow) => {
-            options.push({
-                id: slideshow.id,
-                name: slideshow.name,
-                type: "slideshow",
-            });
+            if (!slideshow.isArchived){
+                options.push({
+                    id: slideshow.id,
+                    name: slideshow.name,
+                    type: "slideshow",
+                });
+            }
         });
 
         let visualMediaFetch = await fetch(
@@ -81,9 +83,11 @@
                             alert(
                                 `Failed to edit display device, please reload page (F5).\n${result.data?.error}`,
                             );
+                            saveData(false);
                             sumbitButtonDisabled = false;
                             break;
                         case "success":
+                            saveData(true);
                             updateDevices(result.data.responseData);
                             closeModal(); // Call doClose on successful form submission
                             break;

@@ -1,6 +1,6 @@
 <script>
     import Button from "$lib/components/button.svelte";
-    let { usersData, onEdit, updateUsersData } = $props();
+    let { usersData, onEdit, updateUsersData, saveData } = $props();
 
     // Import the "enhance" function from the "form" module.
     import { enhance } from "$app/forms";
@@ -51,10 +51,12 @@
                                 case "success":
                                     // Handle the success
                                     updateUsersData(result.data.usersData.content);
+                                    saveData(true);
                                     break;
                                 case "failure":
                                     // Handle the error
                                     alert(`Failed to delete user, please reload page (F5).\n${result.data?.error}`,);
+                                    saveData(false);
                                     break;
                             }
                         };
