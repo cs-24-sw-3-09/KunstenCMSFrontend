@@ -46,6 +46,45 @@
   }
   }
 
+  async function fetchRiskInformation(itemId, authToken) {
+    const endpoints = [
+    `/api/visual_medias/${itemId}/slideshows`,
+    `/api/visual_medias/${itemId}/timeslots`,
+    `/api/visual_medias/${itemId}/display_devices`,
+    ];
+
+    //fetch all data in parallel
+    const [slideshowsRes, timeslotsRes, displayDevicesRes] = await Promise.all(
+      endpoints.map((endpoint) =>
+        fetch(env.PUBLIC_API_URL + endpoint, {
+          headers: { Authorization: `Bearer ${authToken}` },
+        })
+      )
+    );
+
+    const [slideshows, timeslots, displayDevices] = await Promise.all([
+      slideshowsRes.json(),
+      timeslotsRes.json(),
+      displayDevicesRes.json(),
+    ]);
+    
+    let riskString = "";
+
+    if(slideshows.length > 0) {
+      riskString +=
+       "\n\nThe visual media i part of the following slidehows(s):\n"+ slideshows.map((slideshow) => slideshow.name).join("\n");
+    }
+
+    if(displayDevices.length > 0) {
+      riskString += "\n\nThe visual media is used as fallback for the following devices:\n" + displayDevices.map((displayDevice) => displayDevice.name).join("\n");
+    }
+
+    if(timeslots.length > 0){
+      riskString += "\n\nThe visual media is part of the following timeslot(s):\n" + timeslots.map((timeSlot) => timeSlot.name).join("\n")
+      riskString += "\n\nNOTE: If the visual media is used as individual content for timeslots, then these timeslots will also be deleted";
+    }
+    return riskString;
+  }
 </script>
 
 <div class="gallery-item">
@@ -119,28 +158,11 @@
         use:enhance={async ({ formData, cancel }) => {
           ButtonDisabled = true;
           const authToken = getCookie("authToken");
-          //console.log(authToken);
-          let informationData = await fetch(
-            env.PUBLIC_API_URL + "/api/visual_medias/" + item.id + "/slideshows",
-            {
-              headers: { Authorization: "Bearer " + authToken },
-            },
-          );
-
-          const riskInformation = await informationData.json();
-
-          let names = riskInformation.map((risk) => risk.name);
-          let riskString = "";
-          if (names.length != 0) {
-            riskString =
-              "\n\nThe visual media i part of the following slidehows(s):\n";
-            for (let name of names) {
-              riskString += name + "\n";
-            }
-          }
+          
+          let riskString = await fetchRiskInformation(item.id, authToken);
           // Causes svelte violation warning, because of holdup
           let confirmation = confirm(
-            `Are you sure you want to delete "${item.name}"?${riskString}`,
+            `Are you sure you want to delete "${item.name}"? ${riskString}`,
           );
           if (!confirmation) {
             ButtonDisabled = false;

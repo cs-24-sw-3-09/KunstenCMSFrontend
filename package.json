@@ -21,6 +21,7 @@
 	},
 	"dependencies": {
 		"@svelte-plugins/tooltips": "^3.0.1",
+		"kunstencmsfrontend": "file:",
 		"socket.io-client": "^4.8.1",
 		"sortablejs": "^1.15.4",
 		"svelte-multiselect": "^11.0.0-rc.1"

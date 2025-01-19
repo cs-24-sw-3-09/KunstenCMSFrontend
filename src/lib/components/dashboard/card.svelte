@@ -5,11 +5,11 @@
     import { page } from '$app/stores';
 
     import { env } from "$env/dynamic/public";
-
+   
     import { onMount } from "svelte";
     import { on } from "svelte/events";
     //import Carousel from "svelte-carousel";
-    
+    import { getCookie } from "$lib/utils/getcookie.js";
     import loading_image from "$lib/assets/default.png"; // temp image, fallback need to be dynamically changed via data from database
   import { Tooltip } from "@svelte-plugins/tooltips";
   import SavedPopup from "$lib/components/savedpopup.svelte";
@@ -80,10 +80,24 @@
             </div>
 
             <form method="POST" action="?/deleteDevice"
-            use:enhance={ ( { formData }) => {
+            use:enhance={ async ( { formData }) => {
                 formData.set("id", device.id);
+                console.log("entered form");
+                const authToken = getCookie("authToken");
+
+                let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/display_devices/"+ device.id +"/time_slots", {
+                headers: {"Authorization": 'Bearer ' + authToken},
+                });
+                let riskString = "";
+                const riskInformationTimeSlot = await informationDataTimeSlot.json();
+                if (riskInformationTimeSlot.length != 0) {
+                riskString +=
+                    "\n\nThe display device is part of the following timeslot(s):\n"+riskInformationTimeSlot.map((risk) => risk.name).join("\n")
+                    + "\n \nNOTE: If the display device is deleted, all associated timeslots will also be deleted";
+                }
+
                 let confirmation = confirm(
-                        `Are you sure you want to delete "${device.name}" screen?`,
+                        `Are you sure you want to delete "${device.name}" screen? ${riskString}`,
                     );
                     if (!confirmation) return cancel();
 

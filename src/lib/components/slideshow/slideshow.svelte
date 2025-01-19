@@ -28,8 +28,8 @@
   
   let status = $derived.by(() => (props.status.find((row) => row.slideshowId == props.slideshow.id)));
   let color = $derived.by(() => status?.color);
-  let activity = $derived.by(() => {getActivity(color)})
   let screens = $derived.by(() => status?.displayDevices);
+
   let listElement;
   let ButtonDisabled = $state(false);
 
@@ -108,7 +108,7 @@
           </i>
         </div>
         <Tooltip
-        content={activity}
+        content={getActivity(color)}
         position="top"
         animation= "slide"
         >
@@ -239,21 +239,25 @@
             // Causes svelte violation warning, because of holdup
 
             const authToken = getCookie("authToken");
-            console.log(authToken);
-            let informationData = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ props.slideshow.id +"/time_slots", {
+
+            let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
             });
-            
-            const riskInformation = await informationData.json();
+            let informationDataFallback = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/fallbackContent",{headers: {"Authorization": 'Bearer ' + authToken},
+            });
 
-            let names = riskInformation?.map((risk) => risk.name);
+            const riskInformationFallback = await informationDataFallback.json();
             let riskString = "";
-            if (names.length != 0) {
-              riskString =
-                "\n\nThe slideshow i part of the following timeslot(s):\n";
-              for (let name of names) {
-                riskString += name + "\n";
-              }
+            if(riskInformationFallback != 0){
+              riskString += 
+              "\n\nThe slideshow is used as fallback for the following display device(s):\n" + riskInformationFallback.map((risk) => risk.name).join("\n");
+            }
+
+            const riskInformationTimeSlot = await informationDataTimeSlot.json();
+            if (riskInformationTimeSlot.length != 0) {
+              riskString +=
+                "\n\nThe slideshow is part of the following timeslot(s):\n"+riskInformationTimeSlot.map((risk) => risk.name).join("\n")
+                  + "\n \nNOTE: If the slideshow is deleted, all associated timeslots will also be deleted";
             }
 
             let confirmation = confirm(
