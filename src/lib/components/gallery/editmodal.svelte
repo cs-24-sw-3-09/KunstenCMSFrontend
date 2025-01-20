@@ -45,8 +45,10 @@
             };
         }}>
             <TextInput title={"Name"} placeholder={"Name here"} name={"name"} value={item.name} required="true" />
-            <TextInput title={"Description"} placeholder={"Description here"} name={"description"} value={item.description} />
-
+            <div class="modal-textinput">
+                <label class="modal-label" for="description_id">Description</label>
+                <textarea rows="4" name="description" id="description_id" placeholder="Description here">{item.description}</textarea>
+            </div>
             <Separator />
 
             <div class="modal-buttons">

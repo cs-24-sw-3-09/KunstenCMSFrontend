@@ -86,7 +86,6 @@
 .gallery-item-left {
     position: relative;
     display: flex;
-    white-space: nowrap;
     width: 100%;
     text-overflow: ellipsis;
 }
@@ -149,7 +148,13 @@
 }
 
 .gallery-item-description {
+    width: 95%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     color: rgb(83, 83, 83);
+
 }
 
 .gallery-item-tags {
@@ -181,7 +186,6 @@
 
 .gallery-item-buttons {
     display: flex;
-    justify-content: flex-end;
 }
 
 .gallery-item-delete-button,
