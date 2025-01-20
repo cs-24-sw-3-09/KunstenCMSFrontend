@@ -6,15 +6,15 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     import { lazyLoad } from "$lib/utils/lazyload.js";
-
     import video_default from "$lib/assets/default_video.png";
+
 </script>
 
 <div class="gallery-item" style = "background: {selectedId == item.id ? "lightblue" : ""}" onclick={() => dispatch("update", item.id)}>
     <div class="gallery-item-left" onclick={toggleAddMediaModal}>
         <div class="gallery-item-preview">
             {#if item.fileType === "video/mp4"}
-                <img use:lazyLoad={item.location ? `${env.PUBLIC_API_URL}${item.location.replaceAll(".mp4",".png")}` : video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
+                <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
             {:else}
                 <img use:lazyLoad={env.PUBLIC_API_URL + item.location} alt="gallery-item-preview" />
             {/if}
