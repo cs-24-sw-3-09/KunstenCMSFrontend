@@ -46,4 +46,5 @@
 
 <style>
     @import "$lib/styles/gallery.css";
+    @import "$lib/styles/button.css";
 </style>
