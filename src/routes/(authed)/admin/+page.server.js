@@ -126,8 +126,6 @@ export const actions = {
             }
         }
 
-        console.log(diff);
-
         // requestBody sendt for the patch action
         let requestBody = diff;
         requestBody.id = data.id;

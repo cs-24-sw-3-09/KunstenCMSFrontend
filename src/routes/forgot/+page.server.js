@@ -27,14 +27,11 @@ export const actions = {
 		});
 
 		if (response.status !== 200) {
-			console.log("Failed to send reset password email.", response.status);
 			return fail(response.status, {
 				error: true,
 				message: "Could not send reset password email."
 			});
-		} 
-
-		console.log(`Sending reset password email to: ${email}`);
+		}
 
 		// Respond with success
 		return { success: true };
