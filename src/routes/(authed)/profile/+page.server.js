@@ -79,7 +79,6 @@ export const actions = {
         //if (responseData.email !== oldData.email) {
         if (requestBody.email) {
             cookies.delete('authToken', { path: '/' });
-            console.log("redirecting", requestBody.email);
             redirect(303, "/login");
         }
 
@@ -117,10 +116,6 @@ export const actions = {
         if (!(Object.keys(requestBody).length === 2)) {
             return fail(400, { error: "Wrong size of data in request body." });
         }
-
-        console.log("Change Password");
-        console.log("requestBody");
-        console.log(requestBody);
 
         // Send the request to the backend
         /* TODO */
@@ -215,7 +210,6 @@ export const actions = {
     },
     unpauseNotifications : async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log(formData);
 
         let requestBody = {
             id: formData.get("id"),
@@ -231,16 +225,12 @@ export const actions = {
             },
             body: JSON.stringify(requestBody),
         });
-
-        console.log(response);
         
         if (response.status !== 200) {
             return fail(response.status, { error: "Failed to update profile." });
         }
 
         const responseData = await response.json();
-
-        console.log()
 
         return { 
             success: true,

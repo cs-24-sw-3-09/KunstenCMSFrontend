@@ -35,7 +35,6 @@
 
     function updateState(id) {
         selectedId = id == selectedId ? id : id;
-        //console.log(selectedId);
     }
 
     function preventEnterSubmit(event) {

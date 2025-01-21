@@ -74,8 +74,6 @@ export const actions = {
             body: formData,
         });
 
-        /* console.log(formData); */
-
         const responseData = await response.json();
 
         responseData.src = env.CLIENT_API_URL + responseData.location;
@@ -132,11 +130,8 @@ export const actions = {
         })
 
         // Get the response data and add the src and slideshows
-        //console.log(response.status);
         const responseData = await response.json();
-        //console.log(response.status);
 
-        //console.log(responseData);
 
         // if video, no src as it is not iamge element compatable
         if (responseData.fileType != "video/mp4") {
@@ -171,9 +166,6 @@ export const actions = {
 
         let requestBody = new FormData();
         requestBody.append("file", formData.get("file"));
-        /* console.log(requestBody); */
-        
-        /* console.log(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file"); */
         
         const response = await fetch(env.SERVER_API_URL + "/api/visual_medias/" + formData.get("id") + "/file", {
             method: "POST",
@@ -183,7 +175,6 @@ export const actions = {
             body: requestBody,
         });
 
-        //console.log(response.status);
         const responseData = await response.json();
 
         if (!(response.status >= 200 && response.status < 300)) {
@@ -312,10 +303,6 @@ export const actions = {
         if (response.status !== 204) {
             return fail(response.status, { error: "Failed to delete tag to visual media." });
         }
-
-        //console.log(response.status);
-        //const responseData = await response.json();
-        //console.log(responseData);
 
         return { 
             success: true,

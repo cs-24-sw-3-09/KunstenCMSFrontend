@@ -88,7 +88,6 @@
                 {#each daysArray as [day, checked]}
                     <div class="checkbox-item">
                         <!-- Replace Smallheader and Checkbox with your components -->
-                        {console.log(checked)}
                          <label class="checkbox-day-label" for="{day + "_id"}">{day[0]+day[1]}</label>
                         <Checkbox name={day} {checked} />
                     </div>

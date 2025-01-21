@@ -25,7 +25,6 @@
         <form method="POST" action="?/postNewSlideshow" use:enhance={({}) => {
             sumbitButtonDisabled = true;
             return async ({ result }) => {
-                console.log("Result "+result)
                 // `result` is an `ActionResult` object
                 if (result.type === "failure") {
                     // Handle the error

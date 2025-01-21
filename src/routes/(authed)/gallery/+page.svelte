@@ -160,7 +160,6 @@
 function saveData(success) {
 if (success) {
 popup.show("Your changes have been saved!", "success");
-console.log("here1");
 } else {
 popup.show("Failed to save changes!", "error");
 }

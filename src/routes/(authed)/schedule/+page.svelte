@@ -191,8 +191,6 @@
 
         // Helper function to check if a timeslot overlaps with the specific day
         const isOverlapping = (slotStart, slotEnd, dayStart, dayEnd) => {
-            //console.log("slotend",slotEnd.valueOf());
-            //console.log("dayend",dayEnd.valueOf());
             return (
                 (slotStart >= dayStart && slotStart <= dayEnd) || // Starts within the day
                 (slotEnd >= dayStart && slotEnd <= dayEnd) || // Ends within the day

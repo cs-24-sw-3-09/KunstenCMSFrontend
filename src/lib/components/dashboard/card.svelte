@@ -82,7 +82,6 @@
             <form method="POST" action="?/deleteDevice"
             use:enhance={ async ( { formData }) => {
                 formData.set("id", device.id);
-                console.log("entered form");
                 const authToken = getCookie("authToken");
 
                 let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/display_devices/"+ device.id +"/time_slots", {

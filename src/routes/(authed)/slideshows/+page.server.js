@@ -58,7 +58,6 @@ export async function load({ cookies }) {
 export const actions = {
     updateVMIForSS: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        //console.log(formData)
         let slideshow = JSON.parse(formData.get("slideshow"));
         let newDuration = formData.get("newDuration");
         let VMI = JSON.parse(formData.get("VMI"));
@@ -122,7 +121,6 @@ export const actions = {
     },
     changeArchviedState: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log("From state server", formData);
 
         // Constructing the requestBody as a JSON object
         const requestBody = JSON.stringify({
@@ -238,7 +236,6 @@ export const actions = {
 
             // requestBody sendt for the patch action
             const requestBody = "{\"name\": \"" + name + "\", \"isArchived\":0}"; // Parse back to an object
-            //console.log("joson "+requestBody)
             // Send the request to the backend        
             const response = await fetch(env.SERVER_API_URL + "/api/slideshows", {
                 method: "POST",
@@ -272,8 +269,6 @@ export const actions = {
         }));
 
         const requestBody = JSON.stringify({ visualMediaInclusion: slideOrder });
-        console.log(requestBody)
-        console.log(slideshowId)
         const returnData = await fetch(env.SERVER_API_URL + "/api/visual_media_inclusions/positions", {
             method: "PATCH",
             headers: {
@@ -288,11 +283,9 @@ export const actions = {
     },
     patchSSName: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log(formData)
 
         const requestObj = { id: formData.get("slideshowId"), name: formData.get("newName") }
         const requestBody = JSON.stringify(requestObj);
-        console.log(requestBody)
 
         const returnData = await fetch(env.SERVER_API_URL + "/api/slideshows/" + formData.get("slideshowId"), {
             method: "PATCH",
@@ -309,12 +302,9 @@ export const actions = {
     cloneSS: async ({ cookies, url, request }) => {
         const formData = await request.formData();
         const slideshow = JSON.parse(formData.get("slideshow"));
-        //console.log(slideshow)
 
         const requestObj = { name: slideshow.name + " - clone" }
         const requestBody = JSON.stringify(requestObj);
-        console.log(requestBody)
-        console.log(slideshow.id)
 
         const returnData = await fetch(env.SERVER_API_URL + "/api/slideshows/" + slideshow.id + "/duplicate", {
             method: "POST",
@@ -339,8 +329,6 @@ export const actions = {
     },
     getSSPartOfTS: async ({ cookies, url, request }) => {
         const formData = await request.formData();
-        console.log("here123");
-        console.log(formData.get("slideshowId"));
         return {
             success: true,
             newData: 123,

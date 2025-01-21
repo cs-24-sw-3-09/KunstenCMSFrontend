@@ -14,7 +14,6 @@ export async function handle({ event, resolve }) {
     const protectedUserRoutes = ["/dashboard", "/profile"];
     if (protectedUserRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user) {
-            //console.log("Access denied, user");
             // Clear the auth token cookie
             event.cookies.delete("authToken", { path: "/" });
             // Redirect to login page
@@ -25,7 +24,6 @@ export async function handle({ event, resolve }) {
     const protectedPlannerRouteRoutes = ["/gallery", "/slideshow", "/schedule", "/slideshow?/postNewOrder"];
     if (protectedPlannerRouteRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user || !event.locals.user.mediaPlanner) {
-            //console.log("Access denied, planner");
             throw redirect(303, "/dashboard");
         }
     }
@@ -33,7 +31,6 @@ export async function handle({ event, resolve }) {
     const protectedAdminRoutes = ["/admin"];
     if (protectedAdminRoutes.some(route => event.url.pathname.startsWith(route))) {
         if (!event.locals.user || !event.locals.user.admin) {
-            //console.log("Access denied, admin");
             throw redirect(303, "/dashboard");
         }
     }
