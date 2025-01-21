@@ -175,7 +175,7 @@ export const actions = {
         }
         // requestBody sendt for the patch action
         let requestBody = JSON.stringify({
-            slideDuration: 25,
+            slideDuration: 12,
             slideshowPosition: formData.get("ssPos"),
             visualMedia: {
                 id: formData.get("id"),

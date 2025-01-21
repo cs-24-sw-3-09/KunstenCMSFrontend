@@ -6,13 +6,13 @@
     import { limitString } from "$lib/utils/stringutils.js";
 
     let days = $state({
-        Mon: false,
-        Tue: false,
-        Wed: false,
-        Thu: false,
-        Fri: false,
-        Sat: false,
-        Sun: false,
+        Mon: true,
+        Tue: true,
+        Wed: true,
+        Thu: true,
+        Fri: true,
+        Sat: true,
+        Sun: true,
     });
     let daysArray = Object.entries(days);
     let sumbitButtonDisabled = $state(false);
@@ -88,6 +88,7 @@
                 {#each daysArray as [day, checked]}
                     <div class="checkbox-item">
                         <!-- Replace Smallheader and Checkbox with your components -->
+                        {console.log(checked)}
                          <label class="checkbox-day-label" for="{day + "_id"}">{day[0]+day[1]}</label>
                         <Checkbox name={day} {checked} />
                     </div>

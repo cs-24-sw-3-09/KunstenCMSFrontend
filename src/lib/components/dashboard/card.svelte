@@ -66,7 +66,7 @@
                 <Tooltip content="Screen Path" animation="slide",  position="top">
                     <i class="fa-solid fa-external-link-square"></i>
                 </Tooltip>
-            <div class="dashboard-card-slideshow-title">{"/screen/"+device.id}</div>
+            <div class="dashboard-card-slideshow-title">{"/screen?id="+device.id}</div>
         </div>
         
 
