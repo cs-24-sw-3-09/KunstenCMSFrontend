@@ -251,7 +251,7 @@
                 content = contentjson;
                 this.contentHash = contentHash;
 
-                if (typeof content != "undefined") {
+                if (!content) {
                     this.contentName = "Unknown content name";
                 } else {
                     this.contentName = content.name;
