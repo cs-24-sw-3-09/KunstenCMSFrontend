@@ -240,10 +240,10 @@
 
             const authToken = getCookie("authToken");
 
-            let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/time_slots", {
+            let informationDataTimeSlot = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ props.slideshow.id +"/time_slots", {
               headers: {"Authorization": 'Bearer ' + authToken},
             });
-            let informationDataFallback = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ slideshowID +"/fallbackContent",{headers: {"Authorization": 'Bearer ' + authToken},
+            let informationDataFallback = await fetch(env.PUBLIC_API_URL + "/api/slideshows/"+ props.slideshow.id +"/fallbackContent",{headers: {"Authorization": 'Bearer ' + authToken},
             });
 
             const riskInformationFallback = await informationDataFallback.json();
