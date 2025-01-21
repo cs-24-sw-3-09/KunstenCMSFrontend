@@ -2,7 +2,6 @@
     import "./screen.css";
     import io from "socket.io-client";
     import { Manager } from "./manager.js";
-    import { onMount } from "svelte";
     import { env } from "$env/dynamic/public";
 
     var { data } = $props();
@@ -11,13 +10,13 @@
     var currentItemIndex = $state(0);
     var carouselItemsDom;
 
-    onMount(() => {
+    window.onload(() => {
         try {
             let deviceId = parseInt(data.deviceId);
             const manager = new Manager(io, deviceId, env.PUBLIC_SOCKET_URL, clearCarouselItems, addCarouselItem, setStatus, setCurrentItemIndex, getCarouselItemsDom, getCurrentItemIndex, getItems);
             manager.run();
         } catch(e) {}
-    })
+    });
 
     var setStatus = (s) => (status = s);
     var clearCarouselItems = () => carouselItems = [];
