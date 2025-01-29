@@ -101,6 +101,19 @@
     padding-left: 12px;
   }
 
+  .slideshows-item-header-left form {
+    width: calc(100% - 200px);
+  }
+
+  .slideshows-item-header-left div {
+    transition: all 0.05s;
+  }
+
+  .slideshows-item-header-left form div:hover {
+    background-color: rgb(196, 196, 196);
+  }
+
+
   .slideshows-item-header-arrow {
     margin-right: 20px;
   }

@@ -378,17 +378,21 @@
     padding: 0; /* Remove extra padding */
     margin: 0; /* Remove extra margin */
     display: block;
-    width: auto;
     padding: 4px;
+    width: 100%;
     transition: all 0.05s;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
     /*outline: none; /* Disable focus outline */
   }
 
   .unstyled-input:hover {
-    background-color: darkgray;
     cursor: text;
   }
+
+
   .disabled {
       opacity: 0.5;
       cursor: not-allowed;
