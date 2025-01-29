@@ -47,6 +47,9 @@
     transform: translateX(-50%);
     cursor: pointer;
     z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .toggle-sidebar-button:hover {
