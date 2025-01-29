@@ -136,6 +136,7 @@
                     step={1}
                     required={true}
                     subscript={"px"}
+                    value={3840}
                 />
                 <Numberinput
                     title={"Height"}
@@ -146,6 +147,7 @@
                     step={1}
                     required={true}
                     subscript={"px"}
+                    value={2160}
                 />
             </div>
 
