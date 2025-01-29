@@ -58,7 +58,7 @@ export const actions = {
 			cookies.set("authToken", token, { 
 				path: '/',
 				httpOnly: false, // Would prevent JavaScript access. Good practice to prevent XSS attacks
-				secure: true, // Ensures the cookie is sent only over HTTPS
+				secure: false, // Ensures the cookie is sent only over HTTPS
 				sameSite: 'strict', // To prevent the cookie from being sent in cross-site requests
 				maxAge: 60 * 60 * 24 * 7 // 7 days
 			}); 
