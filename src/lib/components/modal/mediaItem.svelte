@@ -5,7 +5,6 @@
     import Tag from "$lib/components/gallery/tag.svelte";
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
-    import { lazyLoad } from "$lib/utils/lazyload.js";
     import video_default from "$lib/assets/default_video.png";
 
 </script>
@@ -16,7 +15,7 @@
             {#if item.fileType === "video/mp4"}
                 <img src={video_default} style="image-resolution: 300dpi;" alt="gallery-item-preview">
             {:else}
-                <img use:lazyLoad={env.PUBLIC_API_URL + item.location} alt="gallery-item-preview" />
+                <img src={env.PUBLIC_API_URL + item.location} loading="lazy" alt="gallery-item-preview" />
             {/if}
         </div>
         <div class="gallery-item-info">

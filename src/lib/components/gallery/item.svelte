@@ -4,7 +4,6 @@
   import { enhance } from "$app/forms";
   import { env } from "$env/dynamic/public";
   import { getCookie } from "$lib/utils/getcookie.js";
-  import { lazyLoad } from "$lib/utils/lazyload.js";
 
   import Tag from "$lib/components/gallery/tag.svelte";
 
@@ -100,7 +99,7 @@
           alt="gallery-item-preview"
         />
       {:else}
-        <img use:lazyLoad={env.PUBLIC_API_URL + item.location} style="image-resolution: 300dpi;" alt="gallery-item-preview" />
+        <img src={env.PUBLIC_API_URL + item.location} loading="lazy" style="image-resolution: 300dpi;" alt="gallery-item-preview" />
       {/if}
     </div>
 
