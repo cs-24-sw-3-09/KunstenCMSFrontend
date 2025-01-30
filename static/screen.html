@@ -16,7 +16,13 @@
         class ConnectionHandler {
             constructor(io, deviceid, socket_url) {
                 this.io = io;
-                this.socket = io(socket_url + "?id=" + deviceid);
+                this.socket = io(socket_url + "?id=" + deviceid, {
+                    reconnection: false,
+                });
+            }
+
+            getConnection() {
+                return this.socket;
             }
 
             register(event, handler) {
@@ -228,6 +234,19 @@
 
             run() {
                 this.connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
+                setInterval(() => {
+                    let connection = this.connectionHandler.getConnection();
+                    if (!connection.connected) {
+                        this.connectionHandler = new ConnectionHandler(this.io, this.deviceid, this.socket_url);
+                        const dataProcessor = new DataProcessor(this);
+                        this.connectionHandler.register("connect", () =>
+                            dataProcessor.statusHandler(),
+                        );
+                        this.connectionHandler.register("content", (content) =>
+                            dataProcessor.contentHandler(content),
+                        );
+                    }
+                }, 10 * 1000);
                 const dataProcessor = new DataProcessor(this);
                 this.connectionHandler.register("connect", () =>
                     dataProcessor.statusHandler(),
@@ -324,7 +343,7 @@
             } catch (e) { }
         }
 
-        var setStatus = () => document.querySelector("#status").remove();
+        var setStatus = () => document.querySelector("#status") && document.querySelector("#status").remove();
         var clearCarouselItems = () => { carouselItems = []; document.querySelector(".carouselItemsDom").innerHTML = ""; };
         var addCarouselItem = (item) => {
             carouselItems.push(item);
